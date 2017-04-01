@@ -1,0 +1,597 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>	
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>用户管理</title>
+	<link rel="stylesheet" type="text/css" href="css/themes/gray/easyui.css">
+	<link rel="stylesheet" type="text/css" href="css/color.css">
+	<link rel="stylesheet" type="text/css" href="css/themes/icon.css">
+	<link rel="stylesheet" type="text/css" href="css/myicon.css">
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="js/easyui-lang-zh_CN.js"></script>
+	<script type="text/javascript" src="js/cellTip.js"></script>
+	<script type="text/javascript" src="js/validator/validator.js"></script>
+	<style type="text/css">
+	*{padding:0;margin:0;}
+	.datagrid-header-row td{background-color:#efefef;color:#000000;}
+	._headback{background-color:#dddddd;}
+	</style>
+	<script type="text/javascript">;
+	var user_topGroupId;
+	var user_sonGroupId;
+	var user_groupId;
+	var userUrl;
+	$(document).ready(function(){
+		$('#dg').datagrid({
+			   url: '<%=request.getContextPath()%>/getAllUser',
+		        pagination: true,
+		        fit:true,
+			    fitColumns:true,
+			    autoRowHeight:true,
+			    rownumbers:true,
+			    singleSelect:true,
+			    scrollbarSize:0,
+		        pageSize: 50,
+		        remoteSort:false,
+		        onClickRow:function(index,row){ //单击行事件  
+		            //---------for TEST 结合SHIFT,CTRL,ALT键实现单选或多选------------  
+		            if(index != selectIndexs.firstSelectRowIndex && !inputFlags.isShiftDown ){    
+		                selectIndexs.firstSelectRowIndex = index; //alert('firstSelectRowIndex, sfhit = ' + index);  
+		            }             
+		            if(inputFlags.isShiftDown ) {  
+		                $('#dg').datagrid('clearSelections');  
+		                selectIndexs.lastSelectRowIndex = index;  
+		                var tempIndex = 0;  
+		                if(selectIndexs.firstSelectRowIndex > selectIndexs.lastSelectRowIndex ){  
+		                    tempIndex = selectIndexs.firstSelectRowIndex;  
+		                    selectIndexs.firstSelectRowIndex = selectIndexs.lastSelectRowIndex;  
+		                    selectIndexs.lastSelectRowIndex = tempIndex;  
+		                }  
+		                for(var i = selectIndexs.firstSelectRowIndex ; i <= selectIndexs.lastSelectRowIndex ; i++){  
+		                    $('#dg').datagrid('selectRow', i);     
+		                }     
+		            }             
+		            //---------for TEST 结合SHIFT,CTRL,ALT键实现单选或多选------------  
+		        }, 
+		       onLoadSuccess:function(data){
+				$(this).datagrid('doCellTip',{'max-width':'400px','delay':500});
+				if(data){
+					$.each(data.rows, function(index, item){
+						if(item.checked){
+							$('#dg').datagrid('checkRow', index);
+					 	}
+					});
+					// 获取用户操作权限
+					$('#toolbar').html("");
+					$.each(data.operation, function(index, item){
+						if (item.encoding=='addUser'){
+							$('#toolbar').append('<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">添加用户</a>');
+						}
+						if (item.encoding=='editUser'){
+							$('#toolbar').append('<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">编辑用户</a>');
+						}
+						if (item.encoding=='delUser'){
+							$('#toolbar').append('<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="delUser()">删除用户</a>');
+						}
+					});
+					$.parser.parse('#toolbar');
+				}
+				
+				user_topGroupId=data.groupid.top_group_id;
+				user_groupId=data.groupid.group_id;
+				user_sonGroupId=data.groupid.sonGroupId;
+			},
+		    columns:[[
+		       // {field:'id',title:'ID' ,align:'center',width:50},
+		        {field:'user_name',title:'用户名称', align:'center',width:50,formatter: function (value) {return dataProcessing(value);}},
+		        {field:'user_pwd',title:'用户密码', align:'center',width:50,hidden:true},
+		        {field:'full_name',title:'姓名', align:'center',width:50,formatter: function (value) {return dataProcessing(value);}},
+		        {field:'top_group_name',title:'顶级用户组', align:'center',width:50,formatter: function (value) {return dataProcessing(value);}},
+		        {field:'top_group_id',title:'顶级用户组ID', align:'center',width:50,hidden:true},
+		        {field:'group_name',title:'用户组', align:'center',width:50,formatter: function (value) {return dataProcessing(value);}},
+		        {field:'group_id',title:'用户组ID', align:'center',width:50,hidden:true},
+		        {field:'role_name',title:'角色', align:'center',width:50,formatter: function (value) {return dataProcessing(value);}},
+		        {field:'role_id',title:'角色ID', align:'center',width:50,hidden:true},
+		        {field:'mobile',title:'联系方式', align:'center',width:50,formatter: function (value) {return dataProcessing(value);}},
+		        {field:'email',title:'邮箱', align:'center',width:50,formatter: function (value) {return dataProcessing(value);}},
+		        {field:'ts',title:'创建时间', align:'center',width:50,formatter: function (value) {return dataProcessing(value);}},
+		        {field:'id',title:'操作', align:'center',width:50,hidden:true,
+		        	formatter: function (value, row, index) {
+    					if(value ==null || value =="" || value =="undefined"){
+    						   return "--"
+    					}
+    					return "<a href='' class='easyui-linkbutton'  onclick='initializePW()''>设置权限</a>";
+    				}	
+		        }
+		    ]]
+		});
+
+		//点击查询按钮异步请求服务器获取数据 
+		$("#search").click(function(){
+			var  num1=stripscript($.trim($('#full_name').val()));
+			var  num2=stripscript($.trim($('#group_name').val()));
+			var  num3=stripscript($.trim($('#role_name').val()));
+			$('#full_name').val(num1);
+			$('#group_name').val(num2);
+			$('#role_name').val(num3);
+ 		 	$("#dg").datagrid("load", {
+				"full_name":num1,
+				"group_name":num2,
+				"role_name":num3,
+			});
+		});
+		//点击取消查询按钮异步请求服务器获取数据
+		$("#cancel").click(function(){
+			$('#full_name').val("");
+			$('#group_name').val("");
+			$('#role_name').val("");
+			$("#dg").datagrid("load", {
+				"full_name":$('#full_name').val(),
+				"group_name":$('#group_name').val(),
+				"role_name":$('#role_name').val(),
+			});
+		}); 
+		// 页面初始文本框不做验证
+		$(function () {
+            $('input.easyui-validatebox').validatebox('disableValidation')//////////
+            .focus(function () { $(this).validatebox('enableValidation'); })
+            .blur(function () { $(this).validatebox('validate') });
+            
+            $('input.easyui-combotree').combotree('disableValidation')//////////
+            .focus(function () { $(this).combotree('enableValidation'); })
+            .blur(function () { $(this).combotree('combo') });
+            
+            $('input.easyui-combobox').combobox('disableValidation')//////////
+            .focus(function () { $(this).combobox('enableValidation'); })
+            .blur(function () { $(this).combobox('combo') })
+        });
+		
+
+	});
+		//空数据处理
+		function dataProcessing(value){
+			if(value ==null || value =="" || value =="undefined"){
+				   return "--"
+			}
+			return value;
+		}
+		var url;
+		function newUser(){
+			$("#dlg").height(210);
+		
+		    $('#role_name2').combobox('loadData','');
+			//$.parser.parse('#dlg');
+			
+			var group_id='';
+			$('#group_name2').combotree({
+				url: '<%=request.getContextPath()%>/getUserGroup?topGroupId='+user_topGroupId+'&sonGroupId='+user_sonGroupId,
+				//data:"topGroupId="+topGroupId+"&sonGroupId="+sonGroupId,
+				loadFilter: function(data){
+					
+					return convert(data.rows);
+				},
+				onClick: function(node){
+					$('#group_id').val(node.id);
+					
+					$('#role_name2').combobox({
+						url: '<%=request.getContextPath()%>/getRole?group_id='+node.id,
+						//data:"topGroupId="+topGroupId+"&sonGroupId="+sonGroupId,
+						/* loadFilter: function(data){
+							return data;
+						},
+						onClick: function(node){
+							$('#role_id').val(node.id);
+						} */
+						valueField:'id',
+			    		textField:'text',
+						onChange: function(newValue){
+							
+							$('#role_id').val(newValue);
+						}
+					});
+					
+				}
+			}); 
+			
+			//文本框不做验证
+			  $('input.easyui-combotree').combotree('disableValidation')//////////
+            .focus(function () { $(this).combotree('enableValidation'); })
+            .blur(function () { $(this).combotree('combo') });
+			
+			document.getElementById('showPassword').style.display="";
+			document.getElementById('hidePassword').style.display="none";
+			document.getElementById('initializePassword').style.display="none";
+			$("#user_pwd").attr('type','password');
+			//$('#resetPW').hide();
+			$('#dlg').dialog({
+				//closable: false,
+				draggable:false,
+				modal:true, 
+			});//取消关闭按钮、拖动、遮罩
+			$('#dlg').dialog('open').dialog('setTitle','添加用户');
+			$('#fm').form('clear');	
+			$('#topGroupId').val(user_topGroupId);
+			document.getElementById('user_pwd').removeAttribute('readonly');
+			document.getElementById('user_name').removeAttribute('readonly');
+			
+			//加密狗文本的显示
+			document.getElementById('dogTokenTr').style.display="";
+			document.getElementById('dogTokenTd').style.display="none";
+			document.getElementById('newSoftdog').style.display="";
+			document.getElementById('delSoftdog').style.display="none";
+			
+			url = '<%=request.getContextPath()%>/newUser';
+			userUrl=url;
+		}
+		function editUser(){
+			 $("#dlg").height(180);
+			
+			
+			document.getElementById('showPassword').style.display="none";
+			document.getElementById('hidePassword').style.display="none";
+			document.getElementById('initializePassword').style.display="";
+			$("#user_pwd").attr('type','password');
+			//$('#resetPW').show();
+			var row = $('#dg').datagrid('getSelected');
+			if(row==null){
+				$.messager.alert("操作提示", "请选择需要编辑的用户！","error");
+			}else{
+				if (row){
+					$('#role_name2').combobox({
+						url: '<%=request.getContextPath()%>/getRole?group_id='+row.group_id,
+						//data:"topGroupId="+topGroupId+"&sonGroupId="+sonGroupId,
+						/* loadFilter: function(data){
+							return convert(data.rows);
+						},
+						onClick: function(node){
+							$('#role_id').val(node.id);
+						} */
+						valueField:'id',
+			    		textField:'text',
+						onChange: function(newValue){
+							
+							$('#role_id').val(newValue);
+						}
+					});
+					$('#group_name2').combotree({
+						url: '<%=request.getContextPath()%>/getUserGroup?topGroupId='+user_topGroupId+'&sonGroupId='+user_sonGroupId,
+						//data:"topGroupId="+topGroupId+"&sonGroupId="+sonGroupId,
+						loadFilter: function(data){
+							return convert(data.rows);
+						},
+						onClick: function(node){
+							$('#group_id').val(node.id);
+							$('#role_name2').combobox({
+								url: '<%=request.getContextPath()%>/getRole?group_id='+node.id,
+								//data:"topGroupId="+topGroupId+"&sonGroupId="+sonGroupId,
+								/* loadFilter: function(data){
+									return convert(data.rows);
+								},
+								onClick: function(node){
+									$('#role_id').val(node.id);
+								} */
+								valueField:'id',
+					    		textField:'text',
+								onChange: function(newValue){
+									
+									$('#role_id').val(newValue);
+								}
+							});
+						}
+					});
+					$('#fm').form('load',row);
+					$('#user_pwd').val('******');
+					document.getElementById('user_name').setAttribute('readonly','readonly');
+					document.getElementById('user_pwd').setAttribute('readonly','readonly');
+					
+					//加密狗文本的显示
+					document.getElementById('dogTokenTr').style.display="none";
+					
+					$('#group_name2').combo('setValue', row.group_id).combo('setText', row.group_name);//setValue与setText 
+					$('#group_id').val(row.group_id);
+					$('#role_name2').combo('setValue', row.role_id).combo('setText', row.role_name);//setValue与setText 
+					$('#role_id').val(row.role_id);
+					$('#role_name2').val(row.role_name);
+					$('#dlg').dialog({
+						//closable: false,
+						draggable:false,
+						modal:true, 
+					});//取消关闭按钮、拖动、遮罩
+					$('#dlg').dialog('open').dialog('setTitle','编辑用户');
+					url = '<%=request.getContextPath()%>/editUser';
+					userUrl=url;
+				}
+			}
+		}
+		function saveUser(){
+			$('input.easyui-validatebox').validatebox('enableValidation');
+			$('input.easyui-combotree').combotree('enableValidation');
+			$('input.easyui-combobox').combobox('enableValidation');
+			$('#fm').form('submit',{
+				url: url,
+				onSubmit: function(){
+					return $(this).form('validate');
+				},
+				success: function(result){ 
+					var result = eval('('+result+')');
+					if(result == '-1'){
+						$.messager.alert("操作提示", "用户名已存在！","error");
+					}else if (result == '1'){
+						$('#dlg').dialog('close');		// close the dialog
+						$('#dg').datagrid('load');	// reload the user data
+						$.messager.alert("操作提示", "保存成功！","info");
+					}else if (result == '2'){
+						$.messager.alert("操作提示", "保存失败！","info");
+					} 
+					else {
+						$.messager.show({
+							title: 'Error',
+							msg: result.msg
+						});
+					}
+				}
+			});
+		}
+		function delUser(){
+			var rows= $('#dg').datagrid('getSelections');
+			if(rows.length==0){
+				$.messager.alert("操作提示", "请选择需要删除的用户！","error");
+			}else{
+				var row="(";
+				for(var i=0;i<rows.length;i++){
+					if(rows[i].id==1){
+						$.messager.alert("操作提示", "无法删除系统管理员！","error");
+						return;
+					}
+					
+					if(i==(rows.length-1)){
+						row=row+"'"+rows[i].id+"')";
+					}else{
+						row=row+"'"+rows[i].id+"',";
+					}
+				}
+				if (row){
+					$.messager.confirm('操作提示','你确定要删除吗?',function(r){
+						if (r){
+							$.post('<%=request.getContextPath()%>/delUser',{id:row},function(result){
+								if (result == '1'){
+									$('#dg').datagrid('load');	// reload the user data
+									$.messager.alert("操作提示", "删除成功！","info");
+								} else if (result == '2'){
+									$.messager.alert("操作提示", "加密狗已被注册！","info");
+								} 
+								else {
+									$.messager.show({	// show error message
+										title: 'Error',
+										msg: result.msg
+									});
+								}
+							},'json');
+						}
+					});
+				}
+			}
+		}
+	
+
+	 $('#fm').form({
+			url:'<%=request.getContextPath()%>/checkUserName',
+			onSubmit:function(){
+				return $(this).form('validate');
+			},
+			success:function(data){
+				$.messager.alert('Info', data, 'info');
+			}
+		}); 
+		 function check(){
+			var userName= $("#user_name").val(); 
+			$.ajax({
+				'url':'<%=request.getContextPath()%>/checkUserName',
+				'type':'post',
+				'dataType':'{"userName":userName}',
+				'success':function(result){
+					var result = eval('('+result+')');
+					if (result == '1'){
+						$.messager.alert("操作提示", "用户名已经占用！","error");
+					} 
+				}
+			});	
+		} 
+		 // 初始化密码 
+		function initializePW(){
+			$("#user_pwd").attr('type','text');
+			$('#user_pwd').val('123456');
+		 }
+		 
+		 //显示密码
+		 function showPW(){
+			 document.getElementById('showPassword').style.display="none";
+			 document.getElementById('hidePassword').style.display="";
+			 $("#user_pwd").attr('type','text');
+		 }
+		 //隐藏密码
+		 function hidePW(){
+			 document.getElementById('showPassword').style.display="";
+			 document.getElementById('hidePassword').style.display="none";
+			 $("#user_pwd").attr('type','password');
+		 }
+		 
+		 //加密狗添加
+		 function newSoftdog(){
+				$.ajax({
+					url:'<%=request.getContextPath()%>/getSoftdog',
+					type:'post',
+					datatype:"json",
+					success:function(data){
+						if(data==0){
+							$.messager.alert("操作提示", "没有最新的加密狗！","error");
+						}else{
+								$("#dog_token").val(data.dog_token);
+								$("#dog_token_id").val(data.id);
+								//document.getElementById('dog_token').setAttribute('readonly','readonly');
+								document.getElementById('dogTokenTd').style.display="";
+								document.getElementById('newSoftdog').style.display="none";
+								document.getElementById('delSoftdog').style.display="";
+						}
+					}
+				});	
+		 }
+		 //加密狗删除
+		 function delSoftdog(){
+				$("#dog_token").val("");
+				$("#dog_token_id").val("");
+				document.getElementById('dogTokenTd').style.display="none";
+				document.getElementById('newSoftdog').style.display="";
+				document.getElementById('delSoftdog').style.display="none";
+		 }
+		 
+		 		 
+		function convert(rows){
+			function exists(rows, parentId){
+				for(var i=0; i<rows.length; i++){
+					if (rows[i].id == parentId) return true;
+				}
+				return false;
+			}
+			
+			var nodes = [];
+			// get the top level nodes
+			for(var i=0; i<rows.length; i++){
+				var row = rows[i];
+				if (!exists(rows, row.parentId)){
+					nodes.push({
+						id:row.id,
+						text:row.name,
+						type:row.type,
+						iconCls:"icon-group",
+						parentId:row.parentId
+					});
+				}
+			}
+			
+			var toDo = [];
+			for(var i=0; i<nodes.length; i++){
+				toDo.push(nodes[i]);
+			}
+			while(toDo.length){
+				var node = toDo.shift();	// the parent node
+				// get the children nodes
+				for(var i=0; i<rows.length; i++){
+					var row = rows[i];
+					if (row.parentId == node.id){
+						var child = {id:row.id,text:row.name,type:row.type,iconCls:"icon-group",parentId:row.parentId};
+						if (node.children){
+							node.children.push(child);
+						} else {
+							node.children = [child];
+						}
+						toDo.push(child);
+					}
+				}
+			}
+			return nodes;
+		}
+	</script>
+</head>
+<body onload="initPosition()" onkeydown="javascript:keyPress(event);" onkeyup="javascript:keyRelease(event);">
+	<div id="cc" class="easyui-layout" data-options="fit:true" >   
+    	<div data-options="region:'north',iconCls:'myimg',headerCls:'_headback',title:'用户管理',collapsible:false" style="height:110px;background-color:#e6e6e6;overflow:hidden;">
+				<table style="margin:10px auto;width:80%;">
+					<tr>
+					<td nowrap="nowrap" >&nbsp;&nbsp;&nbsp;姓名:&nbsp;<input type="text" name="full_name" id="full_name"  size="20"  maxlength="20" onkeyup="javaScript:seachname();"></td>
+					<td nowrap="nowrap" >&nbsp;&nbsp;&nbsp;用户组:&nbsp;<input type="text" name="group_name" id="group_name"  size="20" maxlength="20"  onkeyup="javaScript:seachname();"></td>
+					<td nowrap="nowrap" >&nbsp;&nbsp;&nbsp;角色:&nbsp;<input type="text" name="role_name" id="role_name"  size="20" maxlength="20"  onkeyup="javaScript:seachname();"></td>
+					<td nowrap="nowrap" >
+						<a href="#" class="easyui-linkbutton c1" data-options="text:'查询'" style="width:40px;height:25px;line-height:25px;text-align:center;" id="search">查询</a>
+					    <a href="#" class="easyui-linkbutton c1" data-options="text:'取消'" style="width:40px;height:25px;line-height:25px;text-align:center;" id="cancel">取消</a>
+ 				    </td>					
+					</tr> 
+				</table>
+			<div id="toolbar">
+			<!-- 
+				<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newUser()">添加用户</a>
+				<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">编辑用户</a>
+				<a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="delUser()">删除用户</a>
+				<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editRole()">设置角色</a>
+				<a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editGroup()">设置用户组</a>
+			-->
+			</div>
+		</div>
+		<div data-options="region:'center'">
+			<table id="dg"> </table>
+		</div>
+	</div>
+	<div id="dlg" class="easyui-dialog" style="width:700px;height:310px;padding:10px 20px;top:160px;"closed="true" buttons="#dlg-buttons">
+		<div align="center">
+		<form id="fm" method="post">
+			<div hidden>
+				<label>ID:</label>
+				<input name="id" class="easyui-validatebox" />
+				<input id="group_id" name="group_id" class="easyui-validatebox" />
+				<input id="role_id" name="role_id" class="easyui-validatebox" />
+				<input id="topGroupId" name="topGroupId" class="easyui-validatebox" />
+				<input id="dog_token_id" name="dog_token_id" class="easyui-validatebox" />
+			</div>
+			<table style="border-spacing:15px;font-size:14px;">
+					<tr>
+						<td align="right" style="width:70px"><label>用户名称:</label></td>
+						<td style="width:180px"><input id="user_name" style="height:25px" name="user_name" class="easyui-validatebox"  validtype="account[2,10]"   missingMessage="必填" data-options="required:true,validType:'length[2,10]'" maxlength="10"/><span style="color:#FF0000;"> *</span></td>
+						<td align="right" style="width:70px"><label>用户密码:</label></td>
+						<td style="width:260px"><input type="password" id="user_pwd" style="height:25px" name="user_pwd" id="user_pwd"  class="easyui-validatebox" validtype="password"  missingMessage="必填" data-options="required:true,validType:'length[6,18]'" maxlength="18"/><span style="color:#FF0000;"> *</span>
+							<span id="resetPW">
+								<a id="showPassword"  href="#" class="easyui-linkbutton"  onclick="showPW()" style="display:;">显示密码</a>
+								<a id="hidePassword"  href="#" class="easyui-linkbutton"  onclick="hidePW()" style="display:none;">隐藏密码</a>
+								<a id="initializePassword"  href="#" class="easyui-linkbutton"  onclick="initializePW()" style="display:none;">重置密码</a>
+							</span>
+						</td>
+					</tr>
+					<tr>
+						<td align="right"><label>姓名:</label></td>
+						<td><input id="full_name" name="full_name" style="height:25px" class="easyui-validatebox"  validtype="chs_name" missingMessage="必填" data-options="required:true,validType:'length[2,10]'" maxlength="10"/><span style="color:#FF0000;"> *</span></td>
+						<td align="right"><label>用户组:</label></td>
+						<td><input id="group_name2" name="group_name2"  class="easyui-combotree"   style="overflow-x:hide; overflow-y:auto;height:25px;width:220px" missingMessage="必填" data-options="required:true,validType:'length[2,20]'" maxlength="20" /><span style="color:#FF0000;"> *</span></td>
+					</tr>
+					<tr>
+						<td align="right"><label>联系电话:</label></td>
+						<td><input id="mobile" name="mobile" style="height:25px" class="easyui-validatebox"  validtype="mobileAndTel"  missingMessage="必填" data-options="required:true,validType:'length[2,15]'" maxlength="15" /><span style="color:#FF0000;"> *</span></td>
+						<td align="right"><label>角色:</label></td>
+						<td><input id="role_name2" name="role_name2" class="easyui-combobox"  style="overflow-x:hide; overflow-y:auto;height:25px;width:220px" missingMessage="必填" data-options="editable:false,required:true,validType:'length[2,20]'" maxlength="20" /><span style="color:#FF0000;"> *</span></td>
+					</tr>
+					<tr>
+						<td align="right"><label>邮箱:</label></td>
+						<td colspan="3"><input id="email" name="email" style="height:25px;width:400px;" validtype="Email"  class="easyui-validatebox" maxlength=50"/></td>
+					</tr>
+					<tr id="dogTokenTr" style="display:none;">
+						<td align="right"><label>加密狗:</label></td>
+						<td  id="dogTokenTd" style="display:none;"><input id="dog_token" style="height:25px" name="dog_token" class="easyui-validatebox"  readonly="readonly"/></td>
+						<td colspan="2">
+							<span >
+								<a id="newSoftdog" href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newSoftdog()" style="display:;">使用加密狗</a>
+								<a id="delSoftdog" href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="delSoftdog()"  style="display:none;">取消</a>
+							</span>
+						</td>
+					</tr>
+			</table>
+		</form>
+		</div>
+	 </div>
+	 <div id="dlg-buttons" style="text-align:center;">
+		 <a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveUser()">保存</a>
+		 <a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
+	 </div>
+	 
+	 	 <div id="privilege_check" title="My Dialog" style="width:500px;height:300px"> 
+		 <iframe id="privilege_iframe" width="460px" height="260px" scrolling="no"  style="border:0 "></iframe>
+		 </div>
+		 
+		<input id="sonGroupId2" type="text" style="display:none">
+		<input id="groupId2" type="text" style="display:none">
+</body>
+</html>
+	

@@ -1,0 +1,191 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: "微软雅黑";
+}
+
+html,
+body {
+	min-width: 900px;
+	width: 100%;
+	overflow: hidden;
+}
+
+.top,
+.main,
+.foot {
+	width: 100%;
+	height: 100px;
+	position: absolute;
+}
+
+.top {
+	top: 0;
+}
+
+.main {
+	top: 100px;
+	bottom: 80px;
+	height: auto;
+}
+
+.foot {
+	bottom: 0;
+	height: 80px;
+}
+
+a {
+	color: black;
+	text-decoration: none;
+}
+
+nav {
+	width: 100%;
+	height: 100%;
+	background: white;
+}
+
+.logo>img {
+	width: 170px;
+	height: 60px;
+	margin-top: 18px;
+	margin-left: 25px;
+}
+
+.ts {
+	width: 405px;
+	height: 80px;
+}
+
+.ts>h5 {
+	font-size: 19px;
+	margin-left: 210px;
+	margin-top: -57px;
+	font-weight: 600;
+	color: #333333;
+}
+
+.ts>span:nth-of-type(1) {
+	font-weight: 500;
+	color: #333333;
+	font-size: 14px;
+	position: relative;
+	left: 210px;
+	top: 3px;
+	font-style: italic;
+}
+
+.website {
+	width: 300px;
+	height: 80px;
+	float: right;
+	margin-top: -42px;
+}
+
+.website>p {
+	float: left;
+	display: inline-block;
+	height: 80px;
+	width: 150px;
+	text-align: center;
+	line-height: 80px;
+	font-size: 15px;
+	cursor: pointer;
+}
+
+.website>p img {
+	margin-left: 5px;
+	position: absolute;
+}
+
+.website>p:nth-of-type(1) img {
+	top: 38px;
+}
+
+.website>p:nth-of-type(2) img {
+	top: 43px;
+}
+
+main {
+	width: 100%;
+	height: 100%;
+	background-image: url(../img/login/BJ.png);
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+}
+
+.center {
+	width: 300px;
+	height: 230px;
+	background: #001519;
+	position: absolute;
+	left: 40%;
+	top: 30%;
+}
+
+.center_01,
+.center_02 {
+	width: 150px;
+	height: 40px;
+	text-align: center;
+	float: left;
+	line-height: 40px;
+}
+
+.center_01 {
+	background: #00abfe;
+	color: white;
+}
+
+.center_02 {
+	background: #f3f3f3;
+	color: #00AAFF;
+}
+
+.form {
+	margin-top: 40px;
+}
+
+#form>button {
+	background: #00abfe;
+	height: 25px;
+	width: 208px;
+	text-align: center;
+	margin-top: 5px;
+	margin-left: 47px;
+	border: none;
+	border-radius: 5px;
+	color: white;
+}
+
+.icon-user {
+	color: orange;
+	font-size: 22px;
+}
+
+#code {
+	font-family: Arial, 宋体;
+	font-style: italic;
+	color: #194DB3 !important;
+	border: 0;
+	padding: 2px 3px;
+	letter-spacing: 3px;
+	font-weight: bolder;
+	position: absolute;
+	background: #FFFFFF !important;
+}
+
+footer {
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	background: white;
+}
+
+footer>p {
+	margin-top: 15px;
+}

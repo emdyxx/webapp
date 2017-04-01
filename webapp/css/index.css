@@ -1,0 +1,1005 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	list-style: none;
+}
+
+body,
+html {
+	width: 100%;
+	height: 100%;
+	background-color: #EAEAEA !important;
+}
+
+html {
+	min-width: 1350px;
+}
+.all {
+	width: 100%;
+	height: 100%;
+}
+.left {
+	width: 240px;
+	float: left;
+	background: #344149;
+	height: 100%;
+	margin-left: -100%;
+	position: relative;
+}
+.right {
+	width: 100%;
+	background: #EAEAEA;
+	height: 100%;
+	float: left;
+}
+
+.right_in {
+	margin-left: 240px;
+	height: 100%;
+	position: relative;
+}
+
+hr {
+	border: none !important;
+	margin: 0 !important;
+}
+/************头部*****************/
+nav {
+	width: 100%;
+	height: 80px;
+	background: #F8F8F8;
+	position: relative;
+}
+
+.nav-right {
+	width: 100%;
+	position: absolute;
+	top: 28px;
+	font-size: 16px;
+	cursor: pointer;
+	font-family:'黑体';
+}
+
+.nav-right>span:nth-of-type(1) {
+	font-size: 22px;
+	font-weight: 600;
+	margin-left: 39px;
+}
+.nav-right-right {
+	width: 310px;
+	height: 30px;
+	margin-right: 20px;
+	float: right;
+}
+
+.nav-right-right>p{
+	display: inline-block;
+	text-align: center;
+	font-family: '宋体';
+	font-size: 14px;
+}
+.nav-right-right>p:nth-of-type(1),
+ .nav-right-right>p:nth-of-type(2){
+	width: 90px;
+	height: 30px;
+	line-height: 30px;
+}
+.nav-right-right>p:nth-of-type(1)>img{
+	margin-top: -3px;
+}
+.nav-right-right>p:nth-of-type(2)>img{
+	margin-top: -2px;
+}
+.nav-right-right>p:nth-of-type(3){
+	margin-left: 10px;
+}
+/**************左侧left***************/
+.left-img {
+	width: 240px;
+	height: 80px;
+	background-color: #001621;
+	position: absolute;
+	top: 0;
+}
+
+.left-img>img {
+	width: 155px;
+	height: 55px;
+	margin-top: 12px;
+	margin-left: 50px;
+}
+.left-img>img:nth-of-type(2){
+	position: absolute;
+	width: 43px;
+	height: 49px;
+	left: 168px;
+	top: 2px;
+}
+.main-left {
+	float: left;
+	width: 240px;
+	height: auto;
+	background-color: #344149;
+	overflow: auto;
+	position: absolute;
+	top: 80px;
+	bottom: 0;
+}
+
+/*.panel-body {
+	border: none !important;
+	padding: 0 !important;
+}*/
+
+.bscolor {
+	background: #001621 !important;
+	border-radius: 0 !important;
+	margin-top: 1px !important;
+	border: none !important;
+}
+
+.h4-a {
+	display: inline-block;
+	width: 100%;
+	text-align: center;
+	color: #00ACFF !important;
+	font-size: 15px;
+	position: relative;
+}
+
+.funct {
+	width: 100%;
+	height: 60px;
+	text-align: center;
+	line-height: 60px;
+	color: #00ABFF;
+	font-size: 18px;
+}
+
+.listing {
+	width: 100%;
+}
+
+.management {
+	width: 100%;
+	margin-bottom: 1px !important;
+	background: #344149;
+}
+
+.management>li {
+	width: 100%;
+	height: 35px;
+	text-align: center;
+	line-height: 35px;
+	font-size: 14px;
+	font-weight: 600;
+	color: white;
+	cursor: pointer;
+	position: relative;
+}
+
+.management>li>span {
+	display: block;
+	height: 35px;
+	width: 100%;
+}
+
+.rotate {
+	transform: rotate(180deg);
+	-moz-transform: rotate(180deg);
+	-ms-transform: rotate(180deg);
+	-webkit-transform: rotate(180deg);
+}
+
+.libj {
+	background-image: url(../img/icon/libj.png);
+	background-size: 100% 100%;
+}
+
+::-webkit-scrollbar {
+	width: 0.5px;
+	background-color: #001621;
+}
+
+.down {
+	position: absolute;
+	right: 5px;
+    width: 22px;
+    height: 100%;
+}
+
+
+
+/**************1.1系统管理--车场管理***************/
+.file{
+	font-size: 11px;
+	width: 20px;
+	height: 40px;
+	position: absolute;
+	left: -18px;
+} 
+.leftleft{
+	width: 230px;
+	float: left;
+	background: #F8F8F8;
+	height: 100%;
+	margin-left: -100%;
+}
+.rightright{
+	margin-left: 245px;
+	height: 100%;
+}
+main {
+	width: 100%;
+	height: auto;
+	overflow: hidden;
+	position: absolute;
+	top: 80px;
+	bottom: 0;
+}
+/********************0.0背景图片***********************/
+.background{
+	width:100%;
+	height: 100%;
+	background: #E6E6E6;
+	z-index: 9998;
+}
+.background>img{
+	width: 100%;
+	height: 100%;
+}
+.background>div{
+	position: absolute;
+	left:10px;
+	top: 20px;
+}
+.background>div>span{
+	display: inline-block;
+	font-size: 21px;
+	margin-left: 10px;
+}
+#fm,#fmmm {
+	background: white;
+	height: 260px;
+}
+
+#fm>label,#fmmm>label {
+	font-size: 14px;
+	color: black;
+	margin-left: 60px;
+	width: 75px;
+	margin-top: 6px;
+}
+
+#dlg-buttons,#dl>button {
+	background: #ECF3FF;
+	height: 35px;
+}
+
+.oriented {
+	width: 100%;
+	height: 50px;
+	background: #F8F8F8;
+	margin-top: 10px;
+}
+
+.oriented>span {
+	display: inline-block;
+	height: 50px;
+	font-size: 15px;
+	padding-left: 20px;
+	line-height: 50px;
+}
+
+.oriented>span:nth-of-type(2),
+.oriented>span:nth-of-type(3) {
+	margin-left: -10px;
+}
+
+/*.usercontrol-crud {
+	width: 100%;
+	height: 37px;
+	background: red;
+}*/
+
+.sbYardmanagement-zsb {
+	width: 100%;
+	height: 36px;
+}
+
+.box,
+.sox,
+.addrole,
+.removerole,
+.MotorcycleAdd,
+.MotorcycleMove{
+	background: #EAEAEA !important;
+	margin-top: 10px !important;
+	margin-left: 15px !important;
+	border: 1px solid #EAEAEA !important;
+}
+
+.box,.addrole {
+	margin-left: 20px;
+}
+
+.fmm{
+	display: none;
+}
+.fmm,
+.iscompileform{
+	width: 480px;
+	height: 330px;
+	position: absolute;
+	left: 40%;
+	top: 30%;
+	background: #EBF3FF;
+	border: 1px solid #95B8E7;
+	padding: 25px 5px 5px 5px;
+	border-radius: 8px;
+	z-index: 9999;
+}
+
+.fmm>form,.iscompileform>form {
+	background: white;
+	border: 1px solid #95B8E7;
+	width: 468px;
+	border-bottom: none;
+	height: 260px;
+	font-size: 13px;
+}
+
+.fmm-button {
+	width: 468px;
+	height: 38px;
+	background: #F4F4F4;
+	border: 1px solid #95B8E7;
+	border-top: none;
+}
+
+.fmm-title {
+	position: absolute;
+	top: 0;
+	width: 470px;
+	height: 24px;
+	color: #0E2D5F;
+	font-size: 14px;
+	font-weight: 600px;
+	padding-top: 3px;
+	padding-left: 2px;
+}
+
+.fmm-form>hr {
+	border: none;
+	margin: 0;
+}
+
+.fmm-form>label:nth-of-type(1) {
+	margin-top: 20px;
+}
+
+.fmm-form>input:nth-of-type(1) {
+	width: 300px;
+}
+
+.fmm-form>label {
+	margin-left: 10%;
+	margin-top: 10px;
+	width: 77px;
+}
+
+.fmm-button>button {
+	width: 52px;
+	height: 24px;
+	float: right;
+	margin-top: 7px;
+	margin-right: 5px;
+	text-align: right;
+	cursor: pointer;
+	text-align: center;
+}
+
+
+/**/
+.display{
+	display: none;
+}
+.Yardmanagement {
+	width: 100%;
+	height: 100%;
+}
+
+.Yardmanagement-bottom {
+	width: 100%;
+	height: 100%;
+	background: #EAEAEA;
+}
+
+.Yardmanagement-bottom-right {
+	min-width: 100%;
+	height: 100%;
+	position: relative;
+}
+
+.Yardmanagement-bottom-right-top {
+	position: absolute;
+	width: 100%;
+	height: 115px;
+	background: #F8F8F8;
+	position: relative;
+	padding: 10px 15px 0 5px;
+}
+
+.Yardmanagement-bottom-right-bottom {
+	position: absolute;
+	top: 115px;
+	bottom: 85px;
+	width: 100%;
+	height: auto;
+	background: white;
+}
+
+.Yardmanagement-bottom-right-top>div {
+	width: 100%;
+	height: 80px;
+}
+
+#fm {
+	background: white;
+	color: black;
+}
+
+#fm>input {
+	margin-top: 6px;
+}
+
+#fm>input:nth-of-type(1) {
+	margin-top: 15x;
+}
+
+.Yardmanagement-bottom-right-bottom>div:nth-of-type(1) {
+	width: 100%;
+	height: 35px;
+	background: #EAEAEA;
+	position: absolute;
+}
+.Yardmanagement-bottom-right-bottom>div:nth-of-type(2){
+	width: 100%;
+	background: white;
+	position: absolute;
+	bottom: 70px;
+	top: 35px;
+}
+.bumenshuju{
+	width: 100%;
+	height: 100%;
+}
+#cschaxun {
+	width: 650px;
+	margin-left: 50px;
+	margin-top: -20px;
+}
+
+#chaxunyh,
+#chaxunxm,
+#chaxunjs {
+	font-size: 12px !important;
+	margin-right: 10px;
+	background: #EAEAEA;
+	border: 1px solid #6DC8F5;
+}
+
+#chaxunjs {
+	width: 90px;
+}
+
+#csbutton {
+	width: 85px;
+	height: 22px;
+	text-align: center;
+	color: white;
+	background: #00AAFF;
+	border: none;
+	margin-left: 10px;
+}
+#leftleft1{
+	width: 210px;
+	height: 100%;
+	margin-left: 10px;
+	margin-top: 10px;
+}
+.xxbj {
+	/*margin-bottom: 5px;*/
+	margin-left: 10px;
+	height: 30px;
+}
+.xxbjtwo{
+	width: 100% !important;
+	height: 100% !important;
+	padding: 0;
+	margin: 0;
+}
+.iscompile{
+	margin-top: 3px;
+}
+.xxbjtwotop{
+	position: absolute;
+    top: 5px;
+}
+.doSearch{
+	color: white;
+	background: #01AAFF;
+	width: 60px;
+	display: inline-block;
+	text-align: center;
+	margin-left: 15px;
+	cursor: pointer;
+}
+.xxbjtwobottom{
+	width: 100%;
+	height: 80px;
+	margin-top: 18px;
+}
+.xxbjtwobottom-left{
+	width: 100px;
+	height: 80px;
+	background: #FFFFFF;
+	margin-left: 25px;
+	position: absolute;
+}
+.xxbjtwobottom-left>img{
+	width: 100%;
+	height: 100%;
+}
+.xxbjtwobottom-right{
+	width: 800px !important;
+	height: 80px;
+	position: absolute;
+	margin-left: 20px;
+	left: 120px;
+}
+.xxbjtwobottom-right-left{
+	width: 500px;
+}
+.xxbjtwobottom-right-right{
+	width: 300px;
+}
+.xxbjtwobottom-right-left,
+.xxbjtwobottom-right-right{
+	height: 80px;
+	float: left;
+}
+.xxbjtwobottom-right-left>div,
+.xxbjtwobottom-right-right>div{
+	height: 20px;
+	width: 400px;
+}
+.xxbjtwobottom-right-left>div:nth-of-type(2),
+.xxbjtwobottom-right-left>div:nth-of-type(3),
+.xxbjtwobottom-right-right>div:nth-of-type(2),
+.xxbjtwobottom-right-right>div:nth-of-type(3){
+	margin-top: 10px;
+}
+.Antaur{
+	color: white;
+	background: #666666;
+	text-align: center;
+}
+.Antaurinformation{
+	color: black;
+	padding-left: 10px;
+}
+.Antaur,.Antaurinformation{
+	float: left;
+	display: inline-block;
+	width: 200px;
+	height: 20px;
+	line-height: 20px;
+}
+.nav-right-right-xl{
+  position: absolute;
+  width:120px !important;
+  height: 100px !important;
+  background: #00AAFF;
+  top: 40px;
+  right: 17px;
+  z-index: 9999;
+}
+.nav-right-right-xl>span{
+  display: inline-block;
+  width: 100%;
+  height: 50px;
+  line-height: 50px;
+  color: white;
+}
+.buttonss{
+  background: #00AAFF;
+  color: white;
+  border:none
+}
+.nav-right-right-xl>span>span>img{
+   margin-top: -5px;
+}
+.nav-right-right-xl>span:nth-of-type(2){
+  border-top: 1px solid white;
+}
+
+/**************1.2系统管理--角色管理***************/
+.rolemanagement{
+	width: 100%;
+	height: 100%;
+}
+.roleList{
+	width: 470px;
+	float: left;
+	background: #EAEAEA;
+	height: 100%;
+	margin-left: -100%;
+}
+.rolebased{
+	width: 100%;
+	background: #EAEAEA;
+	height: 100%;
+	float: left;
+}
+.rolebasedin{
+	margin-left: 480px;
+	height: 100%;
+	background: #FFFFFF;
+	position: relative;
+}
+.roleListone{
+	height: 100%;
+	width: 230px;
+	background: #F8F8F8;
+	float: left;
+}
+.roleListtwo{
+	height: 100%;
+	width: 230px;
+	margin-left: 10px;
+	background: #F8F8F8;
+	float: left;
+	position: relative;
+}
+.roleListonetop,.roleListtwotop,.rolebasedintop{
+	width: 100%;
+	height: 25px;
+	border-bottom: 1px solid #d5d5d5;
+	line-height: 25px;
+	font-weight: 600;
+	padding-left: 12px;
+}
+.rolebasedinbottom,.roleListonebottom,.roleListtwobottom{
+	width: 100%;
+}
+.roleListonebottom,.roleListtwobottom{
+	padding: 10px !important;
+}
+.rolebasedinbottom{
+	position: absolute;
+	bottom: 115px;
+    top: 35px;
+}
+.rolebasedintop{
+	position: absolute;
+}
+.rolebasedinbottom>div{
+	height: 100%
+}
+.roleListtwo-addmove{
+	width: 100%;
+	height: 30px;
+	cursor: pointer;
+}
+.roleListtwo-addmove>div{
+	line-height: 30px;
+	text-align: center;
+	color: white;
+}
+.roleListtwo-addmove>div:nth-of-type(1){
+	float: left;
+	width: 115px;
+	height: 30px;
+	background: #96c21e;
+}
+.roleListtwo-addmove>div:nth-of-type(2){
+	float: left;
+	width: 115px;
+	height: 30px;
+	background: #f24f3d;
+}
+.rule{
+	width: 78px;
+	height: 26px;
+	display: inline-block;
+	margin-left: 25px;
+	position: relative;
+}
+.rulediv{
+	cursor: pointer;
+}
+.ruless{
+	width: 480px;
+	height: 330px;
+	position: absolute;
+	left: 40%;
+	top: 30%;
+	background: #EBF3FF;
+	border: 1px solid #95B8E7;
+	padding: 25px 5px 5px 5px;
+	border-radius: 8px;
+	z-index: 9999;
+}
+.ruleinput{
+	padding: 30px;
+}
+.ruleinput>input{
+	margin-left: 40px !important;
+	width: 20px;
+}
+/**************1.3系统管理--访问管理***************/
+.accessmanagement{
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+.accessmanagement>div:nth-of-type(2){
+	position: absolute;
+	top: 50px;
+	bottom: 0px;
+	width: 100%;
+	height: 100%;
+	margin-top: 1px;
+}
+.accessmanagement-top{
+	position: absolute;
+	top: 0;
+	width: 100%;
+	height: 37px;
+}
+.accessmanagement-top>span{
+	display: inline-block;
+	height: 36px;
+	padding-top: 8px;
+	margin-left: 13px;
+}
+.accessmanagement-top>span:nth-of-type(2) label{
+	font-size: 13px !important;
+}
+.accessmanagement-top>span:nth-of-type(2) input{
+	background: #EAEAEA;
+}
+.accessmanagement-top>span:nth-of-type(2) button{
+	background: #00AAFF;
+	width: 60px;
+	color: white;
+	font-size: 14px;
+	margin-left: 10px;
+	border: none;
+}
+.accessmanagement-bottom{
+	position: absolute;
+	top: 37px;
+	bottom: 0;
+	width: 100%;
+	height: 100%;
+	background: #FFFFFF;
+}
+.accessmanagement-bottom>div{
+	width: 100%;
+	height: 100%;
+	/*padding: 10px;*/
+}
+/**************1.4系统管理--系统日志***************/
+.systemLog{
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+.systemLog-bottom{
+	width: 100%;
+	height: auto;
+	border: 1px solid #95B8E7;
+	position: absolute;
+	top: 60px;
+	bottom: 0;
+}
+.systemLog-bottom-top{
+	width: 100%;
+	height: 36px;
+	background: #E0ECFF;
+	border-bottom: 1px solid #95B8E7;
+	position: absolute;
+	top: 0;
+}
+.systemLog-bottom-top>div:nth-of-type(1){
+	margin-left: 10px;
+}
+.systemLog-bottom-top>div{
+	display: inline-block;
+	width: 80px;
+	height: 30px;
+	line-height: 36px;
+	text-align: center;
+	border: 1px solid #95B8E7;
+	background: #E7F0FF;
+	margin-top: 5px;
+	border-bottom: none;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	cursor: pointer;
+}
+.systemLog-bottom-bottom{
+	width: 100%;
+	height: auto;
+	background: white;
+	position: absolute;
+	top: 36px;
+	bottom: 0;
+}
+.systemLog-bottom-bottom>div{
+	width: 100%;
+	height: 100%;
+}
+.systemLog-bottom-bottomones{
+	width: 100%;
+	height: 36px;
+	position: absolute;
+	top: 0;
+}
+.systemLog-bottom-bottomoned{
+	width: 100%;
+	height: auto;
+	position: absolute;
+	top: 36px;
+	bottom: 0;
+}
+.Loginquire,
+.operateinquire{
+	display: inline-block;
+	width: 40px;
+	height: 20px;
+	color: white;
+	background: #46A246;
+	border: none;
+	border-radius:5px ;
+}
+/*****************4.2设备管理---SIM卡信息**********************/
+.facilitySIM{
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+.facilitySIMseek{
+	width: 100%;
+	position: absolute;
+	height: 37px;
+	top: 61px;
+}
+.facilitySIMseek>input{
+	border: 1px solid #6DC8F5;
+	background: none;
+}
+.facilitySIMseek>span{
+	margin-left: 20px;
+}
+.facilitySIMseek>input{
+	margin-top: 7px;
+}
+.facilitySIMseek>a{
+	display: inline-block;
+	color: white;
+	width: 80px;
+	margin-left: 20px;
+	background: #00AAFF;
+	border-radius: 3px;
+	text-align: center;
+}
+.facilitySIMbottom{
+	width: 100%;
+	height: auto;
+	position: absolute;
+	top: 97px;
+	bottom: 0;
+	background: white;
+}
+.facilitySIMbottom-top{
+	position: absolute;
+	top: 0;
+	width: 100%;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-left: 17px;
+}
+.facilitySIMbottom-bottom{
+	position: absolute;
+	top: 36px;
+	bottom: 0;
+	width: 100%;
+	height: auto;
+}
+.SIMhistorysdetailsone,.SIMhistorysdetailsonetwo{
+	width: 769px;
+	height: 370px;
+	border: 2px solid #D3D3D3;
+}
+.SIMhistorysdetailsone>div,
+.SIMhistorysdetailsonetwo-div2>div{
+	padding: 0 !important;
+}
+.SIMhistorysdetailsonetwo-div1{
+	width: 100%;
+	height: 25px;
+	border-bottom: 2px solid #D3D3D3;
+}
+.SIMhistorysdetailsonetwo-div2{
+	width: 765px;
+	height: auto;
+	position: absolute;
+	top: 25px;
+	bottom: 0;
+}
+/*****************4.3设备管理---设备更换**********************/
+.equipmentreplacement{
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+.devicemanagementsearchcriteria{
+	width: 100%;
+	height:36px;
+	position: absolute;
+	top: 61px;
+}
+.devicemanagementsearchcriteria>span{
+	margin-left: 20px;
+	margin-top: 8px;
+	display: inline-block;
+}
+.devicemanagementsearchcriteria>input{
+	background:none;
+	border: 1px solid #6DC8F5;
+	width: 140px 
+}
+#equipmentreplacementinquire1{
+	display: inline-block;
+	width: 60px;
+	margin-left: 15px;
+	background: #01AAFF;
+	color: white;
+	text-align: center;
+}
+.equipmentreplacement-bottom{
+	width: 100%;
+	height: auto;
+	position: absolute;
+	top: 97px;
+	bottom: 0;
+	background: white;
+}
+.equipmentreplacement-bottom-top{
+	width: 100%;
+	height: 36px;
+	position: absolute;
+	top: 1px;
+}
+.equipmentreplacement-bottom-bottom{
+	width: 100%;
+	height: auto;
+	position: absolute;
+	top: 37px;
+	bottom: 0;
+}
+.equipmentreplacement-bottom-top>div{
+	display: inline-block;
+	margin-left: 20px;
+	margin-top: 4px;
+	cursor: pointer;
+	border: 1px solid white;
+	padding-top: 3px;
+}
+#repairfm input{
+	text-align: center;
+}
