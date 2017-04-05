@@ -10,7 +10,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<head>
 			<meta charset="UTF-8">
 			<meta http-equiv=”X-UA-Compatible” content=”IE=edge,chrome=1″ />
-			<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+			<!--<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />-->
 			<link rel="stylesheet" href="css/login.css" />
 			<script src="js/public/jquery.min.js"></script>
 			<script src="js/public/jquery.cookie.js"></script>
@@ -61,7 +61,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					width: 160px;
 					height: 25px;
 					position: absolute;
-					background: #01141A;
+					/*background: #01141A;*/
 				}
 				
 				#form>div:nth-of-type(3) {
@@ -76,7 +76,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				
 				.seartwo {
 					position: absolute;
-					background: #01141A;
+					/*background: #01141A;*/
 					width: 68px;
 					height: 25px !important;
 				}
@@ -100,22 +100,60 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					height: 19px !important;
 					top: 3px !important;
 				}
+
+
+				.logosizeone{
+					display: inline-block;
+					font-size: 20px;
+					font-family: '方正兰事中黑';
+					color: #333333;
+					font-weight: 600;
+					position: absolute;
+					top: 22px;
+					left: 234px;
+				}
+				.logosizetwo{
+					position: absolute;
+					top: 55px;
+					left: 235px;
+					color: #333333;
+					font-family: 'Arial Regular';
+					font-size: 16px;
+				}
+				input:-webkit-autofill,
+				textarea:-webkit-autofill,
+				select:-webkit-autofill {
+					-webkit-box-shadow: 0 0 0 1000px #01141A inset;
+					-webkit-color:white;
+					-webkit-text-fill-color: white;
+				}
+				.center_01 img,
+				.center_02 img{
+					position: relative;
+					top: 5px;
+				}
+				.center_01 img{
+ 					width: 18px;
+				}
+				.center_02 img{
+					 width: 22px;
+				}
 			</style>
 		</head>
 
 		<body>
 			<div class="top">
-				<nav>
-					<span class="logo"> 
-				   <img src="img/login/LOGO.png" alt="" />
-				</span>
-					<span class="ts">
-					<h5>它石车联网数据管理平台</h5>
-				    <span>TASS vehicle networking data management platform</span>
-					</span>
-					<div class="website">
+				<nav class="navbar navbar-default" style="width: 100%;height: 100px;background: #FFFFFF;border: none;">
+                    <div class="navbar-header">
+				        <img src="img/login/LOGO.png" alt="" style="width: 170px;height: 60px;margin-left: 40px;margin-top: 18px;"/>
+				    </div>
+				    <div class="logosize">
+				        <span class="logosizeone">它石车联网数据管理平台</span>
+				        <span class="logosizetwo">TASS vehicle networking data management platform</span>
+				    </div>
+				    <div class="website">
 						<p>
-							<a href="#">企业官网<span></span></a>
+							<a href="#" style="color: #333333;">企业官网<span></span></a>
 							<span><img src="img/imagess/HOME.png" alt="" /></span>
 						</p>
 						<p>中文简体
@@ -128,20 +166,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<main>
 					<div class="center">
 						<div class="center_01">
-							<span><img src="" alt="" /></span> 密码登陆
+							<span><img src="img/login/suo.png" alt="" /></span> 密码登陆
 						</div>
 						<div class="center_02">
-							<span><img src="" alt="" /></span> 令牌登陆
+							<span><img src="img/login/lingpai.png" alt="" /></span> 令牌登陆
 						</div>
 						<div class="form">
 							<form id="form">
 								<div class="bear">
 									<span class="bearone"><img src="img/login/zhanghao.png" alt="" /></span>
-									<span class="beartwo"><input type="text" name="account" id="account" autocomplete="off" placeholder="请输入账号" required/></span>
+									<span class="beartwo"><input type="text" id="account" autocomplete="off" placeholder="请输入账号" required/></span>
 								</div>
 								<div class="gear">
 									<span class="gearone"><img src="img/login/mima.png"/></span>
-									<span class="geartwo"><input type="password" name="password" id="password" placeholder="请输入密码" required/></span>
+									<span class="geartwo"><input type="password" id="password" autocomplete="off" placeholder="请输入密码" required/></span>
 								</div>
 								<div>
 									<div class="sear">
