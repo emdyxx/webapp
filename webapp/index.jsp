@@ -25,6 +25,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             #TheOwnerFormtable select{
 				width: 146px;
 			}
+			#ResetPassword{
+				width: 58px;
+				height: 22px;
+				line-height: 22px;
+				display: inline-block;
+				text-align: center;
+				background: linear-gradient(to bottom,#ffffff 0,#eeeeee 100%);
+				border: 1px solid #bbb;
+				color: #444;
+				border-radius: 5px 5px 5px 5px;
+				cursor: pointer;
+                font-size: 12px;
+			}
 		</style>
 	</head>
 
@@ -406,12 +419,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			<hr />
 																			<label><i>*</i>密码:</label>
 																			<input type="text" id="psw" required/>
+																			<span id="ResetPassword">重置密码</span>
 																			<hr />
 																			<label><i>*</i>姓名:</label>
 																			<input type="text" id="stuname" required/>
 																			<hr />
 																			<label><i>*</i>用户组:</label>
-																			<input type="text" class="usergroup" id="age" required/>
+																			<input type="text" class="usergroup" id="age">
+																			<!--<input type="text" class="usergroup" id="age" required/>-->
 																			<hr />
 																			<label><i>*</i>联系电话:</label>
 																			<input type="text" id="addressss" required/>
@@ -571,7 +586,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										<div class="roleListonetop">
 											角色列表
 										</div>
-										<div class="roleListonebottom">
+										<div class="roleListonebottom" style="height:auto;position:absolute;top:30px;bottom:100px;overflow:auto;">
 
 										</div>
 									</div>
@@ -583,7 +598,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<div onClick="roleadd()">保存修改</div>
 											<div onClick="roleremove()">取消修改</div>
 										</div>
-										<div class="roleListtwobottom">
+										<div class="roleListtwobottom" style="height:auto;position:absolute;top:60px;bottom:100px;overflow:auto;">
 
 										</div>
 									</div>
@@ -676,9 +691,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<div id="Logs" style="background:white;">
 										登陆日志
 									</div>
-									<div id="operates">
+									<!--<div id="operates">
 										操作日志
-									</div>
+									</div>-->
 								</div>
 								<div class="systemLog-bottom-bottom">
 									<div class="systemLog-bottom-bottomone">
@@ -712,7 +727,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											</table>
 										</div>
 									</div>
-									<div class="systemLog-bottom-bottomtwo">
+									<!--<div class="systemLog-bottom-bottomtwo">
 										<div class="systemLog-bottom-bottomones">
 											<table style="margin-top: 6px;margin-left: 20px;">
 												<tr>
@@ -730,7 +745,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													</td>
 													<td>操作模块:</td>
 													<td>
-														<!--easyui树-->
 														<input class="operatemenuName" style="width:120px;">
 													</td>
 													<td>操作类型:</td>
@@ -752,7 +766,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 											</table>
 										</div>
-									</div>
+									</div>-->
 								</div>
 							</div>
 						</div>

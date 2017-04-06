@@ -176,6 +176,7 @@ main {
 	font-weight: bolder;
 	position: absolute;
 	background: #FFFFFF !important;
+	height: 100%;
 }
 
 footer {

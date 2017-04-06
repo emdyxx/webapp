@@ -78,7 +78,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					position: absolute;
 					/*background: #01141A;*/
 					width: 68px;
-					height: 25px !important;
+					height: 27px !important;
 				}
 				
 				.searthree {

@@ -2,7 +2,7 @@
 /*****************2.1车主管理---车主管理*******************/
 var id3;//tree树的真实id,判断是否选中,以及发请求携带的参数
 var TheOwnerIp=0;//审核状态的权限
-var ownerId; //新增车主id
+var ownerIds; //新增车主id
 $('.TheOwner').css('display', 'none');
 $('#managementli5').click(function() {
 	clearInterval(seti);
@@ -293,7 +293,7 @@ function Brand(value){
 	}
 	$.ajax({
 		type:"post",
-		url:server_context+"/getVehiclenet",
+		url:server_context+"/getVehicleModel",
 		async:true,
 		data:{
            parentId:id,
@@ -315,7 +315,7 @@ function vecle(value){
 	}
 	$.ajax({
 		type:"post",
-		url:server_context+"/getVehiclenet",
+		url:server_context+"/getVehicleModel",
 		async:true,
 		data:{
 			parentId:id,
@@ -337,7 +337,7 @@ function place(value){
 	}
 	$.ajax({
 		type:"post",
-		url:server_context+"/getVehiclenet",
+		url:server_context+"/getVehicleModel",
 		async:true,
 		data:{
 			parentId:id,
@@ -384,7 +384,7 @@ function jbxh(judeg,url){
     	serviceEndTime:$('#serviceEndTime').val(),
     	contactsName:$('#contactsName').val(),
     	contactsMobile:$('#contactsMobile').val(),
-    	relation:$('#relation').val(),
+    	relation:$('#relation').val()
     }
 	$.ajax({
 		type:"post",
@@ -392,10 +392,11 @@ function jbxh(judeg,url){
 		async:true,
 		data:data,
 		success:function(data){
-			console.log(data)
-			if(!data.data[0].ownerId){
-              ownerId=data.data[0].ownerId
+			console.log(data.data[0].ownerId)
+			if(data.data[0].ownerId!=''){
+               ownerIds=data.data[0].ownerId
 			}
+            console.log(ownerIds)
 			if(data.error_code==0){
 				$("#TheOwner-datagrid-bottom").datagrid("reload");
 					if(judeg.id=='Nextstep'){
@@ -404,8 +405,14 @@ function jbxh(judeg,url){
 					$('.Nextstepbutton>button').css('display','none');
 					$('#Nextstep1').css('display','');
 				}
+			}else if(data.error_code==10017){
+				$.messager.alert('系统提示','手机号码重复','error');
+			}else if(data.error_code==10018){
+				$.messager.alert('系统提示','车架号号重复','error');
+			}else if(data.error_code==10019){
+				$.messager.alert('系统提示','车牌号号重复','error');
 			}else{
-				$.messager.alert('系统提示','基本信息保存失败,请重试...','error');
+				$.messager.alert('系统提示','保存失败...','error');
 			}
 		}
 	});
@@ -466,8 +473,9 @@ $('#Nextstep1').click(function(){
     	return false;
     }
     $('.spanerror').html('')
+	console.log(ownerIds)
     var data = {
-		ownerId:ownerId,//车主id
+		ownerId:ownerIds,//车主id
     	icallServiceLine:$('#business').val(),//商业服务号码
     	bcallServiceLine:$('#malfunction').val(),//故障服务号码
     	ecallServiceLine:$('#Accident').val()//事故服务号码
@@ -496,7 +504,7 @@ function TheOwnerremove() {
 		return;
 	}
 	var id = selectedrow.id;
-	$.messager.confirm("系统提示", "您确认要删除这条数据吗？",'question', function(r) {
+	$.messager.confirm("系统提示", "您确认要删除这条数据吗？", function(r) {
 		if(r) {
 			$.post(server_context+"/removeOwner", {
 				ownerId: id
@@ -740,7 +748,7 @@ function requestadd(){
 	//车辆型号的请求
 	$.ajax({
 		type:"post",
-		url:server_context+"/getVehiclenet",
+		url:server_context+"/getVehicleModel",
 		async:true,
 		data:{
 			parentId:row.vehicleBrandId,
@@ -761,7 +769,7 @@ function requestadd(){
 	//车辆排量的请求
 	$.ajax({
 		type:"post",
-		url:server_context+"/getVehiclenet",
+		url:server_context+"/getVehicleModel",
 		async:true,
 		data:{
 			parentId:row.vehicleModelId,
@@ -783,7 +791,7 @@ function requestadd(){
 	//车辆配置的请求
 	$.ajax({
 		type:"post",
-		url:server_context+"/getVehiclenet",
+		url:server_context+"/getVehicleModel",
 		async:true,
 		data:{
 			parentId:row.vehicleDisplacementId,

@@ -654,6 +654,7 @@ main {
 	width: 230px;
 	background: #F8F8F8;
 	float: left;
+	position: relative;
 }
 .roleListtwo{
 	height: 100%;

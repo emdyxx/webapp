@@ -250,6 +250,7 @@ $('.background').css('display','')
 $('.Yardmanagement').css('display', 'none')
 /************************1.1系统管理---车场管理*******************************/
 var id;
+var idfather;
 var url;
 var rowid;
 var file;//图片上传权限判断
@@ -309,14 +310,17 @@ $('#managementli1').click(function() {
 			return convert(data);
 		},
 		onSelect: function(node) {
+			idfather=$('#leftleft1').tree('getParent',node.target);
+			console.log(idfather)
 			return tre(node);
 		}
 	})
 })
-
 //找出选中的tree树的值
-
 function tre(node) {
+	$('#itemid').val('')
+	$('#productid').val('')
+	$('#Yardmanagementrole').val('')
 	$('.rightright').css('display', '')
 	tr = node.id
 	id = tr
@@ -509,12 +513,17 @@ function iscompileoff(){
         
 function baocun() {
 	var phone = /^1[34578]\d{9}$/;
+	var email = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
     if($('#treename').val()==''||$('#treefzr').val()==''||$('#treephone').val()==''||$('#treeemail').val()==''||$('#county').val()==''||$('#inaddress').val()==''){
         $.messager.alert('系统提示','必填字段不能为空','warning');
 		return;
 	}
 	if(!phone.test($('#treephone').val())){
         $.messager.alert('系统提示','手机号不符合格式','warning');
+		return;
+	}
+	if(!email.test($('#treeemail').val())){
+        $.messager.alert('系统提示','邮箱不符合格式','warning');
 		return;
 	}
 	$.ajax({
@@ -549,8 +558,9 @@ function treeremoveo() {
 		$.messager.alert("系统提示", "请选择需要删除的用户组",'info');
 		return;
 	}
-	$.messager.confirm("系统提示", "您确认要删除此用户组吗？",'question',function(r) {
+	$.messager.confirm("系统提示", "您确认要删除此用户组吗？",function(r) {
 		if(r) {
+			console.log(123)
 			$.ajax({
 				type: "post",
 				url: server_context+"/removeGroup",
@@ -560,10 +570,10 @@ function treeremoveo() {
 				},
 				success: function(data) {
 					if(data.error_code==0){
-						if(data.data[0].removeTotal>0){
+						// if(data.data[0].removeTotal>0){
 							$.messager.alert("系统提示", "删除成功",'info');
 							$("#leftleft1").tree('reload');
-						}
+						// }
 					}else{
                        if(data.data[0].sonGroupTotal >0) {
 						  $.messager.alert("系统提示", "删除失败,或请先删除子用户组",'error');
@@ -587,15 +597,20 @@ function doSearch() {
 		roleName:$('#Yardmanagementrole').val()
 	});
 }
+//点击重置密码
+$('#ResetPassword').click(function(){
+     $("#psw").val('123456');
+})
 //bottom的弹出框保存按钮
 function save() {
 	var phone = /^1[34578]\d{9}$/;
+	var email = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
 	var id=0;
 	if(rowid==1){
 		var row = $("#dgl").datagrid('getSelected');
 		id=row.id
 	}
-	if($("#_id").val()==''||$("#psw").val()==''||$("#stuname").val()==''||$("#age").val()==''||$("#sex").val()==''||$("#addressss").val()==''||$("#youxiang").val()==''){
+	if($("#_id").val()==''||$("#psw").val()==''||$("#stuname").val()==''||$("#age").val()==''||$("#addressss").val()==''||$("#youxiang").val()==''){
         $.messager.alert('系统提示','必填字段不能为空','warning')
 		return;
 	}
@@ -604,12 +619,20 @@ function save() {
 		   $('#addressss').focus();
 		   return;
 	}
+	if(!email.test($('#youxiang').val())){
+        $.messager.alert('系统提示','邮箱不符合格式','warning');
+		return;
+	}
+	if($("#sex").val()==''||$("#sex").val()=='undefined'||$("#sex").val()==null){
+        $.messager.alert('系统提示','角色不能为空或先在角色管理页面添加角色','warning');
+		return;
+	}
 	var data = {
 		'id': id,
 		'userName': $("#_id").val(),
 		'userPwd': $("#psw").val(),
 		'fullName': $("#stuname").val(),
-		'groupId': $("#age").val(),
+		'groupId': $("#age").attr('name'),
 		'roleId': $("#sex").val(),
 		'mobile': $("#addressss").val(),
 		'email': $("#youxiang").val()
@@ -645,7 +668,7 @@ function saveUser() {
 		'phone': $("#phone").val(),
 		'email': $("#email").val(),
 		'roleId': $("#parlinglotrole").val(),
-		'areaID':$("#countyn").val(),
+		'areaId':$("#countyn").val(),
 		'address':$("#parlingaddress").val()
 	}
 	$.each(data,function(v,h){
@@ -680,32 +703,12 @@ function saveUser() {
 //top编辑按钮
 function openUserAddDialog() {
 	var selected = $("#dg").datagrid('getSelected');
+	console.log(selected)
 	if(selected == null) {
 		$.messager.alert("系统提示", "请选择要编辑的数据！",'warning');
 		return;
 	}
 	$('#mydlgModal').modal('show')
-	//角色请求
-	$.ajax({
-       type: "post",
-	   url: server_context+"/getGroupRole",
-	   async: true,
-	   data:{
-		  id:id
-	   },
-	   success:function(data){
-	      data=data.data
-		  $('#parlinglotrole option').remove()
-		  for(var i=0;i<data.length;i++){
-			  if(selected.roleId==data[i].id){
-			     $('<option selected="selected" value='+data[i].id+'>'+data[i].name+'</option>').appendTo($('#parlinglotrole'))
-			  }else{
-				 $('<option value='+data[i].id+'>'+data[i].name+'</option>').appendTo($('#parlinglotrole'))
-			  }
-			  
-		  }
-	   }
-	})
 	//省请求
 	$.ajax({
 		type:"post",
@@ -769,6 +772,26 @@ function openUserAddDialog() {
 		}
 	});
 	dsValue(selected)
+	//角色请求
+	$.ajax({
+       type: "post",
+	   url: server_context+"/listGroupRole",
+	   async: true,
+	   data:{
+		  id:id
+	   },
+	   success:function(data){
+	      data=data.data
+		  $('#parlinglotrole option').remove()
+		  for(var i=0;i<data.length;i++){
+			  if(selected.roleId==data[i].id){
+			     $('<option selected="selected" value='+data[i].id+'>'+data[i].name+'</option>').appendTo($('#parlinglotrole'))
+			  }else{
+				 $('<option value='+data[i].id+'>'+data[i].name+'</option>').appendTo($('#parlinglotrole'))
+			  }
+		  }
+	   }
+	})
 }
 //信息编辑三级联动
 function pros(value){
@@ -779,7 +802,7 @@ function pros(value){
 		async:true,
 		data:{
 			level:2,
-			id:id
+			pid:id
 		},
 		success:function(data){
 			$("#municipalityg").find("option").remove();
@@ -793,7 +816,7 @@ function pros(value){
 				async:true,
 				data:{
 					level:3,
-					id:sd
+					pid:sd
 				},
 				success:function(data){
 					$("#countyn").find("option").remove();
@@ -815,7 +838,7 @@ function municg(value){
 		async:true,
 		data:{
 			level:3,
-			id:id
+			pid:id
 		},
 		success:function(data){
 			$("#countyn").find("option").remove();
@@ -855,12 +878,12 @@ function convert(data) {
 				nodes.push({
 					id: row.id,
 					text: row.name,
+					iconCls:'icon-one',
 					parendId: row.parendId,
 					parentId:row.parentId,
 					type:row.type,
 					actualId:row.actualId,
-					checked:row.checked,
-					iconCls:'icon-one'
+					checked:row.checked
 				});
 			}
 		}else if(row.level==2){
@@ -917,7 +940,21 @@ function convert(data) {
 					iconCls:'icon-five'
 				});
 			}
-		}else{
+		}else if(row.level==0||row.type==2){
+            if(!exists(data, row.parentId)) {
+				nodes.push({
+					id: row.id,
+					text: row.name,
+					parendId: row.parendId,
+					parentId:row.parentId,
+					type:row.type,
+					actualId:row.actualId,
+					checked:row.checked,
+					iconCls:'icon-eight'
+				});
+			}
+		}
+		else{
             if(!exists(data, row.parentId)) {
 				nodes.push({
 					id: row.id,
@@ -998,6 +1035,17 @@ function convert(data) {
 						checked:row.checked,
 						iconCls:'icon-five'
 					}
+				}else if(row.level==0||row.type==2){
+                        var child = {
+							id: row.id,
+							text: row.name,
+							parendId: row.parendId,
+							parentId:row.parentId,
+							type:row.type,
+							actualId:row.actualId,
+							checked:row.checked,
+							iconCls:'icon-eight'
+					}
 				}else{
                     var child = {
 						id: row.id,
@@ -1029,8 +1077,30 @@ function openUserAdd() {
 	$('#dlmyModal').modal('show');
 	$('.dlmyModaltitle').text('新增用户')
 	$('.roles option').remove()
+	$('#ResetPassword').css('display','none')
+    $('#psw').removeAttr('disabled','disabled')
 	url = server_context+'/saveUser';
 	rowid=0
+	$('.usergroup option').remove()
+	var trees = $("#leftleft1").tree('getSelected')
+	//bottom弹出框的用户组树
+    $('.usergroup').val(trees.text).attr('name',trees.id)
+	//bottom弹出框的角色组树
+	$.ajax({
+		type: "post",
+		url: server_context+"/listGroupRole",
+		async: true,
+		data:{
+			id:trees.id 
+		},
+		success:function(data){
+			data=data.data
+			$('.roles option').remove()
+			for(var i=0;i<data.length;i++){
+				$('<option value='+data[i].id+'>'+data[i].name+'</option>').appendTo($('.roles'))
+			}
+		}
+	})
 }
 
 //最下侧删除用户
@@ -1041,7 +1111,7 @@ function deleteUser() {
 		return;
 	}
 	var id = selectedrow.id;
-	$.messager.confirm("系统提示", "您确认要删除这条数据吗？",'question', function(r) {
+	$.messager.confirm("系统提示", "您确认要删除这条数据吗？", function(r) {
 		if(r) {
 			$.post(server_context+"/removeUser", {
 				id: id
@@ -1049,6 +1119,7 @@ function deleteUser() {
 				if(data.error_code == 0) {
 					$.messager.alert("系统提示", "数据已成功删除",'info');
 					$("#dgl").datagrid("reload");
+					$("#dg").datagrid("reload");
 				} else {
 					$.messager.alert("系统提示", "数据删除失败！",'error');
 				}
@@ -1059,11 +1130,26 @@ function deleteUser() {
 
 function dispValue(row) {
 	$("#_id").val(row.userName);
-	$("#psw").val("******");
+	$("#psw").val('******');
 	$("#stuname").val(row.fullName);
 	$("#addressss").val(row.mobile);
 	$("#youxiang").val(row.email);
-	$('#age').combo('setValue', row.groupId).combo('setText', row.groupName);//setValue与setText 
+	// $('#age').combo('setValue', row.groupId).combo('setText', row.groupName);
+	$('.usergroup').combotree({
+		url:server_context+'/listGroupTree',
+		method:'post',
+		required:true,
+		loadFilter: function(data) {
+			var data =data.data
+			return convert(data);
+		},
+		onLoadSuccess: function (node, data){
+			$('#age').combo('setValue', row.groupId).combo('setText', row.groupName);  
+		},
+		onSelect: function(node) {
+			return usergroup(node);
+		}
+	})
 	$.ajax({
        type: "post",
 	   url: server_context+"/listGroupRole",
@@ -1073,7 +1159,26 @@ function dispValue(row) {
 	   },
 	   success:function(data){
 	      data=data.data
-		  console.log(data)
+		  $('.roles option').remove()
+		  for(var i=0;i<data.length;i++){
+			  if(row.roleId==data[i].id){
+			     $('<option selected="selected" value='+data[i].id+'>'+data[i].name+'</option>').appendTo($('.roles'))
+			  }else{
+				 $('<option value='+data[i].id+'>'+data[i].name+'</option>').appendTo($('.roles'))
+			  }
+			  
+		  }
+	   }
+	})
+	$.ajax({
+       type: "post",
+	   url: server_context+"/listGroupRole",
+	   async: true,
+	   data:{
+		  id:row.groupId
+	   },
+	   success:function(data){
+	      data=data.data
 		  $('.roles option').remove()
 		  for(var i=0;i<data.length;i++){
 			  if(row.roleId==data[i].id){
@@ -1097,43 +1202,14 @@ function openUserModifyDialog() {
 	}
 	$('#dlmyModal').modal('show');
 	$('.dlmyModaltitle').text('修改用户信息')
+	$('#ResetPassword').css('display','')
+	$('#psw').attr('disabled','disabled')
 	dispValue(row);
 	url = server_context+'/updateUser';
 	rowid=1;
 }
 
-//bottom弹出框的用户组树
-$('.usergroup').combotree({
-	url:server_context+'/listGroupTree',
-	method:'post',
-	required:true,
-	loadFilter: function(data) {
-		var data =data.data
-		return convert(data);
-	},
-	onSelect: function(node) {
-		return usergroup(node);
-	}
-})
-//bottom弹出框的角色组树
-function usergroup(node){
-	$.ajax({
-       type: "post",
-	   url: server_context+"/listGroupRole",
-	   async: true,
-	   data:{
-		  id:node.id 
-	   },
-	   success:function(data){
-	      data=data.data
-		  console.log(data)
-		  $('.roles option').remove()
-		  for(var i=0;i<data.length;i++){
-			  $('<option value='+data[i].id+'>'+data[i].name+'</option>').appendTo($('.roles'))
-		  }
-	   }
-	})
-}
+
 /************************1.2系统管理---角色管理*******************************/
 /******角色列表********/
 var roleId;//角色真实ID
@@ -1181,8 +1257,57 @@ $('#managementli2').click(function() {
 			}
 		})
 	})
-	
-	//判断选中的值加载数据
+function convsss(rows) {
+	console.log(rows)
+	function exists(rows, parentId) {
+		for(var i = 0; i < rows.length; i++) {
+			if(rows[i].id == parentId) return true;
+		}
+		return false;
+	}
+	var nodes = [];
+	for(var i = 0; i < rows.length; i++) {
+		var row = rows[i];
+		if(!exists(rows, row.parentId)) {
+			nodes.push({
+				id: row.id,
+				text: row.name,
+				actualId:row.actualId,
+				checked:row.checked,
+				type:row.type,
+				parendId:row.parendId
+			});
+		}
+	}
+	var toDo = [];
+	for(var i = 0; i < nodes.length; i++) {
+		toDo.push(nodes[i]);
+	}
+	while(toDo.length) {
+		var node = toDo.shift();
+		for(var i = 0; i < rows.length; i++) {
+			var row = rows[i];
+			if(row.parentId == node.id) {
+				var child = {
+					id: row.id,
+					text: row.name,
+					actualId:row.actualId,
+				    checked:row.checked,
+					type:row.type,
+				    parendId:row.parendId
+				};
+				if(node.children) {
+					node.children.push(child);
+				} else {
+					node.children = [child];
+				}
+				toDo.push(child);
+			}
+		}
+	}
+	return nodes;
+}	
+//判断选中的值加载数据
 function tree(node) {
 	$('.roleListtwobottom').css('display', '')
 	$('.rolebasedinbottom').css('display', '')
@@ -1190,7 +1315,6 @@ function tree(node) {
 	var tr = node.id;
 	id1 = node.id;
 	roleId = node.actualId;
-	console.log(node);
 	//规则设置选中角色获取ID发起请求
 	$.ajax({
 		type:"post",
@@ -1212,7 +1336,6 @@ function tree(node) {
 		}
 	});
     if(node.type==2){
-  	
     	$('.roleListtwobottom').tree({
     		url: server_context+'/listRolePrivilegeTree',
     		method: 'post',
@@ -1222,9 +1345,8 @@ function tree(node) {
     			id: node.actualId
     		},
     		loadFilter: function(data) {
-    			var data=data.data
-    			console.log(data);
-    			return convert(data);
+    			var rows=data.data;
+    			return convsss(rows);
     		},
     		onCheck:function(node,checked){
     			$('.roleListtwo-addmove').css('display', '')
@@ -1258,7 +1380,6 @@ function tree(node) {
     			id: node.actualId
     		}
     	})
-    	
     }else{
     	
     	$('.roleListtwo-addmove').css('display','none')
@@ -1277,6 +1398,9 @@ $('.rulediv').click(function(){
 })
 //规则设置的保存按钮
 function ruleadd(){
+	if(id1==1){
+       return;
+	}
 	$.ajax({
 		type: "post",
 		url: server_context+"/saveRoleRule",
@@ -1296,6 +1420,9 @@ function ruleadd(){
 
 //添加权限的保存
 function roleadd() {
+	if(id1==1){
+       return;
+	}
 	var data = $('.roleListtwobottom').tree('getChecked')
 	var id = [];
 	for(var i = 0; i < data.length; i++) {
@@ -1404,6 +1531,7 @@ var operateIp=0;//操作ip的权限
 $('.accessmanagement').css('display', 'none')
 $('#managementli3').click(function() {
 		clearInterval(seti);
+		$('#addressip').val('')
 		$('main>div').css('display', 'none');
 		$('.accessmanagement').css('display', '');
 		//权限判断
@@ -1496,14 +1624,14 @@ $('#managementli3').click(function() {
 function saveip() {
 	var ips = /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/;
 	if($('#firstname').val()==''||$('#ddlRegType').val()==''){
-        $.messager.alert('系统提示','不能为空','warning')
+        $.messager.alert('系统提示','必填字段不能为空','warning')
 		return;
 	}
-	if(!ips.test($('#firstname').eq(i).val())) {
+	if(!ips.test($('#firstname').val())) {
 		   $.messager.alert('系统提示','请输入正确的ip地址','warning')
 		   $('#firstname').focus();
 		   return;
-		}
+	}
 	$.ajax({
 		type: "post",
 		url: server_context+"/saveAccess",
@@ -1566,12 +1694,15 @@ $('.systemLog').css('display','none')
 $('.systemLog-bottom-bottomtwo').css('display','none');
 $('#managementli4').click(function(){
 	clearInterval(seti);
+	$('.LoguserName').val(''),
+	$('.Logstarttime').val(''),
+	$('.Logfinishtime').val(''),
+	$('.Logaddress').val('')
 	$('main>div').css('display', 'none')
 	$('.systemLog').css('display','')
-
 	//登陆日志表的请求
 	$('#Logform').datagrid({
-		url:'/dlrz',
+		url:server_context+'/listLoginLog',
 		method: 'post',
 		singleSelect: 'true',
 		fit: 'true',
@@ -1596,8 +1727,6 @@ $('#managementli4').click(function(){
 		]]
 	})
 })
-
-
 $('#Logs').click(function(){
 	$('#Logs').css('background','white');
 	$('#operates').css('background','#E5E5E5');
@@ -1613,7 +1742,7 @@ $('#operates').click(function(){
    //操作日志
 	//操作模块树
 	$('.operatemenuName').combotree({
-		url:'/add',
+		url:server_context+'/',
 		method:'post',
 		required:true,
 		loadFilter: function(data) {
@@ -1622,7 +1751,7 @@ $('#operates').click(function(){
 	})
 	//操作日志表的请求
 	$('#operateLog').datagrid({
-		url:'/czrz',
+		url:server_context+'/listOperateLog',
 		method: 'post',
 		singleSelect: 'true',
 		fit: 'true',

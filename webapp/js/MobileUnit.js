@@ -222,7 +222,11 @@ $('.Mobileyhone').click(function () {
                     $.messager.alert('系统提示', '设备添加成功','info');
                     $('.MobileData').datagrid('reload');
                     $('#MobileyhoneModal').modal('hide');
-                } else {
+                }else if(data.error_code == 10021){
+                     $.messager.alert('系统提示', '设备编号重复','info');
+                }else if(data.error_code == 10022){
+                     $.messager.alert('系统提示', '电控单元号重复','info');
+                }else {
                     $.messager.alert('系统提示', '设备添加失败','error');
                 }
             }

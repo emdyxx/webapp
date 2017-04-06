@@ -1,23 +1,35 @@
 .icon-one{
-	background: url('icons/one.png') no-repeat center center;
+	background: url('icons/one.png') no-repeat center center !important;
 }
 .icon-two{
-	background: url('icons/two.png') no-repeat center center;
+	background: url('icons/two.png') no-repeat center center !important;
+	width: 20px !important;
 }
 .icon-three{
-	background: url('icons/three.png') no-repeat center center;
+	background: url('icons/three.png') no-repeat center center !important;
+	width: 20px !important;
 }
 .icon-four{
-	background: url('icons/four.png') no-repeat center center;
+	background: url('icons/four.png') no-repeat center center !important;
+	width: 20px !important;
 }
 .icon-five{
-	background: url('icons/sive.png') no-repeat center center;
+	background: url('icons/sive.png') no-repeat center center !important;
+	width: 20px !important;
 }
 .icon-six{
-	background: url('icons/six.png') no-repeat center center;
+	background: url('icons/six.png') no-repeat center center !important;
+	width: 20px !important;
 }
 .icon-seven{
-	background: url('icons/seven.png') no-repeat center center;
+	background: url('icons/seven.png') no-repeat center center !important;
+	width: 20px !important;
+}
+.icon-eight{
+	background: url('icons/eight.png') no-repeat center center !important;
+	width: 18px !important;
+	background-size: 18px 16px !important;
+	height: 16px !important;
 }
 .icon-tianjiaa{
 	background: url('icons/zengjia.png') no-repeat center center;
@@ -108,20 +120,24 @@
 	background-size: 16px 16px;
 }
 .icon-chexingone{
-	background: url('icons/chexingone.png') no-repeat center center;
-	background-size: 16px 18px;
+	background: url('icons/chexingone.png') no-repeat center center !important;
+	width: 20px !important;
 }
 .icon-chexingtwo{
-	background: url('icons/chexingtwo.png') no-repeat center center;
-	background-size: 16px 18px;
+	background: url('icons/chexingtwo.png') no-repeat center center !important;
+	width: 20px !important;
 }
 .icon-chexingthree{
-	background: url('icons/chexingthree.png') no-repeat center center;
-	background-size: 16px 18px;
+	background: url('icons/chexingthree.png') no-repeat center center !important;
+	width: 20px !important;
 }
 .icon-chexingfour{
-	background: url('icons/chexingfour.png') no-repeat center center;
-	background-size: 16px 18px;
+	background: url('icons/chexingfour.png') no-repeat center center !important;
+	width: 20px !important;
+}
+.icon-chexingfive{
+	background: url('icons/chexingfive.png') no-repeat center center !important;
+	width: 20px !important;
 }
 
 .icon-detail{

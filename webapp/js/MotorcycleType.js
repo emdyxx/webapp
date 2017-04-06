@@ -179,7 +179,7 @@
 			$.messager.alert("系统提示",'请选择车型进行删除','warning');
 			return;
 		}
-		$.messager.confirm('系统提示','你确认删除此车型吗?','question',function(r){
+		$.messager.confirm('系统提示','你确认删除此车型吗?',function(r){
 			if(r) {
 				$.ajax({
 					type: "post",
@@ -202,7 +202,10 @@
 	})
 	//添加车型提交按钮
 	$('.Motorcyclebutton').click(function(){
-		console.log($('.Motorcycleinput').val())
+		if($('.Motorcycleinput').val()==''||$('.Motorcycleinput').val()==null||$('.Motorcycleinput').val()=='undefined'){
+           $.messager.alert('系统提示','车型不能为空','warning')
+		   return;
+		}
 		$.ajax({
 			type:"post",
 			url:server_context+"/saveVehicleModel",
