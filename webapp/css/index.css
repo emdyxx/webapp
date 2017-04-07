@@ -225,6 +225,7 @@ nav {
 	background: #F8F8F8;
 	height: 100%;
 	margin-left: -100%;
+	position: relative;
 }
 .rightright{
 	margin-left: 245px;
@@ -505,9 +506,12 @@ main {
 }
 #leftleft1{
 	width: 210px;
-	height: 100%;
+	height: auto;
 	margin-left: 10px;
-	margin-top: 10px;
+	overflow: auto;
+	position: absolute;
+	top: 10px;
+	bottom: 100px;
 }
 .xxbj {
 	/*margin-bottom: 5px;*/

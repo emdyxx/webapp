@@ -5,6 +5,7 @@ $('.upgrademanage').css('display','none')
 		clearInterval(seti);
 		$('main>div').css('display', 'none');
     	$('.upgrademanage').css('display','')
+		$('.upgradetop input').val('')
     	$('.upgradebottomdata').datagrid({
 			url: server_context+'/listUpdatePackage',
 			method: 'get',
@@ -241,7 +242,6 @@ $('.upgrademanage').css('display','none')
 	}
 	//上传升级包
 	function uploadFile(){
-		console.log(dev)
 		var xhr = new XMLHttpRequest();
 		for(var i = 0;i<$('#uploadForm12 input').length;i++){
 			if($('#uploadForm12 input').eq(i).val()==''){

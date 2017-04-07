@@ -28,6 +28,9 @@ $('#managementli5').click(function() {
 			if(data.data[i]==23){
 				TheOwnerIp=data.data[i]  //审核权限
 			}
+			if(data.data[i]==24){
+                $('.Theownermigration').css('display','')//车主迁移权限
+			}
 		}
 	})
 	//树状表
@@ -48,6 +51,8 @@ $('#managementli5').click(function() {
 //根据选中tree树的id加载右侧表
 function TheOwner(node){
 	$('.TheOwner-bottom-right').css('display', '');
+	$('.TheOwner-inquire input').val('')
+	$('.TheOwner-inquire select').val('')
 	id3 = node.id;
 	//上侧表
 	$('#TheOwner-datagrid-top').datagrid({
@@ -73,10 +78,11 @@ function TheOwner(node){
 	$('#TheOwner-datagrid-bottom').datagrid({
 		url: server_context+'/listOwner',
 		method: 'post',
-		singleSelect: 'true',
+		singSelect: 'false',
 		fit:'true',
 		fitColumns: 'true',
 		rownumbers: 'true',
+		pageSize:50,
 		pagination: "true",
 		queryParams: {
 			groupId:id3,
@@ -356,6 +362,7 @@ function jbxh(judeg,url){
 	console.log(url);
 	var sex;
 	var id;
+	var groupId;  
 	if($('#sexx').val()==1){
        sex='男';
 	}
@@ -363,12 +370,13 @@ function jbxh(judeg,url){
        sex='女';
 	}
 	if(url==server_context+"/saveOwner"){
-		id=''
+		groupId = id3
 	}else{
 		var row = $("#TheOwner-datagrid-bottom").datagrid('getSelected');
 		id=row.id
 	}
 	var data = {
+		groupId:groupId,
 		id:id,
     	ownerName:$('#ownerName').val(),
     	sex:sex,
@@ -381,7 +389,7 @@ function jbxh(judeg,url){
     	vin:$('#vin').val(),
     	engineCode:$('#engineCode').val(),
     	vehicleModelId:$('#vehicleConfig').val(),
-    	serviceEndTime:$('#serviceEndTime').val(),
+    	// serviceEndTime:$('#serviceEndTime').val(),
     	contactsName:$('#contactsName').val(),
     	contactsMobile:$('#contactsMobile').val(),
     	relation:$('#relation').val()
@@ -405,6 +413,8 @@ function jbxh(judeg,url){
 					$('.Nextstepbutton>button').css('display','none');
 					$('#Nextstep1').css('display','');
 				}
+			}else if(data.error_code==10014){
+				$.messager.alert('系统提示','搜索不到车架号所对应的设备','error');
 			}else if(data.error_code==10017){
 				$.messager.alert('系统提示','手机号码重复','error');
 			}else if(data.error_code==10018){
@@ -449,10 +459,10 @@ $('#Nextstep').click(function(){
 		   $('.NoPhone').focus();
 		}
 	}
-	if(!address.test($('.Noaddress').val())){
-		str += '详细地址不符合格式';
-		$('.Noaddress').focus();
-	}
+	// if(!address.test($('.Noaddress').val())){
+	// 	str += '详细地址不符合格式';
+	// 	$('.Noaddress').focus();
+	// }
     if(str!=''){
     	$('.spanerror').html(str)
     	return false;
@@ -522,8 +532,13 @@ function TheOwnerremove() {
 //修改用户按钮
 function TheOwnerbj(t){
 		var row = $("#TheOwner-datagrid-bottom").datagrid('getSelected');
+		var rows = $('#TheOwner-datagrid-bottom').datagrid('getChecked');
 		if(row == null) {
 			$.messager.alert("系统提示", "请选择需要修改的用户！",'warning');
+			return;
+		}
+		if(rows.length>=2){
+			$.messager.alert("系统提示", "请选择一条数据进行修改！",'warning');
 			return;
 		}
 		$('#TheOwnerModal').modal('show');
@@ -633,7 +648,7 @@ function TheOwnerValue(row){
 	$('#vin').val(row.vin),
 	$('#engineCode').val(row.engineCode),
 	$('#vehicleModelId').val(row.vehicleModelId),
-	$('#serviceEndTime').datetimebox('setValue', row.serviceEndTime); //服务截止时间
+	// $('#serviceEndTime').datetimebox('setValue', row.serviceEndTime); //服务截止时间
 	$('#contactsName').val(row.contactsName),
 	$('#contactsMobile').val(row.contactsMobile),
 	$('#relation').val(row.relation)
@@ -1048,10 +1063,10 @@ $('#Nextstep2').click(function(){
 			   $('.NoPhone').focus();
 			}
 		// }
-		if(!address.test($('.Noaddress').val())){
-			str += '详细地址不符合格式';
-			$('.Noaddress').focus();
-		}
+		// if(!address.test($('.Noaddress').val())){
+		// 	str += '详细地址不符合格式';
+		// 	$('.Noaddress').focus();
+		// }
 		
 	    if(str!=''){
 	    	$('.spanerror').html(str)
@@ -1095,7 +1110,60 @@ $('#Nextstep2').click(function(){
 	    })
 	}
 })
-
+var Theownermigrationid;//车主迁移tree树id
+//车主迁移
+function Theownermigration(){
+    var row = $('#TheOwner-datagrid-bottom').datagrid('getChecked')
+	if(row.length==0){
+        $.messager.alert('系统提示', '请选择车主进行车主迁移操作','warning');
+        return;
+	}
+	$('#TheownermigrationModal').modal('show')
+	$('#TheownermigrationModal-tree').tree({
+		url: server_context+'/listGroupTree',
+		method: 'post',
+		animate: 'true',
+		loadFilter: function(data) {
+			var data = data.data;
+			return convert(data);
+		},
+		onSelect: function(node) {
+			Theownermigrationid=node.id;
+		}
+	})
+}
+//车主迁移保存
+function Theownermigrationsave(){
+	console.log(Theownermigrationid)
+   if(Theownermigrationid==''||Theownermigrationid=='undefined'||Theownermigrationid==null){
+	   $.messager.alert('系统提示', '请选择用户组','warning');
+        return;
+    }
+	var row = $('#TheOwner-datagrid-bottom').datagrid('getChecked');
+	var arr = [];
+    for (var i = 0; i < row.length; i++) {
+        arr.push(row[i].id)
+    }
+    var deviceIds = arr.join(',')
+	$.ajax({
+        type: "post",
+        url: server_context+"/updateOwnerGroup",
+        async: true,
+        data: {
+            ownerIds: deviceIds,
+            groupId: Theownermigrationid
+        },
+        success: function (data) {
+            if (data.error_code == 0) {
+                $.messager.alert('系统提示', '车主迁移操作成功','info');
+                $('#TheownermigrationModal').modal('hide');
+				$('#TheOwner-datagrid-bottom').datagrid('reload')
+            } else {
+                $.messager.alert('系统提示', '车主迁移操作失败','error');
+            }
+        }
+    });
+}
 //保险信息点击事件
 /*$('#Nextstep4').click(function(){
 	$('.TheOwnerModal-body>form').css('display','none');

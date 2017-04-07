@@ -152,7 +152,7 @@ for(var i = 0; i < managementli.length; i++) {
 }
 //修改li的class属性以便添加点击事件
 for(var i = 0; i < $('.management>li').length; i++) {
-	if($('.management>li').eq(i).text() == '车厂管理') {
+	if($('.management>li').eq(i).text() == '组织管理') {
 		$('.management>li').eq(i).attr('id', 'managementli1')
 	}
 	if($('.management>li').eq(i).text() == '角色管理') {
@@ -248,9 +248,9 @@ for(var i = 0; i < $('.management>li').length; i++) {
 $('main>div').css('display','none')
 $('.background').css('display','')
 $('.Yardmanagement').css('display', 'none')
-/************************1.1系统管理---车场管理*******************************/
+/************************1.1系统管理---组织管理*******************************/
 var id;
-var idfather;
+var idlever;
 var url;
 var rowid;
 var file;//图片上传权限判断
@@ -310,8 +310,7 @@ $('#managementli1').click(function() {
 			return convert(data);
 		},
 		onSelect: function(node) {
-			idfather=$('#leftleft1').tree('getParent',node.target);
-			console.log(idfather)
+			idlever=node.level
 			return tre(node);
 		}
 	})
@@ -361,6 +360,7 @@ function tre(node) {
 		fit: 'true',
 		fitColumns: 'true',
 		nowrap: 'true',
+		pageSize:50,
 		pagination: "true",
 		queryParams: {
 			id: tr
@@ -373,8 +373,14 @@ function treeadd() {
 		$.messager.alert("系统提示", "请选择用户组进行添加",'warning');
 		return;
 	}
+	if(idlever==7){
+       $.messager.alert("系统提示", "用户组最多添加七级",'warning');
+	   return; 
+	}
 	$('#myfmmModal').modal('show')
 	$('.fmm-form').form('reset')//清空表单
+	$("#municipality").find("option").remove();
+	$("#county").find("option").remove();
 	$.ajax({
 		type:"post",
 		url:server_context+"/listArea",
@@ -448,12 +454,17 @@ function shi(value){
 
 function ajaxFileUpload(){
 	var phone = /^1[34578]\d{9}$/;
-	if($('#file_name').val()==''||$('#iscompilename').val()==''||$('#iscompilefzr').val()==''||$('#iscompileprincipal').val()==''||$('#iscompileemail').val()==''||$('#iscompilephone').val()==''){
+	var email = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+	if($('#iscompilename').val()==''||$('#iscompilefzr').val()==''||$('#iscompileprincipal').val()==''||$('#iscompileemail').val()==''||$('#iscompilephone').val()==''){
 		$.messager.alert('系统提示','必填字段不能为空','warning');
 		return;
 	}
 	if(!phone.test($('#iscompilefzr').val())){
         $.messager.alert('系统提示','手机号不符合格式','warning');
+		return;
+	}
+	if(!email.test($('#iscompileemail').val())){
+        $.messager.alert('系统提示','邮箱不符合格式','warning');
 		return;
 	}
 	var xhr = new XMLHttpRequest();
@@ -465,33 +476,34 @@ function ajaxFileUpload(){
 	fd.append("principal", $('#iscompileprincipal').val());
 	fd.append("email", $('#iscompileemail').val());
 	fd.append("id", id);
-	xhr.addEventListener("load", uploadComplete, false);
-	xhr.addEventListener("error", uploadFailed, false);
+	xhr.addEventListener("load", uploadComplee, false);
+	xhr.addEventListener("error", uploadFaile, false);
 	xhr.open("POST", server_context+"/updateGroup");
 	xhr.send(fd);
 }
 //上传成功响应
-function uploadComplete(data) {
-	$('#myModalfile').modal('hide')
-	$("#leftleft1").tree('reload');
-	$.messager.alert('系统提示','保存成功','info')
-	var Antaurin = document.querySelectorAll('.Antaurinformation')
-	$.post(server_context+'/getGroupInfo',{id:id},function(data){
-		console.log(data);
-		var data = data.rows[0];
-		$('.xxbjtwobottom-left-image').attr('src',data.logoUrl)
-		Antaurin[0].innerHTML=data.groupName;
-		Antaurin[1].innerHTML=data.phone;
-		Antaurin[2].innerHTML=data.address;
-		Antaurin[3].innerHTML=data.principal;
-		Antaurin[4].innerHTML=data.email;
-	})
-	
-	// $.messager.alert("操作提示", "上传成功！");
-	
+function uploadComplee(evt) {
+	var message = evt.target.responseText;
+	var dataObj=eval("("+message+")")
+	if(dataObj.error_code==0){
+        $.messager.alert('系统提示','保存成功','info')
+		$('#myModalfile').modal('hide')
+		$("#leftleft1").tree('reload');
+		var Antaurin = document.querySelectorAll('.Antaurinformation')
+		$.post(server_context+'/getGroupInfo',{id:id},function(data){
+			console.log(data);
+			var data = data.rows[0];
+			$('.xxbjtwobottom-left-image').attr('src',data.logoUrl)
+			Antaurin[0].innerHTML=data.groupName;
+			Antaurin[1].innerHTML=data.phone;
+			Antaurin[2].innerHTML=data.address;
+			Antaurin[3].innerHTML=data.principal;
+			Antaurin[4].innerHTML=data.email;
+		})
+	}
 }
 //上传失败
-function uploadFailed(evt) {
+function uploadFaile(evt) {
 	$.messager.alert("操作提示", "上传失败！","error");
 }
 //当点击id为3的时候编辑信息弹出框
@@ -506,16 +518,18 @@ function iscompilebj(){
 	var url = $(".xxbjtwobottom-left-image").attr('src')
 	$('#file_name').val(url) 
 }
-//当点击id为3的时候编辑信息弹出框取消按钮
-function iscompileoff(){
-	$('.iscompileform').css('display','none')
-}
+
         
 function baocun() {
 	var phone = /^1[34578]\d{9}$/;
 	var email = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
     if($('#treename').val()==''||$('#treefzr').val()==''||$('#treephone').val()==''||$('#treeemail').val()==''||$('#county').val()==''||$('#inaddress').val()==''){
         $.messager.alert('系统提示','必填字段不能为空','warning');
+		return;
+	}
+	var treename = $('#treename').val()
+	if(treename.length>10){
+        $.messager.alert('系统提示','编组名称不能大于10位','warning');
 		return;
 	}
 	if(!phone.test($('#treephone').val())){
@@ -627,12 +641,13 @@ function save() {
         $.messager.alert('系统提示','角色不能为空或先在角色管理页面添加角色','warning');
 		return;
 	}
+	console.log($("#age").val())
 	var data = {
 		'id': id,
 		'userName': $("#_id").val(),
 		'userPwd': $("#psw").val(),
 		'fullName': $("#stuname").val(),
-		'groupId': $("#age").attr('name'),
+		'groupId': $("#age").val(),
 		'roleId': $("#sex").val(),
 		'mobile': $("#addressss").val(),
 		'email': $("#youxiang").val()
@@ -953,8 +968,20 @@ function convert(data) {
 					iconCls:'icon-eight'
 				});
 			}
-		}
-		else{
+		}else if(row.level==6){
+            if(!exists(data, row.parentId)) {
+				nodes.push({
+					id: row.id,
+					text: row.name,
+					parendId: row.parendId,
+					parentId:row.parentId,
+					type:row.type,
+					actualId:row.actualId,
+					checked:row.checked,
+					iconCls:'icon-six'
+				});
+			}
+		}else if(row.level==7){
             if(!exists(data, row.parentId)) {
 				nodes.push({
 					id: row.id,
@@ -1046,7 +1073,18 @@ function convert(data) {
 							checked:row.checked,
 							iconCls:'icon-eight'
 					}
-				}else{
+				}else if(row.level==6){
+                    var child = {
+						id: row.id,
+						text: row.name,
+						parendId: row.parendId,
+						parentId:row.parentId,
+						type:row.type,
+						actualId:row.actualId,
+						checked:row.checked,
+						iconCls:'icon-six'
+					}
+				}else if(row.level==7){
                     var child = {
 						id: row.id,
 						text: row.name,
@@ -1069,7 +1107,7 @@ function convert(data) {
 	}
 	return nodes;
 }
-
+// <input type="text" class="usergroup" id="age">
 //最下侧新增用户
 function openUserAdd() {
 	$("#fmmm").form("reset"); //打开之前先清空数据
@@ -1079,6 +1117,9 @@ function openUserAdd() {
 	$('.roles option').remove()
 	$('#ResetPassword').css('display','none')
     $('#psw').removeAttr('disabled','disabled')
+	$('.usergroupfmm input').remove();
+	$('.usergroupfmm span').remove();
+	$('<input type="text" class="usergroup" id="age">').appendTo('.usergroupfmm')
 	url = server_context+'/saveUser';
 	rowid=0
 	$('.usergroup option').remove()
@@ -1145,10 +1186,10 @@ function dispValue(row) {
 		},
 		onLoadSuccess: function (node, data){
 			$('#age').combo('setValue', row.groupId).combo('setText', row.groupName);  
-		},
-		onSelect: function(node) {
-			return usergroup(node);
 		}
+		// onSelect: function(node) {
+		// 	return usergroup(node);
+		// }
 	})
 	$.ajax({
        type: "post",
@@ -1201,6 +1242,9 @@ function openUserModifyDialog() {
 		return;
 	}
 	$('#dlmyModal').modal('show');
+	$('.usergroupfmm input').remove();
+	$('.usergroupfmm span').remove();
+	$('<input type="text" class="usergroup" id="age">').appendTo('.usergroupfmm')
 	$('.dlmyModaltitle').text('修改用户信息')
 	$('#ResetPassword').css('display','')
 	$('#psw').attr('disabled','disabled')
@@ -1248,17 +1292,98 @@ $('#managementli2').click(function() {
 			method: 'post',
 			animate: 'true',
 			loadFilter: function(data) {
-				var data=data.data;
-				return convert(data);
+				var rows=data.data;
+				return convertjs(rows);
 			},
 			onSelect: function(node) {
-				//			console.log(node)
+				console.log(node)
 				return tree(node);
 			}
 		})
 	})
+function convertjs(rows) {
+	function exists(rows, parentId) {
+		for(var i = 0; i < rows.length; i++) {
+			if(rows[i].id == parentId) return true;
+		}
+		return false;
+	}
+	var nodes = [];
+	for(var i = 0; i < rows.length; i++) {
+		var row = rows[i];
+		if(row.type==1){
+			if(!exists(rows, row.parentId)) {
+				nodes.push({
+					id: row.id,
+					text: row.name,
+					iconCls:'icon-juesetubiao',
+					parendId: row.parendId,
+					parentId:row.parentId,
+					type:row.type,
+					actualId:row.actualId,
+					checked:row.checked
+				});
+			}
+		}else if(row.type==2){
+            if(!exists(rows, row.parentId)) {
+				nodes.push({
+					id: row.id,
+					text: row.name,
+					iconCls:'icon-bianzutubiao',
+					parendId: row.parendId,
+					parentId:row.parentId,
+					type:row.type,
+					actualId:row.actualId,
+					checked:row.checked
+				});
+			}
+		}	
+	}
+	var toDo = [];
+	for(var i = 0; i < nodes.length; i++) {
+		toDo.push(nodes[i]);
+	}
+	while(toDo.length) {
+		var node = toDo.shift();
+		for(var i = 0; i < rows.length; i++) {
+			var row = rows[i];
+			if(row.parentId == node.id) {
+				if(row.type==2){
+				   var child = {
+						id: row.id,
+						text: row.name,
+						iconCls:'icon-juesetubiao',
+						parendId: row.parendId,
+						parentId:row.parentId,
+						type:row.type,
+						actualId:row.actualId,
+						checked:row.checked
+					};
+		    	}else if(row.type==1){
+					var child = {
+						id: row.id,
+						text: row.name,
+						iconCls:'icon-bianzutubiao',
+						parendId: row.parendId,
+						parentId:row.parentId,
+						type:row.type,
+						actualId:row.actualId,
+						checked:row.checked
+					};
+				}
+				
+				if(node.children) {
+					node.children.push(child);
+				} else {
+					node.children = [child];
+				}
+				toDo.push(child);
+			}
+		}
+	}
+	return nodes;
+}	
 function convsss(rows) {
-	console.log(rows)
 	function exists(rows, parentId) {
 		for(var i = 0; i < rows.length; i++) {
 			if(rows[i].id == parentId) return true;
@@ -1375,13 +1500,13 @@ function tree(node) {
     		fit: 'true',
     		fitColumns: 'true',
     		nowrap: 'true',
+			pageSize:50,
     		pagination: "true",
     		queryParams: {
     			id: node.actualId
     		}
     	})
     }else{
-    	
     	$('.roleListtwo-addmove').css('display','none')
         $('.roleListtwobottom').css('display','none')
 	    $('.rolebasedinbottom').css('display','none')
@@ -1420,7 +1545,8 @@ function ruleadd(){
 
 //添加权限的保存
 function roleadd() {
-	if(id1==1){
+	if(roleId==1){
+	   $.messager.alert('系统提示','超级管理员权限不能修改','warning')
        return;
 	}
 	var data = $('.roleListtwobottom').tree('getChecked')
@@ -1574,6 +1700,7 @@ $('#managementli3').click(function() {
 			fit: 'true',
 			fitColumns: 'true',
 			rownumbers: 'true',
+			pageSize:50,
 			pagination: "true",
 			queryParams: {
 				ipAddress:$('#addressip').val(),
@@ -1645,6 +1772,10 @@ function saveip() {
 				$.messager.alert("系统提示", "IP新增成功！",'info');
 				$('#myModalip').modal('hide');
 				$("#dgip").datagrid("reload");
+			}else if(data.error_code == 10008){
+                $.messager.alert("系统提示", "IP重复",'error');
+			}else{
+				$.messager.alert("系统提示", "IP添加失败",'error');
 			}
 		}
 	});
@@ -1658,15 +1789,15 @@ function deleteUserip() {
 		return;
 	}
 	var id = row.id;
-	$.messager.confirm("系统提示", "您确认要删除这条IP吗？",'question',function(r) {
+	$.messager.confirm("系统提示", "您确认要删除这条IP吗？",function(r) {
 		if(r) {
 			$.post(server_context+"/removeAccess", {
 				id: id
 			}, function(data) { //result直接返回Object，所以无需转换为json
 				if(data.error_code == 0) {
-					$.messager.alert("系统提示", "IP已成功删除",'info');
-					$("#dlip").datagrid("reload");
-				} else {
+					$.messager.alert("系统提示", "IP删除成功",'info');
+					$("#dgip").datagrid("reload");
+				}else {
 					$.messager.alert("系统提示", "IP删除失败",'error');
 				}
 			}, "json");
@@ -1708,6 +1839,7 @@ $('#managementli4').click(function(){
 		fit: 'true',
 		fitColumns: 'true',
 		rownumbers: 'true',
+		pageSize:50,
 		pagination: "true",
 		columns:[[
 		    {field:"userName",title:'用户名',align:"center",width: '20%'},
@@ -1757,6 +1889,7 @@ $('#operates').click(function(){
 		fit: 'true',
 		fitColumns: 'true',
 		rownumbers: 'true',
+		pageSize:50,
 		pagination: "true",
 		columns:[[
 		    {field:"userName",title:'用户名',align:"center",width: '20%'},

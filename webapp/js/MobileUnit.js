@@ -12,10 +12,11 @@ $('#managementli9').click(function () {
     Dateupo = $('#未指定设备组').val();
     $('main>div').css('display', 'none');
     $('.MobileUnit').css('display', '')
+    $('.MobileSeek input').val('')
     //车载设备
     MobDatagrid();
     //每隔一段时间刷新下侧表
-	MobileSelect();
+	MobileSele();
     //权限判断
 	var data={
 		id:$('#managementli9').attr('name')
@@ -71,6 +72,13 @@ $('#managementli9').click(function () {
     })
 })
 //车载设备刷新
+function MobileSele() {
+    Dateupo=0
+    clearInterval(seti);	
+	Dateupo=$('#MobileSelect').val()
+    var str = Dateupo/1000
+	seti = setInterval('MobDatagrid()', Dateupo);
+}
 function MobileSelect() {
     Dateupo=0
     clearInterval(seti);	
@@ -189,6 +197,14 @@ function Mobileyhone() {
     $('.MobileyhtwoModaltitle').text('添加设备')
 	$('#deviceIds').removeAttr('disabled','disabled')
     $('.Mobileyhoneform>input').val('')
+    // $('#makers').combotree({
+    //     url:server_context+'/listVehicleModelTree',
+	// 	method:'post',
+	// 	required:true,
+	// 	loadFilter: function(rows) {
+	// 		return rows.data;
+	// 	}
+    // })
 }
 //添加设备提交按钮
 $('.Mobileyhone').click(function () {
@@ -204,10 +220,10 @@ $('.Mobileyhone').click(function () {
         deviceId: $('#deviceIds').val(),
         hardVer: $('#hardwareVers').val(),
         vin: $('#vins').val(),
-        model: $('#models').val(),
+        modelAlias: $('#models').val(),
         softVer: $('#softVers').val(),
         serialNum: $('#serialNums').val(),
-        modelAlias: $('#makers').val(),
+        // modelAlias: $('#makers').val(),
         msisdn: $('#call_nums').val(),
         ecuSerialNum: $('#ecuSerialNums').val()
     }
@@ -222,6 +238,8 @@ $('.Mobileyhone').click(function () {
                     $.messager.alert('系统提示', '设备添加成功','info');
                     $('.MobileData').datagrid('reload');
                     $('#MobileyhoneModal').modal('hide');
+                }else if(data.error_code == 10018){
+                     $.messager.alert('系统提示', '车架号重复','info');
                 }else if(data.error_code == 10021){
                      $.messager.alert('系统提示', '设备编号重复','info');
                 }else if(data.error_code == 10022){
@@ -240,14 +258,20 @@ $('.Mobileyhone').click(function () {
             success: function (data) {
                 if (data.error_code == 0) {
                     $.messager.alert('系统提示', '设备修改成功','info');
+                    $('.MobileData').datagrid('reload');
                     $('#MobileyhoneModal').modal('hide')
-                } else {
-                    $.messager.alert('系统提示', '设备修改失败','error');
+                }else if(data.error_code == 10018){
+                     $.messager.alert('系统提示', '车架号重复','info');
+                }else if(data.error_code == 10021){
+                     $.messager.alert('系统提示', '设备编号重复','info');
+                }else if(data.error_code == 10022){
+                     $.messager.alert('系统提示', '电控单元号重复','info');
+                }else {
+                    $.messager.alert('系统提示','设备修改失败','error');
                 }
             }
         });
     }
-
 })
 //编辑设备
 function compilefacility() {
@@ -271,12 +295,23 @@ function compilefacili(row) {
     $('#deviceIds').val(row.deviceId),
         $('#hardwareVers').val(row.hardVer),
         $('#vins').val(row.vin),
-        $('#models').val(row.model),
+        $('#models').val(row.modelAlias),
         $('#softVers').val(row.softVer),
         $('#serialNums').val(row.serialNum),
-        $('#makers').val(row.modelAlias),
+        // $('#makers').val(row.modelAlias),
         $('#call_nums').val(row.msisdn),
         $('#ecuSerialNums').val(row.ecuSerialNum)
+        // $('#makers').combotree({
+        //     url:server_context+'/listVehicleModelTree',
+        //     method:'post',
+        //     required:true,
+        //     loadFilter: function(rows) {
+        //         return rows.data;
+        //     },
+        //     onLoadSuccess: function (node, data){
+        //         $('#makers').combo('setValue', row.groupId).combo('setText', row.modelAlias);  
+        //     }
+        // })
 }
 //归属分组
 var grounpId;//选择归属分组以及升级分组时tree树的真实id
@@ -304,7 +339,7 @@ function groupOwnershipgroup() {
 }
 //归属分组提交按钮
 $('.Mobileyhtwo').click(function () {
-    if (grounpId == '') {
+    if (grounpId == ''||grounpId=='undefined'||grounpId==null) {
         $.messager.alert('系统提示', '请选择用户组','warning');
         return;
     }
@@ -359,7 +394,7 @@ function UpgradeGroupss() {
 }
 //升级分组提交按钮
 $('.Mobileyhthree').click(function () {
-    if (grounpId == '') {
+    if (grounpId == ''||grounpId=='undefined'||grounpId==null) {
         $.messager.alert('系统提示', '请选择用户组','warning');
         return;
     }
@@ -592,9 +627,9 @@ function particulars(index) {
     console.log(row)
     $('#particularsModal').modal('show')
     $('.lookup1').text(row.deviceId)
-    $('.lookup2').text(row.modelAlias)
+    $('.lookup2').text(row.modelName)
     $('.lookup3').text(row.serialNum)
-    $('.lookup4').text(row.model)
+    $('.lookup4').text(row.modelAlias)
     $('.lookup5').text(row.vin)
     $('.lookup6').text(row.hardVer)
     $('.lookup7').text(row.ecuHardwareNum)

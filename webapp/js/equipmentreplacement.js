@@ -4,6 +4,7 @@
 	   clearInterval(seti);
 	   $('main>div').css('display','none') 
 	   $('.equipmentreplacement').css('display','')
+	   $('.devicemanagementsearchcriteria input').val('')
         //权限判断
         var data={
             id:$('#managementli11').attr('name')
@@ -109,6 +110,10 @@
                     $.messager.alert('系统提示','保存成功','info');
 					$('#addequipmentreplacementrecordModal').modal('hide');
 					$('.equipmentreplacementmastermeter').datagrid('reload');
+				}else if(data.error_code==10013){
+                    $.messager.alert('系统提示','原设备无信息','error');
+				}else if(data.error_code==10014){
+                    $.messager.alert('系统提示','新设备无信息','error');
 				}else{
 					$.messager.alert('系统提示','保存失败','error');
 				}

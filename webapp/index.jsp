@@ -51,11 +51,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<span class="nav-right-right">
 			           	   	   <p>
 			           	   	   	  <img src="img/imagess/HOME.png" alt="" />
-			           	   	   	    主页
+			           	   	   	    <a href="index.jsp" style="color: #333;">主页</a>
 			           	   	   </p>
 			           	   	   <p>
 			           	   	   	<img src="img/imagess/fuwupingtai.png" alt="" />
-			           	   	   	    服务中心
+			           	   	   	    <a href="192.168.11.16:8080" style="color: #333;">服务中心</a>
 			           	   	   </p>
 			           	   	   <p onClick="usernamedj()">
 			           	   	      <img src="img/imagess/USER.png" alt="" />
@@ -135,13 +135,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</div>
 							<img src="img/login/welcomebackground.png" alt="" />
 						</div>
-						<!--1.1系统管理---车场管理-->
+						<!--1.1系统管理---组织管理-->
 						<div class="Yardmanagement">
 							<!--当前指向-->
 							<div class="oriented">
 								<span><b>系统管理</b></span>
 								<span><b>></b></span>
-								<span><b>车场管理</b></span>
+								<span><b>组织管理</b></span>
 							</div>
 							<!--添加删除-->
 							<div class="sbYardmanagement-zsb">
@@ -318,8 +318,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																	</div>
 																	<div class="modal-body">
 																		<form class="fmm-form" enctype="multipart/form-data">
-																			<label for=""><i>*</i>图片:</label>
-																			<input type="file" name="file_name" id="file_name" accept=".jpg,.jpeg,.png" required/>
+																			<label for="">图片:</label>
+																			<input type="file" name="file_name" id="file_name" accept=".jpg,.jpeg,.png"/>
 																			<hr />
 																			<label for=""><i>*</i>名称:</label>
 																			<input type="text" id="iscompilename" name="groupName" required/>
@@ -425,7 +425,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			<input type="text" id="stuname" required/>
 																			<hr />
 																			<label><i>*</i>用户组:</label>
-																			<input type="text" class="usergroup" id="age">
+																			<div class="usergroupfmm" style="display: inline-block;">
+                                                                                
+																			</div>
 																			<!--<input type="text" class="usergroup" id="age" required/>-->
 																			<hr />
 																			<label><i>*</i>联系电话:</label>
@@ -472,7 +474,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<!--树菜单-->
 								<div class="leftleft">
 									<div id="leftleft1">
-
+          
 									</div>
 								</div>
 							</div>
@@ -706,11 +708,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													</td>
 													<td style="padding-left: 10px;">开始时间:</td>
 													<td>
-														<input class="easyui-datebox Logstarttime" data-options="sharedCalendar:'#cc'">
+														<input class="easyui-datetimebox Logstarttime">
 													</td>
 													<td style="padding-left: 10px;">结束时间:</td>
 													<td>
-														<input class="easyui-datebox Logfinishtime" data-options="sharedCalendar:'#cc'">
+														<input class="easyui-datetimebox Logfinishtime">
 													</td>
 													<td style="padding-left: 10px;">登陆地址:</td>
 													<td>
@@ -719,7 +721,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													<td><button class="Loginquire">查询</button></td>
 												</tr>
 											</table>
-											<div id="cc" class="easyui-calendar"></div>
+											<!--<div id="cc" class="easyui-calendar"></div>-->
 										</div>
 										<div class="systemLog-bottom-bottomoned">
 											<table id="Logform">
@@ -828,15 +830,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									   <div class="TheOwner-datagrid">
 									        <div class="TheOwner-datagrid-tops">
 												<div class="iscompile">
-												    <a style="display: none;" href="javascript:TheOwneradd()" class="easyui-linkbutton isrevadd" data-options="plain:true,iconCls:'icon-xinzengs'">新增用户</a>&nbsp;
-													<a style="display: none;" href="javascript:TheOwnerremove()" class="easyui-linkbutton isrevremove" data-options="plain:true,iconCls:'icon-shanchu2'">删除用户</a>&nbsp;
-													<a style="display: none;" href="javascript:TheOwnerbj(this)" class="easyui-linkbutton isrevload" data-options="plain:true,iconCls:'icon-bianjitwo'">修改用户</a>
+												    <a style="display: none;" href="javascript:TheOwneradd()" class="easyui-linkbutton isrevadd" data-options="plain:true,iconCls:'icon-xinzengs'">新增车主</a>&nbsp;
+													<a style="display: none;" href="javascript:TheOwnerremove()" class="easyui-linkbutton isrevremove" data-options="plain:true,iconCls:'icon-shanchu2'">删除车主</a>&nbsp;
+													<a style="display: none;" href="javascript:TheOwnerbj(this)" class="easyui-linkbutton isrevload" data-options="plain:true,iconCls:'icon-bianjitwo'">修改车主</a>
+												    <a style="display: none;" href="javaScript:Theownermigration()" class="easyui-linkbutton Theownermigration" data-options="plain:true,iconCls:'icon-chezhuqianyi'">车主迁移</a>
 												</div>
 											 </div>
 											<div class="TheOwner-datagrid-bottoms">
 													<table id="TheOwner-datagrid-bottom"></table>
 											</div>
-											<!-- 模态框（Modal） -->
+											<!--新增/删除/详情模态框（Modal） -->
 											<div class="modal fade" id="TheOwnerModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 												<div class="modal-dialog" style="width: 680px;">
 													<div class="modal-content">
@@ -940,14 +943,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			</td>
 																		</tr>
 																		<tr id="TheOwnerFormtable-one">
-																			<td>服务截止时间:</td>
-																			<td><input class="easyui-datetimebox" id="serviceEndTime" style="width:140px"></td>
+																			<!--<td>服务截止时间:</td>
+																			<td><input class="easyui-datetimebox" id="serviceEndTime" style="width:140px"></td>-->
 																			<td><i>*</i>紧急联系人姓名:</td>
 																			<td><input type="text" id="contactsName" class="NoName" required/></td>
-																		</tr>
-																		<tr id="TheOwnerFormtable-two">
 																			<td><i>*</i>紧急联系人电话:</td>
 																			<td><input type="text" id="contactsMobile" class="NoPhone" required/></td>
+																		</tr>
+																		<tr id="TheOwnerFormtable-two">
 																			<td><i>*</i>关系:</td>
 																			<td><input type="text" id="relation" class="NoName" required/></td>
 																		</tr>
@@ -1170,6 +1173,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													</div><!-- /.modal-content -->
 												</div>
 											</div><!-- /.modal -->
+											<!--车主迁移模态框-->
+											<div class="modal fade" id="TheownermigrationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+												<div class="modal-dialog">
+													<div class="modal-content">
+														<div class="modal-header">
+															<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+															<h4 class="modal-title" id="myModalLabel">车主迁移</h4>
+														</div>
+														<div class="modal-body">
+															<div id="TheownermigrationModal-tree" style="width: 300px;margin: 0 auto;">
+                                                                
+															</div>
+														</div>
+														<div class="modal-footer">
+															<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+															<button type="button" class="btn btn-primary" onclick="Theownermigrationsave()">提交更改</button>
+														</div>
+													</div><!-- /.modal-content -->
+												</div>
+											</div><!-- /.modal -->
 									   </div> 
 									</div>
 								</div>
@@ -1201,8 +1224,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											</div>
 											<div class="modal-body">
 												<form>
-													<span style="margin-left: 190px;">车型:</span>
+													<span style="margin-left: 190px;" id="motorcycletype-type">车型:</span>
 													<input type="text" class="Motorcycleinput"/>
+													<i>*</i>
+													<div style="margin-left: 163px;margin-top:10px;" id="motorcycletype-alias">
+                                                        <span>车系别名:</span>
+														<input type="text" class="Motorcycleinput-alias"/>
+														<i>*</i>
+													</div>
 												</form>
 											</div>
 											<div class="modal-footer">
@@ -1354,7 +1383,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													<hr />
 													<label for="vins">车架号:</label>
 													<input type="text" id="vins"/>
-													<label for="models">设备类型:</label>
+													<label for="models">车系代码:</label>
 													<input type="text" id="models"/>
 													<hr />
 													<label for="softVers">软件版本号:</label>
@@ -1362,11 +1391,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													<label for="serialNums">设备序列号:</label>
 													<input type="text" id="serialNums"/>
 													<hr />
-													<label for="makers">制造商:</label>
-													<input type="text" id="makers"/>
+													<!--<label for="makers">车型:</label>
+													<input type="text" id="makers"/>-->
 													<label for="call_nums">呼叫号码:</label>
 													<input type="text" id="call_nums"/>
-													<hr />
 													<label for="ecuSerialNums">电控单元序列号:</label>
 													<input type="text" id="ecuSerialNums"/>
 												</div>
@@ -1487,14 +1515,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													      <tr>
 													        <td>设备编号:</td>
 													        <td class="lookup1"></td>
-													        <td>制造商:</td>
-													        <td class="lookup2"></td>
+													        <!--<td>制造商:</td>
+													        <td class="lookup2"></td>-->
+															<td>设备序列号:</td>
+													        <td class="lookup3"></td>
 													      </tr>
 													      <tr>
-													        <td>设备序列号:</td>
-													        <td class="lookup3"></td>
-													        <td>设备类型:</td>
+													        <td>车系代码:</td>
 													        <td class="lookup4"></td>
+															<td>车辆系列:</td>
+													        <td class="lookup2"></td>
 													      </tr>
 													      <tr>
 													        <td>车架号:</td>

@@ -147,10 +147,10 @@
 	 		data:data,
 	 		success:function(data){
 	 			if(data.error_code==0){
-	 				$.messager.alert("系统提示",'权限保存成功','info')
+	 				$.messager.alert("系统提示",'远程权限保存成功','info')
 					Motorcycletree()
 	 			}else{
-					$.messager.alert("系统提示",'权限保存失败','error')
+					$.messager.alert("系统提示",'远程权限保存失败','error')
 				 }
 	 		}
 	 	});
@@ -171,7 +171,27 @@
 			$.messager.alert("系统提示",'请选择车型组进行添加','warning');
 			return false;
 		}
+		if(motorcycletypelevel==4){
+            $.messager.alert("系统提示",'车型最多添加四级','warning');
+			return false;
+		}
 		$('#MotorcycleModal').modal('show');
+		if(motorcycletypelevel==0){
+            $('#motorcycletype-type').text('品牌:')
+			$('#motorcycletype-alias').css('display','none')
+		}
+		if(motorcycletypelevel==1){
+            $('#motorcycletype-type').text('系列:')
+			$('#motorcycletype-alias').css('display','')
+		}
+		if(motorcycletypelevel==2){
+            $('#motorcycletype-type').text('排量:')
+			$('#motorcycletype-alias').css('display','none')
+		}
+		if(motorcycletypelevel==3){
+            $('#motorcycletype-type').text('配置:')
+			$('#motorcycletype-alias').css('display','none')
+		}
 	})
 	//点击删除车型按钮
 	$('.MotorcycleMove').click(function(){
@@ -202,20 +222,32 @@
 	})
 	//添加车型提交按钮
 	$('.Motorcyclebutton').click(function(){
+		var modelAli;
 		if($('.Motorcycleinput').val()==''||$('.Motorcycleinput').val()==null||$('.Motorcycleinput').val()=='undefined'){
-           $.messager.alert('系统提示','车型不能为空','warning')
+           $.messager.alert('系统提示','必填字段不能为空','warning')
 		   return;
+		}
+		if(motorcycletypelevel==1){
+            if($('.Motorcycleinput-alias').val()==''||$('.Motorcycleinput-alias').val()==null||$('.Motorcycleinput-alias').val()=='undefined'){
+                $.messager.alert('系统提示','必填字段不能为空','warning')
+		        return;
+			}
+			modelAli=$('.Motorcycleinput-alias').val()
+		}else{
+			modelAli=''
+		}
+		var data = {
+			parentId:id4,
+			topGroupId:motorcycletypeGroupId,
+			level:motorcycletypelevel,
+			vehicleModelName:$('.Motorcycleinput').val(),
+			modelAlias:modelAli
 		}
 		$.ajax({
 			type:"post",
 			url:server_context+"/saveVehicleModel",
 			async:true,
-			data:{
-				parentId:id4,
-				topGroupId:motorcycletypeGroupId,
-				level:motorcycletypelevel,
-				vehicleModelName:$('.Motorcycleinput').val()
-			},
+			data:data,
 			success:function(data){
 				if(data.error_code==0){
 				    $.messager.alert("系统提示",'添加车型成功','info')

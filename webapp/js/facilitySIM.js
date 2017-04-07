@@ -3,6 +3,7 @@
 		clearInterval(seti);
 		$('main>div').css('display','none')
 		$('.facilitySIM').css('display','')
+		$('.facilitySIMseek input').val('')
 		$('.facilitySIMbottomdata').datagrid({
 			url: server_context+'/listSim',
 			method: 'get',
@@ -10,6 +11,7 @@
 			fit: 'true',
 			fitColumns: 'true',
 			rownumbers: 'true',
+			pageSize:50,
 			pagination: "true",
 			queryParams: {
 				deviceId:$('#facilitySIMseekinquire1').val(),

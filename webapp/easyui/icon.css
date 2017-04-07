@@ -31,13 +31,25 @@
 	background-size: 18px 16px !important;
 	height: 16px !important;
 }
+.icon-bianzutubiao{
+	background: url('icons/bianzutubiao.png') no-repeat center center !important;
+	width: 20px !important;
+}
+.icon-juesetubiao{
+	background: url('icons/juesetubiao.png') no-repeat center center !important;
+	width: 18px !important;
+	background-size: 18px 16px !important;
+	height: 16px !important;
+}
 .icon-tianjiaa{
 	background: url('icons/zengjia.png') no-repeat center center;
 }
 .icon-shanchu{
 	background: url('icons/shanchu.png') no-repeat center center;
 }
-
+.icon-chezhuqianyi{
+	background: url('icons/chezhuqianyi.png') no-repeat center center;
+}
 .icon-blank{
 	background:url('icons/blank.gif') no-repeat center center;
 }
