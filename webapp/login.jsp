@@ -6,12 +6,11 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 		<html>
-
 		<head>
 			<meta charset="UTF-8">
-			<meta name="renderer" content="webkit|ie-comp|ie-stand"> <!--极速模式解析网页-->
+			<!--<meta name="renderer" content="webkit|ie-comp|ie-stand"> 极速模式解析网页-->
 			<!--<meta http-equiv=”X-UA-Compatible” content=”IE=edge,chrome=1″ />-->  <!--chrome内核解析网页-->
-			<!--<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE10" /> -->  <!--IE10内核解析网页-->
+			<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE10" />  <!--IE10内核解析网页-->
 			<link rel="stylesheet" href="css/login.css" />
 			<script src="js/public/jquery.min.js"></script>
 			<script src="js/public/jquery.cookie.js"></script>
@@ -242,8 +241,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			}else if(data.error_code==10002){
 				console.log(123)
 				alert("验证码输入错误")
+				login()
 			}else{
 				alert("账号密码错误")
+				login()
 			}  
 		})
 	})

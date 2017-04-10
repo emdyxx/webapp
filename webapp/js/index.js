@@ -317,6 +317,7 @@ $('#managementli1').click(function() {
 })
 //找出选中的tree树的值
 function tre(node) {
+	console.log(node)
 	$('#itemid').val('')
 	$('#productid').val('')
 	$('#Yardmanagementrole').val('')
@@ -373,8 +374,9 @@ function treeadd() {
 		$.messager.alert("系统提示", "请选择用户组进行添加",'warning');
 		return;
 	}
+	console.log(idlever)
 	if(idlever==7){
-       $.messager.alert("系统提示", "用户组最多添加七级",'warning');
+       $.messager.alert("系统提示", "无法添加组织架构，超过系统限制层级。",'warning');
 	   return; 
 	}
 	$('#myfmmModal').modal('show')
@@ -527,11 +529,6 @@ function baocun() {
         $.messager.alert('系统提示','必填字段不能为空','warning');
 		return;
 	}
-	var treename = $('#treename').val()
-	if(treename.length>10){
-        $.messager.alert('系统提示','编组名称不能大于10位','warning');
-		return;
-	}
 	if(!phone.test($('#treephone').val())){
         $.messager.alert('系统提示','手机号不符合格式','warning');
 		return;
@@ -559,6 +556,8 @@ function baocun() {
 				$.messager.alert("系统提示", "添加成功",'info');
 				$('#myfmmModal').modal('hide');
 				$("#leftleft1").tree('reload');
+			}else if(data.error_code == 10008){
+                $.messager.alert("系统提示", "编组名称重复",'error');
 			}else{
 				$('.fmm').css('display', 'none');
 				$.messager.alert("系统提示", "添加失败",'error');
@@ -619,10 +618,15 @@ $('#ResetPassword').click(function(){
 function save() {
 	var phone = /^1[34578]\d{9}$/;
 	var email = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
-	var id=0;
+	var ids=0;
+	var groupd;
 	if(rowid==1){
 		var row = $("#dgl").datagrid('getSelected');
-		id=row.id
+		ids=row.id;
+        groupd = $("#age").val();
+	}
+	if(rowid==0){
+        groupd = id;
 	}
 	if($("#_id").val()==''||$("#psw").val()==''||$("#stuname").val()==''||$("#age").val()==''||$("#addressss").val()==''||$("#youxiang").val()==''){
         $.messager.alert('系统提示','必填字段不能为空','warning')
@@ -641,13 +645,12 @@ function save() {
         $.messager.alert('系统提示','角色不能为空或先在角色管理页面添加角色','warning');
 		return;
 	}
-	console.log($("#age").val())
 	var data = {
-		'id': id,
+		'id': ids,
 		'userName': $("#_id").val(),
 		'userPwd': $("#psw").val(),
 		'fullName': $("#stuname").val(),
-		'groupId': $("#age").val(),
+		'groupId': groupd,
 		'roleId': $("#sex").val(),
 		'mobile': $("#addressss").val(),
 		'email': $("#youxiang").val()
@@ -898,6 +901,7 @@ function convert(data) {
 					parentId:row.parentId,
 					type:row.type,
 					actualId:row.actualId,
+					level:row.level,
 					checked:row.checked
 				});
 			}
@@ -911,6 +915,7 @@ function convert(data) {
 					type:row.type,
 					actualId:row.actualId,
 					checked:row.checked,
+					level:row.level,
 					iconCls:'icon-two'
 				});
 			}
@@ -925,6 +930,7 @@ function convert(data) {
 					type:row.type,
 					actualId:row.actualId,
 					checked:row.checked,
+					level:row.level,
 					iconCls:'icon-three'
 				});
 			}
@@ -939,6 +945,7 @@ function convert(data) {
 					type:row.type,
 					actualId:row.actualId,
 					checked:row.checked,
+					level:row.level,
 					iconCls:'icon-four'
 				});
 			}
@@ -952,6 +959,7 @@ function convert(data) {
 					type:row.type,
 					actualId:row.actualId,
 					checked:row.checked,
+					level:row.level,
 					iconCls:'icon-five'
 				});
 			}
@@ -965,6 +973,7 @@ function convert(data) {
 					type:row.type,
 					actualId:row.actualId,
 					checked:row.checked,
+					level:row.level,
 					iconCls:'icon-eight'
 				});
 			}
@@ -978,6 +987,7 @@ function convert(data) {
 					type:row.type,
 					actualId:row.actualId,
 					checked:row.checked,
+					level:row.level,
 					iconCls:'icon-six'
 				});
 			}
@@ -991,6 +1001,7 @@ function convert(data) {
 					type:row.type,
 					actualId:row.actualId,
 					checked:row.checked,
+					level:row.level,
 					iconCls:'icon-seven'
 				});
 			}
@@ -1015,6 +1026,7 @@ function convert(data) {
 						type:row.type,
 						actualId:row.actualId,
 						checked:row.checked,
+						level:row.level,
 						iconCls:'icon-one'
 					};
 				}else if(row.level==2){
@@ -1026,6 +1038,7 @@ function convert(data) {
 						type:row.type,
 						actualId:row.actualId,
 						checked:row.checked,
+						level:row.level,
 						iconCls:'icon-two'
 					}
 				}
@@ -1038,6 +1051,7 @@ function convert(data) {
 						type:row.type,
 						actualId:row.actualId,
 						checked:row.checked,
+						level:row.level,
 						iconCls:'icon-three'
 					}
 				}else if(row.level==4){
@@ -1049,6 +1063,7 @@ function convert(data) {
 						type:row.type,
 						actualId:row.actualId,
 						checked:row.checked,
+						level:row.level,
 						iconCls:'icon-four'
 					}
 				}else if(row.level==5){
@@ -1060,6 +1075,7 @@ function convert(data) {
 						type:row.type,
 						actualId:row.actualId,
 						checked:row.checked,
+						level:row.level,
 						iconCls:'icon-five'
 					}
 				}else if(row.level==0||row.type==2){
@@ -1071,6 +1087,7 @@ function convert(data) {
 							type:row.type,
 							actualId:row.actualId,
 							checked:row.checked,
+							level:row.level,
 							iconCls:'icon-eight'
 					}
 				}else if(row.level==6){
@@ -1082,6 +1099,7 @@ function convert(data) {
 						type:row.type,
 						actualId:row.actualId,
 						checked:row.checked,
+						level:row.level,
 						iconCls:'icon-six'
 					}
 				}else if(row.level==7){
@@ -1093,6 +1111,7 @@ function convert(data) {
 						type:row.type,
 						actualId:row.actualId,
 						checked:row.checked,
+						level:row.level,
 						iconCls:'icon-seven'
 					}
 				}
@@ -1186,10 +1205,10 @@ function dispValue(row) {
 		},
 		onLoadSuccess: function (node, data){
 			$('#age').combo('setValue', row.groupId).combo('setText', row.groupName);  
+		},
+		onSelect: function(node) {
+			return roles(node);
 		}
-		// onSelect: function(node) {
-		// 	return usergroup(node);
-		// }
 	})
 	$.ajax({
        type: "post",
@@ -1228,6 +1247,23 @@ function dispValue(row) {
 				 $('<option value='+data[i].id+'>'+data[i].name+'</option>').appendTo($('.roles'))
 			  }
 			  
+		  }
+	   }
+	})
+}
+function roles(node){
+	$.ajax({
+       type: "post",
+	   url: server_context+"/listGroupRole",
+	   async: true,
+	   data:{
+		  id:node.id
+	   },
+	   success:function(data){
+	      data=data.data
+		  $('.roles option').remove()
+		  for(var i=0;i<data.length;i++){
+				 $('<option value='+data[i].id+'>'+data[i].name+'</option>').appendTo($('.roles'))
 		  }
 	   }
 	})

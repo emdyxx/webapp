@@ -80,7 +80,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</span>
 						</div>
 					</nav>
-					<!-- 模态框（Modal） -->
+					<!-- 模态框（Modal-->
 					<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 						<div class="modal-dialog">
 							<div class="modal-content">
@@ -97,19 +97,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										<div class="form-group">
 											<label for="inputPassword" class="col-sm-2 control-label">原密码</label>
 											<div class="col-sm-10">
-												<input type="password" class="form-control rawpsw" id="inputPassword" placeholder="请输入原密码">
+												<input type="password" class="form-control rawpsw" maxlength="20" id="inputPassword" placeholder="请输入原密码">
 											</div>
 										</div>
 										<div class="form-group">
 											<label for="inputPassword" class="col-sm-2 control-label">新密码</label>
 											<div class="col-sm-10">
-												<input type="password" class="form-control newpsw" id="inputPassword" placeholder="请输入新密码">
+												<input type="password" class="form-control newpsw" maxlength="20" id="inputPassword" placeholder="请输入新密码">
 											</div>
 										</div>
 										<div class="form-group">
 											<label for="inputPassword" class="col-sm-2 control-label">确认密码</label>
 											<div class="col-sm-10">
-												<input type="password" class="form-control newpsword" id="inputPassword" placeholder="确认新密码">
+												<input type="password" class="form-control newpsword" maxlength="20" id="inputPassword" placeholder="确认新密码">
 											</div>
 										</div>
 									</form>
@@ -161,10 +161,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<div class="modal-body">
 												<form class="fmm-form">
 													<label for=""><i>*</i>编组名称:</label>
-													<input type="text" id="treename" required/>
+													<input type="text" id="treename" maxlength="10" required/>
 													<hr />
 													<label for=""><i>*</i>负责人:</label>
-													<input type="text" id="treefzr" required/>
+													<input type="text" id="treefzr" maxlength="10" required/>
 													<hr />
 													<label for=""><i>*</i>电话:</label>
 													<input type="text" id="treephone" required/>
@@ -186,7 +186,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 													</select>
 													<label for=""><i>*</i>详细地址:</label>
-													<input type="text" id="inaddress" required style="width: 132px" />
+													<input type="text" id="inaddress" maxlength="100" required style="width: 132px" />
 												</form>
 											</div>
 											<div class="modal-footer">
@@ -322,16 +322,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			<input type="file" name="file_name" id="file_name" accept=".jpg,.jpeg,.png"/>
 																			<hr />
 																			<label for=""><i>*</i>名称:</label>
-																			<input type="text" id="iscompilename" name="groupName" required/>
+																			<input type="text" id="iscompilename" maxlength="15" name="groupName" required/>
 																			<hr />
 																			<label for=""><i>*</i>联系方式:</label>
 																			<input type="text" id="iscompilefzr" name="phone" required/>
 																			<hr />
 																			<label for=""><i>*</i>总部地址:</label>
-																			<input type="text" id="iscompilephone" name="address" required/>
+																			<input type="text" id="iscompilephone" maxlength="100" name="address" required/>
 																			<hr />
 																			<label for=""><i>*</i>负责人:</label>
-																			<input type="text" id="iscompileprincipal" name="principal" required/>
+																			<input type="text" id="iscompileprincipal" maxlength="10" name="principal" required/>
 																		    <hr />
 																		    <label for=""><i>*</i>邮箱地址:</label>
 																			<input type="email" id="iscompileemail" name='email' required/>
@@ -382,11 +382,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													<div style="margin-top: 3px;">
 														<span><img src="img/imagess/sousuotubiaotwo.png" alt="" /></span>
 														<span>用户名:</span>
-														<input id="itemid" style="line-height:22px;border:1px solid #6DC8F5;height: 22px;background: #EAEAEA;">
+														<input id="itemid" maxlength="20" style="line-height:22px;border:1px solid #6DC8F5;height: 22px;background: #EAEAEA;">
 														<span>姓名:</span>
-														<input id="productid" style="line-height:22px;border:1px solid #6DC8F5;height: 22px;background: #EAEAEA;">
+														<input id="productid" maxlength="10" style="line-height:22px;border:1px solid #6DC8F5;height: 22px;background: #EAEAEA;">
 														<span>角色:</span>
-														<input id="Yardmanagementrole" style="line-height:22px;border:1px solid #6DC8F5;height: 22px;background: #EAEAEA;" />
+														<input id="Yardmanagementrole" maxlength="15" style="line-height:22px;border:1px solid #6DC8F5;height: 22px;background: #EAEAEA;" />
 														<a class="doSearch" onClick="doSearch()">查询</a>
 													</div>
 												</div>
@@ -415,14 +415,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																	<div class="modal-body">
 																		<form action="" method="post" id="fmmm" style="overflow: hidden;">
 																			<label><i>*</i>用户名:</label>
-																			<input type="text" id="_id" required disabled/>
+																			<input type="text" id="_id" maxlength="10" required disabled/>
 																			<hr />
 																			<label><i>*</i>密码:</label>
-																			<input type="text" id="psw" required/>
+																			<input type="text" id="psw" maxlength="20" required/>
 																			<span id="ResetPassword">重置密码</span>
 																			<hr />
 																			<label><i>*</i>姓名:</label>
-																			<input type="text" id="stuname" required/>
+																			<input type="text" id="stuname" maxlength="10" required/>
 																			<hr />
 																			<label><i>*</i>用户组:</label>
 																			<div class="usergroupfmm" style="display: inline-block;">
@@ -505,7 +505,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<div class="modal-body">
 												<form class="fmm-form">
 													<label for="treenameo"><i>*</i>角色名称:</label>
-													<input type="text" id="treenameo" required/>
+													<input type="text" id="treenameo" maxlength="20" required/>
 												</form>
 											</div>
 											<div class="modal-footer">
@@ -620,10 +620,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<span><img src="img/imagess/sousuotubiaotwo.png" alt="" /></span>
 									<span>
 						        			<label for="">IP地址:</label>
-						        			<input type="text" id="addressip" style="border: 1px solid #6DC8F5;"/>
+						        			<input type="text" id="addressip" maxlength="20" style="border: 1px solid #6DC8F5;"/>
 						        			<label for="">归属车场:</label>
 						        			<select id="parkingip" style="width:146px;height: 22px;background: #EAEAEA;border: 1px solid #6DC8F5;">
-						        				<option value="0">-请选择-</option>
+						        				<option value="0">-全部车场-</option>
 						        		    </select>
 						        		    <button onClick="inquire()">查询</button>
 					        		</span>
@@ -646,14 +646,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													<div class="modal-content">
 														<div class="modal-header">
 															<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-															<h4 class="modal-title" id="myModalLabel">新增ip</h4>
+															<h4 class="modal-title" id="myModalLabel">新增IP</h4>
 														</div>
 														<div class="modal-body">
 															<form class="form-horizontal" role="form">
 																<div class="form-group">
-																	<label for="firstname" class="col-sm-2 control-label"><i>*</i>ip:</label>
+																	<label for="firstname" class="col-sm-2 control-label"><i>*</i>IP地址:</label>
 																	<div class="col-sm-10">
-																		<input type="text" class="form-control IP" id="firstname" placeholder="请输入ip地址">
+																		<input type="text" class="form-control IP" id="firstname" maxlength="20" placeholder="请输入ip地址">
 																	</div>
 																</div>
 																<div class="form-group">
@@ -804,11 +804,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							        			<img src="img/imagess/sousuotubiaotwo.png" alt="" />
 							        		</span>
 							        		<label>车架号:</label>
-							        		<input type="text" class="FrameNumber"/>
+							        		<input type="text" maxlength="17" class="FrameNumber"/>
 							        		<label>设备编号:</label>
-							        		<input type="text" class="EquipmentNumber"/>
+							        		<input type="text" maxlength="10" class="EquipmentNumber"/>
 							        		<label>编组名:</label>
-							        		<input type="text" class="GroupName"/>
+							        		<input type="text" maxlength="15" class="GroupName"/>
 							        	    <label>注册状态:</label>
 							        	    <select class="TheOwner-inquire-select">
 							        	    	<option value="">-请选择-</option>
@@ -1208,8 +1208,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</div>
 							<!--添加删除-->
 							<div class="MotorcycleAddMove">
-								<div class="MotorcycleAdd" style="display:none;" onclick="MotorcycleMove()"></div>
-								<div class="MotorcycleMove" style="display:none;" onclick="MotorcycleMove()"></div>
+								<div class="MotorcycleAdd" style="display:none;"></div>
+								<div class="MotorcycleMove" style="display:none;"></div>
 							    <!--添加模态框-->
 							    <div class="modal fade" id="MotorcycleModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 									<div class="modal-dialog">
@@ -1317,7 +1317,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					        			</div>
 					        		    
 					        		</div>
-					        	</div>
+					        	    <div class="Motorcyclebottom-right2">
+                                        <img src="img/imagess/ModelsIntroduction.png" style="width:100%;height:100%;" alt="">
+								    </div>
+								</div>
+								
 					        </div>
 					    </div>
 						<!--4.1设备管理---车载设备-->
@@ -1491,6 +1495,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											</div><!-- /.modal-content -->
 										</div>
 									</div><!-- /.modal -->
+								    <!--模板下载-->
+									<div class="Mobileyh-div Mobileyh-five" onclick="DownloadTheTemplate()">
+                                        <img src="img/imagess/mubanxiazai.png" alt="">
+										<span>模板下载</span>
+									</div>
+									<!--批量导入-->
+									<div class="Mobileyh-div Mobileyh-six" onclick="bulkimport()">
+                                        <img src="img/imagess/piliangdaoru.png" alt="">
+										<span>批量导入</span>
+									</div>
 								</div>
 								
 					        	<div class="MobileDa">

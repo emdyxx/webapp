@@ -6,7 +6,8 @@
 		clearInterval(seti);
 	 	id4='';
 	 	$('main>div').css('display', 'none');
-		$('.Motorcyclebottom-right').css('display','none')
+		$('.Motorcyclebottom-right-div').css('display','none')
+		$('.Motorcyclebottom-right2').css('display','')
     	$('.MotorcycleType').css('display','')
     	//权限判断
 		var data={
@@ -45,7 +46,8 @@
 	 //找出选中tree树的值
 	 function Motorcycletree(node){
         if(motorcycletypelevel==4){
-            $('.Motorcyclebottom-right').css('display','')
+            $('.Motorcyclebottom-right-div').css('display','')
+			$('.Motorcyclebottom-right2').css('display','none')
 			$.ajax({
 				url:server_context+'/getRemoteFeature',
 				type:'post',
@@ -113,7 +115,8 @@
 				}
 			})
         }else{
-			$('.Motorcyclebottom-right').css('display','none')
+			$('.Motorcyclebottom-right-div').css('display','none')
+            $('.Motorcyclebottom-right2').css('display','')
 		}
 	 }
 	 //远程控制权限保存按钮
@@ -166,7 +169,6 @@
 	})
 	//点击添加车型按钮
 	$('.MotorcycleAdd').click(function(){
-		console.log(123)
 		if(!id4){
 			$.messager.alert("系统提示",'请选择车型组进行添加','warning');
 			return false;
@@ -253,6 +255,9 @@
 				    $.messager.alert("系统提示",'添加车型成功','info')
 				    $('#MotorcycleModal').modal('hide');
                     $('.Motorcyclebottom-tree').tree('reload')
+				}
+				if(data.error_code==10008){
+                    $.messager.alert("系统提示",'名称不能重复','info')
 				}
 			}
 		});

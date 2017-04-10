@@ -126,17 +126,19 @@
 			fitColumns: 'true',
 			rownumbers: 'true',
 			pageSize:50,
+			pageList: [50],
 			pagination: "true",
+			remoteSort:false,
 			queryParams: {
 				iccid:row.iccid,
                 startTime:row.billingCycle
 			},
 			columns:[[
-			    { field: 'iccid', title: 'ICCID',align: 'center',width:'25%',formatter: function (value) {return dataProcessing(value);}},
-				{ field: 'sessionStartTime', title: '时间',align: 'center',width:'15%',formatter: function (value) {return dataProcessing(value);}},
-				{ field: 'dataVolume', title: '数据(KB)',align: 'center',width:'10%',formatter: function (value) {return dataProcessing(value);}},
-       			{ field: 'billable', title: '是否计费',align: 'center',width:'18%',formatter: function (value) {return dataProcessing(value);}},
-       			{ field: 'serviceType', title: '服务类型',align: 'center',formatter: function (value) {return dataProcessing(value);}}
+			    { field: 'iccid', title: 'ICCID',align: 'center',width:'25%'},
+				{ field: 'sessionStartTime', title: '时间',align: 'center',width:'15%'},
+				{ field: 'dataVolume', title: '数据(KB)',align: 'center',width:'10%'},
+       			{ field: 'billable', title: '是否计费',align: 'center',width:'18%'},
+       			{ field: 'serviceType', title: '服务类型',align: 'center'}
 			]],
 	    })
     }

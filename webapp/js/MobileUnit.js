@@ -66,8 +66,8 @@ $('#managementli9').click(function () {
         required: true,
         editable:true,
         loadFilter: function (data) {
-			var data =data.data
-            return convert(data);
+			var rows =data.data
+            return convsss(rows);
         }
     })
 })
@@ -383,8 +383,8 @@ function UpgradeGroupss() {
         method: 'post',
         animate: 'true',
         loadFilter: function (data) {
-			var data = data.data
-            return convert(data);
+			var rows = data.data
+            return convsss(rows);
         },
         onSelect: function (node) {
             grounpId = node.id
@@ -489,7 +489,14 @@ function Mobileyhthreemove() {
         }
     })
 }
+//模板下载
+function DownloadTheTemplate(){
+   window.location.href = value; 
+}
+//批量导入
+function bulkimport(){
 
+}
 //设备唤醒
 var n = 1;
 // 关闭窗口，取消操作
@@ -1162,7 +1169,7 @@ $('.compilefi').click(function () {
     $.ajax({
         type: "post",
         url: server_context+"/saveInterconnectDevice",
-        data: "deviceId=" + device + "&friendlyDevice=" + friendlyDevice + "&deviceSn=" + deviceSn,
+        data: "deviceId=" + device + "&interconnectDevice=" + friendlyDevice + "&deviceSn=" + deviceSn,
         datatype: "json",
         success: function (data) {
             if (data == 1) {
@@ -1304,7 +1311,7 @@ $('.compilesev').click(function () {
     }
     $.ajax({
         type: "post",
-        url: server_context+"/sendCrashSettings",
+        url: server_context+"/sendECallTriggerSettings",
         async: true,
         data: $('.configurationinformationseven').serialize() +"&deviceId="+device,
         success: function (data) {
@@ -1320,7 +1327,7 @@ $('.compilesev').click(function () {
 $('.compileseve').click(function () {
     $.ajax({
         type: "post",
-        url: server_context+"/readCrashSettings",
+        url: server_context+"/readECallTriggerSettings",
         data: {deviceId: device },
         success: function (data){
             if(data.error_code==0){
@@ -1365,7 +1372,7 @@ $('.compileeigh').click(function () {
         type: "post",
         url: server_context+"/sendIncomingCallSettings",
         async: true,
-        data: $('.configurationinformationeight').serialize()+"&"+"deviceId='+device+'",
+        data: $('.configurationinformationeight').serialize()+"&"+"deviceId="+device,
         success: function (data) {
             if (data.error_code == 0) {
                 $.messager.alert('系统提示', '发送成功','info');

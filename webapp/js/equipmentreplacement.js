@@ -114,6 +114,8 @@
                     $.messager.alert('系统提示','原设备无信息','error');
 				}else if(data.error_code==10014){
                     $.messager.alert('系统提示','新设备无信息','error');
+				}else if(data.error_code==10015){
+                    $.messager.alert('系统提示','原设备未绑定车主','error');
 				}else{
 					$.messager.alert('系统提示','保存失败','error');
 				}

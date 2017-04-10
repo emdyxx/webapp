@@ -182,54 +182,59 @@ $('.upgrademanage').css('display','none')
 		$('#tss').text(row.ts)
 		$('#summaryy').text(row.summary)
 		if(row.targetType==0){
-			$('#tagetTypee').text('通用升级')
-			$('.tagetTypeeone').css('display','none')
-			$('.tagetTypeetwo').css('display','none')
+            $('#tagetTypee').text('通用升级')
+		    $('.tagetTypeeone').css('display','none')
+		    $('.tagetTypeetwo').css('display','none')
 		}else if(row.targetType==1){
-			$('#tagetTypee').text('分组升级')
+            $('#tagetTypee').text('分组升级')
 			$('.tagetTypeetwo').css('display','none')
 			$('.tagetTypeeone').css('display','')
-			$('.tagetTypeeonedata').datagrid({
-				url: server_context+'/listSpecifiedDeviceGroup',
-				method: 'get',
-				singleSelect: 'true',
-				fit: 'true',
-				fitColumns: 'true',
-				rownumbers: 'true',
-				pagination: "true",
-				queryParams: {
-					packageId:row.id
-				},
-				columns:[[
-					{ field:"cb",checkbox:"true",align:"center"},
-					{ field:"deviceGroupName",title:'设备组',align:"center",width:'100%'}
-				]]
-			})
 		}else if(row.targetType==2){
 			$('#tagetTypee').text('指定设备升级')
 			$('.tagetTypeeone').css('display','none')
 			$('.tagetTypeetwo').css('display','')
-			$('.tagetTypeetwodata').datagrid({
-				url: server_context+'/listSpecifiedDevice',
-				method: 'get',
-				singleSelect: 'true',
-				fit: 'true',
-				fitColumns: 'true',
-				rownumbers: 'true',
-				pagination: "true",
-				queryParams: {
-					packageId:row.id
-				},
-				columns:[[
-					{ field:"cb",checkbox:"true",align:"center",width:"20%"},
-				    { field:"deviceId",title:'设备编号',align:"center",width:"20%"},
-				    { field:"vin",title:'车架号',align:"center",width:"20%"},
-				    { field:"iccid",title:'iccid',align:"center",width:"20%"},
-					{ field:"hardVer",title:'硬件版本号',align:"center",width:"20%"},
-					{ field:"model",title:'适用型号',align:"center"}
-				]]
-			})
 		}
+		setTimeout(function(){
+           if(row.targetType==1){
+				$('.tagetTypeeonedata').datagrid({
+					url: server_context+'/listSpecifiedDeviceGroup',
+					method: 'get',
+					singleSelect: 'true',
+					fit: 'true',
+					fitColumns: 'true',
+					rownumbers: 'true',
+					pagination: "true",
+					queryParams: {
+						packageId:row.id
+					},
+					columns:[[
+						{ field:"cb",checkbox:"true",align:"center"},
+						{ field:"deviceGroupName",title:'设备组',align:"center",width:'100%'}
+					]]
+				})
+			}else if(row.targetType==2){
+				$('.tagetTypeetwodata').datagrid({
+					url: server_context+'/listSpecifiedDevice',
+					method: 'get',
+					singleSelect: 'true',
+					fit: 'true',
+					fitColumns: 'true',
+					rownumbers: 'true',
+					pagination: "true",
+					queryParams: {
+						packageId:row.id
+					},
+					columns:[[
+						{ field:"cb",checkbox:"true",align:"center",width:"20%"},
+						{ field:"deviceId",title:'设备编号',align:"center",width:"20%"},
+						{ field:"vin",title:'车架号',align:"center",width:"20%"},
+						{ field:"iccid",title:'iccid',align:"center",width:"20%"},
+						{ field:"hardVer",title:'硬件版本号',align:"center",width:"20%"},
+						{ field:"model",title:'适用型号',align:"center"}
+					]]
+				})
+			}
+		},500)
 	}
 	//查询
 	function upgradetopcx2(){

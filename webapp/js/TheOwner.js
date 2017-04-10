@@ -386,7 +386,7 @@ function jbxh(judeg,url){
     	address:$('#address').val(),
     	insurerId:$('#insurerId').val(),
     	plate:$('#plate').val(),
-    	vin:$('#vin').val(),
+    	vin:$('#vin').val().trim(),
     	engineCode:$('#engineCode').val(),
     	vehicleModelId:$('#vehicleConfig').val(),
     	// serviceEndTime:$('#serviceEndTime').val(),
@@ -400,18 +400,21 @@ function jbxh(judeg,url){
 		async:true,
 		data:data,
 		success:function(data){
-			console.log(data.data[0].ownerId)
-			if(data.data[0].ownerId!=''){
-               ownerIds=data.data[0].ownerId
-			}
-            console.log(ownerIds)
+			console.log(data)
+			// if(!data.data[0].ownerId){
+            //    ownerIds=data.data[0].ownerId
+			// }
 			if(data.error_code==0){
+				$.messager.alert('系统提示','保存成功','info');
 				$("#TheOwner-datagrid-bottom").datagrid("reload");
-					if(judeg.id=='Nextstep'){
+				if(judeg.id=='Nextstep'){
 					$('.TheOwnerForm').css('display','none');
 					$('.TheOwnerFormfour').css('display','');
 					$('.Nextstepbutton>button').css('display','none');
 					$('#Nextstep1').css('display','');
+				}
+				if(data.data[0].ownerId!=''||data.data[0].ownerId!='undefined'||data.data[0].ownerId!=null){
+				    ownerIds=data.data[0].ownerId
 				}
 			}else if(data.error_code==10014){
 				$.messager.alert('系统提示','搜索不到车架号所对应的设备','error');
@@ -585,6 +588,20 @@ function ReviewOperation(){
 	$('#Nextstep7').css('display','');
 	$('#Nextstep8').css('display','');
 	$('#Nextstep9').css('display','');
+	$.ajax({
+		url:server_context+'/listOwnerContacts',
+		async:'true',
+		type:'post',
+		data:{
+           ownerId:row.id
+		},
+		success:function(data){
+			var data = data.data;
+			$('#contactsName').val(data[0].contactsName),
+			$('#contactsMobile').val(data[0].contactsMobile),
+			$('#relation').val(data[0].relation)
+		}
+	})
 	TheOwnerValue(row);
 }
 //审核按钮
@@ -652,6 +669,7 @@ function TheOwnerValue(row){
 	$('#contactsName').val(row.contactsName),
 	$('#contactsMobile').val(row.contactsMobile),
 	$('#relation').val(row.relation)
+	$('#idNumber').val(row.idNumber)
 	//性别添加
 	$('#sexx option').remove();
 	if(row.sex=='男'){
@@ -960,7 +978,6 @@ function TheOwnerphone(){
 		success:function(data){
 			if(data.error_code==0){
 				$.messager.alert('系统提示','添加成功','warning')
-				$("#TheOwner-datagrid-bottom").datagrid("reload");
 			}else{
 				$.messager.alert('系统提示','添加失败','error')
 			}
