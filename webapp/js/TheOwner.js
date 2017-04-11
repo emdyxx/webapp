@@ -15,6 +15,9 @@ $('#managementli5').click(function() {
 		id:$('#managementli5').attr('name')
 	}	
 	$.post(server_context+'/setMenuId',data,function(data){
+		if(data.error_code!=0){
+			Statuscodeprompt(data.error_code)
+		}
 		for(var i=0;i<data.data.length;i++){
 			if(data.data[i]==20){
 				$('.isrevadd').css('display','') //新增用户权限
@@ -47,7 +50,6 @@ $('#managementli5').click(function() {
 		}
 	})
 })
-
 //根据选中tree树的id加载右侧表
 function TheOwner(node){
 	$('.TheOwner-bottom-right').css('display', '');
@@ -141,10 +143,10 @@ function TheOwner(node){
 		]]
 	})
 }
-
 //查询按钮
 $('.TheOwner-inquire-cs').click(function(){
-	$('#TheOwner-datagrid-cs').datagrid('load',{
+	$('#TheOwner-datagrid-bottom').datagrid('load',{
+		groupId:id3,
 		vin:$('.FrameNumber').val(), //车架号
 		deviceId:$('.EquipmentNumber').val(),//设备编号
 		groupName:$('.GroupName').val(),//编组名称
@@ -416,16 +418,8 @@ function jbxh(judeg,url){
 				if(data.data[0].ownerId!=''||data.data[0].ownerId!='undefined'||data.data[0].ownerId!=null){
 				    ownerIds=data.data[0].ownerId
 				}
-			}else if(data.error_code==10014){
-				$.messager.alert('系统提示','搜索不到车架号所对应的设备','error');
-			}else if(data.error_code==10017){
-				$.messager.alert('系统提示','手机号码重复','error');
-			}else if(data.error_code==10018){
-				$.messager.alert('系统提示','车架号号重复','error');
-			}else if(data.error_code==10019){
-				$.messager.alert('系统提示','车牌号号重复','error');
 			}else{
-				$.messager.alert('系统提示','保存失败...','error');
+				Statuscodeprompt(data.error_code,"保存失败...",'error')
 			}
 		}
 	});
@@ -504,7 +498,7 @@ $('#Nextstep1').click(function(){
 				$('#TheOwnerModal').modal('hide');
 				$("#TheOwner-datagrid-bottom").datagrid("reload");
 			}else{
-				$.messager.alert('系统提示','保存失败','error')
+				Statuscodeprompt(data.error_code,"保存失败...",'error')
 			}
 		}
     })
@@ -526,7 +520,7 @@ function TheOwnerremove() {
 					$.messager.alert("系统提示", "数据已成功删除！",'info');
 					$("#TheOwner-datagrid-bottom").datagrid("reload");
 				} else {
-					$.messager.alert("系统提示", "数据删除失败！",'error');
+					Statuscodeprompt(data.error_code,"数据删除失败...",'error')
 				}
 			}, "json");
 		}
@@ -626,7 +620,7 @@ $('.Nextstep7').click(function(){
 				$('#TheOwnerModal').modal('hide');
 				$("#TheOwner-datagrid-bottom").datagrid("reload");
 			}else{
-				$.messager.alert('系统提示','状态修改失败','error')
+				Statuscodeprompt(data.error_code,"状态修改失败...",'error')
 			}
 		}
 	});
@@ -863,9 +857,9 @@ $('.addphone').click(function(){
 	$('<td class='+tdtwo+'></td>').appendTo('.'+trcls);
 	$('<td class='+tdthree+'></td>').appendTo('.'+trcls);
 	$('<td style="cursor: pointer;" id='+trcls+' onclick="addphone(this)">删除</td>').appendTo('.'+trcls);
-	$('<input type="text" name="one" id="inputName" class='+inputone+'>').appendTo('.'+tdone);
-	$('<input type="text" name="two" id="inputphone" class='+inputtwo+'>').appendTo('.'+tdtwo);
-	$('<input type="text" name="three" id="inputName" class='+inputthree+'>').appendTo('.'+tdthree);
+	$('<input type="text" maxlength="20" name="one" id="inputName" class='+inputone+'>').appendTo('.'+tdone);
+	$('<input type="text" maxlength="20" name="two" id="inputphone" class='+inputtwo+'>').appendTo('.'+tdtwo);
+	$('<input type="text" maxlength="20" name="three" id="inputName" class='+inputthree+'>').appendTo('.'+tdthree);
 })
 //删除紧急联系人
 function addphone(t){
@@ -979,7 +973,7 @@ function TheOwnerphone(){
 			if(data.error_code==0){
 				$.messager.alert('系统提示','添加成功','warning')
 			}else{
-				$.messager.alert('系统提示','添加失败','error')
+				Statuscodeprompt(data.error_code,"添加失败...",'error')
 			}
 		}
 	});
@@ -1045,9 +1039,9 @@ $('#Nextstep6').click(function(){
 		},    
 		success:function(data){
 			var data = data.data;
-            $('#business').val(data[0].bcallServiceLine);  //商业服务电话
-			$('#malfunction').val(data[0].ecallServiceLine); //故障服务电话
-			$('#Accident').val(data[0].icallServiceLine); //事故服务电话
+            $('#business').val(data[0].icallServiceLine);  //商业服务电话
+			$('#malfunction').val(data[0].bcallServiceLine); //故障服务电话
+			$('#Accident').val(data[0].ecallServiceLine); //事故服务电话
 		}
 	})
 })
@@ -1095,10 +1089,10 @@ $('#Nextstep2').click(function(){
 	}
 
 	if($('#Nextstep2').val()=='服务信息'){
-		var phone = /^1[34578]\d{9}$/; // 验证手机号
+		var phone =  /^((0\d{2,3}-\d{7,8})|(1[3584]\d{9}))$/; // 验证手机号,座机
 		var str= '';
-		if(!phone.test($('#business').val())&&!phone.test($('#malfunction').val())&&!phone.test($('#Accident').val())) {
-		   str += '手机号不符合格式';
+		if(!phone.test($('#malfunction').val())&&!phone.test($('#Accident').val())) {
+		   str += '服务号码不符合格式';
 		}
 	    if(str!=''){
 	    	$('.spanerror').html(str)
@@ -1121,7 +1115,7 @@ $('#Nextstep2').click(function(){
 					$.messager.alert('系统提示','保存成功','info')
 					$("#TheOwner-datagrid-bottom").datagrid("reload");
 				}else{
-					$.messager.alert('系统提示','保存失败','error')
+					Statuscodeprompt(data.error_code,"保存失败...",'error')
 				}
 			}
 	    })
@@ -1176,7 +1170,7 @@ function Theownermigrationsave(){
                 $('#TheownermigrationModal').modal('hide');
 				$('#TheOwner-datagrid-bottom').datagrid('reload')
             } else {
-                $.messager.alert('系统提示', '车主迁移操作失败','error');
+				Statuscodeprompt(data.error_code,"车主迁移操作失败...",'error')
             }
         }
     });

@@ -10,6 +10,9 @@
             id:$('#managementli11').attr('name')
         }
         $.post(server_context+'/setMenuId',data,function(data){
+			if(data.error_code!=0){
+				Statuscodeprompt(data.error_code)
+			}
             for(var i=0;i<data.data.length;i++){  
                 if(data.data[i]==81){
                     $('.addequipmentreplacementrecord').css('display','')
@@ -46,7 +49,7 @@
 				{ field:"newDeviceId",title:'新设备编号',align:"center",width: '8%'},
 				{ field:"oldEcuSerialNum",title:'原电控单元序列号',align:"center",width: '21%'},
 				{ field:"newEcuSerialNum",title:'新电控单元序列号',align:"center",width: '21%'},
-				{ field:"groupName",title:'更换人员',align:"center",width: '8%'},
+				{ field:"userName",title:'更换人员',align:"center",width: '8%'},
 				{ field:"dateTime",title:'更换日期',align:"center",width: '14%'},
 				{ field:"ts",title:'登记日期',align:"center"}
 			]]
@@ -110,14 +113,8 @@
                     $.messager.alert('系统提示','保存成功','info');
 					$('#addequipmentreplacementrecordModal').modal('hide');
 					$('.equipmentreplacementmastermeter').datagrid('reload');
-				}else if(data.error_code==10013){
-                    $.messager.alert('系统提示','原设备无信息','error');
-				}else if(data.error_code==10014){
-                    $.messager.alert('系统提示','新设备无信息','error');
-				}else if(data.error_code==10015){
-                    $.messager.alert('系统提示','原设备未绑定车主','error');
 				}else{
-					$.messager.alert('系统提示','保存失败','error');
+					Statuscodeprompt(data.error_code,"保存失败...",'error')
 				}
 			}
 		})
@@ -143,7 +140,7 @@
 						   $.messager.alert('系统提示','删除成功','info');
 						   $('.equipmentreplacementmastermeter').datagrid('reload');
 					   }else{
-						   $.messager.alert('系统提示','删除失败','error');
+						   Statuscodeprompt(data.error_code,"删除失败...",'error')
 					   }
 				   }
 			   })

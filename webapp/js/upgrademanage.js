@@ -121,7 +121,7 @@ $('.upgrademanage').css('display','none')
 							$('.upgradebottomdata').datagrid('load');
 							$.messager.alert("操作提示", "操作成功！","info");
 						}else{
-							$.messager.alert("操作提示", "操作失败！","error");
+							Statuscodeprompt(data.error_code,"操作失败！...",'error')
 						}
 					}
 			   });
@@ -130,11 +130,7 @@ $('.upgrademanage').css('display','none')
 	}
 	//删除文件
 	function deleteFile(id){
-		var row = $('.upgradebottomdata').datagrid('getData');
-		if(row.rows.length==1){
-             $.messager.alert("操作提示", "最少保留一个升级包","error");
-			 return;
-		}
+		// var row = $('.upgradebottomdata').datagrid('getData');
 		$.messager.confirm("删除提示","你确定要删除吗?", function (data) {  
 	        if (data) {
 	        	$.ajax({
@@ -148,7 +144,7 @@ $('.upgrademanage').css('display','none')
 							$('.upgradebottomdata').datagrid('load');
 						    $.messager.alert("操作提示", "删除成功！","info");
 						}else{
-						     $.messager.alert("操作提示", "删除失败！","error");	
+							Statuscodeprompt(data.error_code,"删除失败！...",'error')
 						}
 					}
 			   });	 
@@ -317,7 +313,7 @@ $('.upgrademanage').css('display','none')
 			$('#upgradetopModal').modal('hide');
 			$('.upgradebottomdata').datagrid('reload')
 		}else{
-			$.messager.alert("系统提示", "上传失败!",'error');
+			Statuscodeprompt(data.error_code,"上传失败...",'error')
 		}
     }
     //上传失败
@@ -701,11 +697,8 @@ $('.upgrademanage').css('display','none')
 					// 指定设备添加的设备
 					addList = [];
 					
-				}else if(data.error_code==1){
-					$.messager.alert("操作提示", "请至少指定一个设备组！","error"); 
-				}
-				else{
-					$.messager.alert("操作提示", "操作失败！","error"); 
+				}else{
+					Statuscodeprompt(data.error_code,"操作失败！...",'error')
 				}
          }
      });
@@ -971,11 +964,8 @@ $('.upgrademanage').css('display','none')
          		// 指定设备添加的设备
          		addList = [];
          		
-         	}else if(data.error_code==1){
-         		$.messager.alert("操作提示", "请至少指定一个设备！",'warning'); 
-         	}
-         	else{
- 				$.messager.alert("操作提示", "操作失败！","error"); 
+         	}else{
+				 Statuscodeprompt(data.error_code,"操作失败！...",'error')
          	}
          }
      });

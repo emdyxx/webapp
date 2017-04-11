@@ -57,26 +57,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			           	   	   	<img src="img/imagess/fuwupingtai.png" alt="" />
 			           	   	   	    <a href="192.168.11.16:8080" style="color: #333;">服务中心</a>
 			           	   	   </p>
-			           	   	   <p onClick="usernamedj()">
-			           	   	      <img src="img/imagess/USER.png" alt="" />
-			           	   	   	  <span class="accounts"></span>
-			           	   	   	  <img class="nav-right-right-tb" src="img/imagess/daohangjiantoux.png" alt="" />
-			           	   	   </p>
-			           	   	   <p class="nav-right-right-xl" style="display: none;" data-target="#myModal">
-			           	   	      <span onclick='amendpsw()'>
-			           	   	        <span>
-			           	   	          <img src="img/imagess/xiugaimima.png" alt="" />
-			           	   	        </span>
-							<button class="buttonss" data-toggle="modal" data-target="#myModal">
-									      修改密码
-						    </button>
-							</span>
-							<span onClick="quitaccount()">
-			           	   	        <span>
-			           	   	          <img src="img/imagess/tuichuzhanghao.png" alt="" />
-			           	   	        </span> 退出账号
-							</span>
-							</p>
+			           	   	   <div onClick="usernamedj()" id="pswquit">
+									<img src="img/imagess/USER.png" alt="" />
+									<span class="accounts"></span>
+									<img class="nav-right-right-tb" src="img/imagess/daohangjiantoux.png" alt="" />
+									<!--修改密码/退出登录-->
+									<p class="nav-right-right-xl" style="display: none;" data-target="#myModal">
+										<span onclick='amendpsw()'>
+												<span>
+													<img src="img/imagess/xiugaimima.png" alt="" />
+												</span>
+												<button class="buttonss" data-toggle="modal" data-target="#myModal">修改密码</button>
+										</span>
+										<span onClick="quitaccount()">
+												<span><img src="img/imagess/tuichuzhanghao.png" alt="" /></span> 退出账号
+										</span>
+									</p>	   
+			           	   	   </div>
+			           	   	   
 							</span>
 						</div>
 					</nav>
@@ -161,7 +159,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<div class="modal-body">
 												<form class="fmm-form">
 													<label for=""><i>*</i>编组名称:</label>
-													<input type="text" id="treename" maxlength="10" required/>
+													<input type="text" id="treename" maxlength="20" required/>
 													<hr />
 													<label for=""><i>*</i>负责人:</label>
 													<input type="text" id="treefzr" maxlength="10" required/>
@@ -520,7 +518,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								</div><!-- /.modal -->
 								<div class="removerole" onClick="treeremove()"></div>
 								<!--规则-->
-								<div class="rule">
+								<div class="rule" style="display:none">
 									<div class="rulediv">
 										<span>
 								         <img style="margin-top: 5px;" src="img/icon/guize.png" alt="" />
@@ -714,7 +712,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													<td>
 														<input class="easyui-datetimebox Logfinishtime">
 													</td>
-													<td style="padding-left: 10px;">登陆地址:</td>
+													<td style="padding-left: 10px;">IP地址:</td>
 													<td>
 														<input type="text" class="Logaddress" />
 													</td>
@@ -859,7 +857,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																	<tbody>
 																		<tr>
 																			<td><i>*</i>车主姓名:</td>
-																			<td><input type="text" id="ownerName" class="NoName" required/></td>
+																			<td><input type="text" id="ownerName" maxlength="20" class="NoName" required/></td>
 																			<td><i>*</i>车主性别:</td>
 																			<td>
 																				<select id="sexx">
@@ -870,9 +868,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																		</tr>
 																		<tr>
 																			<td><i>*</i>车主身份证号</td>
-																			<td><input type="text" id="idNumber" name="idNumber" class="noneNull" require></td>
+																			<td><input type="text" id="idNumber" maxlength="20" name="idNumber" class="noneNull" require></td>
 																			<td><i>*</i>车主手机号:</td>
-																			<td><input type="text" id="mobile" class="NoPhone" required/></td>
+																			<td><input type="text" id="mobile" maxlength="18" class="NoPhone" required/></td>
 																		</tr>
 																		<tr>
 																			<td><i>*</i>省:</td>
@@ -896,7 +894,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																				</select>
 																			</td>
 																			<td><i>*</i>详细地址:</td>
-																			<td><input type="text" id="address" class="Noaddress" required/></td>
+																			<td><input type="text" id="address" maxlength="50" class="Noaddress" required/></td>
 																		</tr>
 																		<tr>
 																			<td><i>*</i>保险公司:</td>
@@ -906,13 +904,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																				</select>
 																			</td>
 																			<td>车牌号码:</td>
-																			<td><input type="text" id="plate"/></td>
+																			<td><input type="text" maxlength="20" id="plate"/></td>
 																		</tr>
 																		<tr>
 																			<td><i>*</i>车架号:</td>
-																			<td><input type="text" id="vin" class="noneNull" required/></td>
+																			<td><input type="text" id="vin" maxlength="17" class="noneNull" required/></td>
 																			<td><i>*</i>发动机编号:</td>
-																			<td><input type="text" id="engineCode" class="noneNull" required/></td>
+																			<td><input type="text" id="engineCode" maxlength="11" class="noneNull" required/></td>
 																		</tr>
 																		<tr>
 																			<td><i>*</i>车型品牌:</td>
@@ -946,13 +944,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			<!--<td>服务截止时间:</td>
 																			<td><input class="easyui-datetimebox" id="serviceEndTime" style="width:140px"></td>-->
 																			<td><i>*</i>紧急联系人姓名:</td>
-																			<td><input type="text" id="contactsName" class="NoName" required/></td>
+																			<td><input type="text" id="contactsName" maxlength="20" class="NoName" required/></td>
 																			<td><i>*</i>紧急联系人电话:</td>
-																			<td><input type="text" id="contactsMobile" class="NoPhone" required/></td>
+																			<td><input type="text" id="contactsMobile" maxlength="20" class="NoPhone" required/></td>
 																		</tr>
 																		<tr id="TheOwnerFormtable-two">
 																			<td><i>*</i>关系:</td>
-																			<td><input type="text" id="relation" class="NoName" required/></td>
+																			<td><input type="text" id="relation" maxlength="20" class="NoName" required/></td>
 																		</tr>
 																	</tbody>
 																</table>
@@ -989,15 +987,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 														    		<tbody>
 																      <tr>
 																        <td>商业服务电话</td>
-																        <td><input type="text" id="business"/></td>
+																        <td><input type="text" maxlength="15" id="business"/></td>
 																      </tr>
 																      <tr>
 																        <td>故障服务电话</td>
-																        <td><input type="text" id="malfunction"/></td>
+																        <td><input type="text" maxlength="15" id="malfunction"/></td>
 																      </tr>
 																      <tr>
 																        <td>事故服务电话</td>
-																        <td><input type="text" id="Accident"/></td>
+																        <td><input type="text" maxlength="15" id="Accident"/></td>
 																      </tr>
 																    </tbody>
 														    	</table>
@@ -1225,12 +1223,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<div class="modal-body">
 												<form>
 													<span style="margin-left: 190px;" id="motorcycletype-type">车型:</span>
-													<input type="text" class="Motorcycleinput"/>
+													<input type="text" maxlength="20" class="Motorcycleinput"/>
 													<i>*</i>
 													<div style="margin-left: 163px;margin-top:10px;" id="motorcycletype-alias">
-                                                        <span>车系别名:</span>
-														<input type="text" class="Motorcycleinput-alias"/>
+                                                        <span>车系代码:</span>
+														<input type="text" maxlength="20" class="Motorcycleinput-alias"/>
 														<i>*</i>
+														<p>(车系代码:该系列车辆对应的T-BOX的型号代码)</p>
 													</div>
 												</form>
 											</div>
@@ -1339,11 +1338,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								    <span style="margin-left: 10px;">车架号:</span>
 								    <input type="text" class="MobileID"/>
 								    <span>设备编号:</span>
-								    <input type="text" class="Mobilename"/>
+								    <input type="text" maxlength="10" class="Mobilename"/>
 								    <span>ICCID:</span>
 								    <input type="text" class="MobileICCID"/>
 								    <span>电控单元序列号:</span>
-								    <input type="text" class="MobileSeekID"/>
+								    <input type="text" maxlength="50" class="MobileSeekID"/>
 								    <span>归属分组:</span>
 								    <input class="MobileSeekfz" style="width: 150px;"> 
 									<span>升级分组:</span>
@@ -1381,26 +1380,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 												</div>
 												<div class="modal-body Mobileyhoneform">
 													<label for="deviceIds"><i>*</i>设备编号:</label>
-													<input type="text" id="deviceIds"/>
+													<input type="text" maxlength="10" id="deviceIds"/>
 													<label for="hardwareVers"><i>*</i>硬件版本号:</label>
-													<input type="text" id="hardwareVers"/>
+													<input type="text" maxlength="10" id="hardwareVers"/>
 													<hr />
 													<label for="vins">车架号:</label>
-													<input type="text" id="vins"/>
+													<input type="text" maxlength="17" id="vins"/>
 													<label for="models">车系代码:</label>
 													<input type="text" id="models"/>
 													<hr />
 													<label for="softVers">软件版本号:</label>
-													<input type="text" id="softVers"/>
+													<input type="text" maxlength="50" id="softVers"/>
 													<label for="serialNums">设备序列号:</label>
-													<input type="text" id="serialNums"/>
+													<input type="text" maxlength="20" id="serialNums"/>
 													<hr />
 													<!--<label for="makers">车型:</label>
 													<input type="text" id="makers"/>-->
 													<label for="call_nums">呼叫号码:</label>
-													<input type="text" id="call_nums"/>
+													<input type="text" maxlength="20" id="call_nums"/>
 													<label for="ecuSerialNums">电控单元序列号:</label>
-													<input type="text" id="ecuSerialNums"/>
+													<input type="text" maxlength="50" id="ecuSerialNums"/>
 												</div>
 												<div class="modal-footer">
 													<button type="button" class="btn btn-default" data-dismiss="modal">关闭
@@ -1473,7 +1472,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 														    <span onClick="Mobileyhthreemove()" style="margin-left: 50px;">删除分组</span>
 														</div>	
 														<div class="Mobileyhthreformdiv-divtwo" style="display: none;">
-															<label>用户组名称:</label>
+															<label>设备组名称:</label>
 															<input style="width: 100px" type="text" id="Mobileyhthreformdiv-input" required/>
 															<button id="Mobileyhthreformdiv-btone">提交</button>
 															<button id="Mobileyhthreformdiv-bttwo">取消</button>
@@ -1496,15 +1495,43 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										</div>
 									</div><!-- /.modal -->
 								    <!--模板下载-->
-									<div class="Mobileyh-div Mobileyh-five" onclick="DownloadTheTemplate()">
+									<div style="display:none;" class="Mobileyh-div Mobileyh-five" onclick="DownloadTheTemplate()">
                                         <img src="img/imagess/mubanxiazai.png" alt="">
 										<span>模板下载</span>
 									</div>
 									<!--批量导入-->
-									<div class="Mobileyh-div Mobileyh-six" onclick="bulkimport()">
+									<div style="display:none;" class="Mobileyh-div Mobileyh-six" onclick="bulkimport()">
                                         <img src="img/imagess/piliangdaoru.png" alt="">
 										<span>批量导入</span>
 									</div>
+									<!--批量导入模态框-->
+									<div class="modal fade" id="bulkimportmyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+										<div class="modal-dialog">
+											<div class="modal-content">
+												<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+													<h4 class="modal-title" id="myModalLabel">批量导入</h4>
+												</div>
+												<div class="modal-body">
+												    <div style="width:300px;height:auto;margin:0 auto;">
+														<label for="">文件上传:</label>
+														<input type="file" id="bulkimportfile" style='width:200px'>
+													</div>
+													<div class="progress progress-striped active" style="width:300px;height:15px;margin:0 auto;">
+														<div class="progress-bar progress-bar-success" id="bulkimportschedule" role="progressbar"
+															aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+															style="width: 0%;">
+															<!--<span class="sr-only">40% 完成</span>-->
+														</div>
+													</div>
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+													<button type="button" class="btn btn-primary" id="bulkimportj">提交</button>
+												</div>
+											</div><!-- /.modal-content -->
+										</div>
+									</div><!-- /.modal -->
 								</div>
 								
 					        	<div class="MobileDa">
@@ -1636,39 +1663,39 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 														</div>
 														<div class="configurationinformationtwo" style="width: 980px;margin: 0 auto;">
 															<label for="">配置版本</label>
-															<input type="text" class="config_ver"/>
+															<input type="text" maxlength="20" class="config_ver"/>
 															<label for="">iovdc_key</label>
 															<input type="text" class="iovdc_key"/>
 															<label for="">升级包密钥ID</label>
-															<input type="text" class="update_keyid"/>
+															<input type="text" maxlength="10" class="update_keyid"/>
 															<hr />
 															<label for="">升级包密钥(hex)</label>
-															<input type="text" class="update_key"/>
+															<input type="text" maxlength="32" class="update_key"/>
 															<label for="">车牌号</label>
-															<input type="text" class="plate"/>
+															<input type="text" maxlength="10" class="plate"/>
 															<label for="">sim卡电话号码</label>
-															<input type="text" class="callNum"/>
+															<input type="text" maxlength="20" class="callNum"/>
 															<hr />
 															<label for="">Ecall服务号码</label>
-															<input type="text" class="ecallNum"/>
+															<input type="text" maxlength="20" class="ecallNum"/>
 															<label for="">Bcall服务号码</label>
-															<input type="text" class="bcallNum"/>
+															<input type="text" maxlength="20" class="bcallNum"/>
 															<label for="">Icall服务号码</label>
-															<input type="text" class="icallNum"/>
+															<input type="text" maxlength="20" class="icallNum"/>
 															<hr />
 															<label for="">Ecall短信号码</label>
-															<input type="text" class="ecall_sms_num"/>
+															<input type="text" maxlength="20" class="ecall_sms_num"/>
 															<label for="">apn接入名称</label>
-															<input type="text" class="apn"/>
+															<input type="text" maxlength="50" class="apn"/>
 															<label for="">接入服务器ip1</label>
-															<input type="text" class="iovdc_ip1"/>
+															<input type="text" maxlength="20" class="iovdc_ip1"/>
 															<hr />
 															<label for="">接入服务器ip2</label>
-															<input type="text" class="iovdc_ip2"/>
+															<input type="text" maxlength="20" class="iovdc_ip2"/>
 															<label for="">接入服务器ip3</label>
-															<input type="text" class="iovdc_ip3"/>
+															<input type="text" maxlength="20" class="iovdc_ip3"/>
 															<label for="">最近升级日期</label>
-															<input type="text" class="update_time"/>
+															<input type="text" maxlength="20" class="update_time"/>
 														</div>
 													    <div class="configurationinformationthree">
 													    	<a class="compiles">编辑</a>
@@ -1730,15 +1757,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													    		<tbody class="threetbody">
 															      <tr>
 															        <td>x方向姿态角度校正</td>
-															        <td><input type="text" id="xdirection" /></td>
+															        <td><input type="text" maxlength="45" id="xdirection" /></td>
 															      </tr>
 															      <tr>
 															        <td>y方向姿态角度校正</td> 
-															        <td><input type="text" id="ydirection" /></td>
+															        <td><input type="text" maxlength="45" id="ydirection" /></td>
 															      </tr>
 															      <tr>
 															        <td>行使方向姿态角度校正</td>
-															        <td><input type="text" id="traveldirection" /></td>
+															        <td><input type="text" maxlength="45" id="traveldirection" /></td>
 															      </tr>
 															    </tbody>
 													    	</table>
@@ -1765,21 +1792,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													    		<tbody class="fourtbody">
 															      <tr>
 															        <td>can通道号</td>
-															        <td><input type="text" id="cangallery" /></td>
+															        <td><input type="text" maxlength="20" id="cangallery" /></td>
 															        <td>页面号</td>
-															        <td><input type="text" id="pagemark" /></td>
+															        <td><input type="text" maxlength="20" id="pagemark" /></td>
 															      </tr>
 															      <tr>
 															        <td>can id1</td> 
-															        <td><input type="text" id="canid1" /></td>
+															        <td><input type="text" maxlength="20" id="canid1" /></td>
 															        <td>can id1 发送时间间隔</td>
-															        <td><input type="text" id="canid1jg" /></td>
+															        <td><input type="text" maxlength="20" id="canid1jg" /></td>
 															      </tr>
 															      <tr>
 															        <td>can id2</td>
-															        <td><input type="text" id="canid2" /></td>
+															        <td><input type="text" maxlength="20" id="canid2" /></td>
 															        <td>can id2 发送时间间隔</td>
-															        <td><input type="text" id="canid2jg" /></td>
+															        <td><input type="text" maxlength="20" id="canid2jg" /></td>
 															      </tr>
 															    </tbody>
 													    	</table>
@@ -2132,13 +2159,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                              <!--搜索条件-->
 							 <div class="devicemanagementsearchcriteria">
                                  <span>初始设备编号:</span>
-								 <input type="text" id="initialequipmentnumber">
+								 <input type="text" maxlength="20" id="initialequipmentnumber">
 								 <span>原设备编号:</span>
-								 <input type="text" id="originalequipmentnumber">
+								 <input type="text" maxlength="20" id="originalequipmentnumber">
 								 <span>新设备编号:</span>
-								 <input type="text" id="newequipmentnumber">
+								 <input type="text" maxlength="20" id="newequipmentnumber">
 								 <span>更换人员:</span>
-								 <input type="text" id="changepersonnel">
+								 <input type="text" maxlength="20" id="changepersonnel">
 								 <a id="equipmentreplacementinquire1">查询</a>
 							 </div>
 						     <!--下侧表-->
@@ -2193,9 +2220,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																<td><i>*</i>更换时间</td>
 																<td><input class="easyui-datetimebox" id="Modalreplacementtime" value="" style="width:146px"></td>
 																<td><i>*</i>原电控单元序列号</td>
-																<td><input type="text" id="Modalrawserialnumber"></td>
+																<td><input type="text" maxlength="30" id="Modalrawserialnumber"></td>
 																<td><i>*</i>新电控单元序列号</td>
-																<td><input type="text" id="Modalnewserialnumber"></td>
+																<td><input type="text" maxlength="30" id="Modalnewserialnumber"></td>
 															</tr>
 															<tr>
 																<td>维修内容</td>
@@ -2289,12 +2316,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<span>
 										<img src="img/imagess/sousuotubiaotwo.png" alt="" />
 									</span>
-									<span>适用设备类型:</span>
-									<input type="text" id="upgradetopcxs1"/>
+									<span>适用型号:</span>
+									<input type="text" maxlength="20" id="upgradetopcxs1"/>
 									<span>软件版本:</span>
-									<input type="text" id="upgradetopcxs2"/>
+									<input type="text" maxlength="50" id="upgradetopcxs2"/>
 									<span>硬件版本:</span>
-									<input type="text" id="upgradetopcxs3"/>
+									<input type="text" maxlength="10" id="upgradetopcxs3"/>
 									<span>PAC版本:</span>
 									<input type="text" id="upgradetopcxs4"/>
 									<a href="javascript:upgradetopcx2()">查询</a>
@@ -2324,7 +2351,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 															</tr>
 															<tr>
 																<td style="width: 25%;">硬件版本:</td>
-																<td style="width: 25%;"><input type="text" name="hdversion" id="hdversion" class="easyui-validatebox"   validtype="hardVer"   missingmessage="必填"  data-options="required:true,validType:'length[2,20]'" maxlength="20"><i> *</i></td>
+																<td style="width: 25%;"><input type="text" name="hdversion" id="hdversion" class="easyui-validatebox"   validtype="hardVer"   missingmessage="必填"  data-options="required:true,validType:'length[2,20]'" maxlength="10"><i> *</i></td>
 																<td style="width: 25%;">软件版本:</td>
 																<td style="width: 25%;"><input type="text" name="version" id="version"  class="easyui-validatebox"   validtype="deviceId"  missingmessage="必填"  data-options="required:true,validType:'length[2,20]'" maxlength="20"><i> *</i></td>
 															</tr>
@@ -2363,11 +2390,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													    <div class="uploadFiledatagirdtwo" style="width: 100%;height: 300px;">
 													    	<div style="width: 710px;margin: 0 auto;margin-bottom: 5px;">
 													    		<span>设备编号:</span>
-													    		<input type="text" id="filededeviceone"/>
+													    		<input type="text" maxlength="10" id="filededeviceone"/>
 													    		<span>硬件版本:</span>
-													    		<input type="text" id="filededevicetwo"/>
+													    		<input type="text" maxlength="10" id="filededevicetwo"/>
 													    		<span>设备类型:</span>
-													    		<input type="text" id="filededevicethr"/>
+													    		<input type="text" maxlength="20" id="filededevicethr"/>
 													    		<a href="javascript:uploadFilecx2()" style="display: inline-block;text-align: center;width: 60px;color: white;background: #4AAA4A;">查询</a>
 													    	</div>
 													    	<div class="uploadFiledatagird2">

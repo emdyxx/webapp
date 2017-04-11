@@ -135,7 +135,7 @@
 			},
 			columns:[[
 			    { field: 'iccid', title: 'ICCID',align: 'center',width:'25%'},
-				{ field: 'sessionStartTime', title: '时间',align: 'center',width:'15%'},
+				{ field: 'sessionStartTime', title: '时间',align: 'center',width:'20%'},
 				{ field: 'dataVolume', title: '数据(KB)',align: 'center',width:'10%'},
        			{ field: 'billable', title: '是否计费',align: 'center',width:'18%'},
        			{ field: 'serviceType', title: '服务类型',align: 'center'}
@@ -164,7 +164,7 @@
 					$.messager.alert("操作提示", "同步成功","info");
 					$('.facilitySIMbottomdata').datagrid('reload');
 				}else {
-					$.messager.alert("操作提示", "操作失败","error");
+					Statuscodeprompt(data.error_code,"操作失败...",'error')
 				}
 				
 			}
@@ -201,7 +201,7 @@
 							$.messager.alert("操作提示", "操作成功！","info");
 							$('.facilitySIMbottomdata').datagrid('reload');
 						}else{
-							$.messager.alert("操作提示", "操作失败！","error");
+							Statuscodeprompt(data.error_code,"操作失败...",'error')
 						}						
 					}
 				});	

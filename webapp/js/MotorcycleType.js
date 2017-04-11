@@ -14,6 +14,9 @@
 			id:$('#managementli31').attr('name')
 		}	
 		$.post(server_context+'/setMenuId',data,function(data){
+			if(data.error_code!=0){
+				Statuscodeprompt(data.error_code)
+			}
 			for(var i=0;i<data.data.length;i++){
 				if(data.data[i]==31){
 					$('.MotorcycleAdd').css('display','');
@@ -153,7 +156,7 @@
 	 				$.messager.alert("系统提示",'远程权限保存成功','info')
 					Motorcycletree()
 	 			}else{
-					$.messager.alert("系统提示",'远程权限保存失败','error')
+					 Statuscodeprompt(data.error_code,"远程权限保存失败...",'error')
 				 }
 	 		}
 	 	});
@@ -178,6 +181,8 @@
 			return false;
 		}
 		$('#MotorcycleModal').modal('show');
+		$('.Motorcycleinput').val('')
+		$('.Motorcycleinput-alias').val('')
 		if(motorcycletypelevel==0){
             $('#motorcycletype-type').text('品牌:')
 			$('#motorcycletype-alias').css('display','none')
@@ -215,7 +220,7 @@
 							$.messager.alert("系统提示", "删除成功",'info');
 							$(".Motorcyclebottom-tree").tree('reload');
 						} else {
-							$.messager.alert("系统提示", "删除失败,或请先删除子车型",'error');
+							Statuscodeprompt(data.error_code,"删除失败,或请先删除子车型...",'error')
 						}
 					}
 				})
@@ -255,9 +260,8 @@
 				    $.messager.alert("系统提示",'添加车型成功','info')
 				    $('#MotorcycleModal').modal('hide');
                     $('.Motorcyclebottom-tree').tree('reload')
-				}
-				if(data.error_code==10008){
-                    $.messager.alert("系统提示",'名称不能重复','info')
+				}else{
+					Statuscodeprompt(data.error_code,"添加车型成功失败...",'error')
 				}
 			}
 		});

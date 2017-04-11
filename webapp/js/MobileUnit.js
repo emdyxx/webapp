@@ -22,6 +22,9 @@ $('#managementli9').click(function () {
 		id:$('#managementli9').attr('name')
 	}
 	$.post(server_context+'/setMenuId',data,function(data){
+        if(data.error_code!=0){
+            Statuscodeprompt(data.error_code)
+        }
 		for(var i=0;i<data.data.length;i++){
 			if(data.data[i]==41){
 				$('.Mobileyh-one').css('display','')
@@ -35,6 +38,12 @@ $('#managementli9').click(function () {
 			if(data.data[i]==44){
 				$('.Mobileyh-four').css('display','')
 			}
+            if(data.data[i]==49){
+               $('.Mobileyh-six').css('display','')
+            }
+            if(data.data[i]==50){
+               $('.Mobileyh-five').css('display','')
+            }
 			if(data.data[i]==46){
 				shebione=46;
 			}
@@ -54,7 +63,7 @@ $('#managementli9').click(function () {
         url: server_context+'/listGroupTree',
         method: 'post',
         required: true,
-        editable:true,
+        editable:false,
         loadFilter: function (data) {
 			var data =data.data
             return convert(data);
@@ -64,10 +73,10 @@ $('#managementli9').click(function () {
         url: server_context+'/listDeviceGroupTree',
         method: 'post',
         required: true,
-        editable:true,
+        editable:false,
         loadFilter: function (data) {
 			var rows =data.data
-            return convsss(rows);
+            return convsssss(rows);
         }
     })
 })
@@ -238,14 +247,8 @@ $('.Mobileyhone').click(function () {
                     $.messager.alert('系统提示', '设备添加成功','info');
                     $('.MobileData').datagrid('reload');
                     $('#MobileyhoneModal').modal('hide');
-                }else if(data.error_code == 10018){
-                     $.messager.alert('系统提示', '车架号重复','info');
-                }else if(data.error_code == 10021){
-                     $.messager.alert('系统提示', '设备编号重复','info');
-                }else if(data.error_code == 10022){
-                     $.messager.alert('系统提示', '电控单元号重复','info');
                 }else {
-                    $.messager.alert('系统提示', '设备添加失败','error');
+                    Statuscodeprompt(data.error_code,"设备添加失败...",'error')
                 }
             }
         });
@@ -260,14 +263,8 @@ $('.Mobileyhone').click(function () {
                     $.messager.alert('系统提示', '设备修改成功','info');
                     $('.MobileData').datagrid('reload');
                     $('#MobileyhoneModal').modal('hide')
-                }else if(data.error_code == 10018){
-                     $.messager.alert('系统提示', '车架号重复','info');
-                }else if(data.error_code == 10021){
-                     $.messager.alert('系统提示', '设备编号重复','info');
-                }else if(data.error_code == 10022){
-                     $.messager.alert('系统提示', '电控单元号重复','info');
                 }else {
-                    $.messager.alert('系统提示','设备修改失败','error');
+                    Statuscodeprompt(data.error_code,"设备修改失败...",'error')
                 }
             }
         });
@@ -316,8 +313,8 @@ function compilefacili(row) {
 //归属分组
 var grounpId;//选择归属分组以及升级分组时tree树的真实id
 var grounp;//添加分组的父级id
+var grounpss;//添加分组的id
 function groupOwnershipgroup() {
-    grounpId = '';
     var row = $('.MobileData').datagrid('getChecked');
     if (row.length == 0) {
         $.messager.alert('系统提示', '请选择用户进行归属分组操作','warning');
@@ -363,39 +360,90 @@ $('.Mobileyhtwo').click(function () {
                 $('#MobileyhtwoModal').modal('hide');
 				$('.MobileData').datagrid('reload')
             } else {
-                $.messager.alert('系统提示', '归属分组操作失败','error');
+                Statuscodeprompt(data.error_code,"归属分组操作失败...",'error')
             }
         }
     });
 })
 //升级分组
 function UpgradeGroupss() {
-    grounpId = '';
-    grounp = '';
     var row = $('.MobileData').datagrid('getChecked');
     if (row.length == 0) {
-        $.messager.alert('系统提示', '请选择用户进行归属分组操作','warning');
+        $.messager.alert('系统提示', '请选择用户进行升级分组操作','warning');
         return;
     }
     $('#MobileyhthreeModal').modal('show')
+    $('.Mobileyhthreformdiv-divtwo').css('display','none')
     $('.Mobileyhthreeformtree').tree({
         url: server_context+'/listDeviceGroupTree',
         method: 'post',
         animate: 'true',
         loadFilter: function (data) {
 			var rows = data.data
-            return convsss(rows);
+            return convsssss(rows);
         },
         onSelect: function (node) {
             grounpId = node.id
+            grounpss = node.actualId
             grounp = $('.Mobileyhthreeformtree').tree('getParent', node.target);
         }
     })
 }
+function convsssss(rows) {
+	function exists(rows, parentId) {
+		for(var i = 0; i < rows.length; i++) {
+			if(rows[i].id == parentId) return true;
+		}
+		return false;
+	}
+	var nodes = [];
+	for(var i = 0; i < rows.length; i++) {
+		var row = rows[i];
+		if(!exists(rows, row.parentId)) {
+			nodes.push({
+				id: row.actualId,
+				text: row.name,
+				actualId:row.id,
+				parendId:row.parendId,
+				parentId:row.parentId
+			});
+		}
+	}
+	var toDo = [];
+	for(var i = 0; i < nodes.length; i++) {
+		toDo.push(nodes[i]);
+	}
+	while(toDo.length) {
+		var node = toDo.shift();
+		for(var i = 0; i < rows.length; i++) {
+			var row = rows[i];
+			if(row.parentId == node.id) {
+				var child = {
+					id: row.actualId,
+                    text: row.name,
+                    actualId:row.id,
+                    parendId:row.parendId,
+                    parentId:row.parentId
+				};
+				if(node.children) {
+					node.children.push(child);
+				} else {
+					node.children = [child];
+				}
+				toDo.push(child);
+			}
+		}
+	}
+	return nodes;
+}
 //升级分组提交按钮
 $('.Mobileyhthree').click(function () {
     if (grounpId == ''||grounpId=='undefined'||grounpId==null) {
-        $.messager.alert('系统提示', '请选择用户组','warning');
+        $.messager.alert('系统提示', '请选择设备组','warning');
+        return;
+    }
+    if(grounpss==1){
+        $.messager.alert('系统提示', '请选择设备组','warning');
         return;
     }
     var row = $('.MobileData').datagrid('getChecked');
@@ -420,8 +468,7 @@ $('.Mobileyhthree').click(function () {
                 $.messager.alert('系统提示', '升级分组操作成功','info');
                 $('#MobileyhtwoModal').modal('hide');
             } else {
-                $.messager.alert('系统提示', '升级分组操作失败','error');
-				$('#MobileyhtwoModal').modal('hide');
+                Statuscodeprompt(data.error_code,"升级分组操作失败...",'error')
             }
         }
     });
@@ -429,7 +476,7 @@ $('.Mobileyhthree').click(function () {
 //添加分组
 function Mobileyhthreeadd() {
     if (grounpId == '') {
-        $.messager.alert('系统提示', '请选择一个用户组','warning');
+        $.messager.alert('系统提示', '请选择一个车场','warning');
         return;
     }
     $('.Mobileyhthreformdiv-divtwo').css('display', '');
@@ -438,6 +485,10 @@ function Mobileyhthreeadd() {
 $('#Mobileyhthreformdiv-btone').click(function () {
     if ($('#Mobileyhthreformdiv-input').val() == '') {
         $.messager.alert('系统提示', '不能为空','warning');
+        return;
+    }
+    if(grounpss==0){
+        $.messager.alert('系统提示', '请选择一个车场','warning');
         return;
     }
     $.ajax({
@@ -452,8 +503,9 @@ $('#Mobileyhthreformdiv-btone').click(function () {
             if (data.error_code == 0) {
                 $.messager.alert('系统提示', '添加成功','info');
                 $('.Mobileyhthreformdiv-divtwo').css('display', 'none');
+                $('.Mobileyhthreeformtree').tree('reload')
             } else {
-                $.messager.alert('系统提示', '添加失败','error');
+                Statuscodeprompt(data.error_code,"添加失败...",'error')
             }
         }
     });
@@ -482,7 +534,7 @@ function Mobileyhthreemove() {
                         $.messager.alert("系统提示", "删除成功",'info');
                         $(".Mobileyhthreeformtree").tree('reload');
                     } else {
-                        $.messager.alert("系统提示", "删除失败,或请先删除子用户组",'error');
+                        Statuscodeprompt(data.error_code,"删除失败,或请先删除子用户组...",'error')
                     }
                 }
             })
@@ -491,12 +543,55 @@ function Mobileyhthreemove() {
 }
 //模板下载
 function DownloadTheTemplate(){
-   window.location.href = value; 
+   $.ajax({
+		type:"get",
+		url:server_context+"/downloadTemplate",
+		success:function(data){
+			if(data!=''||data==null||data=='undefined'){
+                console.log(123)
+				window.location.href = data; 
+			}	
+		},
+		error:function(){
+			$.messager.alert("操作提示", "系统错误，请稍后重试！","error");
+		}
+	});
 }
 //批量导入
 function bulkimport(){
-
+    $('#bulkimportmyModal').modal('show')
+    $('#bulkimportfile').val('')
+    $('#bulkimportschedule').attr('style','width:0%')
 }
+$('#bulkimportj').click(function(){
+    var xhr = new XMLHttpRequest;
+    var fd = new FormData();
+	fd.append("fileName", document.getElementById('bulkimportfile').files[0]);
+    xhr.upload.addEventListener("progress", uploadPrgess, false);
+    xhr.addEventListener("load", uploadomplee, false);
+	xhr.addEventListener("error", uploadaile, false);
+	xhr.open("POST", server_context+"/importDeviceFile");
+	xhr.send(fd);
+})
+function uploadPrgess(evt){
+    if(evt.lengthComputable){
+       var percentComplete = Math.round(evt.loaded * 100 / evt.total)+'%';
+       $('#bulkimportschedule').attr('style','width:'+percentComplete)
+    }
+}
+function uploadomplee(evt){
+    var message = evt.target.responseText;
+	var dataObj=eval("("+message+")")
+	if(dataObj.error_code==0){
+        $.messager.alert('系统提示','保存成功','info')
+        $('#bulkimportmyModal').modal('hide')
+        $('.MobileData').datagrid('reload')
+    }
+}
+function uploadaile(evt){
+   $.messager.alert("操作提示", "上传失败！","error");
+}
+
 //设备唤醒
 var n = 1;
 // 关闭窗口，取消操作
@@ -510,7 +605,7 @@ function awaken(index) {
 	}
     var rows = $('.MobileData').datagrid('getRows');
     var row = rows[index];
-    var deviceId = row.id;
+    var deviceId = row.deviceId;
     status = true;
     $.messager.confirm("操作提示", "第" + n + "次尝试唤醒设备,请稍候。。。", function (data) {
         if (data) {
@@ -523,12 +618,13 @@ function awaken(index) {
     });
     $.ajax({
         type: "post",
-        url: server_context+"/deviceWakeup",
+        url: server_context+"/networkWakeup",
         data: { deviceId: deviceId },
         success: function (data) {
-            if (data.error_code == 1) {
+            if (data.error_code == 0) {
                 setTimeout(function () {
                     status = true;
+                    clearTimeout(set);
                     $(".messager-body").window('close');
                     $.messager.alert("操作提示", "唤醒命令发送成功,等待设备上线！", "info");
                     $('.MobileData').datagrid('reload');	// reload the user data
@@ -560,7 +656,6 @@ function awaken(index) {
 function deviceWakeupRetry(deviceId) {
     if (status == 'true') {
         $.messager.confirm("操作提示", "第" + n + "次尝试唤醒设备,请稍候。。。", function (data) {
-
             if (data) {
 
             } else {
@@ -571,12 +666,13 @@ function deviceWakeupRetry(deviceId) {
         });
         $.ajax({
             type: "post",
-            url: server_context+"/deviceWakeup",
+            url: server_context+"/networkWakeup",
             data: { deviceId: deviceId },
             success: function (data) {
-                if (data.error_code == 1) {
+                if (data.error_code == 0) {
                     $(".messager-body").window('close');
                     status = true;
+                    clearTimeout(set);
                     $.messager.alert("操作提示", "唤醒命令发送成功,等待设备上线！", "info");
                     $('.MobileData').datagrid('reload');
                 } else {
@@ -612,13 +708,13 @@ function restart(index) {
 	}
     var rows = $('.MobileData').datagrid('getRows');
     var row = rows[index];
-    var id = row.id;
+    var id = row.deviceId;
     $.ajax({
         type: "post",
         url: server_context+"/deviceReset",
         async: true,
         data: {
-            id: id
+            deviceId: id
         }
     });
     $.messager.alert('系统提示', '重启命令发送成功,等待设备重启', 'info')
@@ -654,8 +750,12 @@ function particulars(index) {
     $('.lookup20').text(row.ts)
     $('.lookup21').text(row.onlineTime)
     $('.lookup22').text(row.offlineTime)
-    $('.lookup23').text(row.activated)
     $('.lookup24').text(row.activationExpireOn)
+    if(row.activated==true){
+       $('.lookup23').text('是')
+    }else{
+       $('.lookup23').text('否')
+    }
 }
 
 var device;//设备编号
@@ -776,7 +876,7 @@ $('.saves').click(function () {
                 $.messager.alert('系统提示', '保存成功','info')
                 reulaone();
             } else {
-                $.messager.alert('系统提示', '保存失败','error')
+                Statuscodeprompt(data.error_code,"保存失败...",'error')
             }
         }
     });
@@ -849,7 +949,7 @@ $('.ensureone').click(function () {
                 $.messager.alert('系统提示', '保存成功','info')
                 reulatwo();
             } else {
-                $.messager.alert('系统提示', '保存失败','error')
+                Statuscodeprompt(data.error_code,"保存失败...",'error')
             }
         }
     });
@@ -930,7 +1030,7 @@ $('.savethr').click(function () {
             if (data.error_code == 0) {
                 $.messager.alert('系统提示', '保存成功','info');
             } else {
-                $.messager.alert('系统提示', '保存失败','error');
+                Statuscodeprompt(data.error_code,"保存失败...",'error')
             }
         }
     });
@@ -1031,7 +1131,7 @@ $('.savefou').click(function () {
             if (data.error_code == 0) {
                 $.messager.alert('系统提示', '保存成功','info')
             } else {
-                $.messager.alert('系统提示', '保存失败','error')
+                Statuscodeprompt(data.error_code,"保存失败...",'error')
             }
         }
     });
@@ -1066,15 +1166,17 @@ function reulafive() {
         },
         success: function (data) {
             var data = data.data[0];
-            $(".fivetbody").find("tr").nextAll().remove();
+            $(".fivetbody tr").nextAll().remove();
             var friendlyDevice = data.interconnectDevice.split(",");
-            for (var i = 1; i < friendlyDevice.length + 1; i++) {
-                $(".fivetbody").append("<tr id=" + i + " align='center'>"
-                    + "<td>" + i + "</td>"
-                    + "<td><input type='text' name='MACName" + i + "' id='MACName" + i + "' value='" + friendlyDevice[i - 1].split(":")[0] + "' /></td>"
-                    + "<td><input type='text' name='MACAdress" + i + "' id='MACAdress" + i + "' value='" + friendlyDevice[i - 1].split(":")[1] + "' /></td>"
-                    + "<td><a href=\'#\' onclick=\'deltr(" + i + ")\'>删除</a></td>"
-                    + "</tr>");
+            if(friendlyDevice!=''||friendlyDevice!='undefined'||friendlyDevice!=null){
+               for (var i = 1; i < friendlyDevice.length + 1; i++) {
+                    $(".fivetbody").append("<tr id=" + i + " align='center'>"
+                        + "<td>" + i + "</td>"
+                        + "<td><input type='text' name='MACName" + i + "' id='MACName" + i + "' value='" + friendlyDevice[i - 1].split(":")[0] + "' /></td>"
+                        + "<td><input type='text' name='MACAdress" + i + "' id='MACAdress" + i + "' value='" + friendlyDevice[i - 1].split(":")[1] + "' /></td>"
+                        + "<td><a href=\'#\' onclick=\'deltr(" + i + ")\'>删除</a></td>"
+                        + "</tr>");
+                }
             }
             onlin = data.online;
             $('.equipmentnumber').text(data.deviceId);
@@ -1172,10 +1274,9 @@ $('.compilefi').click(function () {
         data: "deviceId=" + device + "&interconnectDevice=" + friendlyDevice + "&deviceSn=" + deviceSn,
         datatype: "json",
         success: function (data) {
-            if (data == 1) {
+            if (data.error_code == 0) {
                 $.messager.alert("操作提示", "操作成功！", "info");
-            }
-            if (data == 0) {
+            }else{
                 $.messager.alert("操作提示", "数据未变更或操作失败！", "error");
             }
         },
@@ -1229,15 +1330,12 @@ function saveDeviceLoginResponse() {
             return $(this).form('validate');
         },
         success: function(data){
-            data = eval(data); 
-        	console.log(data)
-            console.log(data.ts)
-        	console.log(data.data)
-        	console.log(data.error_code)
-            if (data.error_code == 0) {
+            var dataObj=eval("("+data+")")
+        	console.log(dataObj)
+            if (dataObj.error_code == 0) {
                 $.messager.alert("操作提示", "操作成功", "info");
             } else {
-                $.messager.alert("操作提示", "操作失败，请稍后重试！", "error");
+                Statuscodeprompt(data.error_code,"操作失败，请稍后重试...",'error')
             }
         }
     });
@@ -1318,7 +1416,7 @@ $('.compilesev').click(function () {
             if (data.error_code == 0) {
                 $.messager.alert('系统提示', '发送成功','info')
             } else {
-                $.messager.alert('系统提示', '发送失败','error')
+                Statuscodeprompt(data.error_code,"发送失败...",'error')
             }
         }
     });
@@ -1377,7 +1475,7 @@ $('.compileeigh').click(function () {
             if (data.error_code == 0) {
                 $.messager.alert('系统提示', '发送成功','info');
             } else {
-                $.messager.alert('系统提示', '发送失败','error');
+                Statuscodeprompt(data.error_code,"发送失败...",'error')
             }
         }
     });
@@ -1441,7 +1539,7 @@ $('.compilete').click(function () {
                 $.messager.alert("操作提示", "操作成功！", "info");
                 $("#btnUpgradeSend").linkbutton("disable");
             } else {
-                $.messager.alert("操作提示", "操作失败，请稍后重试！", "error");
+                Statuscodeprompt(data.error_code,"操作失败，请稍后重试...",'error')
             }
         }
     });
