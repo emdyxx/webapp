@@ -181,10 +181,10 @@
 	function editTerminal(iccid,state){
 		var hint='你确定要执行此操作吗？';
 		if(state=='ACTIVATED_NAME'){
-			hint='激活SIM卡将产生资费，确认激活吗？';
+			hint='你确定要停用SIM卡吗？';
             state='DEACTIVATED_NAME';
 		}else if(state=='DEACTIVATED_NAME'){
-			hint='你确定要停用SIM卡吗？';
+			hint='激活SIM卡将产生资费，确认激活吗？';
             state='ACTIVATED_NAME';
 		}
 		$.messager.confirm('操作提示',hint,function(r){

@@ -22,21 +22,161 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<script src="js/public/jquery.cookie.js"></script>
 		<title>它石车联网数据管理平台</title>
 		<style>
-            #TheOwnerFormtable select{
-				width: 146px;
+			#_easyui_textbox_input18,
+			#_easyui_textbox_input16{
+				background: #EAEAEA;
 			}
-			#ResetPassword{
-				width: 58px;
-				height: 22px;
-				line-height: 22px;
+            /*总线录制--录制管理*/
+			.Recordmanagement{
+				width: 100%;
+				height: 100%;
+				position: relative;
+			}
+			.Recordmanagement-inquier{
+				width: 100%;
+				height: 37px;
+				position: absolute;
+				top: 61px;
+			}
+			.Recordmanagement-inquier>img,
+			.Recordmanagement-inquier>span{
+				margin-left: 20px;
+			}
+			.Recordmanagement-inquier>input{
+				background: none;
+				border: 1px solid #6DC8F5;
+				margin-top: 7px;
+			}
+			.Recordmanagement-inquier>a,
+			.queryandpivot-inquier>a{
 				display: inline-block;
+				color: white;
+				width: 80px;
+				margin-left: 20px;
+				background: #00AAFF;
+				border-radius: 3px;
 				text-align: center;
-				background: linear-gradient(to bottom,#ffffff 0,#eeeeee 100%);
-				border: 1px solid #bbb;
-				color: #444;
-				border-radius: 5px 5px 5px 5px;
+			}
+			.Recordmanagement-datagrid{
+				width: 100%;
+				height: auto;
+				position: absolute;
+				top: 97px;
+				bottom: 0;
+				background: white;
+			}
+			/*总线录制--数据查询*/
+			.queryandpivot-inquier{
+				position: absolute;
+				top: 60px;
+			}
+			.queryandpivot-inquier>input{
+				background: #EAEAEA !important;
+				border: 1px solid #6DC8F5;
+				margin-top: 7px;
+			}
+			.queryandpivot-bottom{
+			    width: 100%;
+			    height: auto;
+			    position: absolute;
+			    top: 97px;
+			    bottom: 0;
+			}
+			.queryandpivot-bottom-left{
+				width: 240px;
+				height: 100%;
+				float: left;
+				/*border: 1px solid #797979;*/
+				background: white;
+			}
+			.queryandpivot-bottom-left-top{
+				height: 30px;
+				line-height: 30px;
+				text-align: center;
+				font-size: 18px;
+				border-bottom: 1px solid #D5D5D5;
+			}
+			.queryandpivot-bottom-left-bottom{
+				width: 240px;
+				height: auto;
+				position: absolute;
+				top: 31px;
+				bottom: 0;
+				overflow: auto;
+			}
+			.queryandpivot-bottom-left-bottom>button{
+				display: block;
+				width: 170px;
+				height: 40px;
+				line-height: 40px;
+				margin: 0 auto;
+				margin-top: 10px;
+				font-size: 12px;
+              	overflow: hidden;
+			}
+			.queryandpivot-bottom-right{
+				width: 100%;
+				height: 100%;
+			}
+			.queryandpivot-bottom-right-in{
+				margin-left: 255px;
+	            height: 100%;
+	            background: white;
+			}
+			.queryandpivot-bottom-datagrid{
+				position: absolute;
+				width: 100%;
+				height: auto;
+				top: 0;
+				bottom: 40px;
+			}
+			.queryandpivot-bottom-datagrid-bottom{
+				position: absolute;
+				width: 100%;
+				height: 40px;
+				bottom: 0px;
+			}
+			.queryandpivot-bottom-datagrid-bottom button{
+				width: 80px;
+				height: 25px;
+				margin-top: 7px;
+			}
+			#_easyui_textbox_input20,
+			#_easyui_textbox_input22{
+				background: #EAEAEA !important;
+			}
+			/*应用管理*/
+			.appliedmanagement{
+				width: 100%;
+				height: 100%;
+				position: relative;
+			}
+			.appliedmanagement-bottom{
+				width: 100%;
+				height: auto;
+				position: absolute;
+				top: 61px;
+				bottom: 0;
+			}
+			.appliedmanagement-bottom-top{
+				width: 100%;
+				height: 36px;
+			}
+			.appliedmanagement-bottom-top>div{
+				display: inline-block;
+				margin-top: 7px;
+				margin-left: 20px;
+			}
+			.appliedmanagement-bottom-top a{
+				color: black;
 				cursor: pointer;
-                font-size: 12px;
+			}
+			.appliedmanagement-bottom-bottom{
+				width: 100%;
+				height: auto;
+				position: absolute;
+				top: 36px;
+				bottom: 0;
 			}
 		</style>
 	</head>
@@ -955,7 +1095,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																	</tbody>
 																</table>
 															</form>
-														     <!--紧急联系人信息-->
+															 <!--紧急联系人信息-->
                                                             <form class="TheOwnerFormthree" style="display:none">
 														    	<p style="font-size: 18px;">紧急联系人:</p>
 														    	<table class="table table-striped table-bordered text-center">
@@ -1000,6 +1140,63 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																    </tbody>
 														    	</table>
 														    </form>
+															<!--查看详情车主基本信息-->
+															<!--基本信息-->
+															<form class="TheOwnerForm2">
+																<p style="font-size: 18px;">车主基本信息:</p>
+																<table class="table table-striped table-bordered text-center" id="TheOwnerFormtable">
+																	<tbody>
+																		<tr>
+																			<td><i>*</i>车主姓名:</td>
+																			<td class="owner1"></td>
+																			<td><i>*</i>车主性别:</td>
+																			<td class="owner2"></td>
+																		</tr>
+																		<tr>
+																			<td><i>*</i>车主身份证号</td>
+																			<td class="owner3"></td>
+																			<td><i>*</i>车主手机号:</td>
+																			<td class="owner4"></td>
+																		</tr>
+																		<tr>
+																			<td><i>*</i>省:</td>
+																			<td class="owner5"></td>
+																			<td><i>*</i>市:</td>
+																			<td class="owner6"></td>
+																		</tr>
+																		<tr>
+																			<td><i>*</i>县:</td>
+																			<td class="owner7"></td>
+																			<td><i>*</i>详细地址:</td>
+																			<td class="owner8"></td>
+																		</tr>
+																		<tr>
+																			<td><i>*</i>保险公司:</td>
+																			<td class="owner9"></td>
+																			<td>车牌号码:</td>
+																			<td class="owner10"></td>
+																		</tr>
+																		<tr>
+																			<td><i>*</i>车架号:</td>
+																			<td class="owner11"></td>
+																			<td><i>*</i>发动机编号:</td>
+																			<td class="owner12"></td>
+																		</tr>
+																		<tr>
+																			<td><i>*</i>车型品牌:</td>
+																			<td class="owner13"></td>
+																			<td><i>*</i>型号:</td>
+																			<td class="owner14"></td>
+																		</tr>
+																		<tr>
+																			<td><i>*</i>排量:</td>
+																			<td class="owner15"></td>
+																			<td><i>*</i>配置:</td>
+																			<td class="owner16"></td>
+																		</tr>
+																	</tbody>
+																</table>
+															</form>
 														    <!--保险信息-->
                                                            <!-- <form class="TheOwnerFormtwo" style="display:none">
 														    	<p style="font-size: 18px;">车主保险基本信息:</p>
@@ -2604,6 +2801,250 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								</div>
 							</div>
 					    </div>
+						<!--7.1总线录制---录制管理-->
+						<div class="Recordmanagement">
+							<!--当前指向-->
+							<div class="oriented" style="position: absolute;">
+								<span><b>总线录制</b></span>
+								<span><b>></b></span>
+								<span><b>录制管理</b></span>
+							</div>
+							<!--查询条件-->
+							<div class="Recordmanagement-inquier">
+								<img src="img/imagess/sousuotubiaotwo.png" alt="" />
+								<span>设备编号:</span>
+								<input type="text" id="Recordmanagement-number"/>
+								<span>车架号:</span>
+								<input type="text" id="Recordmanagement-vin"/>
+								<span>电控单元号:</span>
+								<input type="text" id="Recordmanagement-Electronic"/>
+								<a href="javaScript:Recordmnagement()">查询</a>
+							</div>
+						    <!--录制管理下侧表-->
+						    <div class="Recordmanagement-datagrid">
+						    	<div class="Recordmanagement-primarymeter">
+						    		
+						    	</div>
+						    </div>
+						    <!--查看模态框-->
+						    <div class="modal fade" id="RecordmanagementModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+								<div class="modal-dialog" style="width: 850px;">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+												&times;
+											</button>
+											<h4 class="modal-title" id="myModalLabel">
+												录制信息详情
+											</h4>
+										</div>
+										<div class="modal-body">
+											<div>
+												<table class="table table-striped table-bordered text-center">
+													<tr>
+														<td>设备编号:</td>
+														<td style="width: 90px;" id="Recordmanagementtd1"></td>
+														<td>电控单元序列号:</td>
+														<td id="Recordmanagementtd2"></td>
+														<td>车架号:</td>
+														<td id="Recordmanagementtd3"></td>
+													</tr>
+													<tr>
+														<td>车系代码:</td>
+														<td id="Recordmanagementtd5"></td>
+														<td>iccid:</td>
+														<td colspan="3" id="Recordmanagementtd4"></td>
+													</tr>
+												</table>
+											</div>
+											<!--表 datagrid-->
+											<div style="width: 818px;height: 200px;">
+												<div class="RecordmanagementModal-datagrid"></div>
+											</div>
+										</div>
+									</div><!-- /.modal-content -->
+								</div>
+							</div><!-- /.modal -->
+						    <!--录制设置模态框-->
+						    <div class="modal fade" id="RecordingoptionsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+								<div class="modal-dialog" style="width: 825px;">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+												&times;
+											</button>
+											<h4 class="modal-title" id="myModalLabel">
+												录制信息设置
+											</h4>
+										</div>
+										<div class="modal-body">
+											<div>
+												<table class="table table-striped table-bordered text-center">
+													<tr>
+														<td>设备编号:</td>
+														<td style="width: 90px;" id="Recordmanagementtdd1"></td>
+														<td>电控单元序列号:</td>
+														<td id="Recordmanagementtdd2"></td>
+														<td>车架号:</td>
+														<td id="Recordmanagementtdd3"></td>
+													</tr>
+													<tr>
+														<td>车系代码:</td>
+														<td id="Recordmanagementtdd5"></td>
+														<td>iccid:</td>
+														<td colspan="3" id="Recordmanagementtdd4"></td>
+													</tr>
+												</table>
+											</div>
+										    <div style="width: 500px;margin: 0 auto;">
+										    	<span>CAN通道号:</span>
+										    	<select id="CANchannelnumber" style="width: 146px;">
+										    		<!--<option value="11">11</option>
+													<option value="12">12</option>-->
+										    	</select>
+										    	<span style="margin-left: 40px;">结束时间:</span>
+										    	<input class="easyui-datetimebox" id="CANstoptime" style="width:146px">
+										    	<i>*</i>
+										    </div>
+										    <div style="width: 100%;height: 200px;margin-top: 10px;">
+										    	<div id="CANdatagridform" style="width: 100%;height:100%;overflow: auto;">
+										    		<table class="table table-striped table-bordered text-center" id="cantable">
+										    			<tr>
+										    				<th></th>
+										    				<th style="text-align: center;">canID</th>
+										    				<th style="text-align: center;">名称</th>
+										    				<th style="text-align: center;">采集时间</th>
+										    				<th style="text-align: center;">掩码</th>
+										    			</tr>
+										    			
+										    		</table>
+										    	</div>
+										    </div>
+										</div>
+										<div class="modal-footer">
+											<span>(设备需在线才能保存成功)</span>
+											<button type="button" id="canawaken" class="btn btn-primary">设备唤醒</button>
+											<button type="button" id="Bustorecordsend" class="btn btn-primary">
+												保存并发送
+											</button>
+											<button type="button" id="cancelrecording" class="btn btn-primary">取消录制</button>
+											<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+											</button>
+										</div>
+									</div><!-- /.modal-content -->
+								</div>
+							</div><!-- /.modal -->
+						</div>
+					    <!--7.2总线录制---数据查询-->
+						<div class="queryandpivot">
+					    	<!--当前指向-->
+							<div class="oriented" style="position: absolute;">
+								<span><b>总线录制</b></span>
+								<span><b>></b></span>
+								<span><b>数据管理</b></span>
+							</div>
+					        <!--查询条件-->
+							<div class="queryandpivot-inquier">
+								<img src="img/imagess/sousuotubiaotwo.png" style="margin-left:20px;" alt="" />
+								<span>设备编号:</span>
+								<input type="text" id="queryandpivot-number"/>
+								<span>车架号:</span>
+								<input type="text" id="queryandpivot-vin"/>
+								<span>起始时间:</span>
+								<input type="text" class="easyui-datetimebox" id="queryandpivot-startElectronic" style="background: #EAEAEA !important;"/>
+								<span>结束时间:</span>
+								<input type="text" class="easyui-datetimebox" id="queryandpivot-oldElectronic" style="background: #EAEAEA !important;"/>
+								<a href="javaScript:queryandpivotmanagement()">查询</a>
+							</div>
+					        <!--下侧表-->
+					        <div class="queryandpivot-bottom">
+					        	<div class="queryandpivot-bottom-left">
+					        		<div class="queryandpivot-bottom-left-top">CAN-ID 名称</div>
+					        		<div class="queryandpivot-bottom-left-bottom">
+					        			<button>全部数据</button>
+					        			<!--<button>EMS1 发动机管理</button>
+					        			<button>EMS1 发动机管理</button>
+					        			<button>EMS1 发动机管理</button>-->
+					        		</div>
+					        	</div>
+					        	<div class="queryandpivot-bottom-right">
+					        		<div class="queryandpivot-bottom-right-in">
+					        			<div class="queryandpivot-bottom-datagrid">
+					        				<div class="queryandpivot-datagrid">
+					        					
+					        				</div>
+					        			</div>
+					        			<div class="queryandpivot-bottom-datagrid-bottom">
+					        				<p style="width: 180px;height: 40px;margin-left: 28%;">
+					        				    <button>导出本页</button>
+					        				    <button>导出全部</button> 
+					        				</p>
+					        			</div>
+					        		</div>
+					        	</div>
+					        </div>
+					    </div>
+						<!--8.1应用管理--应用管理-->
+					    <div class="appliedmanagement">
+					    	<!--当前指向-->
+							<div class="oriented" style="position: absolute;">
+								<span><b>应用管理</b></span>
+								<span><b>></b></span>
+								<span><b>应用管理</b></span>
+							</div>
+					        <!--下侧表-->
+					        <div class="appliedmanagement-bottom">
+					        	<div class="appliedmanagement-bottom-top">
+					        	    <div class="appliedmanagement-top-one" style="display:none;">
+					        			<span><img src="img/imagess/xinzeng.png" alt="" /></span>
+					        			<a href="javaScript:appliedmanagementadd()">添加应用</a>
+					        		</div>
+					        		<div class="appliedmanagement-top-two" style="display:none;">
+					        			<span><img src="img/imagess/bianjitubiao.png" alt="" /></span>
+					        			<a href="javaScript:appliedmanagementModify()">编辑应用</a>
+					        		</div>
+					        		<div class="appliedmanagement-top-thr" style="display:none;">
+					        			<span><img src="img/imagess/shanchu2.png" alt="" /></span>
+					        			<a href="javaScript:appliedmanagementremove()">删除应用</a>
+					        		</div>
+					        	</div>
+					        	<!--新增模态框-->
+				        		<div class="modal fade" id="appliedmanagementModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+								    <div class="modal-dialog">
+								        <div class="modal-content">
+								            <div class="modal-header">
+								                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								                <h4 class="modal-title" id="myModalLabel">添加应用</h4>
+								            </div>
+								            <div class="modal-body">
+								            	<div style="width: 250px;height: 120px;margin: 0 auto;">
+								            		<span style="width:86px;display: inline-block;margin-top: 15px;"><i>*</i>状态:</span>
+								            		<select id="appliedmanagement-state" style="width: 146px;">
+								            			<option value="0">禁用</option>
+								            			<option value="1">启用</option>
+								            		</select>
+								            		<hr />
+								            		<span style="width:86px;display: inline-block;margin-top: 15px;"><i>*</i>应用ID:</span>
+								            		<input type="text" id="appliedmanagement-ID" required/>
+								            		<hr />
+								            		<span style="width:86px;display: inline-block;margin-top: 15px;"><i>*</i>设备供应商:</span>
+								            		<input type="text" id="appliedmanagement-supplier" required/>
+								            	</div>
+								            </div>
+								            <div class="modal-footer">
+								                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+								                <button type="button" class="btn btn-primary" id="appliedmanagement-save">保存</button>
+								            </div>
+								        </div><!-- /.modal-content -->
+								    </div>
+								</div><!-- /.modal -->
+					        	<div class="appliedmanagement-bottom-bottom">
+					        		<div class="appliedmanagement-datagrid">
+					        			
+					        		</div>
+					        	</div>
+					        </div>
+					    </div>
 					</main>
 				</div>
 			</div>
@@ -2633,3 +3074,4 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="js/MotorcycleType.js"></script>
 <script src="js/equipmentreplacement.js"></script>
 <script src="js/facilitySIM.js"></script>
+<script src="js/Recordmanagement.js"></script>

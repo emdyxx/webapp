@@ -313,7 +313,7 @@ $('.upgrademanage').css('display','none')
 			$('#upgradetopModal').modal('hide');
 			$('.upgradebottomdata').datagrid('reload')
 		}else{
-			Statuscodeprompt(data.error_code,"上传失败...",'error')
+			Statuscodeprompt(dataObj.error_code,"上传失败...",'error')
 		}
     }
     //上传失败

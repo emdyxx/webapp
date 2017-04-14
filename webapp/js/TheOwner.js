@@ -3,6 +3,7 @@
 var id3;//tree树的真实id,判断是否选中,以及发请求携带的参数
 var TheOwnerIp=0;//审核状态的权限
 var ownerIds; //新增车主id
+var owner0;
 $('.TheOwner').css('display', 'none');
 $('#managementli5').click(function() {
 	clearInterval(seti);
@@ -157,6 +158,7 @@ $('.TheOwner-inquire-cs').click(function(){
 
 //新增按钮
 function TheOwneradd(){
+	owner0=0
 	$('#TheOwnerModal').modal('show');
 	startusings()
 	$('.spanerror').html('')
@@ -471,9 +473,9 @@ $('#Nextstep').click(function(){
 //服务信息提交按钮
 $('#Nextstep1').click(function(){
     var str = '';
-    var phone = /^1[34578]\d{9}$/; // 验证手机号
+    var phone = /^((0\d{2,3}-\d{7,8})|(1[3584]\d{9}))$/; // 验证手机号
     if(!phone.test($('#business').val())&&!phone.test($('#malfunction').val())&&!phone.test($('#Accident').val())) {
-		   str += '手机号不符合格式';
+		   str += '号码不符合格式';
 	}
     if(str!=''){
     	$('.spanerror').html(str)
@@ -528,6 +530,7 @@ function TheOwnerremove() {
 }
 //修改用户按钮
 function TheOwnerbj(t){
+	    owner0=0
 		var row = $("#TheOwner-datagrid-bottom").datagrid('getSelected');
 		var rows = $('#TheOwner-datagrid-bottom').datagrid('getChecked');
 		if(row == null) {
@@ -573,11 +576,12 @@ function ReviewOperation(){
 		return;
 	}
 	startusings()
+	owner0=1
 	$('#TheOwnerModal').modal('show');
 	$('.spanerror').html('')
 	$('.TheOwnertitle').html('审核状态');
 	$('.TheOwnerModal-body>form').css('display','none');
-	$('.TheOwnerForm').css('display','');
+	$('.TheOwnerForm2').css('display','');
 	$('.Nextstepbutton>button').css('display','none');
 	$('#Nextstep7').css('display','');
 	$('#Nextstep8').css('display','');
@@ -631,21 +635,37 @@ $('#Nextstep9').click(function(){
 })
 //查看详情
 function LookUp(){
+    owner0=1;
 	var row = $("#TheOwner-datagrid-bottom").datagrid('getSelected');
 	if(!row){
 		return;
 	}
-	forbidden()
+	// forbidden()
 	$('#TheOwnerModal').modal('show');
 	$('.spanerror').html('')
 	$('.TheOwnertitle').html('查看详情');
 	$('.TheOwnerModal-body>form').css('display','none');
-	$('.TheOwnerForm').css('display','');
+	$('.TheOwnerForm2').css('display','');
 	$('.Nextstepbutton>button').css('display','none');
 	$('#Nextstep3').css('display','');
 	$('#Nextstep5').css('display','');
 	$('#Nextstep6').css('display','');
-	TheOwnerValue(row);
+	$('.owner1').text(row.ownerName)
+	$('.owner2').text(row.sex)
+	$('.owner3').text(row.idNumber)
+	$('.owner4').text(row.mobile)
+	$('.owner5').text(row.province)
+	$('.owner6').text(row.city)
+	$('.owner7').text(row.district)
+	$('.owner8').text(row.address)
+	$('.owner9').text(row.insurerName)
+	$('.owner10').text(row.plate)
+	$('.owner11').text(row.vin)
+	$('.owner12').text(row.engineCode)
+	$('.owner13').text(row.vehicleBrand)
+	$('.owner14').text(row.vehicleModel)
+	$('.owner15').text(row.vehicleDisplacement)
+	$('.owner16').text(row.vehicleConfig)
 }
 //修改用户往基本信息输入框添加数据
 function TheOwnerValue(row){
@@ -982,8 +1002,14 @@ function TheOwnerphone(){
 //基本信息点击事件
 $('#Nextstep3').click(function(){
 	$('.TheOwnerModal-body>form').css('display','none');
-	$('.TheOwnerForm').css('display','');
-	$('#Nextstep2').val('基本')
+	if(owner0==0){
+      $('.TheOwnerForm').css('display','');
+	  $('#Nextstep2').val('基本')
+	}else{
+		$('.TheOwnerForm2').css('display','');
+	    $('#Nextstep2').val('基本')
+	}
+	
 })
 
 //紧急联系人信息点击事件

@@ -635,7 +635,22 @@ main {
 .nav-right-right-xl>span:nth-of-type(2){
   border-top: 1px solid white;
 }
-
+#TheOwnerFormtable select{
+	width: 146px;
+}
+#ResetPassword{
+	width: 58px;
+	height: 22px;
+	line-height: 22px;
+	display: inline-block;
+	text-align: center;
+	background: linear-gradient(to bottom,#ffffff 0,#eeeeee 100%);
+	border: 1px solid #bbb;
+	color: #444;
+	border-radius: 5px 5px 5px 5px;
+	cursor: pointer;
+	font-size: 12px;
+}
 /**************1.2系统管理--角色管理***************/
 .rolemanagement{
 	width: 100%;

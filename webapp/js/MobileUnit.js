@@ -372,12 +372,28 @@ function UpgradeGroupss() {
         $.messager.alert('系统提示', '请选择用户进行升级分组操作','warning');
         return;
     }
+    console.log(row)
+    for(var i=0;i<row.length;i++){
+        if(row[i].topGroupId==0){
+            $.messager.alert('系统提示','所选设备不在同一归属分组,请先进行归属分组操作','error');
+            return false;
+        }
+        if(row[0].topGroupId==row[i].topGroupId){
+            
+        }else{
+            $.messager.alert('系统提示','所选设备不在同一车厂，无法进行升级分组，请确认选择设备','error');
+            return false;
+        }
+    }
     $('#MobileyhthreeModal').modal('show')
     $('.Mobileyhthreformdiv-divtwo').css('display','none')
     $('.Mobileyhthreeformtree').tree({
-        url: server_context+'/listDeviceGroupTree',
+        url: server_context+'/listDeviceGroupTree2',
         method: 'post',
         animate: 'true',
+        queryParams:{
+            topGroupId:row[0].topGroupId
+        },
         loadFilter: function (data) {
 			var rows = data.data
             return convsssss(rows);
@@ -399,15 +415,30 @@ function convsssss(rows) {
 	var nodes = [];
 	for(var i = 0; i < rows.length; i++) {
 		var row = rows[i];
-		if(!exists(rows, row.parentId)) {
-			nodes.push({
-				id: row.actualId,
-				text: row.name,
-				actualId:row.id,
-				parendId:row.parendId,
-				parentId:row.parentId
-			});
-		}
+        if(row.parendId==0){
+           if(!exists(rows, row.parentId)) {
+                nodes.push({
+                    id: row.actualId,
+                    text: row.name,
+                    actualId:row.id,
+                    parendId:row.parendId,
+                    parentId:row.parentId,
+                    iconCls:'icon-bianzutubiao'
+                });
+            }
+        }else{
+            if(!exists(rows, row.parentId)) {
+                nodes.push({
+                    id: row.actualId,
+                    text: row.name,
+                    actualId:row.id,
+                    parendId:row.parendId,
+                    parentId:row.parentId,
+                    iconCls:'icon-shebeizutubiao'
+                });
+            }
+        }
+		
 	}
 	var toDo = [];
 	for(var i = 0; i < nodes.length; i++) {
@@ -417,14 +448,28 @@ function convsssss(rows) {
 		var node = toDo.shift();
 		for(var i = 0; i < rows.length; i++) {
 			var row = rows[i];
+
 			if(row.parentId == node.id) {
-				var child = {
-					id: row.actualId,
-                    text: row.name,
-                    actualId:row.id,
-                    parendId:row.parendId,
-                    parentId:row.parentId
-				};
+                if(row.parendId==0){
+                   var child = {
+                        id: row.actualId,
+                        text: row.name,
+                        actualId:row.id,
+                        parendId:row.parendId,
+                        parentId:row.parentId,
+                        iconCls:'icon-bianzutubiao'
+                    };
+                }else{
+                   var child = {
+                        id: row.actualId,
+                        text: row.name,
+                        actualId:row.id,
+                        parendId:row.parendId,
+                        parentId:row.parentId,
+                        iconCls:'icon-shebeizutubiao'
+                    };
+                }
+				
 				if(node.children) {
 					node.children.push(child);
 				} else {

@@ -8,6 +8,7 @@ var basePath = localObj.protocol+"//"+localObj.host+"/"+contextPath;
 var server_context=basePath;
 
 function Statuscodeprompt(code,msg,img){
+	console.log(code)
     if(code==10001){
         $.messager.alert('系统提示','未知错误','error');
 	}else if(code==10002){
@@ -184,6 +185,10 @@ for(var i = 0; i < $('.panel').length; i++) {
 		$('.h4-a').eq(i).attr('href','#collapseeight')
 		$('.panel-collapse').eq(i).attr('id','collapseeight')
 	}
+	if($('.h4-a').eq(i).text()=='总线录制'){
+		$('.h4-a').eq(i).attr('href','#collapseten')
+		$('.panel-collapse').eq(i).attr('id','collapseten')
+	}
 }
 //点击图标上下切换
 var h4 = document.querySelectorAll('.h4-a')
@@ -300,9 +305,14 @@ for(var i = 0; i < $('.management>li').length; i++) {
 	if($('.management>li').eq(i).text()=='车型管理'){
 		$('.management>li').eq(i).attr('id','managementli31')
 	}
-	if($('.h4-a').eq(i).text()=='推送管理'){
-		$('.h4-a').eq(i).attr('href','#collapsenine')
-		$('.panel-collapse').eq(i).attr('id','collapsenine')
+	if($('.management>li').eq(i).text()=='录制管理'){
+		$('.management>li').eq(i).attr('id','managementli32')
+	}
+	if($('.management>li').eq(i).text()=='数据查询'){
+		$('.management>li').eq(i).attr('id','managementli33')
+	}
+	if($('.management>li').eq(i).text()=='应用管理'){
+		$('.management>li').eq(i).attr('id','managementli34')
 	}
 }
 
@@ -651,6 +661,7 @@ function treeremoveo() {
 					if(data.error_code==0){
 							$.messager.alert("系统提示", "删除成功",'info');
 							$("#leftleft1").tree('reload');
+							$('.rightright').css('display', 'none')
 					}else{
                         Statuscodeprompt(data.error_code)
 					}					
@@ -674,7 +685,7 @@ $('#ResetPassword').click(function(){
 })
 //bottom的弹出框保存按钮
 function save() {
-	var phone = /^1[34578]\d{9}$/;
+	var phone = /^((0\d{2,3}-\d{7,8})|(1[3584]\d{9}))$/;
 	var email = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
 	var ids=0;
 	var groupd;
@@ -731,7 +742,7 @@ function save() {
 }
 //top弹出框保存按钮
 function saveUser() {
-	var phone = /^1[34578]\d{9}$/;
+	var phone = /^((0\d{2,3}-\d{7,8})|(1[3584]\d{9}))$/;
 	var selected = $("#dg").datagrid('getSelected');
 	var data = {
 		'id':selected.id,

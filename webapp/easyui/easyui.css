@@ -675,10 +675,10 @@
 .combo .textbox-icon-disabled:hover {
   cursor: default;
 }
-.textbox-invalid {
+/*.textbox-invalid {
   border-color: #ffa8a8;
-  background-color: #fff3f3;
-}
+  background-color: #EAEAEA;
+}*/
 .combobox-item,
 .combobox-group {
   font-size: 12px;
@@ -2159,10 +2159,10 @@
   opacity: 0.5;
   filter: alpha(opacity=50);
 }
-.textbox-invalid {
+/*.textbox-invalid {
   border-color: #ffa8a8;
   background-color: #fff3f3;
-}
+}*/
 .slider-disabled {
   opacity: 0.5;
   filter: alpha(opacity=50);
