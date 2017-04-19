@@ -11,7 +11,7 @@ html {
 	height: 100%;
 	background-color: #EAEAEA !important;
 }
-
+a,input{outline:none;}
 html {
 	min-width: 1350px;
 }
@@ -102,10 +102,17 @@ nav {
 	margin-left: 10px;
 }
 /**************左侧left***************/
+.panel-img{
+	position: absolute;
+	top: 6px;
+	width: 30px;
+	height: 30px;
+	left: 30px
+}
 .left-img {
 	width: 240px;
 	height: 80px;
-	background-color: #001621;
+	background-color: #0c1924;
 	position: absolute;
 	top: 0;
 }
@@ -127,7 +134,7 @@ nav {
 	float: left;
 	width: 240px;
 	height: auto;
-	background-color: #344149;
+	background-color: #294251;
 	overflow: auto;
 	position: absolute;
 	top: 80px;
@@ -140,19 +147,24 @@ nav {
 }*/
 
 .bscolor {
-	background: #001621 !important;
+	background: #294251 !important;
 	border-radius: 0 !important;
 	margin-top: 1px !important;
 	border: none !important;
+	border-bottom: 1px solid #253a46 !important;
 }
 
 .h4-a {
 	display: inline-block;
 	width: 100%;
 	text-align: center;
-	color: #00ACFF !important;
-	font-size: 15px;
+	color: #bbe0fb;
+	font-size: 16px;
 	position: relative;
+	font-family: '黑体';
+	padding-right: 35px;
+	text-decoration: none !important;
+	border: none !important;
 }
 
 .funct {
@@ -162,6 +174,7 @@ nav {
 	line-height: 60px;
 	color: #00ABFF;
 	font-size: 18px;
+	background:#294251; 
 }
 
 .listing {
@@ -171,7 +184,7 @@ nav {
 .management {
 	width: 100%;
 	margin-bottom: 1px !important;
-	background: #344149;
+	background: #253a46;
 }
 
 .management>li {
@@ -181,9 +194,10 @@ nav {
 	line-height: 35px;
 	font-size: 14px;
 	font-weight: 600;
-	color: white;
+	color: #bbe0fb;
 	cursor: pointer;
 	position: relative;
+	font-family: '黑体';
 }
 
 .management>li>span {
@@ -200,10 +214,14 @@ nav {
 }
 
 .libj {
-	background-image: url(../img/icon/libj.png);
+	background-image: url(../img/leftimg/libj.png);
 	background-size: 100% 100%;
 }
-
+.management>li>img{
+	position: absolute;
+	left: 65px;
+	top : 13px;
+}
 ::-webkit-scrollbar {
 	width: 0.5px;
 	background-color: #001621;
@@ -1030,4 +1048,55 @@ main {
 }
 #repairfm input{
 	text-align: center;
+}
+
+/*<!--7.3总线录制---CANID设置-->*/
+.canidSet{
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+.canidSet-bottom{
+	width: 100%;
+	height: auto;
+	position: absolute;
+	top: 60px;
+	bottom: 0;
+}
+.canidSet-bottom-left{
+	width: 240px;
+	height: 100%;
+	float: left;
+	background: white;
+	position: relative;
+}
+.canidSet-bottom-right{
+    margin-left: 250px;
+	height: 100%;
+	position: relative;
+}
+.canidSet-bottom-right-inver{
+	height: 100%;
+	background: white;
+}
+.canidSet-bottom-right-inver-main{
+	width: 100%;
+	height: 36px;
+	position: absolute;
+	top: 0px;
+}
+.canidSet-bottom-right-inver-bottom{
+	width: 100%;
+	height: auto;
+	position: absolute;
+	top: 36px;
+	bottom: 0;
+}
+.canidSet-bottom-right-inver-main>div{
+	display: inline-block;
+	margin-left: 20px;
+	margin-top: 6px;
+}
+.canidSet-bottom-right-inver-main>div>a{
+	color: black;
 }

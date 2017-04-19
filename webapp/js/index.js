@@ -133,8 +133,9 @@ $.ajax({
 	async: false,
 	success: function(data) {
 		for(var i = 0; i < data.data.length; i++) {
-			$('<div class="panel bscolor"></div>').appendTo('#accordion')
+			$('<div class="panel bscolor" style="position:relative"></div>').appendTo('#accordion')
 		}
+		$("<div class='panel-img'>"+'<img src="">'+"</div>").appendTo('.panel')
 		$('<div class="panel-heading"></div>').appendTo('.panel')
 		$('<div id="collapseOne" class="panel-collapse collapse"></div>').appendTo('.panel')
 		$('<div></div>').appendTo('.panel-collapse')
@@ -152,44 +153,237 @@ $.ajax({
 			$('.h4-a').eq(i).text(data.data[i].menuName)
 		}
 		$('<span class="down"></span>').appendTo('.h4-a')
-		$('<img src="img/imagess/dakai.png" alt="" />').appendTo('.down') 
+		$('<img src="img/leftimg/shouqi.png" alt="" />').appendTo('.down') 
+		$('<img src="img/leftimg/yuanhuanw.png">').appendTo($('.management>li'))
 	}
 });
 //修改每个ui所指向的li
 for(var i = 0; i < $('.panel').length; i++) {
+	if($('.h4-a').eq(i).text() == '系统管理') {
+		$('.h4-a').eq(i).attr('name','collapseOne')
+        $('.panel-img').eq(i).find('img').attr('src','img/leftimg/xitongguanliw.png')
+		$('.panel-img').eq(i).attr('id','panel-img1')
+	}
 	if($('.h4-a').eq(i).text() == '车主管理') {
+		$('.h4-a').eq(i).attr('name','collapseTwo')
 		$('.h4-a').eq(i).attr('href', '#collapseTwo')
 		$('.panel-collapse').eq(i).attr('id', 'collapseTwo')
+		$('.panel-img').eq(i).find('img').attr('src','img/leftimg/chezhuw.png')
+		$('.panel-img').eq(i).attr('id','panel-img2')
 	}
 	if($('.h4-a').eq(i).text() == '设备管理') {
+		$('.h4-a').eq(i).attr('name','collapseThree')
 		$('.h4-a').eq(i).attr('href', '#collapseThree')
 		$('.panel-collapse').eq(i).attr('id', 'collapseThree')
+		$('.panel-img').eq(i).find('img').attr('src','img/leftimg/shebeiw.png')
+		$('.panel-img').eq(i).attr('id','panel-img3')
 	}
 	if($('.h4-a').eq(i).text() == '数据查询') {
+		$('.h4-a').eq(i).attr('name','collapseFour')
 		$('.h4-a').eq(i).attr('href', '#collapseFour')
 		$('.panel-collapse').eq(i).attr('id', 'collapseFour')
+		$('.panel-img').eq(i).find('img').attr('src','img/leftimg/shebeichaw.png')
+		$('.panel-img').eq(i).attr('id','panel-img4')
 	}
 	if($('.h4-a').eq(i).text() == '升级管理') {
+		$('.h4-a').eq(i).attr('name','collapseFive')
 		$('.h4-a').eq(i).attr('href', '#collapseFive')
 		$('.panel-collapse').eq(i).attr('id', 'collapseFive')
+		$('.panel-img').eq(i).find('img').attr('src','img/leftimg/shengjiw.png')
+		$('.panel-img').eq(i).attr('id','panel-img5')
 	}
 	if($('.h4-a').eq(i).text() == '应用管理') {
+		$('.h4-a').eq(i).attr('name','collapseSix')
 		$('.h4-a').eq(i).attr('href', '#collapseSix')
 		$('.panel-collapse').eq(i).attr('id', 'collapseSix')
+		$('.panel-img').eq(i).find('img').attr('src','img/leftimg/yingyongw.png')
+		$('.panel-img').eq(i).attr('id','panel-img6')
 	}
 	if($('.h4-a').eq(i).text() == '呼叫中心') {
+		$('.h4-a').eq(i).attr('name','collapseSeven')
 		$('.h4-a').eq(i).attr('href', '#collapseSeven')
 		$('.panel-collapse').eq(i).attr('id', 'collapseSeven')
+		$('.panel-img').eq(i).find('img').attr('src','img/leftimg/hujiaow.png')
+		$('.panel-img').eq(i).attr('id','panel-img7')
 	}
 	if($('.h4-a').eq(i).text()=='车型管理'){
+		$('.h4-a').eq(i).attr('name','collapseeight')
 		$('.h4-a').eq(i).attr('href','#collapseeight')
 		$('.panel-collapse').eq(i).attr('id','collapseeight')
+		$('.panel-img').eq(i).find('img').attr('src','img/leftimg/chexingw.png')
+		$('.panel-img').eq(i).attr('id','panel-img8')
 	}
 	if($('.h4-a').eq(i).text()=='总线录制'){
+		$('.h4-a').eq(i).attr('name','collapseten')
 		$('.h4-a').eq(i).attr('href','#collapseten')
 		$('.panel-collapse').eq(i).attr('id','collapseten')
+		$('.panel-img').eq(i).find('img').attr('src','img/leftimg/zongxianw.png')
+		$('.panel-img').eq(i).attr('id','panel-img9')
 	}
 }
+$('.h4-a[name=collapseOne]').click(function(){
+	$('.h4-a').css('color','#bbe0fb')
+	if($('#panel-img1').find('img').attr('src')=='img/leftimg/xitongguanlix.png'){
+        $('#panel-img1').find('img').attr('src','img/leftimg/xitongguanliw.png')
+		$('.h4-a[name=collapseOne]').css('color','#bbe0fb')
+	}else{
+		$('#panel-img1').find('img').attr('src','img/leftimg/xitongguanlix.png')
+		$('.h4-a[name=collapseOne]').css('color','#ff7e00')
+	}
+	$('#panel-img2').find('img').attr('src','img/leftimg/chezhuw.png')
+	$('#panel-img3').find('img').attr('src','img/leftimg/shebeiw.png')
+	$('#panel-img4').find('img').attr('src','img/leftimg/shebeichaw.png')
+	$('#panel-img5').find('img').attr('src','img/leftimg/shengjiw.png')
+	$('#panel-img6').find('img').attr('src','img/leftimg/yingyongw.png')
+	$('#panel-img7').find('img').attr('src','img/leftimg/hujiaow.png')
+	$('#panel-img8').find('img').attr('src','img/leftimg/chexingw.png')
+	$('#panel-img9').find('img').attr('src','img/leftimg/zongxianw.png')
+})
+$('.h4-a[name=collapseTwo]').click(function(){
+	$('.h4-a').css('color','#bbe0fb')
+	if($('#panel-img2').find('img').attr('src')=='img/leftimg/chezhux.png'){
+        $('#panel-img2').find('img').attr('src','img/leftimg/chezhuw.png')
+		$('.h4-a[name=collapseTwo]').css('color','#bbe0fb')
+	}else{
+		$('#panel-img2').find('img').attr('src','img/leftimg/chezhux.png')
+		$('.h4-a[name=collapseTwo]').css('color','#ff7e00')
+	}
+    $('#panel-img1').find('img').attr('src','img/leftimg/xitongguanliw.png')
+	$('#panel-img3').find('img').attr('src','img/leftimg/shebeiw.png')
+	$('#panel-img4').find('img').attr('src','img/leftimg/shebeichaw.png')
+	$('#panel-img5').find('img').attr('src','img/leftimg/shengjiw.png')
+	$('#panel-img6').find('img').attr('src','img/leftimg/yingyongw.png')
+	$('#panel-img7').find('img').attr('src','img/leftimg/hujiaow.png')
+	$('#panel-img8').find('img').attr('src','img/leftimg/chexingw.png')
+	$('#panel-img9').find('img').attr('src','img/leftimg/zongxianw.png')
+})
+$('.h4-a[name=collapseThree]').click(function(){
+	$('.h4-a').css('color','#bbe0fb')
+	if($('#panel-img3').find('img').attr('src')=='img/leftimg/shebeix.png'){
+        $('#panel-img3').find('img').attr('src','img/leftimg/shebeiw.png')
+		$('.h4-a[name=collapseThree]').css('color','#bbe0fb')
+	}else{
+		$('#panel-img3').find('img').attr('src','img/leftimg/shebeix.png')
+		$('.h4-a[name=collapseThree]').css('color','#ff7e00')
+	}
+	$('#panel-img1').find('img').attr('src','img/leftimg/xitongguanliw.png')
+	$('#panel-img2').find('img').attr('src','img/leftimg/chezhuw.png')
+	$('#panel-img4').find('img').attr('src','img/leftimg/shebeichaw.png')
+	$('#panel-img5').find('img').attr('src','img/leftimg/shengjiw.png')
+	$('#panel-img6').find('img').attr('src','img/leftimg/yingyongw.png')
+	$('#panel-img7').find('img').attr('src','img/leftimg/hujiaow.png')
+	$('#panel-img8').find('img').attr('src','img/leftimg/chexingw.png')
+	$('#panel-img9').find('img').attr('src','img/leftimg/zongxianw.png')
+})
+$('.h4-a[name=collapseFour]').click(function(){
+	$('.h4-a').css('color','#bbe0fb')
+	if($('#panel-img4').find('img').attr('src')=='img/leftimg/shebeichax.png'){
+        $('#panel-img4').find('img').attr('src','img/leftimg/shebeichaw.png')
+		$('.h4-a[name=collapseFour]').css('color','#bbe0fb')
+	}else{
+		$('#panel-img4').find('img').attr('src','img/leftimg/shebeichax.png')
+		$('.h4-a[name=collapseFour]').css('color','#ff7e00')
+	}
+	$('#panel-img1').find('img').attr('src','img/leftimg/xitongguanliw.png')
+	$('#panel-img2').find('img').attr('src','img/leftimg/chezhuw.png')
+	$('#panel-img3').find('img').attr('src','img/leftimg/shebeiw.png')
+	$('#panel-img5').find('img').attr('src','img/leftimg/shengjiw.png')
+	$('#panel-img6').find('img').attr('src','img/leftimg/yingyongw.png')
+	$('#panel-img7').find('img').attr('src','img/leftimg/hujiaow.png')
+	$('#panel-img8').find('img').attr('src','img/leftimg/chexingw.png')
+	$('#panel-img9').find('img').attr('src','img/leftimg/zongxianw.png')
+})
+$('.h4-a[name=collapseFive]').click(function(){
+	$('.h4-a').css('color','#bbe0fb')
+	if($('#panel-img5').find('img').attr('src')=='img/leftimg/shengjix.png'){
+        $('#panel-img5').find('img').attr('src','img/leftimg/shengjiw.png')
+		$('.h4-a[name=collapseFive]').css('color','#bbe0fb')
+	}else{
+		$('#panel-img5').find('img').attr('src','img/leftimg/shengjix.png')
+		$('.h4-a[name=collapseFive]').css('color','#ff7e00')
+	}
+	$('#panel-img1').find('img').attr('src','img/leftimg/xitongguanliw.png')
+	$('#panel-img2').find('img').attr('src','img/leftimg/chezhuw.png')
+	$('#panel-img3').find('img').attr('src','img/leftimg/shebeiw.png')
+	$('#panel-img4').find('img').attr('src','img/leftimg/shebeichaw.png')
+	$('#panel-img6').find('img').attr('src','img/leftimg/yingyongw.png')
+	$('#panel-img7').find('img').attr('src','img/leftimg/hujiaow.png')
+	$('#panel-img8').find('img').attr('src','img/leftimg/chexingw.png')
+	$('#panel-img9').find('img').attr('src','img/leftimg/zongxianw.png')
+})
+$('.h4-a[name=collapseSix]').click(function(){
+	$('.h4-a').css('color','#bbe0fb')
+	if($('#panel-img6').find('img').attr('src')=='img/leftimg/yingyongx.png'){
+        $('#panel-img6').find('img').attr('src','img/leftimg/yingyongw.png')
+		$('.h4-a[name=collapseSix]').css('color','#bbe0fb')
+	}else{
+		$('#panel-img6').find('img').attr('src','img/leftimg/yingyongx.png')
+		$('.h4-a[name=collapseSix]').css('color','#ff7e00')
+	}
+	$('#panel-img1').find('img').attr('src','img/leftimg/xitongguanliw.png')
+	$('#panel-img2').find('img').attr('src','img/leftimg/chezhuw.png')
+	$('#panel-img3').find('img').attr('src','img/leftimg/shebeiw.png')
+	$('#panel-img4').find('img').attr('src','img/leftimg/shebeichaw.png')
+	$('#panel-img5').find('img').attr('src','img/leftimg/shengjiw.png')
+	$('#panel-img7').find('img').attr('src','img/leftimg/hujiaow.png')
+	$('#panel-img8').find('img').attr('src','img/leftimg/chexingw.png')
+	$('#panel-img9').find('img').attr('src','img/leftimg/zongxianw.png')
+})
+$('.h4-a[name=collapseSeven]').click(function(){
+	$('.h4-a').css('color','#bbe0fb')
+	if($('#panel-img7').find('img').attr('src')=='img/leftimg/hujiaox.png'){
+        $('#panel-img7').find('img').attr('src','img/leftimg/hujiaow.png')
+		$('.h4-a[name=collapseSeven]').css('color','#bbe0fb')
+	}else{
+		$('#panel-img7').find('img').attr('src','img/leftimg/hujiaox.png')
+		$('.h4-a[name=collapseSeven]').css('color','#ff7e00')
+	}
+	$('#panel-img1').find('img').attr('src','img/leftimg/xitongguanliw.png')
+	$('#panel-img2').find('img').attr('src','img/leftimg/chezhuw.png')
+	$('#panel-img3').find('img').attr('src','img/leftimg/shebeiw.png')
+	$('#panel-img4').find('img').attr('src','img/leftimg/shebeichaw.png')
+	$('#panel-img5').find('img').attr('src','img/leftimg/shengjiw.png')
+	$('#panel-img6').find('img').attr('src','img/leftimg/yingyongw.png')
+	$('#panel-img8').find('img').attr('src','img/leftimg/chexingw.png')
+	$('#panel-img9').find('img').attr('src','img/leftimg/zongxianw.png')
+})
+$('.h4-a[name=collapseeight]').click(function(){
+	$('.h4-a').css('color','#bbe0fb')
+	if($('#panel-img8').find('img').attr('src')=='img/leftimg/chexingx.png'){
+        $('#panel-img8').find('img').attr('src','img/leftimg/chexingw.png')
+		$('.h4-a[name=collapseeight]').css('color','#bbe0fb')
+	}else{
+		$('#panel-img8').find('img').attr('src','img/leftimg/chexingx.png')
+		$('.h4-a[name=collapseeight]').css('color','#ff7e00')
+	}
+	$('#panel-img1').find('img').attr('src','img/leftimg/xitongguanliw.png')
+	$('#panel-img2').find('img').attr('src','img/leftimg/chezhuw.png')
+	$('#panel-img3').find('img').attr('src','img/leftimg/shebeiw.png')
+	$('#panel-img4').find('img').attr('src','img/leftimg/shebeichaw.png')
+	$('#panel-img5').find('img').attr('src','img/leftimg/shengjiw.png')
+	$('#panel-img6').find('img').attr('src','img/leftimg/yingyongw.png')
+	$('#panel-img7').find('img').attr('src','img/leftimg/hujiaow.png')
+	$('#panel-img9').find('img').attr('src','img/leftimg/zongxianw.png')
+})
+$('.h4-a[name=collapseten]').click(function(){
+	$('.h4-a').css('color','#bbe0fb')
+	if($('#panel-img9').find('img').attr('src')=='img/leftimg/zongxianx.png'){
+        $('#panel-img9').find('img').attr('src','img/leftimg/zongxianw.png')
+		$('.h4-a[name=collapseten]').css('color','#bbe0fb')
+	}else{
+		$('#panel-img9').find('img').attr('src','img/leftimg/zongxianx.png')
+		$('.h4-a[name=collapseten]').css('color','#ff7e00')
+	}
+	$('#panel-img1').find('img').attr('src','img/leftimg/xitongguanliw.png')
+	$('#panel-img2').find('img').attr('src','img/leftimg/chezhuw.png')
+	$('#panel-img3').find('img').attr('src','img/leftimg/shebeiw.png')
+	$('#panel-img4').find('img').attr('src','img/leftimg/shebeichaw.png')
+	$('#panel-img5').find('img').attr('src','img/leftimg/shengjiw.png')
+	$('#panel-img6').find('img').attr('src','img/leftimg/yingyongw.png')
+	$('#panel-img7').find('img').attr('src','img/leftimg/hujiaow.png')
+	$('#panel-img8').find('img').attr('src','img/leftimg/chexingw.png')
+	
+})
 //点击图标上下切换
 var h4 = document.querySelectorAll('.h4-a')
 for(var i = 0;i<h4.length;i++){
@@ -197,11 +391,12 @@ for(var i = 0;i<h4.length;i++){
 	h4[i].onclick = function() {
 		var j = this.index
 		var src = $('.down>img').eq(j).attr('src')
-		if(src=='img/imagess/guanbi.png'){
-			$('.down>img').eq(j).attr('src','img/imagess/dakai.png')
-		}else if(src=='img/imagess/dakai.png'){
-			$('.down>img').attr('src','img/imagess/dakai.png')
-            $('.down>img').eq(j).attr('src','img/imagess/guanbi.png')
+		if(src=='img/leftimg/shouqi.png'){
+			$('.down>img').attr('src','img/leftimg/shouqi.png')
+			$('.down>img').eq(j).attr('src','img/leftimg/xiala.png')
+		}else if(src=='img/leftimg/xiala.png'){
+			$('.down>img').attr('src','img/leftimg/shouqi.png')
+            $('.down>img').eq(j).attr('src','img/leftimg/shouqi.png')
 		}
 	}
 }
@@ -210,10 +405,12 @@ var managementli = document.querySelectorAll(".management>li");
 for(var i = 0; i < managementli.length; i++) {
 	managementli[i].index = i;
 	managementli[i].onclick = function() {
-		$('.management>li').css('color', 'white')
+		$('.management>li').css('color', '#bbe0fb')
 		$('.management>li').removeClass('libj')
 		managementli[this.index].className = 'libj';
-		managementli[this.index].style.color = "black"
+		managementli[this.index].style.color = "#00aaff"
+		$('.management>li>img').attr('src','img/leftimg/yuanhuanw.png')
+        $('.management>li').eq(this.index).find('img').attr('src','img/leftimg/yuanhuanx.png')
 	}
 }
 //修改li的class属性以便添加点击事件
@@ -314,6 +511,9 @@ for(var i = 0; i < $('.management>li').length; i++) {
 	if($('.management>li').eq(i).text()=='应用管理'){
 		$('.management>li').eq(i).attr('id','managementli34')
 	}
+	if($('.management>li').eq(i).text()=='CANID设置'){
+		$('.management>li').eq(i).attr('id','managementli36')
+	}
 }
 
 $('main>div').css('display','none')
@@ -337,6 +537,7 @@ $('.sox').linkbutton({
 
 //点击车厂管理触发的事件
 $('#managementli1').click(function() {
+
 	clearInterval(seti);							   
 	id=''
 	$('.rightright').css('display', 'none')
@@ -347,7 +548,6 @@ $('#managementli1').click(function() {
 		id:$('#managementli1').attr('name')
 	}	
 	$.post(server_context+'/setMenuId',data,function(data){
-		console.log(data.error_code)
 		if(data.error_code!=0){
 			Statuscodeprompt(data.error_code)
 		}
@@ -2053,5 +2253,168 @@ $('.operateinquire').click(function(){
 	})
 })
 
-
-
+// <!--总线录制---CANID设置-->
+var canidSeturl;
+var canidSetmodelAlias;
+var canidSettopGroupId;
+$('#managementli36').click(function(){
+	$('main>div').css('display','none');
+	$('.canidSet').css('display','');
+	$('#canidSetinver').css('display','none');
+	//权限请求
+	var data={
+		id:$('#managementli36').attr('name')
+	}	
+	$.post(server_context+'/setMenuId',data,function(data){
+		if(data.error_code!=0){
+			Statuscodeprompt(data.error_code)
+		}   
+		for(var i=0;i<data.data.length;i++){
+			if(data.data[i]==131){
+				$('.canidSet-top-one').css('display','')
+			}
+			if(data.data[i]==132){
+				$('.canidSet-top-two').css('display','')
+			}
+			if(data.data[i]==133){
+				$('.canidSet-top-thr').css('display','')
+			}
+		}
+	})
+	$('.canidSet-tree').tree({
+		url: server_context+'/listModelAliasTree',
+		method: 'post',
+		animate: 'true',
+		loadFilter: function(rows) {
+			return rows.data;
+		},
+		onSelect: function(node) {
+			return canidSetree(node);
+		}
+	})
+})
+//获取选中树的值
+function canidSetree(node){
+    $('#canidSetinver').css('display','');
+	if(node.level!=2){
+       $('#canidSetinver').css('display','none');
+	   return;
+	}
+	canidSetmodelAlias = node.modelAlias
+	canidSettopGroupId = node.topGroupId
+    
+	$('.canidSet-datagrid').datagrid({
+		url: server_context+'/listModelAliseCanId',
+        method: 'get',
+		singleSelect: 'true',
+        fitColumns: 'true',
+        fit: 'true',
+        rownumbers: 'true',
+        pagination: "true",
+		pageSize:50,
+        queryParams: {
+        	modelAlias:node.modelAlias,
+			topGroupId:node.topGroupId
+    	},
+        columns:[[
+            { field: "cb", checkbox: "true", align: "center" },
+            { field: "canId", title: 'CANID', align: "center", width: '30%',},
+            { field: "canName", title: 'CAN名称', align: "center", width: '30%' },
+            { field: "filter", title: '掩码', align: "center"},
+		]]
+	})
+}
+//新增
+function addcanidSet(){
+	$('#canidSetModal').modal('show');
+	$('.canidSet-title').text('新增CANID');
+	$('#canidSetSubmit').attr('name','1');
+	$('#canidSet-myid').val('');
+	$('#canidSet-myname').val('');
+    $('#canidSet-mymask').val('');
+	canidSeturl = server_context+'/saveCanId';
+}
+//编辑
+function editorcanidSet(){
+	var row = $('.canidSet-datagrid').datagrid('getSelected');
+	if(row == null){
+       $.messager.alert('系统提示','请选择需要修改的数据','error');
+	   return;
+	}
+	$('#canidSetModal').modal('show');
+	$('.canidSet-title').text('修改CANID');
+	$('#canidSetSubmit').attr('name','2');
+	$('#canidSet-myid').val(row.canId);
+	$('#canidSet-myname').val(row.canName);
+    $('#canidSet-mymask').val(row.filter);
+	canidSeturl = server_context+'/updateCanId';
+}
+//删除
+function removecanidSet(){
+	var row = $('.canidSet-datagrid').datagrid('getSelected');
+	console.log(row)
+	if(row == null){
+       $.messager.alert('系统提示','请选择需要删除的数据','error');
+	   return;
+	}
+	$.messager.confirm('系统提示','确认删除',function(r){
+		if(r){
+			$.ajax({
+				type:"post",
+				url: server_context+'/removeCanId',
+				async:true,
+				data:{
+					ids:row.id
+				},
+				success:function(data){
+					if(data.error_code==0){
+					$.messager.alert('系统提示','删除成功','info');
+				      	$('.canidSet-datagrid').datagrid('reload')
+					}else{
+					    Statuscodeprompt(data.error_code)
+					}
+				}
+			})
+		}
+	})
+	
+}
+$('#canidSetSubmit').click(function(){
+	if($('#canidSet-myid').val()==''||$('#canidSet-myname').val()==''){
+		$.messager.alert('系统提示','必填字段不能为空');
+		return;
+	}
+	var data;
+	if($('#canidSetSubmit').attr('name')==1){
+		data = {
+			modelAlias:canidSetmodelAlias,
+			topGroupId:canidSettopGroupId,
+			canId:$('#canidSet-myid').val(),
+			canName:$('#canidSet-myname').val(),
+			filter:$('#canidSet-mymask').val()
+		}
+	}else{
+		var row = $('.canidSet-datagrid').datagrid('getSelected');
+		data = {
+			id:row.id,
+			canId:$('#canidSet-myid').val(),
+			canName:$('#canidSet-myname').val(),
+			filter:$('#canidSet-mymask').val()
+		}
+	}
+	$.ajax({
+		type:"post",
+		url:canidSeturl,
+		async:true,
+		data:data,
+		success:function(data){
+			if(data.error_code==0){
+				$.messager.alert('系统提示','保存成功','info')
+				$('#canidSetModal').modal('hide');
+				$('.canidSet-datagrid').datagrid('reload')
+			}else{
+				Statuscodeprompt(data.error_code)
+			}
+		}
+	});
+})

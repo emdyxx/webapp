@@ -1577,7 +1577,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 												</div>
 												<div class="modal-body Mobileyhoneform">
 													<label for="deviceIds"><i>*</i>设备编号:</label>
-													<input type="text" maxlength="10" id="deviceIds"/>
+													<input type="text" minlength="5" maxlength="10" id="deviceIds"/>
 													<label for="hardwareVers"><i>*</i>硬件版本号:</label>
 													<input type="text" maxlength="10" id="hardwareVers"/>
 													<hr />
@@ -2553,7 +2553,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																<td style="width: 25%;"><input type="text" name="version" id="version"  class="easyui-validatebox"   validtype="deviceId"  missingmessage="必填"  data-options="required:true,validType:'length[2,20]'" maxlength="20"><i> *</i></td>
 															</tr>
 															<tr>
-																<td >适用车型:</td>
+																<td >车系代码:</td>
 																<td><input type="text" name="model" id="modelss" class="easyui-validatebox"   validtype="deviceId"   missingmessage="必填"  data-options="required:true,validType:'length[2,20]'" maxlength="20"><i> *</i></td>
 																<td>升级类型:</td>
 																<td>
@@ -2984,6 +2984,73 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					        	</div>
 					        </div>
 					    </div>
+						<!--7.3总线录制---CANID设置-->
+					    <div class="canidSet">
+					    	<!--当前指向-->
+							<div class="oriented" style="position: absolute;">
+								<span><b>总线录制</b></span>
+								<span><b>></b></span>
+								<span><b>CANID设置</b></span>
+							</div>
+					        <!--下侧树/表-->
+					        <div class="canidSet-bottom">
+					        	<div class="canidSet-bottom-left">
+					        		<div class="canidSet-tree" style="padding: 10px;"></div>
+					        	</div>
+					        	<div class="canidSet-bottom-right">
+					        		<div class="canidSet-bottom-right-inver" id="canidSetinver">
+										<div class="canidSet-bottom-right-inver-main">
+											<div class="canidSet-top-one" style="display:none;">
+												<span><img src="img/imagess/xinzeng.png" alt="" /></span>
+												<a href="javaScript:addcanidSet()">新增CANID</a>
+											</div>
+											<div class="canidSet-top-two" style="display:none;">
+												<span><img src="img/imagess/bianjitubiao.png" alt="" /></span>
+												<a href="javaScript:editorcanidSet()">修改CANID</a>
+											</div>
+											<div class="canidSet-top-thr" style="display:none;">
+												<span><img src="img/imagess/shanchu2.png" alt="" /></span>
+												<a href="javaScript:removecanidSet()">删除CANID</a>
+											</div>
+										</div>
+										<!--新增/修改模态框-->
+										<div class="modal fade" id="canidSetModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+											<div class="modal-dialog">
+												<div class="modal-content">
+													<div class="modal-header">
+														<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+														<h4 class="modal-title canidSet-title" id="myModalLabel">新增CANID</h4>
+													</div>
+													<div class="modal-body">
+														<table class="table table-striped table-bordered text-center">
+															<tr>
+																<td><i>*</i>CANID</td>
+																<td><input type="text" id="canidSet-myid"/></td>
+															</tr>
+															<tr>
+																<td><i>*</i>CAN名称</td>
+																<td><input type="text" id="canidSet-myname"/></td>
+															</tr>
+															<tr>
+																<td>掩码</td>
+																<td><input type="text" id="canidSet-mymask"/></td>
+															</tr>
+														</table>
+													</div>
+													<div class="modal-footer">
+														<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+														<button type="button" class="btn btn-primary" id="canidSetSubmit">提交更改</button>
+													</div>
+												</div><!-- /.modal-content -->
+											</div>
+										</div><!-- /.modal -->
+										<div class="canidSet-bottom-right-inver-bottom">
+											<div class="canidSet-datagrid"></div>
+										</div>
+					        		</div>
+					        	</div>
+					        </div>
+					    </div>
 						<!--8.1应用管理--应用管理-->
 					    <div class="appliedmanagement">
 					    	<!--当前指向-->
@@ -3055,7 +3122,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 				<div class="main-left">
 					<div class="funct">
-						<span><b>功能列表</b></span>
+						<span>
+							<img src="img/icon/gongnengliebiao.png" alt="">
+						</span>
 					</div>
 					<div class="listing" ng-controller='listingcontroller'>
 						<div class="panel-group" id="accordion" style="overflow: auto;">

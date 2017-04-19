@@ -1101,7 +1101,7 @@ a {
 }
 a:focus {
   color: #23527c;
-  text-decoration: underline;
+  /*text-decoration: underline;*/
 }
 a:focus {
   outline: thin dotted;
@@ -5471,7 +5471,7 @@ button.list-group-item-danger.active:focus {
   /*font-size: 16px;*/
   color: inherit;
 }
-.panel-title > a,
+/*.panel-title > a,*/
 .panel-title > small,
 .panel-title > .small,
 .panel-title > small > a,

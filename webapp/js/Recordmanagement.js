@@ -315,7 +315,9 @@ $('#Bustorecordsend').on('click',function(){
     	success:function(data){
     		if(data.error_code==0){
  				$.messager.alert('系统提示','保存成功','info')
- 			}
+ 			}else{
+				 Statuscodeprompt(data.error_code)
+			 }
     	}
 	})
 	
@@ -340,7 +342,7 @@ $('#cancelrecording').click(function(){
 			if(data.error_code==0){
 				$.messager.alert('系统提示','设备取消录制成功','error');
 			}else{
-
+                Statuscodeprompt(data.error_code)
 			}
 		}
 	})
@@ -375,7 +377,7 @@ function candatagrid(){
 					$('<button onclick="candatarid()" name='+data.data[i].canId+'>'+data.data[i].canName+'</button>').appendTo($('.queryandpivot-bottom-left-bottom'))
 				}
 			}else{
-				
+				Statuscodeprompt(data.error_code)
 			}
 		}
 	});
@@ -427,6 +429,9 @@ $('#managementli34').click(function(){
 		id:$('#managementli34').attr('name')
 	}
 	$.post(server_context+'/setMenuId',data,function(data){
+		if(data.error_code!=0){
+			Statuscodeprompt(data.error_code)
+		}
 		for(var i=0;i<data.data.length;i++){
 			if(data.data[i]==141){
 				$('.appliedmanagement-top-one').css('display','')
@@ -508,7 +513,7 @@ $('#appliedmanagement-save').click(function(){
 				$('#appliedmanagementModal').modal('hide')
 				$('.appliedmanagement-datagrid').datagrid('reload')
 			}else{
-				
+			    Statuscodeprompt(data.error_code)
 			}
 		}
 	});
@@ -555,7 +560,7 @@ function appliedmanagementremove(){
 						$('#appliedmanagementModal').modal('hide')
 						$('.appliedmanagement-datagrid').datagrid('reload')
 					}else{
-						
+						Statuscodeprompt(data.error_code)
 					}
 				}
 			});
