@@ -8,7 +8,6 @@ var basePath = localObj.protocol+"//"+localObj.host+"/"+contextPath;
 var server_context=basePath;
 
 function Statuscodeprompt(code,msg,img){
-	console.log(code)
     if(code==10001){
         $.messager.alert('系统提示','未知错误','error');
 	}else if(code==10002){
@@ -469,7 +468,7 @@ for(var i = 0; i < $('.management>li').length; i++) {
 	if($('.management>li').eq(i).text() == '实时仪表') {
 		$('.management>li').eq(i).attr('id', 'managementli18')
 	}
-	if($('.management>li').eq(i).text() == '实时定位') {
+	if($('.management>li').eq(i).text() == '实时车况') {
 		$('.management>li').eq(i).attr('id', 'managementli19')
 	}
 	if($('.management>li').eq(i).text() == '姿态角度') {
@@ -537,7 +536,6 @@ $('.sox').linkbutton({
 
 //点击车厂管理触发的事件
 $('#managementli1').click(function() {
-
 	clearInterval(seti);							   
 	id=''
 	$('.rightright').css('display', 'none')
@@ -2418,3 +2416,356 @@ $('#canidSetSubmit').click(function(){
 		}
 	});
 })
+
+
+
+/*9.2数据查询--实时车况*/
+    var RealtimeconditionSerial; //实时车况设备编号
+    var RealtimeconditionTime;   //实时车况刷新时间
+    var Realtimeconditionset;   //实时车况定时刷新
+    var map;//百度地图实例
+	var carMk;//上一次请求的车图片
+	$('#managementli19').click(function(){
+		clearInterval(seti);
+		$('main>div').css('display','none');
+		$('.Realtimecondition').css('display','')
+		$('#RealtimeconditionSerial').val('')
+		$('#lushuslider').slider({
+			min:5,
+			max:30,
+			step:1,
+			showTip:true,
+			tipFormatter: function(value){
+				return value+'s';
+		    }
+		})
+        map = new BMap.Map("allmap");    // 创建Map实例
+		map.centerAndZoom('杭州', 12);  // 初始化地图,设置中心点坐标和地图级别
+        var top_right_navigation = new BMap.NavigationControl({anchor: BMAP_ANCHOR_TOP_RIGHT});  //右上角，添加默认缩放平移控件      
+        map.addControl(top_right_navigation);
+		map.setCurrentCity('杭州');          // 设置地图显示的城市 此项是必须设置的
+		map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+	})
+	
+	function Realtimeconditionqinquire(){
+		if($('#RealtimeconditionSerial').val()==''){
+			$.messager.alert('系统提示','设备编号不能为空','error');
+			return;
+		}
+		//权限判断
+		$.ajax({
+			type:"post",
+			url:server_context+'/verifyDevice',
+			async:false,
+			data:{
+				vin:$('#RealtimeconditionSerial').val()
+			},
+			success:function(data){
+                if(data.error_code!=0){
+					Statuscodeprompt(data.error_code)
+				}
+				var data = data.data[0];
+				$('#Realtimecondition-equipmentnumber').text(data.deviceId);//设备编号
+				$('#Realtimecondition-username').text(data.ownerName);//车主姓名
+				$('#Realtimecondition-userphone').text(data.mobile);//联系电话
+				$('#Realtimecondition-platenumber').text(data.plate);//车牌号
+				$('#Realtimecondition-vin').text(data.vin);//车架号
+				$('#Realtimecondition-name').text(data.contactsName);//紧急联系人
+				$('#Realtimecondition-phone').text(data.contactsMobile);//紧急联系人电话
+				RealtimeconditionSerial = data.deviceId;
+				RealtimeconditionTime = $('#lushuslider').slider('getValue')
+				$('.Realtimecondition-xiabottom span img').attr('src','img/relatime/guanbi.png')
+				$('.Realtimecondition-xiabottom').eq(4).find('span').find('img').attr('src','img/relatime/dakai.png')
+				relatimels();
+			}
+		})
+		// Realtimeconditionset = setInterval('relatimels()',RealtimeconditionTime*1000)
+	}
+	
+	function relatimels(){
+		$.ajax({
+			type:"get",
+			url:server_context+"/getRealtimeData",
+			async:false,
+			data:{
+				deviceId:RealtimeconditionSerial
+			},
+			success:function(data){
+				var data = data.data[0]
+				// 下侧数据
+				//第一栏
+				console.log(data)
+				$('#fadongji').text(data.rpm);
+				$('#shisu').text(data.speed);
+				$('#youliang').text(data.residualfuel);
+				$('#shuiwen').text(data.coolant);
+				$('#dianya').text(data.lowbattery);
+				$('#youhao').text(data.averagefuelconsumption);
+                //第二栏
+				$('#vehiclestate1').text(data.continuedrivingtime)
+				$('#vehiclestate2').text(data.totalodometer)
+				if(data.acc==0){
+                   $('#vehiclestate3').text('关闭')
+				}else{
+				   $('#vehiclestate3').text('开启')
+				}
+				if(data.clutchpedal==0){
+                   $('#vehiclestate4').text('未踩')
+				}else{
+				   $('#vehiclestate4').text('踩下')
+				}
+				$('#vehiclestate5').text(data.steeringangle)
+				if(data.parkingbrake==0){
+                   $('#vehiclestate6').text('关闭')
+				}else{
+				   $('#vehiclestate6').text('开启')
+				}
+				if(data.brake==0){
+                   $('#vehiclestate7').text('未踩')
+				}else{
+				   $('#vehiclestate7').text('踩下')
+				}
+				if(data.accelerationpedal==0){
+                   $('#vehiclestate8').text('未踩')
+				}else{
+				   $('#vehiclestate8').text('踩下')
+				}
+				$('#vehiclestate9').text(data.gear)
+                $('#vehiclestate10').text(data.autocruise)
+				if(data.abs==0){
+                   $('#vehiclestate11').text('关闭')
+				}else{
+				   $('#vehiclestate11').text('开启')
+				}
+				if(data.esp==0){
+                   $('#vehiclestate12').text('关闭')
+				}else{
+				   $('#vehiclestate12').text('开启')
+				}
+				if(data.burglaralarm==0){
+                   $('#vehiclestate13').text('关闭')
+				}else{
+				   $('#vehiclestate13').text('开启')
+				}
+				if(data.hood==0){
+                   $('#vehiclestate14').text('关闭')
+				}else{
+				   $('#vehiclestate14').text('开启')
+				}
+				if(data.fueltankcap==0){
+                   $('#vehiclestate15').text('关闭')
+				}else{
+				   $('#vehiclestate15').text('开启')
+				}
+				$('#vehiclestate16').text(data.insidepm25)
+				$('#vehiclestate17').text(data.outsidepm25)
+				$('#vehiclestate18').text(data.outsidetemperature)
+				$('#vehiclestate19').text(data.insidetemperature)
+                //第三栏
+				//车灯
+                if(data.turnleft==1){  
+					$('.turnlight>img').eq(0).attr('src','img/relatime/dakai.png')
+				}
+				if(data.turnright==1){
+					$('.turnlight>img').eq(1).attr('src','img/relatime/dakai.png')
+				}
+				if(data.leftanglelight==1){
+					$('.cornerlamp>img').eq(0).attr('src','img/relatime/dakai.png')
+				}
+				if(data.rightanglelight==1){
+					$('.cornerlamp>img').eq(1).attr('src','img/relatime/dakai.png')
+				}
+				if(data.lowbeam==1){  
+					$('.actiniclamp>img').eq(0).attr('src','img/relatime/dakai.png')
+				}
+				if(data.highbeam==1){
+					$('.actiniclamp>img').eq(1).attr('src','img/relatime/dakai.png')
+				}
+				if(data.frontfoglamp==1){
+					$('.foglight>img').eq(0).attr('src','img/relatime/dakai.png')
+				}
+				if(data.rearfoglamp==1){
+					$('.foglight>img').eq(1).attr('src','img/relatime/dakai.png')
+				}   
+				if(data.brakelight==1){
+					$('.stoplight>img').eq(0).attr('src','img/relatime/dakai.png')
+				}
+				if(data.trianglewarninglamp==1){
+					$('.stoplight>img').eq(1).attr('src','img/relatime/dakai.png')
+				}
+				if(data.readinglamp==1){
+					$('.readinglamp>img').eq(0).attr('src','img/relatime/dakai.png')
+				}
+				if(data.parkinglamp==1){
+					$('.readinglamp>img').eq(1).attr('src','img/relatime/dakai.png')
+				}
+				if(data.widthlamp==1){
+					$('.clearancelamp>img').eq(0).attr('src','img/relatime/dakai.png')
+				}
+				if(data.parkingindicatorlamp==1){
+					$('.clearancelamp>img').eq(1).attr('src','img/relatime/dakai.png')
+				}
+				//座椅安全
+				if(data.leftheatedseat==1){  
+					$('.driversseat>img').eq(0).attr('src','img/relatime/dakai.png')
+				}
+				if(data.rightheatedseat==1){
+					$('.driversseat>img').eq(1).attr('src','img/relatime/dakai.png')
+				}
+				if(data.driverseatbelt==1){
+					$('.safetybelt>img').eq(0).attr('src','img/relatime/dakai.png')
+				}
+				if(data.passengerseatbelt==1){
+					$('.safetybelt>img').eq(1).attr('src','img/relatime/dakai.png')
+				}
+				//中控锁
+				if(data.fldoorlock==1){     
+					$('.frontdoorlock>img').eq(0).attr('src','img/relatime/dakai.png')
+				}
+				if(data.frdoorlock==1){
+					$('.frontdoorlock>img').eq(1).attr('src','img/relatime/dakai.png')
+				}
+				if(data.rldoorlock==1){
+					$('.reardoorlock>img').eq(0).attr('src','img/relatime/dakai.png')
+				}
+				if(data.rrdoorlock==1){
+					$('.reardoorlock>img').eq(1).attr('src','img/relatime/dakai.png')
+				}
+				if(data.trunklock==1){
+					$('.trunk>img').eq(0).attr('src','img/relatime/dakai.png')
+				}
+				//车门车窗
+				if(data.driverdoor==1){       
+					$('.driverdoor>img').eq(0).attr('src','img/relatime/dakai.png')
+				}
+				if(data.passengerdoor==1){
+					$('.driverdoor>img').eq(1).attr('src','img/relatime/dakai.png')
+				}
+				if(data.rldoor==1){
+					$('.backdoor>img').eq(0).attr('src','img/relatime/dakai.png')
+				}
+				if(data.rrdoor==1){
+					$('.backdoor>img').eq(1).attr('src','img/relatime/dakai.png')
+				}
+				if(data.flwindow==1){         
+					$('.drivershatchdor>img').eq(0).attr('src','img/relatime/dakai.png')
+				}
+				if(data.frwindow==1){
+					$('.drivershatchdor>img').eq(1).attr('src','img/relatime/dakai.png')
+				}
+				if(data.rlwindow==1){
+					$('.drivershatchdoor>img').eq(0).attr('src','img/relatime/dakai.png')
+				}
+				if(data.rrwindow==1){
+					$('.drivershatchdoor>img').eq(1).attr('src','img/relatime/dakai.png')
+				}
+				if(data.trunk==1){
+					$('.WIPERFRONT>img').eq(0).attr('src','img/relatime/dakai.png')
+				}
+				if(data.frontwiper==1){
+					$('.WIPERFRONT>img').eq(1).attr('src','img/relatime/dakai.png')
+				}
+				if(data.rearwiper==1){
+					$('.frontdefrost>img').eq(0).attr('src','img/relatime/dakai.png')
+				}
+				if(data.frontdefros==1){
+					$('.frontdefrost>img').eq(1).attr('src','img/relatime/dakai.png')
+				}
+				if(data.reardefros==1){
+					$('.queendefrost>img').eq(0).attr('src','img/relatime/dakai.png')
+				}
+				//胎压温度
+                if(data.lftirepressure==1){            
+					$('.leftanterior>img').eq(0).attr('src','img/relatime/dakai.png')
+				}
+				if(data.rftirepressure==1){
+					$('.leftanterior>img').eq(1).attr('src','img/relatime/dakai.png')
+				}
+				if(data.lrtirepressure==1){
+					$('.rightanterior>img').eq(0).attr('src','img/relatime/dakai.png')
+				}
+				if(data.rrtirepressure==1){
+					$('.rightanterior>img').eq(1).attr('src','img/relatime/dakai.png')
+				}
+				if(data.lftiretemperature==1){       
+					$('.leftTiretemperature>img').eq(0).attr('src','img/relatime/dakai.png')
+				}
+				if(data.rftiretemperature==1){
+					$('.leftTiretemperature>img').eq(1).attr('src','img/relatime/dakai.png')
+				}
+				if(data.lrtiretemperature==1){
+					$('.rightTiretemperature>img').eq(0).attr('src','img/relatime/dakai.png')
+				}
+				if(data.rrtiretemperature==1){
+					$('.rightTiretemperature>img').eq(1).attr('src','img/relatime/dakai.png')
+				}
+				var address;
+				var centerGPS = GPS.disposeGPS(data.lng,data.lat);
+				var lng = Number(centerGPS.split(",")[0]);  
+			    var lat = Number(centerGPS.split(",")[1]);
+				var pt = new BMap.Point(lng,lat);
+				var ads = map.getZoom();
+				map.centerAndZoom(pt,ads);
+				var points = [];
+				points.push(pt)
+				if(points.length>=2){
+					points.splice(0,1);
+				}
+				console.log(points)
+				//删除车图片
+				map.removeOverlay(carMk)
+				//添加折线到地图上
+                var polyline = new BMap.Polyline(points, { strokeColor: "#00AAFF", strokeWeight: 6, strokeOpacity: 1 });  //定义折线
+			    map.addOverlay(polyline);     
+			    //添加车图片
+			    var myIcon = new BMap.Icon("img/relatime/chetubiao.png", new BMap.Size(43, 70), {    //小车图片
+					imageOffset: new BMap.Size(0, 0)    //图片的偏移量。为了是图片底部中心对准坐标点。
+			    });
+			    carMk = new BMap.Marker(pt,{icon:myIcon});
+				map.addOverlay(carMk);
+				//添加坐标点信息
+				var myIcon2 = new BMap.Icon('img/relatime/yuandian.png',new BMap.Size(16,16));
+				var marker2 = new BMap.Marker(pt,{icon:myIcon2});  // 创建标注
+				map.addOverlay(marker2);              // 将标注添加到地图中
+				var opts = {
+				  width : 200,     // 信息窗口宽度
+				  height: 100,     // 信息窗口高度
+				  message:"亲耐滴，晚上一起吃个饭吧？戳下面的链接看下地址喔~"
+				}
+				var geoc = new BMap.Geocoder();
+				geoc.getLocation(pt,function(rs){
+					var addComp = rs.addressComponents;
+					address = addComp.province+addComp.city+addComp.district+addComp.street+addComp.streetNumber;
+				    console.log(address)
+					var infoWindow = new BMap.InfoWindow("<div style='width:100%;height:100%;'>"+"<p>速度:"+215+"km/h</p>"+"<p>时间:"+data.ts+"</p>"+"<p>地址:"+address+"</p>"+"</div>", opts);
+				    marker2.addEventListener("click", function(){          
+						map.openInfoWindow(infoWindow,points[points.length-1]); //开启信息窗口
+					});	
+			    })
+         }
+	   });		
+	}
+	
+	$('.lushusq').click(function(){
+		if($('.lushusq').attr('name')==1){
+			$('.Realtimecondition-option').animate({left:"-215px"});
+			$('.lushusqimg').css({
+				'transform':'rotate(180deg)',
+				'-ms-transform':'rotate(180deg)',	/* IE 9 */
+				'-moz-transform':'rotate(180deg)', 	/* Firefox */
+				'-webkit-transform':'rotate(180deg)', /* Safari 和 Chrome */
+				'-o-transform':'rotate(180deg)'
+			});
+			$('.lushusq').attr('name','0')
+		}else{
+			$('.Realtimecondition-option').animate({left:"0"});
+			$('.lushusqimg').css({
+				'transform':'rotate(0deg)',
+				'-ms-transform':'rotate(0deg)',	/* IE 9 */
+				'-moz-transform':'rotate(0deg)', 	/* Firefox */
+				'-webkit-transform':'rotate(0deg)', /* Safari 和 Chrome */
+				'-o-transform':'rotate(0deg)'
+			});
+			$('.lushusq').attr('name','1')
+		}
+	})

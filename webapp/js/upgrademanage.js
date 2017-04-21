@@ -32,7 +32,7 @@ $('.upgrademanage').css('display','none')
   					  if(value==0){
   					  	return '<a>'+"OTA全文件"+'</a>';
   					  }else if(value==1){
-  					  	return '<a>'+"拆分升级包"+'</a>';
+  					  	return '<a>'+"差分升级包"+'</a>';
   					  }else{
   					  	return '<a>'+"应用服务"+'</a>';
   					  }

@@ -20,6 +20,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<link rel="stylesheet" href="easyui/easyui.css" />
 		<script src="js/public/bootstrap.min.js"></script>
 		<script src="js/public/jquery.cookie.js"></script>
+		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=jFv6hdya18Fhm8APEKM9yhtl3rBzQSzY"></script>
+		<script src="js/public/GPS.js"></script>
 		<title>它石车联网数据管理平台</title>
 		<style>
 			#_easyui_textbox_input18,
@@ -3111,6 +3113,442 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					        		</div>
 					        	</div>
 					        </div>
+					    </div>
+						<!--9.2数据查询--实时车况-->
+					    <div class="Realtimecondition">
+					    	<!--当前指向-->
+							<div class="oriented" style="position: absolute;">
+								<span><b>数据查询</b></span>
+								<span><b>></b></span>
+								<span><b>实时车况</b></span>
+							</div>
+							<!--上层遮罩层-->
+                            <div class="Realtimecondition-option">
+								<p class="lushusq" name='1' style="position: absolute;right:5px;margin-top: 5px;cursor: pointer;">
+									<span style="color: #FFB801;padding-right: 5px;">收起</span>
+									<span style="padding-right: 5px;"><img class="lushusqimg" src="img/icon/sq.png" alt="" /></span>
+								</p>
+								<div style="position: absolute;top:35px;" class="lushuinquire">
+									<span style="margin-left: 20px;">设备编号:</span>
+									<span><input type="text" style="width: 120px;color: black;" id="RealtimeconditionSerial"/></span>
+								    <hr />
+								    <a onclick="Realtimeconditionqinquire()">立即查询</a>
+								</div>
+								<p style="position: absolute;top: 150px;left: 20px;">刷新时间设定</p>
+								<div class="lushuflush" style="margin-top:205px;margin-left: 30px;position: relative;">
+									<span style="position: absolute;top: 0;left: -25px;">5s</span>
+									<span><input id="lushuslider" style="width:152px;"></span>
+									<span style="position:absolute;top: 0;right: 25px;">30s</span>
+									<a>保存设置</a>
+								</div>
+								<div class="lushushuju">
+									<p>
+						        		<span>设备编号:</span>
+						        		<span id="Realtimecondition-equipmentnumber"></span>
+						        	</p>
+						        	<p>
+						        		<span>车主姓名:</span>
+						        		<span id="Realtimecondition-username"></span>
+						        	</p>
+						        	<p>
+						        		<span>联系电话:</span>
+						        		<span id="Realtimecondition-userphone"></span>
+						        	</p>
+						        	<p>
+						        		<span>车牌号:</span>
+						        		<span id="Realtimecondition-platenumber"></span>
+						        	</p>
+						        	<p>
+						        		<span>车架号:</span>
+						        		<span id="Realtimecondition-vin"></span>
+						        	</p>
+						        	<p>
+						        		<span>紧急联系人:</span>
+						        		<span id="Realtimecondition-name"></span>
+						        	</p>
+						        	<p>
+						        		<span>紧急联系人电话:</span>
+						        		<span id="Realtimecondition-phone"></span>
+						        	</p>
+								</div>
+							</div>
+					        <!--地图图层-->
+                            <div class="Realtimecondition-bottom" id="allmap" style="width: 100%;height: 500px;">
+					        	
+					        </div>
+					        <!--下侧实时数据层-->
+					        <div class="Realtimecondition-relaTime">
+					        	<div class="Realtimecondition-relaTime-top">
+					        		<div>
+					        			<img src="img/relatime/fadongji.png" alt="" />
+					        		    <p style="color:#F65353;" id="fadongji"></p>
+					        		    <p style="color:#F65353;">r/min</p>
+					        		</div>
+					        		<div>
+					        			<img src="img/relatime/shisu.png" alt="" />
+					        			<p style="color:#FFBB00;" id="shisu"></p>
+					        			<p style="color:#FFBB00;">km/h</p>
+					        		</div>
+					        		<div>
+					        			<img src="img/relatime/youliang.png" alt="" />
+					        			<p style="color:#00E4C1;" id="youliang"></p>
+					        			<p style="color:#00E4C1;">%</p>
+					        		</div>
+					        		<div>
+					        			<img src="img/relatime/shuiwen.png" alt="" />
+					        			<p style="color:#00ACFF;" id="shuiwen"></p>
+					        			<p style="color:#00ACFF;">&#8451;</p>
+					        		</div>
+					        		<div>
+					        			<img src="img/relatime/dianya.png" alt="" />
+					        			<p style="color:#EE43BD;" id="dianya"></p>
+					        			<p style="color:#EE43BD;">V</p>
+					        		</div>
+					        		<div>
+					        			<img src="img/relatime/youhao.png" alt="" />
+					        			<p style="color:#FF8146;" id="youhao"></p>
+					        			<p style="color:#FF8146;">L</p>
+					        		</div>
+					        	</div>
+					            <div class="Realtimecondition-relaTime-main">
+					            	<div class="Realtimecondition-relaTime-main-one">
+					            		<div>
+					            			<p>持续行驶时间</p>
+					            			<p id="vehiclestate1"></p>
+					            		</div>
+					            		<div>
+					            			<p>总里程</p>
+					            			<p id="vehiclestate2"></p>
+					            		</div>
+					            		<div>
+					            			<p>上电状态</p>
+					            			<p id="vehiclestate3"></p>
+					            		</div>
+					            		<div>
+					            			<p>离合器状态</p>
+					            			<p id="vehiclestate4"></p>
+					            		</div>
+					            		<div>
+					            			<p>方向盘状态</p>
+					            			<p id="vehiclestate5"></p>
+					            		</div>
+					            		<div>
+					            			<p>驻车刹车(手刹)</p>
+					            			<p id="vehiclestate6"></p>
+					            		</div>
+					            		<div>
+					            			<p>刹车状态</p>
+					            			<p id="vehiclestate7"></p>
+					            		</div>
+					            		<div>
+					            			<p>油门状态</p>
+					            			<p id="vehiclestate8"></p>
+					            		</div>
+					            		<div>
+					            			<p>档位</p>
+					            			<p id="vehiclestate9"></p>
+					            		</div>
+					            		<div style="margin-left: 5%;">
+					            			<p>自动巡航</p>
+					            			<p id="vehiclestate10"></p>
+					            		</div>
+					            		<div>
+					            			<p>ABS状态</p>
+					            			<p id="vehiclestate11"></p>
+					            		</div>
+					            		<div>
+					            			<p>DSP状态</p>
+					            			<p id="vehiclestate12"></p>
+					            		</div>
+					            		<div>
+					            			<p>防盗报警</p>
+					            			<p id="vehiclestate13"></p>
+					            		</div>
+					            		<div>
+					            			<p>引擎盖</p>
+					            			<p id="vehiclestate14"></p>
+					            		</div>
+					            		<div>
+					            			<p>油盖箱</p>
+					            			<p id="vehiclestate15"></p>
+					            		</div>
+					            		<div>
+					            			<p>内部PM2.5</p>
+					            			<p id="vehiclestate16"></p>
+					            		</div>
+					            		<div>
+					            			<p>外部PM2.5</p>
+					            			<p id="vehiclestate17"></p>
+					            		</div>
+					            		<div>
+					            			<p>车内温度</p>
+					            			<p id="vehiclestate18"></p>
+					            		</div>
+					            		<div style="margin-left: 5%;">
+					            			<p>车外温度</p>
+					            			<p id="vehiclestate19"></p>
+					            		</div>
+					            	</div>
+					            </div>
+					            <div class="Realtimecondition-relaTime-bottom">
+					            	<div>
+					            		<div class="Realtimecondition-xiatop">
+					            			<div style="width: 198px;margin: 0 auto;">
+					            				<span style="margin-top: 30px;">
+					            					<img src="img/relatime/dakai.png"/>
+					            					打开状态
+					            					<hr />
+					            					<img src="img/relatime/guanbi.png"/>
+					            					关闭状态
+					            				</span>
+					            				<span style="position: relative;">
+					            					<span>车灯</span>
+					            					<img src="img/relatime/chedeng.png" alt="" />
+					            				</span>
+					            			</div>
+					            		</div>
+					            		<div class="Realtimecondition-xiabottom">
+					            			<div style="width: 198px;margin: 0 auto;">
+					            				<span class="turnlight">
+					            					<img src="img/relatime/guanbi.png" alt="" />
+					            					左转向灯
+					            					<img style="margin-left:21px " src="img/relatime/guanbi.png" alt=""/>
+					            					右转向灯
+					            				</span>
+					            				<hr />
+					            				<span class="cornerlamp">
+					            					<img src="img/relatime/guanbi.png" alt="" />
+					            					左角灯
+					            					<img src="img/relatime/guanbi.png" alt=""/>
+					            					右角灯
+					            				</span>
+					            				<hr />
+					            				<span class="actiniclamp">
+					            					<img src="img/relatime/guanbi.png" alt="" />
+					            					近光灯
+					            					<img src="img/relatime/guanbi.png" alt=""/>
+					            					远光灯
+					            				</span>
+					            				<hr />
+					            				<span class="foglight">
+					            					<img src="img/relatime/guanbi.png" alt="" />
+					            					前雾灯
+					            					<img src="img/relatime/guanbi.png" alt=""/>
+					            					后雾灯
+					            				</span>
+					            				<hr />
+					            				<span class="stoplight">
+					            					<img src="img/relatime/guanbi.png" alt="" />
+					            					刹车灯
+					            					<img src="img/relatime/guanbi.png" alt=""/>
+					            					三角指示灯
+					            				</span>
+					            				<hr />
+					            				<span class="readinglamp">
+					            					<img src="img/relatime/guanbi.png" alt="" />
+					            					阅读灯
+					            					<img src="img/relatime/guanbi.png" alt=""/>
+					            					驻车灯
+					            				</span>
+					            				<hr />
+					            				<span class="clearancelamp">
+					            					<img src="img/relatime/guanbi.png" alt="" />
+					            					示宽灯
+					            					<img src="img/relatime/guanbi.png" alt=""/>
+					            					停车指示灯
+					            				</span>
+					            			</div>
+					            		</div>
+					            	</div>
+					            	<div>
+					            		<div class="Realtimecondition-xiatop">
+					            			<div style="width: 198px;margin: 0 auto;">
+					            				<span style="margin-top: 30px;">
+					            					<img src="img/relatime/dakai.png"/>
+					            					打开状态
+					            					<hr />
+					            					<img src="img/relatime/guanbi.png"/>
+					            					关闭状态
+					            				</span>
+					            				<span style="position: relative;">
+					            					<span>座椅安全</span>
+					            					<img src="img/relatime/zuoyi.png" alt="" />
+					            				</span>
+					            			</div>
+					            		</div>
+					            	    <div class="Realtimecondition-xiabottom">
+					            	    	<div style="width: 198px;margin: 0 auto;">
+					            	    		<span class="driversseat">
+					            					<img src="img/relatime/guanbi.png" alt="" />
+					            					驾驶座加热
+					            					<img style="margin-left: 11px;" src="img/relatime/guanbi.png" alt=""/>
+					            					副驾驶座加热
+					            				</span>
+					            				<hr />
+					            				<span class="safetybelt">
+					            					<img src="img/relatime/guanbi.png" alt="" />
+					            					驾驶安全带
+					            					<img style="margin-left: 11px;" src="img/relatime/guanbi.png" alt=""/>
+					            					副驾驶安全带
+					            				</span>
+					            	    	</div>
+					            	    </div>
+					            	</div>
+					            	<div>
+					            		<div class="Realtimecondition-xiatop">
+					            			<div style="width: 198px;margin: 0 auto;">
+					            				<span style="margin-top: 30px;">
+					            					<img src="img/relatime/dakai.png"/>
+					            					打开状态
+					            					<hr />
+					            					<img src="img/relatime/guanbi.png"/>
+					            					关闭状态
+					            				</span>
+					            				<span style="position: relative;">
+					            					<span>中控锁</span>
+					            					<img src="img/relatime/zhongkong.png" alt="" />
+					            				</span>
+					            			</div>
+					            		</div>
+					            	    <div class="Realtimecondition-xiabottom">
+					            	    	<div style="width: 198px;margin: 0 auto;">
+					            	    		<span class="frontdoorlock">
+					            					<img src="img/relatime/guanbi.png" alt="" />
+					            					驾驶门锁
+					            					<img style="margin-left: 30px;" src="img/relatime/guanbi.png" alt=""/>
+					            					副驾驶门锁
+					            				</span>
+					            				<hr />
+					            				<span class="reardoorlock">
+					            					<img src="img/relatime/guanbi.png" alt="" />
+					            					左后门锁
+					            					<img style="margin-left: 30px;" src="img/relatime/guanbi.png" alt=""/>
+					            					右后门锁
+					            				</span>
+					            				<span class="trunk">
+					            					<img src="img/relatime/guanbi.png" alt="" />
+					            					后备箱锁
+					            				</span>
+					            	    	</div>
+					            	    </div>
+					            	</div>
+					            	<div>
+					            		<div class="Realtimecondition-xiatop">
+					            			<div style="width: 198px;margin: 0 auto;">
+					            				<span style="margin-top: 30px;">
+					            					<img src="img/relatime/dakai.png"/>
+					            					打开状态
+					            					<hr />
+					            					<img src="img/relatime/guanbi.png"/>
+					            					关闭状态
+					            				</span>
+					            				<span style="position: relative;">
+					            					<span>车门车窗</span>
+					            					<img src="img/relatime/chemenchuang.png" alt="" />
+					            				</span>
+					            			</div>
+					            		</div>
+					            	    <div class="Realtimecondition-xiabottom">
+					            	    	<div style="width: 198px;margin: 0 auto;">
+					            	    		<span class="driverdoor">
+					            					<img src="img/relatime/guanbi.png" alt="" />
+					            					驾驶门
+					            					<img style="margin-left: 35px;" src="img/relatime/guanbi.png" alt=""/>
+					            					副驾驶门
+					            				</span>
+					            				<hr />
+					            				<span class="backdoor">
+					            					<img src="img/relatime/guanbi.png" alt="" />
+					            					左后门
+					            					<img style="margin-left: 35px;" src="img/relatime/guanbi.png" alt=""/>
+					            					右后门
+					            				</span>
+					            				<hr />
+					            				<span class="drivershatchdor">
+					            					<img src="img/relatime/guanbi.png" alt="" />
+					            					驾驶门窗
+					            					<img style="margin-left: 21px;" src="img/relatime/guanbi.png" alt=""/>
+					            					副驾驶门窗
+					            				</span>
+					            				<hr />
+					            				<span class="drivershatchdoor">
+					            					<img src="img/relatime/guanbi.png" alt="" />
+					            					左后门窗
+					            					<img style="margin-left: 21px;" src="img/relatime/guanbi.png" alt=""/>
+					            					右后门窗
+					            				</span>
+					            				<hr />
+					            				<span class="WIPERFRONT">
+					            					<img src="img/relatime/guanbi.png" alt="" />
+					            					后备箱
+					            					<img style="margin-left: 35px;" src="img/relatime/guanbi.png" alt=""/>
+					            					前雨刮
+					            				</span>
+					            				<hr />
+					            				<span class="frontdefrost">
+					            					<img src="img/relatime/guanbi.png" alt="" />
+					            					后雨刮
+					            					<img style="margin-left: 35px;" src="img/relatime/guanbi.png" alt=""/>
+					            					前除霜
+					            				</span>
+					            				<hr />
+					            				<span class="queendefrost">
+					            					<img src="img/relatime/guanbi.png" alt="" />
+					            					后除霜
+					            				</span>
+					            	    	</div>
+					            	    </div>
+					            	</div>
+					            	<div>
+					            		<div class="Realtimecondition-xiatop">
+					            			<div style="width: 198px;margin: 0 auto;">
+					            				<span style="margin-top: 30px;">
+					            					<img src="img/relatime/dakai.png"/>
+					            					安全状态
+					            					<hr />
+					            					<img src="img/relatime/jinggao.png"/>
+					            					告警状态
+					            				</span>
+					            				<span style="position: relative;">
+					            					<span>胎压温度</span>
+					            					<img src="img/relatime/taiya.png" alt="" />
+					            				</span>
+					            			</div>
+					            		</div>
+					            	    <div class="Realtimecondition-xiabottom">
+					            	    	<div style="width: 248px;margin: 0 auto;">
+					            	    		<span class="leftanterior">
+					            					<img src="img/relatime/dakai.png" alt="" />
+					            					左前胎压2.9Bar
+					            					<img style="margin-left: 0;" src="img/relatime/dakai.png" alt=""/>
+					            					右前胎压2.4Bar
+					            				</span>
+					            				<hr />
+					            				<span class="rightanterior">
+					            					<img src="img/relatime/dakai.png" alt="" />
+					            					左后胎压2.4Bar
+					            					<img style="margin-left: 0;" src="img/relatime/dakai.png" alt=""/>
+					            					右后胎压2.4Bar
+					            				</span>
+					            				<hr />
+					            				<span class="leftTiretemperature">
+					            					<img src="img/relatime/dakai.png" alt="" />
+					            					左前胎温度62&#8451
+					            					<img style="margin-left: 0;" src="img/relatime/dakai.png" alt=""/>
+					            					右前胎温度62&#8451
+					            				</span>
+					            				<hr />
+					            				<span class="rightTiretemperature">
+					            					<img src="img/relatime/dakai.png" alt="" />
+					            				            左后胎温度62&#8451
+					            					<img style="margin-left: 0;" src="img/relatime/dakai.png" alt=""/>
+					            					右后前胎温度62&#8451
+					            				</span>
+					            	    	</div>
+					            	    </div>
+					            	</div>
+					            </div>
+					        </div> 
 					    </div>
 					</main>
 				</div>

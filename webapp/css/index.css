@@ -1100,3 +1100,193 @@ main {
 .canidSet-bottom-right-inver-main>div>a{
 	color: black;
 }
+
+
+/*9.2数据查询--实时车况*/
+@font-face {  
+	font-family: DS-DIGI;  
+	src: url("typeface/DS-DIGI.TTF") /* EOT file for IE */  
+}  
+.Realtimecondition{
+	white-space: 100%;
+	height: 100%;
+	position: relative;
+	overflow: auto;
+}
+.Realtimecondition-bottom{
+	position: absolute;
+	top: 60px;
+	bottom: 0;
+	width: 100%;
+	height: auto;
+}
+.Realtimecondition-option{
+	width: 240px;
+	height: 500px;
+	background: black;
+	position: absolute;
+	top: 60px;
+	left: 0;
+	z-index: 9;
+	opacity: 0.8;
+	color: white;
+}
+.lushuinquire>a,
+.lushuflush>a{
+	display: inline-block;
+	color: white;
+	width: 100px;
+	margin-left: 80px;
+	background: #00AAFF;
+	border-radius: 3px;
+	text-align: center;
+	margin-top: 20px;
+	height: 25px;
+	line-height: 25px;
+	cursor: pointer;
+}
+.lushuflush>a{
+	margin-left: 50px;
+}
+.lushushuju{
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 210px;
+	padding-left: 10px;
+	color: white;
+	font-size: 12px;
+}
+.lushushuju>p{
+	margin-bottom: 3px;
+}
+.lushushuju span:nth-of-type(2){
+	padding-left: 3px;
+}
+.Realtimecondition-relaTime{
+	width: 100%;
+	height: 650px;
+	position: absolute;
+	top: 560px;
+	background: white;
+}
+.Realtimecondition-relaTime-top{
+	width: 100%;
+	height: 140px;
+}
+.Realtimecondition-relaTime-top>div{
+	display: inline-block;
+	width: 16%;
+	height: 100%;
+	position: relative;
+}
+.Realtimecondition-relaTime-top>div:nth-of-type(1){
+	margin-left: 1%;
+}
+.Realtimecondition-relaTime-top>div>img{
+	position: absolute;
+	top: 0;
+	width: 70%;
+	margin-left: 13%;
+	margin-top: 15px;
+}
+.Realtimecondition-relaTime-top>div>p{
+	position: absolute;
+	width: 100%;
+	text-align: center;
+}
+.Realtimecondition-relaTime-top>div>p:nth-of-type(1){
+	top: 50px;
+	height: 40px;
+	font-size: 40px;
+	font-family: DS-DIGI;
+	line-height: 50px;
+}
+.Realtimecondition-relaTime-top>div>p:nth-of-type(2){
+	top: 95px;
+	font-size: 25px;
+	margin-bottom: 0;
+}
+.Realtimecondition-relaTime-main{
+	width: 100%;
+	height: 150px;
+}
+.Realtimecondition-relaTime-main>div{
+	width: 100%;
+	height: 65px;
+}
+.Realtimecondition-relaTime-main-one>div{
+	display: inline-block;
+	width: 10%;
+	height: 100%;
+	position: relative;
+}
+.Realtimecondition-relaTime-main-one>div:nth-of-type(1){
+	margin-left: 5%;
+}
+.Realtimecondition-relaTime-main-one>div>p{
+	text-align: center;
+	position: absolute;
+	width: 100%;
+}
+.Realtimecondition-relaTime-main-one>div>p:nth-of-type(1){
+	color: #424242;
+	top: 0;
+	font-size: 15px;
+}
+.Realtimecondition-relaTime-main-one>div>p:nth-of-type(2){
+	color: black;
+	font-size: 17px;
+	font-weight: 600;
+	top: 25px;
+}
+.Realtimecondition-relaTime-bottom{
+	width: 100%;
+	height: 262px;
+	margin-top: 45px;
+}
+.Realtimecondition-relaTime-bottom>div{
+	display: inline-block;
+	width: 19%;
+	height: 100%;
+	position: relative;
+}
+.Realtimecondition-relaTime-bottom>div:nth-of-type(1){
+	margin-left: 2%;
+}
+.Realtimecondition-xiatop{
+	width: 100%;
+	position: absolute;
+}
+.Realtimecondition-xiatop span:nth-of-type(1){
+	display: inline-block;
+}
+.Realtimecondition-xiatop span:nth-of-type(2)>span{
+	width: 120px;
+	position: absolute;
+	display: inline-block;
+	height: 25px;
+	color: #00ABFD;
+	border: 2px solid #00ABFD;
+	border-radius: 12px;
+	text-align: center;
+}
+.Realtimecondition-xiatop span:nth-of-type(2)>img{
+	position: absolute;
+	top: -15px;
+	left: 30px;
+}
+.Realtimecondition-xiabottom{
+	width: 100%;
+	height: auto;
+	position: absolute;
+	top: 90px;
+	bottom: 0;
+}
+.Realtimecondition-xiabottom span{
+	display: inline-block;
+	margin-top: 8px;
+}
+.Realtimecondition-xiabottom span>img:nth-of-type(2){
+	margin-left: 35px;
+}
