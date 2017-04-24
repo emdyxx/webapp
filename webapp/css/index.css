@@ -1131,8 +1131,7 @@ main {
 	opacity: 0.8;
 	color: white;
 }
-.lushuinquire>a,
-.lushuflush>a{
+.lushuinquire>a{
 	display: inline-block;
 	color: white;
 	width: 100px;
@@ -1146,19 +1145,33 @@ main {
 	cursor: pointer;
 }
 .lushuflush>a{
+	display: inline-block;
+	color: white;
+	width: 50px;
+	background: #00AAFF;
+	border-radius: 3px;
+	text-align: center;
+	height: 25px;
+	line-height: 25px;
+	cursor: pointer;
+	position: absolute;
+	top: -3px;
+	right: 30px;
+}
+.lushuflush>a{
 	margin-left: 50px;
 }
 .lushushuju{
 	position: absolute;
 	bottom: 0;
 	width: 100%;
-	height: 210px;
+	height: 230px;
 	padding-left: 10px;
 	color: white;
-	font-size: 12px;
+	font-size: 13px;
 }
 .lushushuju>p{
-	margin-bottom: 3px;
+	margin-bottom: 8px;
 }
 .lushushuju span:nth-of-type(2){
 	padding-left: 3px;
@@ -1289,4 +1302,187 @@ main {
 }
 .Realtimecondition-xiabottom span>img:nth-of-type(2){
 	margin-left: 35px;
+}
+
+/*5.2升级管理---升级日志*/
+.UpdateLog{
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+.UpdateLogtails{
+	width: 100%;
+	height: 36px;
+	position: absolute;
+	top: 61px;
+}
+.UpdateLog-div{
+	cursor: pointer;
+	width: 115px;
+}
+.UpdateLog-div>img{
+	margin-left: 20px;	
+}
+.UpdateLog-div>span{
+	display: inline-block;
+	margin-top: 8px;
+}
+.UpdateLog-bottom{
+	width: 100%;
+	height: auto;
+	position: absolute;
+	top: 97px;
+	bottom: 0;
+	background: white;
+}
+.UpdateLog-bottom-top{
+	width: 100%;
+	height: 36px;
+	position: absolute;
+	top: 0;
+}
+.UpdateLog-bottom-bottom{
+	width: 100%;
+	height: auto;
+	position: absolute;
+	top: 36px;
+	bottom: 0;
+}
+.UpdateLogtails>img{
+	margin-left: 20px;	
+}
+.UpdateLogtails>span{
+	margin-left: 15px;
+}
+.UpdateLogtails>input{
+	background: none;
+	border: 1px solid #6DC8F5;
+	margin-top: 7px;
+}
+.UpdateLogtails>a{
+	display: inline-block;
+	color: white;
+	width: 80px;
+	margin-left: 20px;
+	background: #00AAFF;
+	border-radius: 3px;
+	text-align: center;
+}
+.UpdateLog-xiangqing{
+	width: 100%;
+	height:300px;
+}
+
+/*信息推送*/
+.informationpush{
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+.informationpushSE{
+	width: 100%;
+	height: 36px;
+	position: absolute;
+	top:61px;
+}
+.informationpushSE>span{
+	margin-left: 20px;
+	margin-top: 8px;
+	display: inline-block;
+}
+.informationpushSE>select,
+.informationpushSE>input{
+	width: 146px;
+	background: none;
+	border: 1px solid #6DC8F5;
+}
+.informationpushSE>a{
+	width: 60px;
+	margin-left: 15px;
+	color: white;
+	text-align: center;
+	border-radius: 3px;
+	background: #01AAFF;
+	display: inline-block;
+}
+.informationpushbottom{
+	width: 100%;
+	height: auto;
+	position: absolute;
+	top: 97px;
+	bottom: 0;
+	background: white;
+}
+.informationpushbottom-top{
+	width: 100%;
+	height: 36px;
+	position: absolute;
+	top: 0;
+}
+.informationpushbottom-bottom{
+	width: 100%;
+	height: auto;
+	position: absolute;
+	top: 36px;
+	bottom: 0;
+}
+.informationpushbottom-top>div{
+	display: inline-block;
+}
+.informationpushbottom-top span{
+	margin-left: 20px;
+	margin-top: 8px;
+	display: inline-block;
+}
+.informationpushbottom-top a{
+	color: black;
+}
+.monocasedatagrid,.groupingdatagrid{
+	width:678px;
+	height: 200px;
+	position: relative;
+}
+.monocasedatagrid>div{
+	display: inline-block;
+}
+.monocasedatagrid>div:nth-of-type(1),
+.monocasedatagrid>div:nth-of-type(3){
+	width: 300px;
+	height: 200px;
+}
+.monocasedatagrid>div:nth-of-type(2){
+	width: 66px;
+	height: 200px;
+	position: absolute;
+	top: 0;
+	left: 301px;
+}     
+.monocasedatagrid>div:nth-of-type(3){
+	position: absolute;
+	top:0;
+	right: 0;
+}
+.monocasedatagrid-top-one,.monocasedatagrid-top-two{
+	position: absolute;
+	top: 0;
+	width: 100%;
+	height: 24px;
+}
+.monocasedatagrid-bottom-one,.monocasedatagrid-bottom-two{
+	position: absolute;
+	top: 24px;
+	bottom: 0;
+	width: 300px;
+	height: 170px;
+}
+.monocasedatagrid-bottom-one>div,
+.monocasedatagrid-bottom-two>div{
+	padding: 0 !important;
+}
+.LookPushMessage{
+	width: 568px;
+	height: 215px;
+	position: absolute;
+	top: 35px;
+	bottom: 0;
 }

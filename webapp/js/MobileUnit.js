@@ -44,6 +44,9 @@ $('#managementli9').click(function () {
             if(data.data[i]==50){
                $('.Mobileyh-five').css('display','')
             }
+            if(data.data[i]==51){
+               $('.Mobileyh-seven').css('display','')
+            }
 			if(data.data[i]==46){
 				shebione=46;
 			}
@@ -345,7 +348,7 @@ var grounpss;//添加分组的id
 function groupOwnershipgroup() {
     var row = $('.MobileData').datagrid('getChecked');
     if (row.length == 0) {
-        $.messager.alert('系统提示', '请选择用户进行归属分组操作','warning');
+        $.messager.alert('系统提示', '请选择设备进行归属分组操作','warning');
         return;
     }
     $('#MobileyhtwoModal').modal('show');
@@ -397,7 +400,7 @@ $('.Mobileyhtwo').click(function () {
 function UpgradeGroupss() {
     var row = $('.MobileData').datagrid('getChecked');
     if (row.length == 0) {
-        $.messager.alert('系统提示', '请选择用户进行升级分组操作','warning');
+        $.messager.alert('系统提示', '请选择设备进行升级分组操作','warning');
         return;
     }
     console.log(row)
@@ -635,6 +638,35 @@ function bulkimport(){
     $('#bulkimportmyModal').modal('show')
     $('#bulkimportfile').val('')
     $('#bulkimportschedule').attr('style','width:0%')
+}
+//信息同步
+function Mobileyhseven(){
+    var row = $('.MobileData').datagrid('getChecked');
+    if (row.length == 0) {
+        $.messager.alert('系统提示', '请选择设备进行信息同步操作','warning');
+        return;
+    }
+    var id=[];
+    for(var i=0;i<row.length;i++){
+       id.push(row[i].iccid)
+    }
+    console.log(id.join(','))
+    $.ajax({
+        url:server_context+"/synchronizationDeviceMsisdn",
+        type:'post',
+        async:true,
+        data:{
+            iccids:id.join(',')
+        },
+        success:function(data){
+            if(data.error_code==0){
+               $.messager.alert('系统提示','信息同步成功','info');
+               $('.MobileData').datagrid('reload');
+            }else{
+                Statuscodeprompt(data.error_code)
+            }
+        }
+    })
 }
 $('#bulkimportj').click(function(){
     var xhr = new XMLHttpRequest;

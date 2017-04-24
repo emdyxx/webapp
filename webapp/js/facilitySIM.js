@@ -1,9 +1,36 @@
 /*******************4.2设备管理---SIM卡******************/
+    var faclitySIM;
 	$('#managementli10').click(function(){
 		clearInterval(seti);
 		$('main>div').css('display','none')
 		$('.facilitySIM').css('display','')
 		$('.facilitySIMseek input').val('')
+		//权限请求
+		var data={
+			id:$('#managementli10').attr('name')
+		}
+		$.post(server_context+'/setMenuId',data,function(data){
+			if(data.error_code!=0){
+				Statuscodeprompt(data.error_code)
+			}
+			for(var i=0;i<data.data.length;i++){
+				if(data.data[i]==71){
+					faclitySIM=71
+				}
+				if(data.data[i]==72){
+					$('.seeSim').css('display','')
+				}
+				if(data.data[i]==73){
+					$('.seeSimInvoice').css('display','')
+				}
+				if(data.data[i]==74){
+					$('.refreshSim').css('display','')
+				}
+				if(data.data[i]==75){
+					$('.informations').css('display','')
+				}
+			}
+		})
 		$('.facilitySIMbottomdata').datagrid({
 			url: server_context+'/listSim',
 			method: 'get',
@@ -179,6 +206,10 @@
 	}
 	// sim卡状态修改
 	function editTerminal(iccid,state){
+		if(faclitySIM!=71){
+           $.messager.alert('系统提示','你没有此权限','error');
+		   return;
+		}
 		var hint='你确定要执行此操作吗？';
 		if(state=='ACTIVATED_NAME'){
 			hint='你确定要停用SIM卡吗？';
@@ -205,6 +236,22 @@
 						}						
 					}
 				});	
+			}
+		})
+	}
+	//SIM卡信息同步
+	function informations(){
+		$.ajax({
+			url:server_context+'/synchronizationSim',
+			type:'POST',
+			async:true,
+			success:function(data){
+				if(data.error_code==0){
+                    $.messager.alert('系统提示','信息同步成功','info');
+					$('.facilitySIMbottomdata').datagrid('reload');
+				}else{
+					Statuscodeprompt(data.error_code);
+				}
 			}
 		})
 	}

@@ -1731,6 +1731,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											</div><!-- /.modal-content -->
 										</div>
 									</div><!-- /.modal -->
+									<!--信息同步-->
+									<div style="display:none" class="Mobileyh-div Mobileyh-seven" onclick="Mobileyhseven()">
+										<img src="img/imagess/guishufenzu.png" alt="">
+										<span>信息同步</span>
+									</div>
 								</div>
 								
 					        	<div class="MobileDa">
@@ -2256,9 +2261,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							<!--SIM信息下侧表-->
 							<div class="facilitySIMbottom">
 								<div class="facilitySIMbottom-top">
-									<a class="easyui-linkbutton" iconCls="icon-detail" plain="true" onclick="seeSim()">sim卡详情</a>
-									<a class="easyui-linkbutton" iconCls="icon-detail" plain="true" onclick="seeSimInvoice()">历史详单</a>
-									<a class="easyui-linkbutton" iconCls="icon-reload" plain="true" onclick="refreshSim()">用量同步</a>
+									<a style="display:none" class="easyui-linkbutton seeSim" iconCls="icon-detail" plain="true" onclick="seeSim()">sim卡详情</a>
+									<a style="display:none" class="easyui-linkbutton seeSimInvoice" iconCls="icon-detail" plain="true" onclick="seeSimInvoice()">历史详单</a>
+									<a style="display:none" class="easyui-linkbutton refreshSim" iconCls="icon-reload" plain="true" onclick="refreshSim()">用量同步</a>
+									<a style="display:none" class="easyui-linkbutton informations" iconCls="icon-reload" plain="true" onclick="informations()">信息同步</a>
 								</div>
 								<!--sim卡详情模态框-->
 								<div class="modal fade" id="SIMdetailsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -2803,6 +2809,361 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								</div>
 							</div>
 					    </div>
+						<!--5.2升级管理---升级日志-->
+						<div class="UpdateLog">
+					    	<!--当前指向-->
+							<div class="oriented" style="position: absolute;">
+								<span><b>升级管理</b></span>
+								<span><b>></b></span>
+								<span><b>升级日志</b></span>
+							</div>
+							<!--搜索条件-->
+							<div class="UpdateLogtails"> 
+								<img src="img/imagess/sousuotubiaotwo.png" alt="" />
+								<span>设备编号:</span>
+								<input type="text" id="UpdateLog-bianhao"/>
+								<span>硬件版本号:</span>
+								<input type="text" id="UpdateLog-yingjian"/>
+								<span>tsr:</span>
+								<input type="text" id="UpdateLog-tsr"/>
+								<span>iccid:</span>
+								<input type="text" id="UpdateLog-iccid"/>
+								<a href="javaScript:UpdateLogchaxun()">查询</a>
+							</div>
+							<!--升级下侧表-->
+							<div class="UpdateLog-bottom">
+								<div class="UpdateLog-bottom-top">
+									<div class="UpdateLog-div">
+					        			<img src="img/imagess/guishufenzu.png" alt="" />
+					        			<span>查看详情</span>
+					        		</div>
+								</div>
+								<!--查看详情模态框（Modal） -->
+								<div class="modal fade" id="UpdateLogmyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+								    <div class="modal-dialog" style="width: 700px;">
+								        <div class="modal-content">
+								            <div class="modal-header">
+								                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								                <h4 class="modal-title" id="myModalLabel">查看详情</h4>
+								            </div>
+								            <div class="modal-body">
+								            	<div class="UpdateLog-xiangqing">
+								            		<div class="UpdateLog-modaldata">
+								            			
+								            		</div>
+								            	</div>
+								            </div>
+								            <div class="modal-footer">
+								                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+								            </div>
+								        </div><!-- /.modal-content -->
+								    </div><!-- /.modal -->
+								</div>
+								<div class="UpdateLog-bottom-bottom">
+									<div class="UpdateLog-datagrid">
+										
+									</div>
+								</div>
+							</div>
+					    </div>
+						<!--6.1推送管理---信息推送-->
+					    <div class="informationpush">
+					    	<!--当前指向-->
+							<div class="oriented" style="position: absolute;">
+								<span><b>推送管理</b></span>
+								<span><b>></b></span>
+								<span><b>信息推送</b></span>
+							</div>
+                            <!--搜索条件-->
+                            <div class="informationpushSE">
+                            	<span><img src="img/imagess/搜索图标2.png" alt="" /></span>
+                                <span>推送类别:</span>
+                                <select id="pushType">
+                                	<option value="">--请选择--</option>
+                                	<option value="1">分组推送</option>
+                                	<option value="2">单体推送</option>
+                                </select>
+                                <span>创建人:</span>
+                                <input type="text" id="createUserName"/>
+                                <span>推送状态:</span>
+                                <select id="pushState">
+                                	<option value="">--请选择--</option>
+                                	<option value="0">未推送</option>
+                                	<option value="1">待推送</option>
+                                	<option value="2">已推送</option>
+                                </select>
+                                <span>审核状态:</span>
+                                <select id="verifyState">
+                                	<option value="">--请选择--</option>
+                                	<option value="0">未审核</option>
+                                	<option value="1">审核通过</option>
+                                	<option value="2">审核未通过</option>
+                                </select>
+                                <a href="javaScript:informationpushSEXH()">查询</a>
+                            </div>
+					        <!--下侧表-->
+					        <div class="informationpushbottom"> 
+					        	<div class="informationpushbottom-top">
+					        		<div style="display:none;" class="informationpushbottom-top-one">
+					        			<span><img src="img/imagess/xinzeng.png" alt="" /></span>
+					        			<a href="javaScript:addPushMessage()">添加推送消息</a>
+					        		</div>
+					        		<div style="display:none;" class="informationpushbottom-top-two">
+					        			<span><img src="img/imagess/bianjitubiao.png" alt="" /></span>
+					        			<a href="javaScript:editorPushMessage()">编辑推送消息</a>
+					        		</div>
+					        		<div style="display:none;" class="informationpushbottom-top-thr">
+					        			<span><img src="img/imagess/shanchu2.png" alt="" /></span>
+					        			<a href="javaScript:removePushMessage()">删除推送消息</a>
+					        		</div>
+					        		<div style="display:none;" class="informationpushbottom-top-four">
+					        			<span><img src="img/imagess/guishufenzu.png" alt="" /></span>
+					        			<a href="javaScript:lookoverPushMessage()">查看推送消息</a>
+					        		</div>
+					        		<div style="display:none;" class="informationpushbottom-top-five">
+					        			<span><img src="img/imagess/shengjifenzu.png" alt="" /></span>
+					        			<a href="javaScript:auditPushMessage()">审核推送消息</a>
+					        		</div>
+					        	</div>
+					        	<!--添加/修改推送消息模态框-->
+					        	<div class="modal fade" id="addmoveMessageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+								    <div class="modal-dialog" style="width: 700px;">
+								        <div class="modal-content">
+								            <div class="modal-header">
+								                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								                <h4 class="modal-title addmoveMessageModaltitle" id="myModalLabel">添加推送消息</h4>
+								            </div>
+								            <div class="modal-body">
+								            	<form class="monomerform">
+								            		<table class="table table-striped table-bordered text-center">
+								            			<tr>
+								            				<td><i>*</i>推送类别</td>
+								            				<td>  
+								            					<select id="Pushthecategory">
+								            						
+								            					</select>
+								            				</td>
+								            				<td><i>*</i>app系统类型</td>
+								            				<td id="monomerform-td-input"> 
+								            					
+								            				</td>
+								            			</tr>
+								            			<tr>
+								            				<td><i>*</i>创建人</td>
+								            				<td>
+								            					<input type="text" id="founders" style="width: 100%;" disabled="disabled"/>
+								            				</td>
+								            				<td><i>*</i>信息标题</td>
+								            				<td>
+								            					<input type="text" id="messagetitle" style="width: 100%;"/>
+								            				</td>
+								            			</tr>
+								            			<tr>
+								            				<td><i>*</i>信息内容</td>
+								            				<td colspan="3">
+								            					<textarea class="form-control" id="messagecontent" rows="3" maxlength="200" style="width:100%;height:60px;"></textarea>
+								            				</td>
+								            			</tr>
+								            		</table>
+								            	</form>
+								            	<!--//单体推送-->
+								            	<div class="monocasedatagrid">
+								            	    <div>
+								            	    	<div class="monocasedatagrid-top-one">
+								            	    		已选择车主
+								            	    	</div>
+								            	    	<div class="monocasedatagrid-bottom-one">
+								            	    		<div class="monocasedatagrid-bottom-datagrid1"></div>
+								            	    	</div>
+								            	    </div>
+								            	    <div>
+								            	    	<img onclick="leftdatagrid()" src="img/Theowner/zuoshanchu.png" style="width: 60px;height: 60px;cursor: pointer;margin-left: 4px;margin-top: 40px;" alt="" />
+								            	    	<img onclick="rightdatagrid()" src="img/Theowner/youshanchu.png" style="width: 60px;height: 60px;cursor: pointer;margin-left: 4px;margin-top: 20px;" alt="" />
+								            	    </div>
+								            	    <div>
+								            	    	<div class="monocasedatagrid-top-two">
+								            	    		<span>姓名:</span>
+								            	    		<input type="text" class="monocasedatagrid-top-two-name" style="width: 85px;"/>
+								            	    		<span>电话</span>
+								            	    		<input type="text" class="monocasedatagrid-top-two-phone" style="width: 85px;"/>
+								            	    		<button onclick="monocasedatagridinquire()">查询</button>
+								            	    	</div>
+								            	    	<div class="monocasedatagrid-bottom-two">
+								            	    		<div class="monocasedatagrid-bottom-datagrid2"></div>
+								            	    	</div>
+								            	    </div>	
+								            	</div>
+								                <!--//分组推送-->
+								                <div class="groupingdatagrid">
+								                	<div class="groupingdatagrid-top">
+								                		
+								                	</div>
+								                </div>
+								            </div>
+								            <div class="modal-footer">
+								                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+								                <button type="button" class="btn btn-primary" onclick="addmoveMessagebc()">保存</button>
+								            </div>
+								        </div><!-- /.modal-content -->
+								    </div>
+								</div><!-- /.modal -->
+					        	<!--查看/审核推送消息模态框-->
+					        	<div class="modal fade" id="LookauditMessageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+													&times;
+												</button>
+												<h4 class="modal-title auditMessagestitle" id="myModalLabel">
+													查看推送消息
+												</h4>
+											</div>
+											<div class="modal-body">
+												<table class='table table-striped table-bordered text-center'>
+													<tr>
+														<td>推送类别</td>
+														<td id="lookPushThecateGory"></td>
+														<td>app系统类型</td>
+														<td id="Looksystemtype"></td>
+													</tr>
+													<tr>
+														<td>创建人</td>
+														<td id="Lookfounder"></td>
+														<td>信息标题</td>
+														<td id="Lookheadline"></td>
+													</tr>
+													<tr>
+														<td>信息内容</td>
+														<td id="Lookinformationcontent" colspan="3"></td>
+													</tr>
+												</table>
+												<!--//单体推送-->
+												<div id="LookauditMessagedt" style="width: 568px;height: 250px;position: relative;">
+													<div style="width: 100%;height:35px;position: absolute;top: 0;">
+														<div style="width: 350px;height: 100%;margin: 0 auto;padding: 6px;">
+															<label for="">姓名:</label>
+															<input type="text" id="inquireNameau" style="width: 100px;"/>
+															<label for="">电话:</label>
+															<input type="text" id="inquireNamedit" style="width: 100px;"/>
+															<button onclick="inquireaudit()" style="border: 1px solid #3C8B3C;background: #47A447;color: white;border-radius: 4px;width: 37px;">查询</button>
+														</div>
+													</div>
+													<div class="LookPushMessage">
+														<div class="LookPushMessage-datagrid" style="width: 568px;height: 215px;">
+															
+														</div>
+													</div>
+												</div>
+												<!--//分组推送-->
+												<div id="LookauditMessagedtfz" style="width: 568px;height: 250px;position: relative;">
+													<div style="width: 100%;height:35px;position: absolute;top: 0;">
+														<div style="width: 220px;height: 100%;margin: 0 auto;padding: 6px;">
+															<label for="">用户组:</label>
+															<input type="text" id="inquireNameaustwo" style="width: 100px;"/>
+															<button onclick="inquireaudittwo()" style="border: 1px solid #3C8B3C;background: #47A447;color: white;border-radius: 4px;width: 37px;">查询</button>
+														</div>
+													</div>
+													<div class="LookPushMessage">
+														<div class="LookPushMessage-datagrid-two" style="width: 568px;height: 215px;">
+															
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="modal-footer auditMessagefooter">
+												<button type="button" class="btn btn-default auditMessagesbutton" name="1">通过
+												</button>
+												<button type="button" class="btn btn-primary auditMessagesbutton" name="2">
+													未通过
+												</button>
+											</div>
+										</div><!-- /.modal-content -->
+									</div>
+								</div><!-- /.modal -->
+					        	<div class="informationpushbottom-bottom">
+					        		<div class="informationpushbottom-bottom-datagrid">
+					        			
+					        		</div>
+					        	</div>
+								<!--下册表推送状态详情模态框（Modal） -->
+								<div class="modal fade" id="PushstateModalbottom" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+													&times;
+												</button>
+												<h4 class="modal-title" id="myModalLabel">
+													推送状态查询
+												</h4>
+											</div>
+											<div class="modal-body">
+												<!--分组推送-->
+												<div class="pushTypeone" style="width:568px;height:320px;">
+													<p style="font-size:18px;margin:0;">android用户推送状态</p>
+                                                    <div style="width:100%;height:130px;">
+                                                        <table class='table table-striped table-bordered text-center'>
+                                                            <tr>
+																<td>信息ID</td>
+																<td id="messageIDandroid"></td>
+																<td>推送时间</td>
+																<td id="Pushthetimeandroid"></td>
+															</tr>
+															<tr>
+																<td>信息推送总数</td>
+																<td id="informationpushandroid"></td>
+																<td>完成推送数量</td>
+																<td id="Completethepushandroid"></td> 
+															</tr>
+															<tr>
+																<td>发送状态</td>
+																<td id="sendstateandroid"></td>
+																<td>刷新时间</td>
+																<td id="refreshtimeandroid"></td>
+															</tr>
+														</table>
+													</div>
+													<p style="font-size:18px;margin:0;margin-top:15px;">ios用户推送状态</p>
+													<div style="width:100%;height:130px;">
+                                                         <table class='table table-striped table-bordered text-center'>
+                                                            <tr>
+																<td>信息ID</td>
+																<td id="messageIDios"></td>
+																<td>推送时间</td>
+																<td id="Pushthetimeios"></td>
+															</tr>
+															<tr>
+																<td>信息推送总数</td>
+																<td id="informationpushios"></td>
+																<td>完成推送数量</td>
+																<td id="Completethepushios"></td>
+															</tr>
+															<tr>
+																<td>发送状态</td>
+																<td id="sendstateios"></td>
+																<td>刷新时间</td>
+																<td id="refreshtimeios"></td>
+															</tr>
+														</table>
+													</div>
+												</div>
+												<!--单体推送-->
+												<div class="pushTypetwo" style="width:568px;height:300px;">
+                                                     <div class="pushTypetwo-datagrid">
+                                                          
+													 </div>
+												</div>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default" data-dismiss="modal" style="margin-right:250px;">关闭
+												</button>
+											</div>
+										</div><!-- /.modal-content -->
+									</div>
+								</div><!-- /.modal -->
+					        </div>
+					    </div>
 						<!--7.1总线录制---录制管理-->
 						<div class="Recordmanagement">
 							<!--当前指向-->
@@ -3136,10 +3497,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								</div>
 								<p style="position: absolute;top: 150px;left: 20px;">刷新时间设定</p>
 								<div class="lushuflush" style="margin-top:205px;margin-left: 30px;position: relative;">
-									<span style="position: absolute;top: 0;left: -25px;">5s</span>
-									<span><input id="lushuslider" style="width:152px;"></span>
-									<span style="position:absolute;top: 0;right: 25px;">30s</span>
-									<a>保存设置</a>
+									<span style="position: absolute;top: 0;left: -25px;">3s</span>
+									<span><input id="lushuslider" style="width:90px;"></span>
+									<span style="position:absolute;top: 0;right: 87px;">15s</span>
+									<a onclick="Realtimeconditiontsbcs()">保存</a>
 								</div>
 								<div class="lushushuju">
 									<p>
@@ -3505,13 +3866,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					            				<span style="margin-top: 30px;">
 					            					<img src="img/relatime/dakai.png"/>
 					            					安全状态
-					            					<hr />
+					            					<!--<hr />
 					            					<img src="img/relatime/jinggao.png"/>
-					            					告警状态
+					            					告警状态-->
 					            				</span>
 					            				<span style="position: relative;">
 					            					<span>胎压温度</span>
-					            					<img src="img/relatime/taiya.png" alt="" />
+					            					<img style="top:5px;" src="img/relatime/taiya.png" alt="" />
 					            				</span>
 					            			</div>
 					            		</div>
@@ -3519,30 +3880,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					            	    	<div style="width: 248px;margin: 0 auto;">
 					            	    		<span class="leftanterior">
 					            					<img src="img/relatime/dakai.png" alt="" />
-					            					左前胎压2.9Bar
+					            					<span>左前胎压2.9Bar</span>
 					            					<img style="margin-left: 0;" src="img/relatime/dakai.png" alt=""/>
-					            					右前胎压2.4Bar
+					            					<span>右前胎压2.4Bar</span>
 					            				</span>
 					            				<hr />
 					            				<span class="rightanterior">
 					            					<img src="img/relatime/dakai.png" alt="" />
-					            					左后胎压2.4Bar
+					            					<span>左后胎压2.4Bar</span>
 					            					<img style="margin-left: 0;" src="img/relatime/dakai.png" alt=""/>
-					            					右后胎压2.4Bar
+					            					<span>右后胎压2.4Bar</span>
 					            				</span>
 					            				<hr />
 					            				<span class="leftTiretemperature">
 					            					<img src="img/relatime/dakai.png" alt="" />
-					            					左前胎温度62&#8451
+					            					<span>左前胎温度62</span>&#8451
 					            					<img style="margin-left: 0;" src="img/relatime/dakai.png" alt=""/>
-					            					右前胎温度62&#8451
+					            					<span>右前胎温度</span>62&#8451
 					            				</span>
 					            				<hr />
 					            				<span class="rightTiretemperature">
 					            					<img src="img/relatime/dakai.png" alt="" />
-					            				            左后胎温度62&#8451
+					            				    <span>左后胎温度62</span>&#8451
 					            					<img style="margin-left: 0;" src="img/relatime/dakai.png" alt=""/>
-					            					右后前胎温度62&#8451
+					            					<span>右后前胎温度62</span>&#8451
 					            				</span>
 					            	    	</div>
 					            	    </div>
