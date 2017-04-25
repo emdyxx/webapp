@@ -2876,7 +2876,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</div>
                             <!--搜索条件-->
                             <div class="informationpushSE">
-                            	<span><img src="img/imagess/搜索图标2.png" alt="" /></span>
+                            	<span><img src="img/imagess/sousuotubiaotwo.png" alt="" /></span>
                                 <span>推送类别:</span>
                                 <select id="pushType">
                                 	<option value="">--请选择--</option>
@@ -2927,7 +2927,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					        	</div>
 					        	<!--添加/修改推送消息模态框-->
 					        	<div class="modal fade" id="addmoveMessageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-								    <div class="modal-dialog" style="width: 700px;">
+								    <div class="modal-dialog" style="width: 900px;">
 								        <div class="modal-content">
 								            <div class="modal-header">
 								                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -2951,7 +2951,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								            			<tr>
 								            				<td><i>*</i>创建人</td>
 								            				<td>
-								            					<input type="text" id="founders" style="width: 100%;" disabled="disabled"/>
+								            					<input type="text" id="founders" style="width: 100%;" style="text-align:center;" disabled="disabled"/>
 								            				</td>
 								            				<td><i>*</i>信息标题</td>
 								            				<td>

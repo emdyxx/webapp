@@ -1438,8 +1438,8 @@ main {
 	color: black;
 }
 .monocasedatagrid,.groupingdatagrid{
-	width:678px;
-	height: 200px;
+	width:878px;
+	height: 250px;
 	position: relative;
 }
 .monocasedatagrid>div{
@@ -1447,15 +1447,15 @@ main {
 }
 .monocasedatagrid>div:nth-of-type(1),
 .monocasedatagrid>div:nth-of-type(3){
-	width: 300px;
-	height: 200px;
+	width: 400px;
+	height: 250px;
 }
 .monocasedatagrid>div:nth-of-type(2){
 	width: 66px;
-	height: 200px;
+	height: 250px;
 	position: absolute;
 	top: 0;
-	left: 301px;
+	left: 401px;
 }     
 .monocasedatagrid>div:nth-of-type(3){
 	position: absolute;
@@ -1472,16 +1472,16 @@ main {
 	position: absolute;
 	top: 24px;
 	bottom: 0;
-	width: 300px;
-	height: 170px;
+	width: 400px;
+	height: 220px;
 }
 .monocasedatagrid-bottom-one>div,
 .monocasedatagrid-bottom-two>div{
 	padding: 0 !important;
 }
 .LookPushMessage{
-	width: 568px;
-	height: 215px;
+	width: 768px;
+	height: 265px;
 	position: absolute;
 	top: 35px;
 	bottom: 0;

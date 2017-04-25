@@ -244,6 +244,7 @@ $('.h4-a[name=collapseOne]').click(function(){
 	$('#panel-img7').find('img').attr('src','img/leftimg/hujiaow.png')
 	$('#panel-img8').find('img').attr('src','img/leftimg/chexingw.png')
 	$('#panel-img9').find('img').attr('src','img/leftimg/zongxianw.png')
+	$('#panel-img10').find('img').attr('src','img/leftimg/tuisongw.png')
 })
 $('.h4-a[name=collapseTwo]').click(function(){
 	$('.h4-a').css('color','#bbe0fb')
@@ -262,6 +263,7 @@ $('.h4-a[name=collapseTwo]').click(function(){
 	$('#panel-img7').find('img').attr('src','img/leftimg/hujiaow.png')
 	$('#panel-img8').find('img').attr('src','img/leftimg/chexingw.png')
 	$('#panel-img9').find('img').attr('src','img/leftimg/zongxianw.png')
+	$('#panel-img10').find('img').attr('src','img/leftimg/tuisongw.png')
 })
 $('.h4-a[name=collapseThree]').click(function(){
 	$('.h4-a').css('color','#bbe0fb')
@@ -280,6 +282,7 @@ $('.h4-a[name=collapseThree]').click(function(){
 	$('#panel-img7').find('img').attr('src','img/leftimg/hujiaow.png')
 	$('#panel-img8').find('img').attr('src','img/leftimg/chexingw.png')
 	$('#panel-img9').find('img').attr('src','img/leftimg/zongxianw.png')
+	$('#panel-img10').find('img').attr('src','img/leftimg/tuisongw.png')
 })
 $('.h4-a[name=collapseFour]').click(function(){
 	$('.h4-a').css('color','#bbe0fb')
@@ -298,6 +301,7 @@ $('.h4-a[name=collapseFour]').click(function(){
 	$('#panel-img7').find('img').attr('src','img/leftimg/hujiaow.png')
 	$('#panel-img8').find('img').attr('src','img/leftimg/chexingw.png')
 	$('#panel-img9').find('img').attr('src','img/leftimg/zongxianw.png')
+	$('#panel-img10').find('img').attr('src','img/leftimg/tuisongw.png')
 })
 $('.h4-a[name=collapseFive]').click(function(){
 	$('.h4-a').css('color','#bbe0fb')
@@ -316,6 +320,7 @@ $('.h4-a[name=collapseFive]').click(function(){
 	$('#panel-img7').find('img').attr('src','img/leftimg/hujiaow.png')
 	$('#panel-img8').find('img').attr('src','img/leftimg/chexingw.png')
 	$('#panel-img9').find('img').attr('src','img/leftimg/zongxianw.png')
+	$('#panel-img10').find('img').attr('src','img/leftimg/tuisongw.png')
 })
 $('.h4-a[name=collapseSix]').click(function(){
 	$('.h4-a').css('color','#bbe0fb')
@@ -334,6 +339,7 @@ $('.h4-a[name=collapseSix]').click(function(){
 	$('#panel-img7').find('img').attr('src','img/leftimg/hujiaow.png')
 	$('#panel-img8').find('img').attr('src','img/leftimg/chexingw.png')
 	$('#panel-img9').find('img').attr('src','img/leftimg/zongxianw.png')
+	$('#panel-img10').find('img').attr('src','img/leftimg/tuisongw.png')
 })
 $('.h4-a[name=collapseSeven]').click(function(){
 	$('.h4-a').css('color','#bbe0fb')
@@ -352,6 +358,7 @@ $('.h4-a[name=collapseSeven]').click(function(){
 	$('#panel-img6').find('img').attr('src','img/leftimg/yingyongw.png')
 	$('#panel-img8').find('img').attr('src','img/leftimg/chexingw.png')
 	$('#panel-img9').find('img').attr('src','img/leftimg/zongxianw.png')
+	$('#panel-img10').find('img').attr('src','img/leftimg/tuisongw.png')
 })
 $('.h4-a[name=collapseeight]').click(function(){
 	$('.h4-a').css('color','#bbe0fb')
@@ -370,6 +377,7 @@ $('.h4-a[name=collapseeight]').click(function(){
 	$('#panel-img6').find('img').attr('src','img/leftimg/yingyongw.png')
 	$('#panel-img7').find('img').attr('src','img/leftimg/hujiaow.png')
 	$('#panel-img9').find('img').attr('src','img/leftimg/zongxianw.png')
+	$('#panel-img10').find('img').attr('src','img/leftimg/tuisongw.png')
 })
 $('.h4-a[name=collapseten]').click(function(){
 	$('.h4-a').css('color','#bbe0fb')
@@ -388,6 +396,7 @@ $('.h4-a[name=collapseten]').click(function(){
 	$('#panel-img6').find('img').attr('src','img/leftimg/yingyongw.png')
 	$('#panel-img7').find('img').attr('src','img/leftimg/hujiaow.png')
 	$('#panel-img8').find('img').attr('src','img/leftimg/chexingw.png')
+	$('#panel-img10').find('img').attr('src','img/leftimg/tuisongw.png')
 })
 $('.h4-a[name=collapseeleven]').click(function(){
 	$('.h4-a').css('color','#bbe0fb');
@@ -2868,6 +2877,18 @@ $('#managementli29').click(function(){
     clearInterval(seti);
 	$('main>div').css('display','none')
 	$('.informationpush').css('display','')
+	$('#pushType').find('option').nextAll().remove();
+	$('#pushState').find('option').nextAll().remove();
+	$('#verifyState').find('option').nextAll().remove();
+	$('#createUserName').val('')
+	$('<option value="1">分组推送</option>').appendTo($('#pushType'))
+	$('<option value="2">单体推送</option>').appendTo($('#pushType'))
+	$('<option value="0">未推送</option>').appendTo($('#pushState'))
+	$('<option value="1">待推送</option>').appendTo($('#pushState'))
+	$('<option value="2">已推送</option>').appendTo($('#pushState'))
+	$('<option value="0">未审核</option>').appendTo($('#verifyState'))
+	$('<option value="1">审核未通过</option>').appendTo($('#verifyState'))
+	$('<option value="2">审核通过</option>').appendTo($('#verifyState'))
 	var data={
 		id:$('#managementli29').attr('name')
 	}
@@ -2894,19 +2915,20 @@ $('#managementli29').click(function(){
 		}
 	})
 	$('.informationpushbottom-bottom-datagrid').datagrid({
-		url:'/ghjf',// server_context+'/listPushMessage',
-		method: 'post',
+		url:server_context+'/listPushMessage',
+		method: 'get',
 		singleSelect: 'true',
 		fit: 'true',
 		fitColumns: 'true',
 		rownumbers: 'true',
+		pageSize:50,
 		pagination: "true",
-		queryParams: {
-			pushType:$('#pushType').val(), //推送类型
-			pushState:$('#pushState').val(),//推送状态
-			verifyState:$('#verifyState').val(),//审核状态
-			createUserName:$('#createUserName').val() //创建人名称
-		},
+		// queryParams: {
+		// 	pushType:$('#pushType').val(), //推送类型
+		// 	pushState:$('#pushState').val(),//推送状态
+		// 	verifyState:$('#verifyState').val(),//审核状态
+		// 	createUserName:$('#createUserName').val() //创建人名称
+		// },
 		columns:[[
 			{ field:"cb",checkbox:"true",align:"center"},
 			{ field:"pushType",title:'推送类别',align:"center",width:'10%',
@@ -2965,6 +2987,7 @@ $('#managementli29').click(function(){
 function addPushMessage(){
 	$('#addmoveMessageModal').modal('show');
 	$('.addmoveMessageModaltitle').text('添加推送消息');
+	$('.addmoveMessageModaltitle').attr('name','1')
 	$('#Pushthecategory option').remove();
 	$('<option value="0">--请选择--</option>').appendTo('#Pushthecategory');
 	$('<option value="1" onclick="monocasetuisong()">单体推送</option>').appendTo('#Pushthecategory');
@@ -2980,8 +3003,9 @@ function addPushMessage(){
 	$('<input checked="checked" type="radio" name="optionsRadiosinline" style="width: 10px;" value="1">ios</input>').appendTo('#optionsRadios1')
 	$('<input type="radio" name="optionsRadiosinline" style="width: 10px;" value="2">android</input>').appendTo('#optionsRadios2')
 	$('<input type="radio" name="optionsRadiosinline" style="width: 10px;" value="3">全部</input>').appendTo('#optionsRadios3')
+    $('#founders').val($.cookie('account'))
 }
-//保存按钮
+//添加/编辑保存按钮
 function addmoveMessagebc(){
 	var radi;
 	var row;
@@ -2992,7 +3016,7 @@ function addmoveMessagebc(){
 		}
 	}
 	if($('#Pushthecategory').val()==0||$('#messagetitle').val()==''||$('#messagecontent').val()==''){
-		$.messager.alert('系统提示','必填字段不能为空')
+		$.messager.alert('系统提示','必填字段不能为空','error')
 		return
 	}
 	if($('#Pushthecategory').val()==1){
@@ -3001,20 +3025,24 @@ function addmoveMessagebc(){
 		row = $('.groupingdatagrid-top').datagrid('getChecked')
 	}
 	if(row.length==0||row==''){
-		$.messager.alert('系统提示','角色或用户组不能为空')
-		return
+		$.messager.alert('系统提示','角色或用户组不能为空','error')
+		return;
 	}
+	console.log(row)
 	var id = [];
 	for(var i = 0;i<row.length;i++){
 		id.push(row[i].id)
 	}
 	var data = {
 		pushType:$('#Pushthecategory').val(),//推送类别
-		A2:$('#messagetitle').val(),//标题
-		A3:$('#messagecontent').val(),//信息内容
-		A4:radi, //单选框
+		title:$('#messagetitle').val(),//标题
+		content:$('#messagecontent').val(),//信息内容
+		os:radi, //单选框
 		A5:id.join(','), //选择的角色或用户组
 		createUserName:$('#founders').val() //创建人
+	}
+	if($('.addmoveMessageModaltitle').attr('name')=='1'){
+        
 	}
 	$.ajax({
 		type:"post",
@@ -3023,7 +3051,9 @@ function addmoveMessagebc(){
 		data:data,
 		success:function(data){
 			if(data.error_code==0){
-				$.messager.alert('系统提示','保存成功')
+				$.messager.alert('系统提示','保存成功','info');
+			}else{
+				Statuscodeprompt(data.error_code);
 			}
 		}
 	});
@@ -3033,8 +3063,8 @@ function groupingtuisong(){
 	$('.monocasedatagrid').css('display','none')
 	$('.groupingdatagrid').css('display','')
 	$('.groupingdatagrid-top').datagrid({
-		url:'/qwe', //server_context+'/qwe',
-		method: 'post',
+		url:server_context+'/listPushGroup',
+		method: 'get',
 		singSelect: 'false',
 		fit: 'true',
 		fitColumns: 'true',
@@ -3056,8 +3086,8 @@ function monocasetuisong(){
 	$('.groupingdatagrid').css('display','none')
 	$('.monocasedatagrid').css('display','')
 	$('.monocasedatagrid-bottom-datagrid1').datagrid({
-		url:'/qwe', //server_context+'/qwe',
-		method: 'post',
+		url:server_context+'/listPushMessageOwner', //server_context+'/qwe',
+		method: 'get',
 		singSelect: 'false',
 		fit: 'true',
 		fitColumns: 'true',
@@ -3070,8 +3100,8 @@ function monocasetuisong(){
 		]]
 	})
 	$('.monocasedatagrid-bottom-datagrid2').datagrid({
-		url: '/qwss',
-		method: 'post',
+		url: server_context+'/listPushOwner',
+		method: 'get',
 		singSelect: 'false',
 		fit: 'true',
 		fitColumns: 'true',
@@ -3159,7 +3189,6 @@ function informationpushSEXH(){
 	}else{
 		verifyState=$('#verifyState').val()	
 	}
-	console.log(data)
 	$('.informationpushbottom-bottom-datagrid').datagrid('load',{
 		pushType:pushType,
 		pushState:pushState,
@@ -3171,19 +3200,50 @@ function informationpushSEXH(){
 function editorPushMessage(){
 	var row = $('.informationpushbottom-bottom-datagrid').datagrid('getSelected')
 	if(row == null) {
-		$.messager.alert("系统提示", "请选择需要编辑的数据！");
+		$.messager.alert("系统提示", "请选择需要编辑的数据",'error');
 		return;
 	}
 	$('#addmoveMessageModal').modal('show');
-	$('.addmoveMessageModaltitle').text('编辑推送消息')
+	$('.addmoveMessageModaltitle').text('编辑推送消息');
+	$('.addmoveMessageModaltitle').attr('name','2');
 	$('#Pushthecategory option').remove();
 	$('#monomerform-td-input>label').remove()
 	if(row.pushType==2){
-		$('<option value="1" onclick="monocasetuisong()">单体推送</option>').appendTo('#Pushthecategory')
-		monocasetuisong()
+		$('<option value="1">单体推送</option>').appendTo('#Pushthecategory');
+		$('.groupingdatagrid-top').datagrid({
+            url:server_context+'/listPushMessageOwner',
+			method: 'get',
+			singSelect: 'false',
+			fit: 'true',
+			fitColumns: 'true',
+			rownumbers: 'true',
+			columns:[[
+				{ field:"cb",checkbox:"true",align:"center"},
+				{ field:"id",title:'车主姓名',align:"center"},
+				{ field:"phone",title:'联系电话',align:"center"},
+				{ field:"tel",title:'设备ID',align:"center"}
+			]]
+		})
 	}else if(row.pushType==1){
-		$('<option value="2" onclick="groupingtuisong()">分组推送</option>').appendTo('#Pushthecategory')
-		groupingtuisong()
+		$('<option value="2">分组推送</option>').appendTo('#Pushthecategory')
+		$('.groupingdatagrid-top').datagrid({
+			url:server_context+'/listPushGroup',
+			method: 'get',
+			singSelect: 'false',
+			fit: 'true',
+			fitColumns: 'true',
+			rownumbers: 'true',
+			pageSize:50,
+			pagination: "true",
+			columns:[[
+				{ field:"cb",checkbox:"true",align:"center"},
+				{ field:"tel",title:'用户组名称',align:"center"},
+				{ field:"phone",title:'联系电话',align:"center"},
+				{ field:"name",title:'负责人',align:"center"},
+				{ field:"email",title:'邮箱',align:"center"},
+				{ field:"data",title:'地址',align:"center"}
+			]]
+		})
 	}
 	$('<label class="checkbox-inline" id="optionsRadios1"></label>').appendTo('#monomerform-td-input')
 	$('<label class="checkbox-inline" id="optionsRadios2"></label>').appendTo('#monomerform-td-input')
@@ -3207,7 +3267,6 @@ function editorPushMessage(){
 	$('#founders').val(row.createUserName) //创建人
 	$('#messagetitle').val(row.content)  //标题
 	$('#messagecontent').val(row.pushDate)
-	
 }
 //添加编辑弹出框查询功能
 function monocasedatagridinquire(){
@@ -3220,7 +3279,7 @@ function monocasedatagridinquire(){
 function removePushMessage(){
 	var row = $('.informationpushbottom-bottom-datagrid').datagrid('getSelected')
 	if(row==null){
-		$.messager.alert("系统提示", "请选择需要删除的数据！");
+		$.messager.alert("系统提示", "请选择需要删除的数据",'error');
 		return;
 	}
 	$.messager.confirm('系统提示','确认删除此数据',function(r){
@@ -3234,10 +3293,10 @@ function removePushMessage(){
 				},
 				success:function(data){
 					if(data.error_code==0){
-						$.messager.alert('系统提示','删除成功')
+						$.messager.alert('系统提示','删除成功','info')
 						$('.informationpushbottom-bottom-datagrid').datagrid('reload')
 					}else{
-						$.messager.alert('系统提示','删除失败')
+						Statuscodeprompt(data.error_code)
 					}
 				}
 			});
@@ -3246,14 +3305,14 @@ function removePushMessage(){
 }
 //查看推送消息    
 function lookoverPushMessage(){
+	var row = $('.informationpushbottom-bottom-datagrid').datagrid('getSelected')
+	if(row==null){
+		$.messager.alert("系统提示", "请选择需要查看的数据",'error');
+		return;
+	}
 	$('#LookauditMessageModal').modal('show');
 	$('.auditMessagestitle').text('查看推送消息')
 	$('.auditMessagefooter').css('display','none')
-	var row = $('.informationpushbottom-bottom-datagrid').datagrid('getSelected')
-	if(row==null){
-		$.messager.alert("系统提示", "请选择需要查看的数据！");
-		return;
-	}
 	if(row.pushType==1){
 		$('#lookPushThecateGory').text('分组推送');
 		$('#LookauditMessagedt').css('display','none')
@@ -3339,14 +3398,14 @@ function inquireaudittwo(){
 }
 //审核推送消息
 function auditPushMessage(){
+	var row = $('.informationpushbottom-bottom-datagrid').datagrid('getSelected')
+	if(row==null){
+		$.messager.alert("系统提示", "请选择消息进行审核",'error');
+		return;
+	}
 	$('#LookauditMessageModal').modal('show');
 	$('.auditMessagestitle').text('审核推送消息')
 	$('.auditMessagefooter').css('display','')
-	var row = $('.informationpushbottom-bottom-datagrid').datagrid('getSelected')
-	if(row==null){
-		$.messager.alert("系统提示", "请选择消息进行审核！");
-		return;
-	}
 	if(row.pushType==1){
 		$('#lookPushThecateGory').text('分组推送');
 		$('#LookauditMessagedt').css('display','none')
@@ -3384,10 +3443,10 @@ $('.auditMessagesbutton').click(function(){
 		},
 		success:function(data){
 			if(data.error_code==0){
-				$.messager.alert('系统提示','状态修改成功')
+				$.messager.alert('系统提示','状态修改成功','info')
 				$('.informationpushbottom-bottom-datagrid').datagrid('reload')
 			}else{
-				$.messager.alert('系统提示','状态修改失败')
+				Statuscodeprompt(data.error_code)
 			}
 		}
 	});
