@@ -2884,11 +2884,11 @@ $('#managementli29').click(function(){
 	$('<option value="1">分组推送</option>').appendTo($('#pushType'))
 	$('<option value="2">单体推送</option>').appendTo($('#pushType'))
 	$('<option value="0">未推送</option>').appendTo($('#pushState'))
-	$('<option value="1">待推送</option>').appendTo($('#pushState'))
-	$('<option value="2">已推送</option>').appendTo($('#pushState'))
+	$('<option value="1">已推送</option>').appendTo($('#pushState'))
+	$('<option value="2">待推送</option>').appendTo($('#pushState'))
 	$('<option value="0">未审核</option>').appendTo($('#verifyState'))
-	$('<option value="1">审核未通过</option>').appendTo($('#verifyState'))
-	$('<option value="2">审核通过</option>').appendTo($('#verifyState'))
+	$('<option value="1">审核通过</option>').appendTo($('#verifyState'))
+	$('<option value="2">审核未通过</option>').appendTo($('#verifyState'))
 	var data={
 		id:$('#managementli29').attr('name')
 	}
@@ -2923,12 +2923,6 @@ $('#managementli29').click(function(){
 		rownumbers: 'true',
 		pageSize:50,
 		pagination: "true",
-		// queryParams: {
-		// 	pushType:$('#pushType').val(), //推送类型
-		// 	pushState:$('#pushState').val(),//推送状态
-		// 	verifyState:$('#verifyState').val(),//审核状态
-		// 	createUserName:$('#createUserName').val() //创建人名称
-		// },
 		columns:[[
 			{ field:"cb",checkbox:"true",align:"center"},
 			{ field:"pushType",title:'推送类别',align:"center",width:'10%',
@@ -2974,9 +2968,9 @@ $('#managementli29').click(function(){
 				formatter: function (value, row, index) {
 					var value=row['pushState'];
 					if(value==0){
-					return '<a href="javaScript:queryPushStatus('+index+')" id="checkpending" style="background:#FF7E00;">'+"未发送"+'</a>';
+					return '<a href="javaScript:queryPushStatus('+index+')" id="checkpending" style="background:#EE575A;color:white;display: inline-block;width: 60px;">'+"未发送"+'</a>';
 					}else if(value==1){
-					return '<a href="javaScript:queryPushStatus('+index+')" id="checkpending" style="background: #7DAE16;">'+"已发送"+'</a>';
+					return '<a href="javaScript:queryPushStatus('+index+')" id="checkpending" style="background: #7DAE16;color:white;display: inline-block;width: 60px;">'+"已发送"+'</a>';
 					}
 				}
 			},
@@ -2990,8 +2984,8 @@ function addPushMessage(){
 	$('.addmoveMessageModaltitle').attr('name','1')
 	$('#Pushthecategory option').remove();
 	$('<option value="0">--请选择--</option>').appendTo('#Pushthecategory');
-	$('<option value="1" onclick="monocasetuisong()">单体推送</option>').appendTo('#Pushthecategory');
-	$('<option value="2" onclick="groupingtuisong()">分组推送</option>').appendTo('#Pushthecategory');
+	$('<option value="2" onclick="monocasetuisong()">单体推送</option>').appendTo('#Pushthecategory');
+	$('<option value="1" onclick="groupingtuisong()">分组推送</option>').appendTo('#Pushthecategory');
 	$('#messagetitle').val('')
 	$('#messagecontent').val('')
 	$('.monocasedatagrid').css('display','none')
@@ -3001,8 +2995,8 @@ function addPushMessage(){
 	$('<label class="checkbox-inline" id="optionsRadios2"></label>').appendTo('#monomerform-td-input')
 	$('<label class="checkbox-inline" id="optionsRadios3"></label>').appendTo('#monomerform-td-input')
 	$('<input checked="checked" type="radio" name="optionsRadiosinline" style="width: 10px;" value="1">ios</input>').appendTo('#optionsRadios1')
-	$('<input type="radio" name="optionsRadiosinline" style="width: 10px;" value="2">android</input>').appendTo('#optionsRadios2')
-	$('<input type="radio" name="optionsRadiosinline" style="width: 10px;" value="3">全部</input>').appendTo('#optionsRadios3')
+	$('<input type="radio" name="optionsRadiosinline" style="width: 10px;" value="0">android</input>').appendTo('#optionsRadios2')
+	$('<input type="radio" name="optionsRadiosinline" style="width: 10px;" value="2">全部</input>').appendTo('#optionsRadios3')
     $('#founders').val($.cookie('account'))
 }
 //添加/编辑保存按钮
@@ -3016,47 +3010,73 @@ function addmoveMessagebc(){
 		}
 	}
 	if($('#Pushthecategory').val()==0||$('#messagetitle').val()==''||$('#messagecontent').val()==''){
-		$.messager.alert('系统提示','必填字段不能为空','error')
+    	$.messager.alert('系统提示','必填字段不能为空','error')
 		return
 	}
-	if($('#Pushthecategory').val()==1){
-		row = $('.monocasedatagrid-bottom-datagrid1').datagrid('getRows')
-	}else if($('#Pushthecategory').val()==2){
-		row = $('.groupingdatagrid-top').datagrid('getChecked')
-	}
-	if(row.length==0||row==''){
-		$.messager.alert('系统提示','角色或用户组不能为空','error')
-		return;
-	}
-	console.log(row)
-	var id = [];
-	for(var i = 0;i<row.length;i++){
-		id.push(row[i].id)
-	}
-	var data = {
-		pushType:$('#Pushthecategory').val(),//推送类别
-		title:$('#messagetitle').val(),//标题
-		content:$('#messagecontent').val(),//信息内容
-		os:radi, //单选框
-		A5:id.join(','), //选择的角色或用户组
-		createUserName:$('#founders').val() //创建人
-	}
 	if($('.addmoveMessageModaltitle').attr('name')=='1'){
-        
-	}
-	$.ajax({
-		type:"post",
-		url:server_context+"/savePushMessage",
-		async:true,
-		data:data,
-		success:function(data){
-			if(data.error_code==0){
-				$.messager.alert('系统提示','保存成功','info');
-			}else{
-				Statuscodeprompt(data.error_code);
-			}
+		var id = [];
+		if($('#Pushthecategory').val()==2){
+			row = $('.monocasedatagrid-bottom-datagrid1').datagrid('getRows')
+		}else if($('#Pushthecategory').val()==1){
+			row = $('.groupingdatagrid-top').datagrid('getChecked')
 		}
-	});
+		if(row.length==0||row==''){
+			$.messager.alert('系统提示','角色或用户组不能为空','error')
+			return;
+		}
+		for(var i = 0;i<row.length;i++){
+			id.push(row[i].id)
+		}
+		var data = {
+			pushType:$('#Pushthecategory').val(),//推送类别
+			title:$('#messagetitle').val(),//标题
+			content:$('#messagecontent').val(),//信息内容
+			os:radi, //单选框
+			createUserName:$('#founders').val() //创建人
+		}
+		if($('#Pushthecategory').val()==2){
+			data.ownerIds=id.join(',')
+		}
+		if($('#Pushthecategory').val()==1){
+			data.groupIds=id.join(',')
+		}
+       $.ajax({
+			type:"post",
+			url:server_context+"/savePushMessage",
+			async:true,
+			data:data,
+			success:function(data){
+				if(data.error_code==0){
+					$.messager.alert('系统提示','保存成功','info');
+                    $('#addmoveMessageModal').modal('hide');
+					$('.informationpushbottom-bottom-datagrid').datagrid('reload')
+				}else{
+					Statuscodeprompt(data.error_code);
+				}
+			}
+		});
+	}
+	if($('.addmoveMessageModaltitle').attr('name')=='2'){
+       $.ajax({
+			type:"post",
+			url:server_context+"/updatePushMessage",
+			async:true,
+			data:{
+				title:$('#messagetitle').val(),//标题
+				content:$('#messagecontent').val(),//信息内容
+				os:radi, //单选框
+			},
+			success:function(data){
+				if(data.error_code==0){
+					$.messager.alert('系统提示','保存成功','info');
+                    $('#addmoveMessageModal').modal('hide');
+					$('.informationpushbottom-bottom-datagrid').datagrid('reload')
+				}else{
+					Statuscodeprompt(data.error_code);
+				}
+			}
+		});
+	}
 }
 //分组推送
 function groupingtuisong(){
@@ -3073,11 +3093,11 @@ function groupingtuisong(){
 		pagination: "true",
 		columns:[[
 			{ field:"cb",checkbox:"true",align:"center"},
-			{ field:"tel",title:'用户组名称',align:"center"},
-			{ field:"phone",title:'联系电话',align:"center"},
-			{ field:"name",title:'负责人',align:"center"},
-			{ field:"email",title:'邮箱',align:"center"},
-			{ field:"data",title:'地址',align:"center"}
+			{ field:"groupName",title:'用户组名称',align:"center",width:'20%'},
+			{ field:"phone",title:'联系电话',align:"center",width:'20%'},
+			{ field:"principal",title:'负责人',align:"center",width:'15%'},
+			{ field:"email",title:'邮箱',align:"center",width:'20%'},
+			{ field:"address",title:'地址',align:"center"}
 		]]
 	})	
 }
@@ -3086,17 +3106,13 @@ function monocasetuisong(){
 	$('.groupingdatagrid').css('display','none')
 	$('.monocasedatagrid').css('display','')
 	$('.monocasedatagrid-bottom-datagrid1').datagrid({
-		url:server_context+'/listPushMessageOwner', //server_context+'/qwe',
-		method: 'get',
-		singSelect: 'false',
-		fit: 'true',
-		fitColumns: 'true',
-		rownumbers: 'true',
+		pageSize:50,
+		pagination: "true",
 		columns:[[
 			{ field:"cb",checkbox:"true",align:"center"},
-			{ field:"id",title:'车主姓名',align:"center"},
-			{ field:"phone",title:'联系电话',align:"center"},
-			{ field:"tel",title:'设备ID',align:"center"}
+			{ field:"ownerName",title:'车主姓名',align:"center",width:"25%"},
+			{ field:"mobile",title:'联系电话',align:"center",width:"25%"},
+			{ field:"deviceId",title:'设备ID',align:"center"}
 		]]
 	})
 	$('.monocasedatagrid-bottom-datagrid2').datagrid({
@@ -3106,12 +3122,13 @@ function monocasetuisong(){
 		fit: 'true',
 		fitColumns: 'true',
 		rownumbers: 'true',
+		pageSize:50,
 		pagination: "true",
 		columns:[[
 			{ field:"cb",checkbox:"true",align:"center"},
-			{ field:"id",title:'车主姓名',align:"center"},
-			{ field:"phone",title:'联系电话',align:"center"},
-			{ field:"tel",title:'设备ID',align:"center"}
+			{ field:"ownerName",title:'车主姓名',align:"center",width:"25%"},
+			{ field:"mobile",title:'联系电话',align:"center",width:"25%"},
+			{ field:"deviceId",title:'设备ID',align:"center"}
 		]]
 	})
 }
@@ -3131,9 +3148,9 @@ function leftdatagrid(){
 		if(state==0){
 			// 表格添加设备
 			$('.monocasedatagrid-bottom-datagrid1').datagrid('appendRow',{
-				id: item.id,
-				phone: item.phone,
-				tel: item.tel
+				ownerName: item.ownerName,
+				mobile: item.mobile,
+				deviceId: item.deviceId
 			});
 		}
 	});
@@ -3158,9 +3175,9 @@ function rightdatagrid(){
 		if(state==0){
 			// 表格添加设备
 			$('.monocasedatagrid-bottom-datagrid2').datagrid('appendRow',{
-				id: item.id,
-				phone: item.phone,
-				tel: item.tel
+				ownerName: item.ownerName,
+				mobile: item.mobile,
+				deviceId: item.deviceId
 			});
 		}
 	});
@@ -3207,9 +3224,11 @@ function editorPushMessage(){
 	$('.addmoveMessageModaltitle').text('编辑推送消息');
 	$('.addmoveMessageModaltitle').attr('name','2');
 	$('#Pushthecategory option').remove();
-	$('#monomerform-td-input>label').remove()
+	$('#monomerform-td-input>label').remove();
 	if(row.pushType==2){
-		$('<option value="1">单体推送</option>').appendTo('#Pushthecategory');
+		$('<option value="2">单体推送</option>').appendTo('#Pushthecategory');
+		$('.monocasedatagrid').css('display','none')
+	    $('.groupingdatagrid').css('display','')
 		$('.groupingdatagrid-top').datagrid({
             url:server_context+'/listPushMessageOwner',
 			method: 'get',
@@ -3217,17 +3236,24 @@ function editorPushMessage(){
 			fit: 'true',
 			fitColumns: 'true',
 			rownumbers: 'true',
+			pageSize:50,
+			pagination: "true",
+			queryParams: {
+				pushId:row.id
+			},
 			columns:[[
 				{ field:"cb",checkbox:"true",align:"center"},
-				{ field:"id",title:'车主姓名',align:"center"},
-				{ field:"phone",title:'联系电话',align:"center"},
-				{ field:"tel",title:'设备ID',align:"center"}
+				{ field:"ownerName",title:'车主姓名',align:"center",width:"25%"},
+				{ field:"mobile",title:'联系电话',align:"center",width:"25%"},
+				{ field:"deviceId",title:'设备ID',align:"center"}
 			]]
 		})
 	}else if(row.pushType==1){
-		$('<option value="2">分组推送</option>').appendTo('#Pushthecategory')
+		$('<option value="1">分组推送</option>').appendTo('#Pushthecategory')
+		$('.monocasedatagrid').css('display','none')
+	    $('.groupingdatagrid').css('display','')
 		$('.groupingdatagrid-top').datagrid({
-			url:server_context+'/listPushGroup',
+			url:server_context+'/listPushMessageGroup',
 			method: 'get',
 			singSelect: 'false',
 			fit: 'true',
@@ -3235,44 +3261,47 @@ function editorPushMessage(){
 			rownumbers: 'true',
 			pageSize:50,
 			pagination: "true",
+			queryParams: {
+				pushId:row.id
+			},
 			columns:[[
 				{ field:"cb",checkbox:"true",align:"center"},
-				{ field:"tel",title:'用户组名称',align:"center"},
-				{ field:"phone",title:'联系电话',align:"center"},
-				{ field:"name",title:'负责人',align:"center"},
-				{ field:"email",title:'邮箱',align:"center"},
-				{ field:"data",title:'地址',align:"center"}
+				{ field:"groupName",title:'用户组名称',align:"center",width:'20%'},
+				{ field:"phone",title:'联系电话',align:"center",width:'20%'},
+				{ field:"principal",title:'负责人',align:"center",width:'15%'},
+				{ field:"email",title:'邮箱',align:"center",width:'20%'},
+				{ field:"address",title:'地址',align:"center"}
 			]]
 		})
 	}
 	$('<label class="checkbox-inline" id="optionsRadios1"></label>').appendTo('#monomerform-td-input')
 	$('<label class="checkbox-inline" id="optionsRadios2"></label>').appendTo('#monomerform-td-input')
 	$('<label class="checkbox-inline" id="optionsRadios3"></label>').appendTo('#monomerform-td-input')
-	if(row.states==1){
+	if(row.os==1){
 		$('<input checked="checked" type="radio" name="optionsRadiosinline" style="width: 10px;" value="1">ios</input>').appendTo('#optionsRadios1')
-		$('<input type="radio" name="optionsRadiosinline" style="width: 10px;" value="2">android</input>').appendTo('#optionsRadios2')
-		$('<input type="radio" name="optionsRadiosinline" style="width: 10px;" value="3">全部</input>').appendTo('#optionsRadios3')
+		$('<input type="radio" name="optionsRadiosinline" style="width: 10px;" value="0">android</input>').appendTo('#optionsRadios2')
+		$('<input type="radio" name="optionsRadiosinline" style="width: 10px;" value="2">全部</input>').appendTo('#optionsRadios3')
 	}
-	if(row.states==2){
-		$('<input checked="checked" type="radio" name="optionsRadiosinline" style="width: 10px;" value="2">android</input>').appendTo('#optionsRadios2')
+	if(row.os==0){
+		$('<input checked="checked" type="radio" name="optionsRadiosinline" style="width: 10px;" value="0">android</input>').appendTo('#optionsRadios2')
 		$('<input type="radio" name="optionsRadiosinline" style="width: 10px;" value="1">ios</input>').appendTo('#optionsRadios1')
-		$('<input type="radio" name="optionsRadiosinline" style="width: 10px;" value="3">全部</input>').appendTo('#optionsRadios3')
+		$('<input type="radio" name="optionsRadiosinline" style="width: 10px;" value="2">全部</input>').appendTo('#optionsRadios3')
 	}
-	if(row.states==3){
-		$('<input checked="checked" type="radio" name="optionsRadiosinline" style="width: 10px;" value="3">全部</input>').appendTo('#optionsRadios3')
-		$('<input type="radio" name="optionsRadiosinline" style="width: 10px;" value="2">android</input>').appendTo('#optionsRadios2')
+	if(row.os==2){
+		$('<input checked="checked" type="radio" name="optionsRadiosinline" style="width: 10px;" value="2">全部</input>').appendTo('#optionsRadios3')
+		$('<input type="radio" name="optionsRadiosinline" style="width: 10px;" value="0">android</input>').appendTo('#optionsRadios2')
 		$('<input type="radio" name="optionsRadiosinline" style="width: 10px;" value="1">ios</input>').appendTo('#optionsRadios1')
 	}
 	console.log(row)
 	$('#founders').val(row.createUserName) //创建人
-	$('#messagetitle').val(row.content)  //标题
-	$('#messagecontent').val(row.pushDate)
+	$('#messagetitle').val(row.title)  //标题
+	$('#messagecontent').val(row.content)
 }
 //添加编辑弹出框查询功能
 function monocasedatagridinquire(){
 	$('.monocasedatagrid-bottom-datagrid2').datagrid('load',{
-		name:$('.monocasedatagrid-top-two-name').val(),
-		phone:$('.monocasedatagrid-top-two-phone').val()
+		ownerName:$('.monocasedatagrid-top-two-name').val(),
+		mobile:$('.monocasedatagrid-top-two-phone').val()
 	})
 }
 //删除推送消息
@@ -3283,10 +3312,10 @@ function removePushMessage(){
 		return;
 	}
 	$.messager.confirm('系统提示','确认删除此数据',function(r){
-		if(!r){
+		if(r){
 			$.ajax({
 				type:"post",
-				url:"",
+				url:server_context+"/removePushMessage",
 				async:true,
 				data:{
 					id:row.id
@@ -3324,76 +3353,80 @@ function lookoverPushMessage(){
 		$('#LookauditMessagedtfz').css('display','none')
 		Lookshquire(row)
 	}
-	if(row.states==1){
+	if(row.os==1){
 		$('#Looksystemtype').text('ios');
 	}
-	if(row.states==2){
+	if(row.os==0){
 		$('#Looksystemtype').text('android');
 	}
-	if(row.states==3){
+	if(row.os==2){
 		$('#Looksystemtype').text('全部');
 	}
 	$('#Lookfounder').text(row.verifyUserName);
 	$('#Lookheadline').text(row.title);
-	$('#Lookinformationcontent').text(row.pushDate);
+	$('#Lookinformationcontent').text(row.content);
 }
 //查看/审核弹出框下册表加载   单体推送
 function Lookshquire(row){
-	$('.LookPushMessage-datagrid').datagrid({
-		url: '/qwe',
-		method: 'post',
-		singleSelect: 'true',
-		fit:'true',
-		fitColumns: 'true',
-		rownumbers: 'true',
-		pageSize:50,
-		pagination: "true",
-		queryParams: {
-			id:row.id
-		},
-		columns:[[
-			{ field:"cb",checkbox:"true",align:"center"},
-			{ field:"id",title:'车主姓名',align:"center"},
-			{ field:"phone",title:'联系电话',align:"center"},
-			{ field:"tel",title:'设备ID',align:"center"}
-		]]
-	})
+	setTimeout(function(){
+       $('.LookPushMessage-datagrid').datagrid({
+			url: server_context+'/listPushMessageOwner',
+			method: 'get',
+			singleSelect: 'true',
+			fit:'true',
+			fitColumns: 'true',
+			rownumbers: 'true',
+			pageSize:50,
+			pagination: "true",
+			queryParams: {
+				pushId:row.id
+			},
+			columns:[[
+				{ field:"cb",checkbox:"true",align:"center"},
+				{ field:"ownerName",title:'车主姓名',align:"center",width:"25%"},
+				{ field:"mobile",title:'联系电话',align:"center",width:"25%"},
+				{ field:"deviceId",title:'设备ID',align:"center"}
+			]]
+		})
+	},300)
 }
 //查看/审核弹出框下册表   单体推送查询
 function inquireaudit(){
 	$('.LookPushMessage-datagrid').datagrid('load',{
-		name:$('#inquireNameau').val(),
-		phone:$('#inquireNamedit').val()
+		ownerName:$('#inquireNameau').val(),
+		mobile:$('#inquireNamedit').val()
 	})
 }
 //查看/审核弹出框下册表加载   分组推送
 function Lookshquiretwo(row){
-	$('.LookPushMessage-datagrid-two').datagrid({
-		url: '/qwe',
-		method: 'post',
-		singleSelect: 'true',
-		fit:'true',
-		fitColumns: 'true',
-		rownumbers: 'true',
-		pageSize:50,
-		pagination: "true",
-		queryParams: {
-			id:row.id
-		},
-		columns:[[
-			{ field:"cb",checkbox:"true",align:"center"},
-			{ field:"tel",title:'用户组名称',align:"center"},
-			{ field:"phone",title:'联系电话',align:"center"},
-			{ field:"name",title:'负责人',align:"center"},
-			{ field:"email",title:'邮箱',align:"center"},
-			{ field:"data",title:'地址',align:"center"}
-		]]
-	})
+	setTimeout(function(){
+       $('.LookPushMessage-datagrid-two').datagrid({
+			url: server_context+'/listPushMessageGroup',
+			method: 'get',
+			singleSelect: 'true',
+			fit:'true',
+			fitColumns: 'true',
+			rownumbers: 'true',
+			pageSize:50,
+			pagination: "true",
+			queryParams: {
+				pushId:row.id
+			},
+			columns:[[
+				{ field:"cb",checkbox:"true",align:"center"},
+				{ field:"groupName",title:'用户组名称',align:"center",width:'20%'},
+				{ field:"phone",title:'联系电话',align:"center",width:'20%'},
+				{ field:"principal",title:'负责人',align:"center",width:'15%'},
+				{ field:"email",title:'邮箱',align:"center",width:'20%'},
+				{ field:"address",title:'地址',align:"center"}
+			]]
+		})
+	},300)
 }
 //查看/审核弹出框下册表    分组推送查询
 function inquireaudittwo(){
 	$('.LookPushMessage-datagrid-two').datagrid('load',{
-		fenzu:$('#inquireNameaustwo').val()
+		groupName:$('#inquireNameaustwo').val()
 	})
 }
 //审核推送消息
@@ -3417,34 +3450,35 @@ function auditPushMessage(){
 		$('#LookauditMessagedtfz').css('display','none')
 		Lookshquire(row)
 	}
-	if(row.states==1){
+	if(row.os==1){
 		$('#Looksystemtype').text('ios');
 	}
-	if(row.states==2){
+	if(row.os==0){
 		$('#Looksystemtype').text('android');
 	}
-	if(row.states==3){
+	if(row.os==2){
 		$('#Looksystemtype').text('全部');
 	}
 	$('#Lookfounder').text(row.verifyUserName);
 	$('#Lookheadline').text(row.title);
-	$('#Lookinformationcontent').text(row.pushDate);
+	$('#Lookinformationcontent').text(row.content);
 }
 //审核推送消息通过/未通过接口
 $('.auditMessagesbutton').click(function(){
 	var row = $('.informationpushbottom-bottom-datagrid').datagrid('getSelected')
 	$.ajax({
 		type:"post",
-		url:"",
+		url:server_context+"/verifyPushMessage",
 		async:true,
 		data:{
-			id:row.id,
-			states:$(this).attr('name')
+			pushId:row.id,
+			verifyState:$(this).attr('name')
 		},
 		success:function(data){
 			if(data.error_code==0){
-				$.messager.alert('系统提示','状态修改成功','info')
-				$('.informationpushbottom-bottom-datagrid').datagrid('reload')
+				$.messager.alert('系统提示','状态修改成功','info');
+				$('#LookauditMessageModal').modal('hide');
+				$('.informationpushbottom-bottom-datagrid').datagrid('reload');
 			}else{
 				Statuscodeprompt(data.error_code)
 			}
@@ -3455,71 +3489,77 @@ $('.auditMessagesbutton').click(function(){
 function queryPushStatus(index){
 	var row = $('.informationpushbottom-bottom-datagrid').datagrid('getData').rows[index];
 	console.log(row);
-	// if(row.pushState==0){
-	//     $.messager.alert('系统提示','该消息未发送,暂无详细数据');
-	// 	return;
-	// }
+	if(row.pushState==0){
+	    $.messager.alert('系统提示','该消息未发送,暂无详细数据');
+		return;
+	}
 	$('#PushstateModalbottom').modal('show');
+	//单体推送
 	if(row.pushType==2){
 		$('.pushTypeone').css('display','none')
 		$('.pushTypetwo').css('display','')
-		$('.pushTypetwo-datagrid').datagrid({
-			url: '/',
-			method: 'post',
-			singleSelect: 'true',
-			fit:'true',
-			fitColumns: 'true',
-			rownumbers: 'true',
-			pageSize:50,
-			pagination: "true",
-			queryParams: {
-				id:row.id
-			},
-			columns:[[
-				{ field:"cb",checkbox:"true",align:"center"},
-				{ field:"ownerName",title:'车主名称',align:"center",width: '19%'},
-				{ field:"deviceId",title:'联系电话',align:"center",width: '19%'},
-				{ field:"vin",title:'设备编号',align:"center",width: '19%'},
-				{ field:"groupName",title:'推送时间',align:"center",width: '19%'},
-				{ field:"Status",title:'推送状态',align:"center",
-					formatter: function (value, row, index) {
-						var value=row['Status'];
-						if(value==0){
-							return '推送失败';
-						}else{
-							return '推送成功';
+		setTimeout(function(){
+				$('.pushTypetwo-datagrid').datagrid({
+				url: server_context+'/listPushMessageOwner',
+				method: 'get',
+				singleSelect: 'true',
+				fit:'true',
+				fitColumns: 'true',
+				rownumbers: 'true',
+				pageSize:50,
+				pagination: "true",
+				queryParams: {
+					pushId:row.id
+				},
+				columns:[[
+					{ field:"cb",checkbox:"true",align:"center"},
+					{ field:"ownerName",title:'车主姓名',align:"center",width:"19%"},
+					{ field:"mobile",title:'联系电话',align:"center",width:"19%"},
+					{ field:"deviceId",title:'设备ID',align:"center",width:"19%"},
+					{ field:"groupName",title:'推送时间',align:"center",width: '19%'},
+					{ field:"Status",title:'推送状态',align:"center",
+						formatter: function (value, row, index) {
+							var value=row['Status'];
+							if(value==0){
+								return '推送失败';
+							}else{
+								return '推送成功';
+							}
 						}
 					}
-				}
-			]]
-		})
+				]]
+			})
+		},300)
 	}
+	//分组推送
 	if(row.pushType==1){
 		$('.pushTypeone').css('display','')
 		$('.pushTypetwo').css('display','none')
 		$.ajax({
-			type:'post',
-			url:'',
+			type:'get',
+			url:server_context+'/updateGroupPushStatus',
 			async:'true',
 			data:{
-				id:row.id
+				pushId:row.id,
+				os:1
 			},    
 			success:function(data){
 				var data = data.data;
-				$('#messageIDandroid').text(data)
-				$('#Pushthetimeandroid').text(data)
-				$('#informationpushandroid').text(data)
-				$('#Completethepushandroid').text(data)
-				$('#sendstateandroid').text(data)
-				$('#refreshtimeandroid').text(data)
+				$('#messageIDandroid').text(data);
+				$('#Pushthetimeandroid').text(data);
+				$('#informationpushandroid').text(data);
+				$('#Completethepushandroid').text(data);
+				$('#sendstateandroid').text(data);
+				$('#refreshtimeandroid').text(data);
 			}
 		})
 		$.ajax({
-			type:'post',
-			url:'',
+			type:'get',
+			url:server_context+'/updateGroupPushStatus',
 			async:'true',
 			data:{
-				id:row.id
+				pushId:row.id,
+				os:2
 			},
 			success:function(data){
 				var data = data.data;

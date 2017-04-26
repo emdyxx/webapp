@@ -2973,7 +2973,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								            	    		已选择车主
 								            	    	</div>
 								            	    	<div class="monocasedatagrid-bottom-one">
-								            	    		<div class="monocasedatagrid-bottom-datagrid1"></div>
+								            	    		<div class="monocasedatagrid-bottom-datagrid1">
+
+															</div>
 								            	    	</div>
 								            	    </div>
 								            	    <div>
@@ -3009,7 +3011,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								</div><!-- /.modal -->
 					        	<!--查看/审核推送消息模态框-->
 					        	<div class="modal fade" id="LookauditMessageModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-									<div class="modal-dialog">
+									<div class="modal-dialog" style="width:800px;">
 										<div class="modal-content">
 											<div class="modal-header">
 												<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
@@ -3039,7 +3041,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													</tr>
 												</table>
 												<!--//单体推送-->
-												<div id="LookauditMessagedt" style="width: 568px;height: 250px;position: relative;">
+												<div id="LookauditMessagedt" style="width: 768px;height: 250px;position: relative;">
 													<div style="width: 100%;height:35px;position: absolute;top: 0;">
 														<div style="width: 350px;height: 100%;margin: 0 auto;padding: 6px;">
 															<label for="">姓名:</label>
@@ -3056,7 +3058,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													</div>
 												</div>
 												<!--//分组推送-->
-												<div id="LookauditMessagedtfz" style="width: 568px;height: 250px;position: relative;">
+												<div id="LookauditMessagedtfz" style="width: 768px;height: 250px;position: relative;">
 													<div style="width: 100%;height:35px;position: absolute;top: 0;">
 														<div style="width: 220px;height: 100%;margin: 0 auto;padding: 6px;">
 															<label for="">用户组:</label>

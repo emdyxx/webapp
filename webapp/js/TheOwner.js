@@ -128,17 +128,17 @@ function TheOwner(node){
 		        formatter: function (value, row, index) {
 				  var value=row['verifyStatus'];
 				  if(value==0){
-				  	return '<a style="background:#FF7E00;display: inline-block;width: 60px;color: white;" href=\javaScript:ReviewOperation() id="checkpending">待审核</a>';
+				  	return '<a style="background:#FF7E00;display: inline-block;width: 60px;color: white;" href=\javaScript:ReviewOperation('+ index +') id="checkpending">待审核</a>';
 				  }else if(value==1){
-				  	return '<a style="background: #7DAE16;display: inline-block;width: 60px;color: white;" href=\javaScript:ReviewOperation() id="checkpending">审核通过</a>';
+				  	return '<a style="background: #7DAE16;display: inline-block;width: 60px;color: white;" href=\javaScript:ReviewOperation('+ index +') id="checkpending">审核通过</a>';
 				  }else{
-				  	return '<a style="background: #ED585A;display: inline-block;width: 60px;color: white;" href=\javaScript:ReviewOperation() id="checkpending">未通过</a>';
+				  	return '<a style="background: #ED585A;display: inline-block;width: 60px;color: white;" href=\javaScript:ReviewOperation('+ index +') id="checkpending">未通过</a>';
 				  }
 				}
 			},
 			{ field:"t",title:'更多操作',align:"center",width: '13%',
 			    formatter: function (value, row, index) {
-				  return '<a style="display:inline-block;line-height:20px;width:60px;height:20px;background:#00AAFF;color:white" id="LookUp" href=\javaScript:LookUp()>'+"查看详情"+'</a>';
+				  return '<a style="display:inline-block;line-height:20px;width:60px;height:20px;background:#00AAFF;color:white" id="LookUp" href=\javaScript:LookUp('+ index +')>'+"查看详情"+'</a>';
 				}
 			}
 		]]
@@ -570,11 +570,9 @@ function  startusings(){
 	$('#TheOwnerFormtable-two').css('display','');
 }
 //审核操作按钮
-function ReviewOperation(){
-	var row = $("#TheOwner-datagrid-bottom").datagrid('getSelected');
-	if(!row){
-		return;
-	}
+function ReviewOperation(index){
+	var rows = $("#TheOwner-datagrid-bottom").datagrid('getRows');
+	var row = rows[index]
 	startusings()
 	owner0=1
 	$('#TheOwnerModal').modal('show');
@@ -586,21 +584,36 @@ function ReviewOperation(){
 	$('#Nextstep7').css('display','');
 	$('#Nextstep8').css('display','');
 	$('#Nextstep9').css('display','');
-	$.ajax({
-		url:server_context+'/listOwnerContacts',
-		async:'true',
-		type:'post',
-		data:{
-           ownerId:row.id
-		},
-		success:function(data){
-			var data = data.data;
-			$('#contactsName').val(data[0].contactsName),
-			$('#contactsMobile').val(data[0].contactsMobile),
-			$('#relation').val(data[0].relation)
-		}
-	})
-	TheOwnerValue(row);
+	$('.owner1').text(row.ownerName)
+	$('.owner2').text(row.sex)
+	$('.owner3').text(row.idNumber)
+	$('.owner4').text(row.mobile)
+	$('.owner5').text(row.province)
+	$('.owner6').text(row.city)
+	$('.owner7').text(row.district)
+	$('.owner8').text(row.address)
+	$('.owner9').text(row.insurerName)
+	$('.owner10').text(row.plate)
+	$('.owner11').text(row.vin)
+	$('.owner12').text(row.engineCode)
+	$('.owner13').text(row.vehicleBrand)
+	$('.owner14').text(row.vehicleModel)
+	$('.owner15').text(row.vehicleDisplacement)
+	$('.owner16').text(row.vehicleConfig)
+	// $.ajax({
+	// 	url:server_context+'/listOwnerContacts',
+	// 	async:'true',
+	// 	type:'post',
+	// 	data:{
+    //        ownerId:row.id
+	// 	},
+	// 	success:function(data){
+	// 		var data = data.data;
+	// 		$('#contactsName').val(data[0].contactsName),
+	// 		$('#contactsMobile').val(data[0].contactsMobile),
+	// 		$('#relation').val(data[0].relation)
+	// 	}
+	// })
 }
 //审核按钮
 $('.Nextstep7').click(function(){
@@ -634,13 +647,10 @@ $('#Nextstep9').click(function(){
 	$('#TheOwnerModal').modal('hide');
 })
 //查看详情
-function LookUp(){
+function LookUp(index){
     owner0=1;
-	var row = $("#TheOwner-datagrid-bottom").datagrid('getSelected');
-	if(!row){
-		return;
-	}
-	// forbidden()
+	var rows = $("#TheOwner-datagrid-bottom").datagrid('getRows');
+	var row = rows[index];
 	$('#TheOwnerModal').modal('show');
 	$('.spanerror').html('')
 	$('.TheOwnertitle').html('查看详情');
