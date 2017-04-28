@@ -2,6 +2,7 @@
     var faclitySIM;
 	$('#managementli10').click(function(){
 		clearInterval(seti);
+		clearInterval(Realtimeconditionset);
 		$('main>div').css('display','none')
 		$('.facilitySIM').css('display','')
 		$('.facilitySIMseek input').val('')

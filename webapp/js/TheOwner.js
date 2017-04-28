@@ -4,9 +4,12 @@ var id3;//tree树的真实id,判断是否选中,以及发请求携带的参数
 var TheOwnerIp=0;//审核状态的权限
 var ownerIds; //新增车主id
 var owner0;
+var TheOwnertopGroupId;
+var LookUpindexThe;
 $('.TheOwner').css('display', 'none');
 $('#managementli5').click(function() {
 	clearInterval(seti);
+	clearInterval(Realtimeconditionset);
 	id3=''
 	$('main>div').css('display', 'none');
 	$('.TheOwner').css('display', '');
@@ -53,6 +56,7 @@ $('#managementli5').click(function() {
 })
 //根据选中tree树的id加载右侧表
 function TheOwner(node){
+	TheOwnertopGroupId=node.topGroupId
 	$('.TheOwner-bottom-right').css('display', '');
 	$('.TheOwner-inquire input').val('')
 	$('.TheOwner-inquire select').val('')
@@ -168,6 +172,9 @@ function TheOwneradd(){
 	$('.Nextstepbutton>button').css('display','none')
 	$('#Nextstep').css('display','')
 	$('.TheOwnerForm')[0].reset();
+	$("#vehicleModel").find("option").nextAll().remove();
+	$("#vehicleDisplacement").find("option").nextAll().remove();
+	$("#vehicleConfig").find("option").nextAll().remove();
 	//三级联动省的请求
 	$.ajax({
 		type:"post",
@@ -234,6 +241,9 @@ function TheOwneradd(){
     	type:"post",
     	url:server_context+"/getVehicleBrand",
     	async:true,
+		data:{
+           topGroupId:TheOwnertopGroupId
+		},
     	success:function(data){
     		$("#vehicleBrand").find("option").nextAll().remove();
     		for(var i = 0;i<data.data.length;i++){
@@ -314,6 +324,8 @@ function Brand(value){
     		for(var i = 0;i<data.data.length;i++){
     			$('<option value='+data.data[i].id+'>'+data.data[i].modelName+'</option>').appendTo('#vehicleModel')
     		}
+			vecle(value)
+			place(value)
     	}
     });
 }
@@ -335,7 +347,8 @@ function vecle(value){
 			$("#vehicleDisplacement").find("option").nextAll().remove();
     		for(var i = 0;i<data.data.length;i++){
     			$('<option value='+data.data[i].id+'>'+data.data[i].modelName+'</option>').appendTo('#vehicleDisplacement')
-    		}
+    		    place(value)
+		    }
     	}
     });
 }
@@ -417,9 +430,12 @@ function jbxh(judeg,url){
 					$('.Nextstepbutton>button').css('display','none');
 					$('#Nextstep1').css('display','');
 				}
-				if(data.data[0].ownerId!=''||data.data[0].ownerId!='undefined'||data.data[0].ownerId!=null){
-				    ownerIds=data.data[0].ownerId
+				if(data.data.length!=0){
+                    if(data.data[0].ownerId!=''||data.data[0].ownerId!='undefined'||data.data[0].ownerId!=null){
+						ownerIds=data.data[0].ownerId
+					}
 				}
+				$('#TheOwnerModal').modal('hide');
 			}else{
 				Statuscodeprompt(data.error_code,"保存失败...",'error')
 			}
@@ -541,6 +557,7 @@ function TheOwnerbj(t){
 			$.messager.alert("系统提示", "请选择一条数据进行修改！",'warning');
 			return;
 		}
+		LookUpindexThe = -1;
 		$('#TheOwnerModal').modal('show');
 		forbidden()
 		$('.spanerror').html('')
@@ -647,7 +664,9 @@ $('#Nextstep9').click(function(){
 	$('#TheOwnerModal').modal('hide');
 })
 //查看详情
+
 function LookUp(index){
+	LookUpindexThe = index;
     owner0=1;
 	var rows = $("#TheOwner-datagrid-bottom").datagrid('getRows');
 	var row = rows[index];
@@ -676,6 +695,9 @@ function LookUp(index){
 	$('.owner14').text(row.vehicleModel)
 	$('.owner15').text(row.vehicleDisplacement)
 	$('.owner16').text(row.vehicleConfig)
+	// $('.owner17').text(row.)
+	// $('.owner18').text(row.)
+	// $('.owner19').text(row.)
 }
 //修改用户往基本信息输入框添加数据
 function TheOwnerValue(row){
@@ -790,6 +812,9 @@ function requestadd(){
     	type:"post",
     	url:server_context+"/getVehicleBrand",
     	async:true,
+		data:{
+           topGroupId:TheOwnertopGroupId
+		},
     	success:function(data){
 			var data = data.data;
     		$("#vehicleBrand").find("option").nextAll().remove();
@@ -813,7 +838,7 @@ function requestadd(){
 		},
 		success:function(data){
 			var data = data.data;
-			$("#vehicleModel option").remove();
+			$("#vehicleModel").find("option").nextAll().remove();
     		for(var i = 0;i<data.length;i++){
 				if(row.vehicleModelId==data[i].id){
                     $('<option selected="selected" value='+data[i].id+'>'+data[i].modelName+'</option>').appendTo('#vehicleModel')
@@ -834,7 +859,7 @@ function requestadd(){
 		},
 		success:function(data){
 			var data = data.data;
-			$("#vehicleDisplacement option").remove();
+			$("#vehicleDisplacement").find("option").nextAll().remove();
     		for(var i = 0;i<data.length;i++){
 				if(row.vehicleDisplacementId==data[i].id){
                      $('<option selected="selected" value='+data[i].id+'>'+data[i].modelName+'</option>').appendTo('#vehicleDisplacement')
@@ -856,7 +881,7 @@ function requestadd(){
 		},
 		success:function(data){
 			var data = data.data;
-			$("#vehicleConfig option").remove();
+			$("#vehicleConfig").find("option").nextAll().remove();
     		for(var i = 0;i<data.length;i++){
 				if(row.vehicleConfigId==data[i].id){
                    $('<option selected="selected" value='+data[i].id+'>'+data[i].modelName+'</option>').appendTo('#vehicleConfig')
@@ -925,6 +950,7 @@ function addphone(t){
 }
 //保存紧急联系人
 function TheOwnerphone(){
+	console.log(1234656)
 	var row = $("#TheOwner-datagrid-bottom").datagrid('getSelected');
 	var str= '';
 	var pattern = /^[\u4E00-\u9FA5]{2,7}$/;// 验证中文名称
@@ -955,44 +981,14 @@ function TheOwnerphone(){
 	   two.push($('.Phonetbody tr input[name="two"]').eq(i).val())
 	   three.push($('.Phonetbody tr input[name="three"]').eq(i).val())
 	}
-	// one.push($('.Phonetbody tr input[name="one"]').eq(0).val())
-	// one.push($('.Phonetbody tr input[name="two"]').eq(0).val())
-	// one.push($('.Phonetbody tr input[name="three"]').eq(0).val())
-	// two.push($('.Phonetbody tr input[name="one"]').eq(1).val())
-	// two.push($('.Phonetbody tr input[name="two"]').eq(1).val())
-	// two.push($('.Phonetbody tr input[name="three"]').eq(1).val())
-	// three.push($('.Phonetbody tr input[name="one"]').eq(2).val())
-	// three.push($('.Phonetbody tr input[name="two"]').eq(2).val())
-	// three.push($('.Phonetbody tr input[name="three"]').eq(2).val())
-	// console.log(one)
-	// console.log(two)
-	// console.log(three)
+
 	var data = {
         ownerId:row.id,
 		contactsName:one.join(','),
 		contactsMobile:two.join(','),
 		relation:three.join(',')
 	};
-    // if($('.Phonetbody tr').length==1){
-	//     data = {
-	// 		c
-	// 		one:one.join(',')
-	// 	}
-	// }
-	// else if($('.Phonetbody tr').length==2){
-	//     data = {
-	// 		ownerId:row.id,
-	// 		one:one.join(','),
-	// 		two:two.join(',')
-	// 	}
-	// }else if($('.Phonetbody tr').length==3){
-	// 	data = {
-	// 		ownerId:row.id,
-	// 		one:one.join(','),
-	// 		two:two.join(','),
-	// 		three:three.join(',')
-	// 	}
-	// }
+    
     console.log(data)
 	$.ajax({
 		type:"post",
@@ -1002,6 +998,7 @@ function TheOwnerphone(){
 		success:function(data){
 			if(data.error_code==0){
 				$.messager.alert('系统提示','添加成功','warning')
+				// $('#TheOwnerModal').modal('hide');
 			}else{
 				Statuscodeprompt(data.error_code,"添加失败...",'error')
 			}
@@ -1024,10 +1021,21 @@ $('#Nextstep3').click(function(){
 
 //紧急联系人信息点击事件
 $('#Nextstep5').click(function(){
+	var row;
+	if(owner0==1){
+       $('.phoneaddremove').css('display','none');
+	}else{
+		$('.phoneaddremove').css('display','');
+	}
 	$('.TheOwnerModal-body>form').css('display','none');
 	$('.TheOwnerFormthree').css('display','');
 	$('#Nextstep2').val('联系人')
-	var row = $("#TheOwner-datagrid-bottom").datagrid('getSelected');
+	if(LookUpindexThe==-1){
+		row = $("#TheOwner-datagrid-bottom").datagrid('getSelected');
+	}else{
+        var rows = $("#TheOwner-datagrid-bottom").datagrid('getRows');
+		row = rows[LookUpindexThe];
+	}
 	$.ajax({
 		url:server_context+'/listOwnerContacts',
 		async:'true',
@@ -1057,12 +1065,16 @@ $('#Nextstep5').click(function(){
 			}
 		}
 	})
-	
-	
 })
 //服务信息点击事件
 $('#Nextstep6').click(function(){
-	var row = $("#TheOwner-datagrid-bottom").datagrid('getSelected');
+	var row;
+	if(LookUpindexThe==-1){
+       row = $("#TheOwner-datagrid-bottom").datagrid('getSelected');
+	}else{
+       var rows = $("#TheOwner-datagrid-bottom").datagrid('getRows');
+	   row = rows[LookUpindexThe];
+	}
 	$('.TheOwnerModal-body>form').css('display','none');
 	$('.TheOwnerFormfour').css('display','');
 	$('#Nextstep2').val('服务信息')
@@ -1125,6 +1137,7 @@ $('#Nextstep2').click(function(){
 	}
 
 	if($('#Nextstep2').val()=='服务信息'){
+		console.log(123456)
 		var phone =  /^((0\d{2,3}-\d{7,8})|(1[3584]\d{9}))$/; // 验证手机号,座机
 		var str= '';
 		if(!phone.test($('#malfunction').val())&&!phone.test($('#Accident').val())) {
@@ -1149,6 +1162,7 @@ $('#Nextstep2').click(function(){
 			success:function(data){
 				if(data.error_code==0){
 					$.messager.alert('系统提示','保存成功','info')
+					$('#TheOwnerModal').modal('hide');
 					$("#TheOwner-datagrid-bottom").datagrid("reload");
 				}else{
 					Statuscodeprompt(data.error_code,"保存失败...",'error')

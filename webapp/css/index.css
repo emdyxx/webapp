@@ -1486,3 +1486,171 @@ main {
 	top: 35px;
 	bottom: 0;
 }
+.uploadFiledatagird2>div{
+	display: inline-block;
+}
+.uploadFiledatagird2-two>img{
+	position: absolute;
+	cursor: pointer;
+}
+.uploadFiledatagird2-two>img:nth-of-type(1){
+	top: 70px;
+	left: 10px;
+}
+.uploadFiledatagird2-two>img:nth-of-type(2){
+	top: 160px;
+	left: 10px;
+}
+
+#_easyui_textbox_input18,
+#_easyui_textbox_input16{
+	background: #EAEAEA;
+}
+/*总线录制--录制管理*/
+.Recordmanagement{
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+.Recordmanagement-inquier{
+	width: 100%;
+	height: 37px;
+	position: absolute;
+	top: 61px;
+}
+.Recordmanagement-inquier>img,
+.Recordmanagement-inquier>span{
+	margin-left: 20px;
+}
+.Recordmanagement-inquier>input{
+	background: none;
+	border: 1px solid #6DC8F5;
+	margin-top: 7px;
+}
+.Recordmanagement-inquier>a,
+.queryandpivot-inquier>a{
+	display: inline-block;
+	color: white;
+	width: 80px;
+	margin-left: 20px;
+	background: #00AAFF;
+	border-radius: 3px;
+	text-align: center;
+}
+.Recordmanagement-datagrid{
+	width: 100%;
+	height: auto;
+	position: absolute;
+	top: 97px;
+	bottom: 0;
+	background: white;
+}
+/*总线录制--数据查询*/
+.queryandpivot-inquier{
+	position: absolute;
+	top: 60px;
+}
+.queryandpivot-inquier>input{
+	background: #EAEAEA !important;
+	border: 1px solid #6DC8F5;
+	margin-top: 7px;
+}
+.queryandpivot-bottom{
+	width: 100%;
+	height: auto;
+	position: absolute;
+	top: 97px;
+	bottom: 0;
+}
+.queryandpivot-bottom-left{
+	width: 240px;
+	height: 100%;
+	float: left;
+	/*border: 1px solid #797979;*/
+	background: white;
+}
+.queryandpivot-bottom-left-top{
+	height: 30px;
+	line-height: 30px;
+	text-align: center;
+	font-size: 18px;
+	border-bottom: 1px solid #D5D5D5;
+}
+.queryandpivot-bottom-left-bottom{
+	width: 240px;
+	height: auto;
+	position: absolute;
+	top: 31px;
+	bottom: 0;
+	overflow: auto;
+}
+.queryandpivot-bottom-left-bottom>button{
+	display: block;
+	width: 170px;
+	height: 40px;
+	line-height: 40px;
+	margin: 0 auto;
+	margin-top: 10px;
+	font-size: 12px;
+	overflow: hidden;
+}
+.queryandpivot-bottom-right{
+	width: 100%;
+	height: 100%;
+}
+.queryandpivot-bottom-right-in{
+	margin-left: 255px;
+	height: 100%;
+	background: white;
+}
+.queryandpivot-bottom-datagrid{
+	position: absolute;
+	width: 100%;
+	height: auto;
+	top: 0;
+	bottom: 40px;
+}
+.queryandpivot-bottom-datagrid-bottom{
+	position: absolute;
+	width: 100%;
+	height: 40px;
+	bottom: 0px;
+}
+.queryandpivot-bottom-datagrid-bottom button{
+	width: 80px;
+	height: 25px;
+	margin-top: 7px;
+}
+/*应用管理*/
+.appliedmanagement{
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+.appliedmanagement-bottom{
+	width: 100%;
+	height: auto;
+	position: absolute;
+	top: 61px;
+	bottom: 0;
+}
+.appliedmanagement-bottom-top{
+	width: 100%;
+	height: 36px;
+}
+.appliedmanagement-bottom-top>div{
+	display: inline-block;
+	margin-top: 7px;
+	margin-left: 20px;
+}
+.appliedmanagement-bottom-top a{
+	color: black;
+	cursor: pointer;
+}
+.appliedmanagement-bottom-bottom{
+	width: 100%;
+	height: auto;
+	position: absolute;
+	top: 36px;
+	bottom: 0;
+}

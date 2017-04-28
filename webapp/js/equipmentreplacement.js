@@ -2,6 +2,7 @@
    var replaceurl;
    $('#managementli11').click(function(){
 	   clearInterval(seti);
+	   clearInterval(Realtimeconditionset);
 	   $('main>div').css('display','none') 
 	   $('.equipmentreplacement').css('display','')
 	   $('.devicemanagementsearchcriteria input').val('')

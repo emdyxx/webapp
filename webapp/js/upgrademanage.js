@@ -1,8 +1,9 @@
 /********************5.1升级管理---设备升级**********************/
-var dev; //分组升级 指定升级
-$('.upgrademanage').css('display','none')
+    var dev; //分组升级 指定升级
+    $('.upgrademanage').css('display','none')
 	$('#managementli23').click(function(){
 		clearInterval(seti);
+		clearInterval(Realtimeconditionset);
 		$('main>div').css('display', 'none');
     	$('.upgrademanage').css('display','')
 		$('.upgradetop input').val('')
@@ -254,20 +255,27 @@ $('.upgrademanage').css('display','none')
 		var row;
 		if(updateType=='1'){
 			row = $('.uploadFiledatagird1').datagrid('getChecked');
-			if(row==''){
+			if(row.length==0){
 				$.messager.alert("系统提示",'请选择分组','warning')
 				return;
+			}
+			for(var i=0;i<row.length;i++){
+               dev.push(row[i].id)
 			}
 	    	var deviceGroupIds = dev.join(',');
 			var deviceIds=''
 		}
 		if(updateType=='2'){
-			row = $('.uploadFiledatagird2').datagrid('getChecked');
-			if(row==''){
+			row = $('.uploadFiledatagird2-one1').datagrid("getRows");
+			if(row.length==0){
 				$.messager.alert("系统提示",'请选择用户','warning')
 				return;
 			}
+			for(var i=0;i<row.length;i++){
+               dev.push(row[i].id)
+			}
 	    	var deviceIds = dev.join(',')
+			console.log(deviceIds)
 			var deviceGroupIds = ''
 		}
 		if(updateType=='0'){
@@ -380,40 +388,25 @@ $('.upgrademanage').css('display','none')
 				columns:[[
 				    { field:"cb",checkbox:"true",align:"center"},
 					{ field:"deviceGroupName",title:'设备组',align:"center"}
-				]],
-                onCheck:function(i,data){
-					dev.push(data.id)
-					for(var i = 0; i < dev.length; i++){
-						for(var j=i+1;j<dev.length;j++){
-							if(dev[i]===dev[j]){
-								dev.splice(j,1);
-								j--;
-							}
-						}
-					}
-				},
-				onUncheck:function(i,data){
-					for(var s=0;s<dev.length;s++){
-						if(data.id==dev[s]){
-							dev.splice(s,1)
-						}
-					}
-				},
-				onCheckAll:function(i,data){
-					dev.splice(0,dev.length);
-					for(var s = 0;s<i.length;s++){
-						dev.push(data[s].id)
-					}
-				},
-				onUncheckAll:function(i,data){
-					dev.splice(0,dev.length);
-				}
+				]]
 			})
 		}
 		if($("#update_type").val()==2){
 			$('#uploadForm>div').css('display','none')
 			$('.uploadFiledatagirdtwo').css('display','')
-			$('.uploadFiledatagird2').datagrid({
+			$('.uploadFiledatagird2-one1').datagrid({
+                pageSize:50,
+				pagination: "true",
+				columns:[[
+				    { field:"cb",checkbox:"true",align:"center"},
+				    { field:"deviceId",title:'设备编号',align:"center",width:"20%"},
+				    // { field:"vin",title:'车架号',align:"center",width:"20%"},
+				    { field:"iccid",title:'iccid',align:"center",width:"35%"},
+					{ field:"hardVer",title:'硬件版本号',align:"center",width:"20%"},
+					{ field:"model",title:'适用型号',align:"center"}
+				]]
+			})
+			$('.uploadFiledatagird2-thr1').datagrid({
 				url: server_context+'/listDevice',
 				method: 'post',
 				singSelect: 'false',
@@ -423,42 +416,79 @@ $('.upgrademanage').css('display','none')
 				pageSize:50,
 				pagination: "true",
 				columns:[[
-				    { field:"cb",checkbox:"true",align:"center",width:"20%"},
+				    { field:"cb",checkbox:"true",align:"center"},
 				    { field:"deviceId",title:'设备编号',align:"center",width:"20%"},
-				    { field:"vin",title:'车架号',align:"center",width:"20%"},
-				    { field:"iccid",title:'iccid',align:"center",width:"20%"},
+				    // { field:"vin",title:'车架号',align:"center",width:"20%"},
+				    { field:"iccid",title:'iccid',align:"center",width:"35%"},
 					{ field:"hardVer",title:'硬件版本号',align:"center",width:"20%"},
 					{ field:"model",title:'适用型号',align:"center"}
-				]],
-				onCheck:function(i,data){
-					dev.push(data.id)
-					for(var i = 0; i < dev.length; i++){
-						for(var j=i+1;j<dev.length;j++){
-							if(dev[i]===dev[j]){
-								dev.splice(j,1);
-								j--;
-							}
-						}
-					}
-				},
-				onUncheck:function(i,data){
-					for(var s=0;s<dev.length;s++){
-						if(data.id==dev[s]){
-							dev.splice(s,1)
-						}
-					}
-				},
-				onCheckAll:function(i,data){
-					dev.splice(0,dev.length);
-					for(var s = 0;s<i.length;s++){
-						dev.push(data[s].id)
-					}
-				},
-				onUncheckAll:function(i,data){
-					dev.splice(0,dev.length);
-				}
+				]]
 			})
 		}
+	}
+	//指定升级左侧添加数据
+	function uploadFiledatagird2left(){
+        var rows =$('.uploadFiledatagird2-one1').datagrid("getRows");
+		var selRows = $('.uploadFiledatagird2-thr1').datagrid('getChecked');
+		$.each(selRows, function(index, item){
+			var state=0;
+			if(rows!=''){
+				for(var i=0;i<rows.length;i++){
+					if(rows[i].id==item.id){
+						state=1;
+					}	
+				}
+			}
+			if(state==0){
+				// 表格添加设备
+				$('.uploadFiledatagird2-one1').datagrid('appendRow',{
+			    	id: item.id,
+			    	deviceId: item.deviceId,
+			    	// vin: item.vin,
+					iccid:item.iccid,
+			    	hardVer: item.hardVer,
+			    	model: item.model,
+			    });
+			}
+		});
+		$.each(selRows, function(index, item){
+			// 表格移除设备设备
+			// 获取所选行的索引
+			var rowIndex=$('.uploadFiledatagird2-thr1').datagrid('getRowIndex',item);
+			$('.uploadFiledatagird2-thr1').datagrid('deleteRow',rowIndex);	
+		});
+	}
+	//指定升级右侧添加数据
+	function uploadFiledatagird2right(){
+        var rows =$('.uploadFiledatagird2-thr1').datagrid("getRows");
+		var selRows = $('.uploadFiledatagird2-one1').datagrid('getChecked');
+		$.each(selRows, function(index, item){
+			var state=0;
+			if(rows!=''){
+				for(var i=0;i<rows.length;i++){
+					if(rows[i].id==item.id){
+						state=1;
+					}	
+				}
+			}
+			if(state==0){
+				// 表格添加设备
+				$('.uploadFiledatagird2-thr1').datagrid('appendRow',{
+			    	id: item.id,
+			    	deviceId: item.deviceId,
+			    	// vin: item.vin,
+					iccid:item.iccid,
+			    	hardVer: item.hardVer,
+			    	model: item.model,
+			    });
+			}
+		});
+		$.each(selRows, function(index, item){
+			// 表格移除设备设备
+			// 获取所选行的索引
+			var rowIndex=$('.uploadFiledatagird2-one1').datagrid('getRowIndex',item);
+			$('.uploadFiledatagird2-one1').datagrid('deleteRow',rowIndex);	
+		});
 	}
 	function uploadFilecx1(){
 		$('.uploadFiledatagird1').datagrid('load',{
@@ -705,8 +735,8 @@ $('.upgrademanage').css('display','none')
 	}
     //取消设置指定设备
 	function cancelupgradeGroupDg(){
-		unupgradeGroup(row)
-		upgradeGroup(row)
+		unupgradeGroup()
+		upgradeGroup(upgradepatchId)
 		// 指定设备移除的设备
 		removeList = [];
 		// 指定设备添加的设备
@@ -721,6 +751,7 @@ $('.upgrademanage').css('display','none')
 	}
 
 /****指定升级****/
+    var upgradepatchId;
 	function UpgradeDevice(r){
 		upgradepatchId = r
 		$('#assignModal').modal('show');
@@ -754,7 +785,6 @@ $('.upgrademanage').css('display','none')
 			columns: [[
 					{ field: 'id', title: 'id', align: 'center',checkbox:true,},
 					{ field: 'deviceId', title: '设备编号', align: 'center',sortable:true,width:'18%'},
-					{ field: 'model', title: '制造商', align: 'center',width:'18%',sortable:true,formatter: function (value) {return dataProcessing(value);}},
 				    { field: 'vin', title: '车架号', align: 'center',width:'18%', formatter: function (value) {return dataProcessing(value);}},
 					{ field: 'hardVer', title: '硬件版本号', align: 'center',width:'18%',formatter: function (value) {return dataProcessing(value);}},
 					{ field: 'model', title: '适用类型', align: 'center',sortable:true,width:'18%',formatter: function (value) {return dataProcessing(value);}},      		
@@ -789,7 +819,7 @@ $('.upgrademanage').css('display','none')
 			 columns: [[
 					{ field: 'id', title: 'id', align: 'center',checkbox:true,},
 					{ field: 'deviceId', title: '设备编号', align: 'center',width:'18%',sortable:true,},
-					{ field: 'model', title: '制造商', align: 'center',width:'18%',sortable:true,formatter: function (value) {return dataProcessing(value);}},
+					// { field: 'model', title: '制造商', align: 'center',width:'18%',sortable:true,formatter: function (value) {return dataProcessing(value);}},
 				    { field: 'vin', title: '车架号', align: 'center',width:'18%',formatter: function (value) {return dataProcessing(value);}},
 					{ field: 'hardVer', title: '硬件版本号', align: 'center',width:'18%',formatter: function (value) {return dataProcessing(value);}},
 					{ field: 'model', title: '适用类型', align: 'center',sortable:true,width:'18%',formatter: function (value) {return dataProcessing(value);}},      		
@@ -856,7 +886,6 @@ $('.upgrademanage').css('display','none')
 				$('#'+addTableId+'').datagrid('appendRow',{
 			    	id: item.id,
 			    	deviceId: item.deviceId,
-			    	// model: item.model,
 			    	vin: item.vin,
 			    	hardVer: item.hardVer,
 			    	model: item.model,
@@ -972,7 +1001,7 @@ $('.upgrademanage').css('display','none')
 	}
     //取消设置指定设备
 	function cancelUpgradeDeviceDg(){
-		upgradeDevice()
+		upgradeDevice(upgradepatchId)
 		unupgradeDevice()
 		// 指定设备移除的设备
 		removeList = [];

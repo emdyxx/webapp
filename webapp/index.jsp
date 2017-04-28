@@ -8,7 +8,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<meta http-equiv=”X-UA-Compatible” content=”IE=edge,chrome=1″ />
+		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE10" />
 		<link rel="stylesheet" href="css/index.css" />
 		<link rel="stylesheet" href="css/TheOwner.css">
 		<link rel="stylesheet" href="css/three.css" />
@@ -24,162 +24,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<script src="js/public/GPS.js"></script>
 		<title>它石车联网数据管理平台</title>
 		<style>
-			#_easyui_textbox_input18,
-			#_easyui_textbox_input16{
-				background: #EAEAEA;
-			}
-            /*总线录制--录制管理*/
-			.Recordmanagement{
-				width: 100%;
-				height: 100%;
-				position: relative;
-			}
-			.Recordmanagement-inquier{
-				width: 100%;
-				height: 37px;
-				position: absolute;
-				top: 61px;
-			}
-			.Recordmanagement-inquier>img,
-			.Recordmanagement-inquier>span{
-				margin-left: 20px;
-			}
-			.Recordmanagement-inquier>input{
-				background: none;
-				border: 1px solid #6DC8F5;
-				margin-top: 7px;
-			}
-			.Recordmanagement-inquier>a,
-			.queryandpivot-inquier>a{
-				display: inline-block;
-				color: white;
-				width: 80px;
-				margin-left: 20px;
-				background: #00AAFF;
-				border-radius: 3px;
-				text-align: center;
-			}
-			.Recordmanagement-datagrid{
-				width: 100%;
-				height: auto;
-				position: absolute;
-				top: 97px;
-				bottom: 0;
-				background: white;
-			}
-			/*总线录制--数据查询*/
-			.queryandpivot-inquier{
-				position: absolute;
-				top: 60px;
-			}
-			.queryandpivot-inquier>input{
-				background: #EAEAEA !important;
-				border: 1px solid #6DC8F5;
-				margin-top: 7px;
-			}
-			.queryandpivot-bottom{
-			    width: 100%;
-			    height: auto;
-			    position: absolute;
-			    top: 97px;
-			    bottom: 0;
-			}
-			.queryandpivot-bottom-left{
-				width: 240px;
-				height: 100%;
-				float: left;
-				/*border: 1px solid #797979;*/
-				background: white;
-			}
-			.queryandpivot-bottom-left-top{
-				height: 30px;
-				line-height: 30px;
-				text-align: center;
-				font-size: 18px;
-				border-bottom: 1px solid #D5D5D5;
-			}
-			.queryandpivot-bottom-left-bottom{
-				width: 240px;
-				height: auto;
-				position: absolute;
-				top: 31px;
-				bottom: 0;
-				overflow: auto;
-			}
-			.queryandpivot-bottom-left-bottom>button{
-				display: block;
-				width: 170px;
-				height: 40px;
-				line-height: 40px;
-				margin: 0 auto;
-				margin-top: 10px;
-				font-size: 12px;
-              	overflow: hidden;
-			}
-			.queryandpivot-bottom-right{
-				width: 100%;
-				height: 100%;
-			}
-			.queryandpivot-bottom-right-in{
-				margin-left: 255px;
-	            height: 100%;
-	            background: white;
-			}
-			.queryandpivot-bottom-datagrid{
-				position: absolute;
-				width: 100%;
-				height: auto;
-				top: 0;
-				bottom: 40px;
-			}
-			.queryandpivot-bottom-datagrid-bottom{
-				position: absolute;
-				width: 100%;
-				height: 40px;
-				bottom: 0px;
-			}
-			.queryandpivot-bottom-datagrid-bottom button{
-				width: 80px;
-				height: 25px;
-				margin-top: 7px;
-			}
-			#_easyui_textbox_input20,
-			#_easyui_textbox_input22{
-				background: #EAEAEA !important;
-			}
-			/*应用管理*/
-			.appliedmanagement{
-				width: 100%;
-				height: 100%;
-				position: relative;
-			}
-			.appliedmanagement-bottom{
-				width: 100%;
-				height: auto;
-				position: absolute;
-				top: 61px;
-				bottom: 0;
-			}
-			.appliedmanagement-bottom-top{
-				width: 100%;
-				height: 36px;
-			}
-			.appliedmanagement-bottom-top>div{
-				display: inline-block;
-				margin-top: 7px;
-				margin-left: 20px;
-			}
-			.appliedmanagement-bottom-top a{
-				color: black;
-				cursor: pointer;
-			}
-			.appliedmanagement-bottom-bottom{
-				width: 100%;
-				height: auto;
-				position: absolute;
-				top: 36px;
-				bottom: 0;
-			}
+			
 		</style>
 	</head>
 
@@ -197,19 +42,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			           	   	   </p>
 			           	   	   <p>
 			           	   	   	<img src="img/imagess/fuwupingtai.png" alt="" />
-			           	   	   	    <a href="192.168.11.16:8080" style="color: #333;">服务中心</a>
+			           	   	   	    <a href="http://192.168.11.16:8080/" style="color: #333;">服务中心</a>
 			           	   	   </p>
-			           	   	   <div onClick="usernamedj()" id="pswquit">
+			           	   	   <div id="pswquit">
 									<img src="img/imagess/USER.png" alt="" />
 									<span class="accounts"></span>
 									<img class="nav-right-right-tb" src="img/imagess/daohangjiantoux.png" alt="" />
 									<!--修改密码/退出登录-->
-									<p class="nav-right-right-xl" style="display: none;" data-target="#myModal">
+									<p class="nav-right-right-xl" style="display: none;">
 										<span onclick='amendpsw()'>
 												<span>
 													<img src="img/imagess/xiugaimima.png" alt="" />
 												</span>
-												<button class="buttonss" data-toggle="modal" data-target="#myModal">修改密码</button>
+												<button class="buttonss">修改密码</button>
 										</span>
 										<span onClick="quitaccount()">
 												<span><img src="img/imagess/tuichuzhanghao.png" alt="" /></span> 退出账号
@@ -398,9 +243,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																		<input type="email" id="email" required/>
 																		<hr />
 																		<!--改动-->
-																		<label><i>*</i>角色:</label>
+																		<label>角色:</label>
 																		<select id="parlinglotrole" style="width:146px;height:19px;">
-
+                                                                              <option value="-1">--此选项可以为空--</option> 
 																		</select>
 																		<hr />
 																		<label for=""><i>*</i>省份:</label>
@@ -1196,6 +1041,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			<td><i>*</i>配置:</td>
 																			<td class="owner16"></td>
 																		</tr>
+																		<!--<tr>
+																			<td><i>*</i>紧急联系人姓名:</td>
+																			<td class="owner17"></td>
+																			<td><i>*</i>紧急联系人电话:</td>
+																			<td class="owner18"></td>
+																		</tr>
+																		<tr>
+																			<td><i>*</i>关系:</td>
+																			<td class="owner19"></td>
+																		</tr>-->
 																	</tbody>
 																</table>
 															</form>
@@ -1547,6 +1402,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<span>升级分组:</span>
 								    <input class="MobileSeeksjfz" style="width: 150px;"> 
 								    <span class="Mobilecx" onClick="Mobileinput()">查询</span>
+									<span class="Mobilecx" onClick="Mobileinputqx()">取消</span>
 								    <span style="margin-left: 10px;">刷新间隔(秒):</span>
 								    <select id="MobileSelect">
 								    	<option value="5000">5</option>
@@ -1760,8 +1616,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													      <tr>
 													        <td>设备编号:</td>
 													        <td class="lookup1"></td>
-													        <!--<td>制造商:</td>
-													        <td class="lookup2"></td>-->
 															<td>设备序列号:</td>
 													        <td class="lookup3"></td>
 													      </tr>
@@ -1777,6 +1631,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													        <td>硬件版本号:</td>
 													        <td class="lookup6"></td>
 													      </tr>
+														  <tr>
+															<td>归属分组:</td>
+													        <td class="lookup25"></td>
+													        <td>升级分组:</td>
+													        <td class="lookup26"></td>  
+														  </tr>
 													      <tr>
 													        <td>电控单元硬件编号:</td>
 													        <td class="lookup7"></td>
@@ -2423,7 +2283,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 															</tr>
 															<tr>
 																<td><i>*</i>更换时间</td>
-																<td><input class="easyui-datetimebox" id="Modalreplacementtime" value="" style="width:146px"></td>
+																<td><input class="easyui-datetimebox" data-options='editable:false' id="Modalreplacementtime" value="" style="width:146px"></td>
 																<td><i>*</i>原电控单元序列号</td>
 																<td><input type="text" maxlength="30" id="Modalrawserialnumber"></td>
 																<td><i>*</i>新电控单元序列号</td>
@@ -2592,7 +2452,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													    		
 													    	</div>
 													    </div>
-													    <div class="uploadFiledatagirdtwo" style="width: 100%;height: 300px;">
+													    <div class="uploadFiledatagirdtwo" style="width: 100%;height: 300px;position: relative;">
 													    	<div style="width: 710px;margin: 0 auto;margin-bottom: 5px;">
 													    		<span>设备编号:</span>
 													    		<input type="text" maxlength="10" id="filededeviceone"/>
@@ -2602,8 +2462,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													    		<input type="text" maxlength="20" id="filededevicethr"/>
 													    		<a href="javascript:uploadFilecx2()" style="display: inline-block;text-align: center;width: 60px;color: white;background: #4AAA4A;">查询</a>
 													    	</div>
-													    	<div class="uploadFiledatagird2">
-													    		
+													    	<div class="uploadFiledatagird2" style="width:100%;height:auto;position:absolute;top:24px;bottom:0;">
+													    		<div class="uploadFiledatagird2-one" style="width:333px;height:290px;position: absolute;overflow: auto;">
+                                                                     <div class="uploadFiledatagird2-one1">
+
+																	 </div>
+																</div>
+																<div class="uploadFiledatagird2-two" style="width:90px;height:300px;background:white;position: absolute;left:336px;">
+                                                                     <img src="img/Theowner/zuoshanchu.png" alt="" onclick="uploadFiledatagird2left()">
+																	 <img src="img/Theowner/youshanchu.png" alt="" onclick="uploadFiledatagird2right()">
+																</div>
+																<div class="uploadFiledatagird2-thr" style="width:333px;height:290px;position: absolute;right:0;">
+																	 <div class="uploadFiledatagird2-thr1">
+
+																	 </div>
+																</div>
 													    	</div>
 													    </div>
 													</form>
@@ -3261,7 +3134,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													</tr>
 												</table>
 											</div>
-										    <div style="width: 500px;margin: 0 auto;">
+										    <div style="width: 640px;margin: 0 auto;">
 										    	<span>CAN通道号:</span>
 										    	<select id="CANchannelnumber" style="width: 146px;">
 										    		<!--<option value="11">11</option>
@@ -3270,6 +3143,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										    	<span style="margin-left: 40px;">结束时间:</span>
 										    	<input class="easyui-datetimebox" id="CANstoptime" style="width:146px">
 										    	<i>*</i>
+												<span style="margin-left: 20px;">设备状态:</span>
+												<span id="CANdeviceIdzt"></span>
 										    </div>
 										    <div style="width: 100%;height: 200px;margin-top: 10px;">
 										    	<div id="CANdatagridform" style="width: 100%;height:100%;overflow: auto;">
@@ -3882,30 +3757,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					            	    	<div style="width: 248px;margin: 0 auto;">
 					            	    		<span class="leftanterior">
 					            					<img src="img/relatime/dakai.png" alt="" />
-					            					<span>左前胎压2.9Bar</span>
+					            					<span>左前胎压</span>
 					            					<img style="margin-left: 0;" src="img/relatime/dakai.png" alt=""/>
-					            					<span>右前胎压2.4Bar</span>
+					            					<span>右前胎压</span>
 					            				</span>
 					            				<hr />
 					            				<span class="rightanterior">
 					            					<img src="img/relatime/dakai.png" alt="" />
-					            					<span>左后胎压2.4Bar</span>
+					            					<span>左后胎压</span>
 					            					<img style="margin-left: 0;" src="img/relatime/dakai.png" alt=""/>
-					            					<span>右后胎压2.4Bar</span>
+					            					<span>右后胎压</span>
 					            				</span>
 					            				<hr />
 					            				<span class="leftTiretemperature">
 					            					<img src="img/relatime/dakai.png" alt="" />
-					            					<span>左前胎温度62</span>&#8451
+					            					<span>左前胎温度</span>
 					            					<img style="margin-left: 0;" src="img/relatime/dakai.png" alt=""/>
-					            					<span>右前胎温度</span>62&#8451
+					            					<span>右前胎温度</span>
 					            				</span>
 					            				<hr />
 					            				<span class="rightTiretemperature">
 					            					<img src="img/relatime/dakai.png" alt="" />
-					            				    <span>左后胎温度62</span>&#8451
+					            				    <span>左后胎温度</span>
 					            					<img style="margin-left: 0;" src="img/relatime/dakai.png" alt=""/>
-					            					<span>右后前胎温度62</span>&#8451
+					            					<span>右后前胎温度</span>
 					            				</span>
 					            	    	</div>
 					            	    </div>

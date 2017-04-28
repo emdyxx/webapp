@@ -7,8 +7,11 @@ var shebithree='';  //远程操作权限
 var shebifour='';  //查看详情权限	
 var is = []; //获取页面数据选中的状态id
 var dgsize = 50; //刷新页面的条数
+var dgNumber = 1;
+var topMobileSeeksjfz;
 $('.MobileUnit').css('display', 'none')
-$('#managementli9').click(function () {							
+$('#managementli9').click(function () {	
+    clearInterval(Realtimeconditionset);						
     Dateupo = $('#未指定设备组').val();
     $('main>div').css('display', 'none');
     $('.MobileUnit').css('display', '')
@@ -80,6 +83,9 @@ $('#managementli9').click(function () {
         loadFilter: function (data) {
 			var rows =data.data
             return convsssss(rows);
+        },
+        onSelect: function(node){
+            topMobileSeeksjfz = node.ids
         }
     })
 })
@@ -89,7 +95,11 @@ function MobileSele() {
     clearInterval(seti);	
 	Dateupo=$('#MobileSelect').val()
     var str = Dateupo/1000
-	seti = setInterval('MobDatagrid()', Dateupo);
+    seti = setInterval(function(){
+        dgNumber = $(".MobileData" ).datagrid("options").pageNumber;
+        dgsize = $('.MobileData').datagrid('options').pageSize;
+        $('.MobileData').datagrid('reload');
+    },Dateupo);
 }
 function MobileSelect() {
     Dateupo=0
@@ -100,7 +110,7 @@ function MobileSelect() {
 	seti = setInterval('MobDatagrid()', Dateupo);
 }
 //车载设备下侧表加载
-function MobDatagrid() {
+function MobDatagrid(){
     $('.MobileData').datagrid({
         url: server_context+'/listDevice',
         method: 'get',
@@ -109,18 +119,16 @@ function MobDatagrid() {
         fit: 'true',
         rownumbers: 'true',
         pagination: "true",
+        pageNumber:dgNumber,
 		pageSize:dgsize,
-        onBeforeLoad:function(param){
-			   dgsize=param.rows
-		},
-        queryParams: {
-        	vin: $('.MobileID').val(),
-            deviceId: $('.Mobilename').val(),
-            iccid: $('.MobileICCID').val(),
-            ecuSerialNum: $('.MobileSeekID').val(),
-    	    userGroupId:$('.MobileSeekfz').val(),
-    	    deviceGroupId:$('.MobileSeeksjfz').val()
-    	},
+        queryParams:{
+            vin: '',
+            deviceId: '',
+            iccid: '',
+            ecuSerialNum: '',
+            userGroupId:'',
+            deviceGroupId:''
+        },
         columns: [[
             { field: "cb", checkbox: "true", align: "center" },
             { field: "deviceId", title: '设备编号', align: "center", width: '8%',
@@ -133,7 +141,8 @@ function MobDatagrid() {
             { field: "iccid", title: 'ICCID', align: "center", width: '12%' },
             { field: "groupName", title: '归属分组', align: "center", width: '8%'},
             { field: "onlineTime", title: '最后上线时间', align: "center", width: '11%' },
-            { field: "remoteAddr", title: '远端地址', align: "center", width: '11%' },
+            // { field: "remoteAddr", title: '远端地址', align: "center", width: '11%' },
+            { field: "deviceGroupName", title: '升级分组', align: "center", width: '11%' },
             { field: "online", title: '更多操作', align: "center", width: '22%',
                 formatter: function (value, row, index) {
                     var value = row['online'];
@@ -155,46 +164,50 @@ function MobDatagrid() {
             }
         ]],
         onCheck:function(i){
-	            is.push(i)
-	            for(var i = 0; i < is.length; i++){
-	             	for(var j=i+1;j<is.length;j++){
-	             		if(is[i]===is[j]){
-	             			is.splice(j,1);
-	             			j--;
-	             		}
-	             	}
-	            }
-			},
-			onUncheck:function(i){
-	            for(var s=0;s<is.length;s++){
-	            	if(i==is[s]){
-	            		is.splice(s,1)
-	            	}
-	            }
-			},
-			onCheckAll:function(i){
-				is.splice(0,is.length);
-                for(var s = 0;s<i.length;s++){
-                	is.push(s)
+            is.push(i)
+            for(var i = 0; i < is.length; i++){
+                for(var j=i+1;j<is.length;j++){
+                    if(is[i]===is[j]){
+                        is.splice(j,1);
+                        j--;
+                    }
                 }
-			},
-			onUncheckAll:function(i){
-				is.splice(0,is.length);
-			},
-			onLoadSuccess:function(data){
-                for(var i=0;i<is.length;i++){
-                	for(var j=0;j<data.rows.length;j++){
-                		if(data.rows[i].id){
-                			$(".MobileData").datagrid('selectRow',is[i]);
-                		}
-                	}
+            }
+        },
+        onUncheck:function(i){
+            for(var s=0;s<is.length;s++){
+                if(i==is[s]){
+                    is.splice(s,1)
                 }
-			}
+            }
+        },
+        onCheckAll:function(i){
+            is.splice(0,is.length);
+            for(var s = 0;s<i.length;s++){
+                is.push(s)
+            }
+        },
+        onUncheckAll:function(i){
+            is.splice(0,is.length);
+        },
+        onLoadSuccess:function(data){
+            for(var i=0;i<is.length;i++){
+                for(var j=0;j<data.rows.length;j++){
+                    if(data.rows[i].id){
+                        $(".MobileData").datagrid('selectRow',is[i]);
+                    }
+                }
+            }
+        }
     })
 }
 
 //车载设备查询
 function Mobileinput() {
+    if(topMobileSeeksjfz!=0){
+       $.messager.alert('系统提示','查询按钮,升级分组不得选择车场','error');
+       return;
+    }
     var data = {
         vin: $('.MobileID').val(),
         deviceId: $('.Mobilename').val(),
@@ -204,6 +217,18 @@ function Mobileinput() {
         deviceGroupId:$('.MobileSeeksjfz').val()
     }
 	$('.MobileData').datagrid('load',data)
+}
+//车载设备取消查询
+function Mobileinputqx(){
+   $('.MobileSeek input').val('')
+   $('.MobileData').datagrid('load',{
+        vin: '',
+        deviceId: '',
+        iccid: '',
+        ecuSerialNum: '',
+	    userGroupId:'',
+        deviceGroupId:''
+   })
 }
 
 //添加设备
@@ -403,7 +428,6 @@ function UpgradeGroupss() {
         $.messager.alert('系统提示', '请选择设备进行升级分组操作','warning');
         return;
     }
-    console.log(row)
     for(var i=0;i<row.length;i++){
         if(row[i].topGroupId==0){
             $.messager.alert('系统提示','所选设备不在同一归属分组,请先进行归属分组操作','error');
@@ -454,7 +478,8 @@ function convsssss(rows) {
                     actualId:row.id,
                     parendId:row.parendId,
                     parentId:row.parentId,
-                    iconCls:'icon-bianzutubiao'
+                    iconCls:'icon-bianzutubiao',
+                    ids:row.id
                 });
             }
         }else{
@@ -465,7 +490,8 @@ function convsssss(rows) {
                     actualId:row.id,
                     parendId:row.parendId,
                     parentId:row.parentId,
-                    iconCls:'icon-shebeizutubiao'
+                    iconCls:'icon-shebeizutubiao',
+                    ids:row.id
                 });
             }
         }
@@ -488,7 +514,8 @@ function convsssss(rows) {
                         actualId:row.id,
                         parendId:row.parendId,
                         parentId:row.parentId,
-                        iconCls:'icon-bianzutubiao'
+                        iconCls:'icon-bianzutubiao',
+                        ids:row.id
                     };
                 }else{
                    var child = {
@@ -497,7 +524,8 @@ function convsssss(rows) {
                         actualId:row.id,
                         parendId:row.parendId,
                         parentId:row.parentId,
-                        iconCls:'icon-shebeizutubiao'
+                        iconCls:'icon-shebeizutubiao',
+                        ids:row.id
                     };
                 }
 				
@@ -518,19 +546,17 @@ $('.Mobileyhthree').click(function () {
         $.messager.alert('系统提示', '请选择设备组','warning');
         return;
     }
-    if(grounpss==1){
+    if(grounpss!=0){
         $.messager.alert('系统提示', '请选择设备组','warning');
         return;
     }
     var row = $('.MobileData').datagrid('getChecked');
-    console.log(row)
     var arr = [];
     for (var i = 0; i < row.length; i++) {
         arr.push(row[i].id)
     }
     var deviceIds = arr.join(',')
     var data = { deviceIds: deviceIds, groupId: grounpId }
-    console.log(data)
     $.ajax({
         type: "post",
         url: server_context+"/changeDeviceGroup",
@@ -542,7 +568,8 @@ $('.Mobileyhthree').click(function () {
         success: function (data) {
             if (data.error_code == 0) {
                 $.messager.alert('系统提示', '升级分组操作成功','info');
-                $('#MobileyhtwoModal').modal('hide');
+                $('#MobileyhthreeModal').modal('hide');
+                $('.MobileData').datagrid('reload')
             } else {
                 Statuscodeprompt(data.error_code,"升级分组操作失败...",'error')
             }
@@ -650,7 +677,15 @@ function Mobileyhseven(){
     for(var i=0;i<row.length;i++){
        id.push(row[i].iccid)
     }
-    console.log(id.join(','))
+    for(var i=0;i<id.length;i++){
+       if(id[i]==''){
+           id.splice(i,1);
+       }
+    }
+    if(id==''){
+       $.messager.alert('系统提示', '所选设备没有iccid','warning');
+       return;
+    }
     $.ajax({
         url:server_context+"/synchronizationDeviceMsisdn",
         type:'post',
@@ -861,6 +896,8 @@ function particulars(index) {
     }else{
        $('.lookup23').text('否')
     }
+    $('.lookup25').text(row.groupName)
+    $('.lookup26').text(row.deviceGroupName)
 }
 
 var device;//设备编号
@@ -961,7 +998,7 @@ $('.saves').click(function () {
         data: {
 			deviceId:device,
             configVer: $('.config_ver').val(),
-            dserverKey: $('.iovdc_key').val(),
+            serverKey: $('.iovdc_key').val(),
             updateKeyId: $('.update_keyid').val(),
             updateKey: $('.update_key').val(),
             plate: $('.plate').val(),
@@ -1271,18 +1308,6 @@ function reulafive() {
         },
         success: function (data) {
             var data = data.data[0];
-            $(".fivetbody tr").nextAll().remove();
-            var friendlyDevice = data.interconnectDevice.split(",");
-            if(friendlyDevice!=''||friendlyDevice!='undefined'||friendlyDevice!=null){
-               for (var i = 1; i < friendlyDevice.length + 1; i++) {
-                    $(".fivetbody").append("<tr id=" + i + " align='center'>"
-                        + "<td>" + i + "</td>"
-                        + "<td><input type='text' name='MACName" + i + "' id='MACName" + i + "' value='" + friendlyDevice[i - 1].split(":")[0] + "' /></td>"
-                        + "<td><input type='text' name='MACAdress" + i + "' id='MACAdress" + i + "' value='" + friendlyDevice[i - 1].split(":")[1] + "' /></td>"
-                        + "<td><a href=\'#\' onclick=\'deltr(" + i + ")\'>删除</a></td>"
-                        + "</tr>");
-                }
-            }
             onlin = data.online;
             $('.equipmentnumber').text(data.deviceId);
             $('.serialnumberfive').text(data.serialNum);
@@ -1295,6 +1320,22 @@ function reulafive() {
                 $('.compilefi').css('background', 'url(img/Theowner/baocunanniu.png) no-repeat')
                 $('.compilefi').attr('name', '1')
             }
+            $(".fivetbody tr").nextAll().remove();
+            if(data.interconnectDevice==''){
+                return;
+            }
+            var friendlyDevice = data.interconnectDevice.split(",");
+            if(friendlyDevice!=''||friendlyDevice!='undefined'||friendlyDevice!=null){
+               for (var i = 1; i < friendlyDevice.length + 1; i++) {
+                    $(".fivetbody").append("<tr id=" + i + " align='center'>"
+                        + "<td>" + i + "</td>"
+                        + "<td><input type='text' name='MACName" + i + "' id='MACName" + i + "' value='" + friendlyDevice[i - 1].split(":")[0] + "' /></td>"
+                        + "<td><input type='text' name='MACAdress" + i + "' id='MACAdress" + i + "' value='" + friendlyDevice[i - 1].split(":")[1] + "' /></td>"
+                        + "<td><a href=\'#\' onclick=\'deltr(" + i + ")\'>删除</a></td>"
+                        + "</tr>");
+                }
+            }
+            
         }
     });
 }

@@ -4,6 +4,7 @@
 	 var motorcycletypeGroupId; //车型的顶级用户组id
 	 $('#managementli31').click(function(){
 		clearInterval(seti);
+		clearInterval(Realtimeconditionset);
 	 	id4='';
 	 	$('main>div').css('display', 'none');
 		$('.Motorcyclebottom-right-div').css('display','none')

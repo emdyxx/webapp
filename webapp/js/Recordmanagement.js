@@ -5,10 +5,11 @@
   var canLookUp;//查看权限
   var canSettingUp;//录制设置权限
   var canonline;//判断设备是否在线
-  var candata;
+  var candata;//判断设备是否在录制中
   //7.1录制管理--录制管理
   $('#managementli32').click(function(){
     clearInterval(seti);
+	clearInterval(Realtimeconditionset);
   	$('main>div').css('display','none');
   	$('.Recordmanagement').css('display','')
 	//权限判断
@@ -134,8 +135,15 @@
 			success:function(data){
 				if(data.error_code==0){
                    canonline=data.data[0].online
+				   if(data.data[0].online==false){
+					   $('#CANdeviceIdzt').text('未在线')
+					   $('#CANdeviceIdzt').css('color','gray')
+				   }else{
+					   $('#CANdeviceIdzt').text('在线')
+					   $('#CANdeviceIdzt').css('color','#7EB00E')
+				   }
 				}else{
-
+                   Statuscodeprompt(data.error_code)
 				}
 			}
 		})
@@ -269,6 +277,10 @@ $('#Bustorecordsend').on('click',function(){
        $.messager.alert('系统提示','设备不在线不能保存发送...','error');
 	   return;
 	}
+	if(candata!=''){
+       $.messager.alert('系统提示','设备正在录制中,请先取消录制再进行发送...','error');
+	   return;
+	}
 	var row = $('.Recordmanagement-primarymeter').datagrid('getSelected')
 	var a=[];
 	var dt;
@@ -283,7 +295,7 @@ $('#Bustorecordsend').on('click',function(){
 		}
 	}
 	if(a.length==0){
-          $.messager.alert('系统提示','请选择设备!','error')
+          $.messager.alert('系统提示','请选择CANID!','error')
 		  return;
 	}
 	for(var i=0;i<a.length;i++){
@@ -299,6 +311,10 @@ $('#Bustorecordsend').on('click',function(){
           $.messager.alert('系统提示','所选设备掩码不得低于16位!','error')
 		  return;
 	   }
+	}
+	if($('#CANstoptime').val()==''){
+        $.messager.alert('系统提示','结束时间不能为空!','error')
+		return;
 	}
 	$.ajax({
 		type:'post',
@@ -328,6 +344,10 @@ $('#cancelrecording').click(function(){
        $.messager.alert('系统提示','设备不在线不能取消录制...','error');
 	   return;
 	}
+	if(candata==''){
+       $.messager.alert('系统提示','该设备暂无录制信息...','error');
+	   return;
+	}
 	if(candata.id==''){
         return;
 	}
@@ -340,7 +360,7 @@ $('#cancelrecording').click(function(){
 		},
 		success:function(data){
 			if(data.error_code==0){
-				$.messager.alert('系统提示','设备取消录制成功','error');
+				$.messager.alert('系统提示','设备取消录制成功','info');
 			}else{
                 Statuscodeprompt(data.error_code)
 			}
@@ -422,6 +442,8 @@ function queryandpivotmanagement(){
 //8.1应用管理--应用管理
 var appliedmanagementurl;
 $('#managementli34').click(function(){
+	clearInterval(seti);
+	clearInterval(Realtimeconditionset);
 	$('main>div').css('display','none');
 	$('.appliedmanagement').css('display','');
 	//权限请求

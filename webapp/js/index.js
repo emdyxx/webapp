@@ -62,6 +62,10 @@ function Statuscodeprompt(code,msg,img){
 		});
 	}else if(code==10025){
 		$.messager.alert('系统提示','文件名称格式不正确','error');
+	}else if(code==10026){
+		$.messager.alert('系统提示','发送失败','error');
+	}else if(code==10027){
+		$.messager.alert('系统提示','Redis无数据','error');
 	}else{
 		$.messager.alert('系统提示',msg,img);
 	}
@@ -71,20 +75,28 @@ function Statuscodeprompt(code,msg,img){
 var account = $.cookie('account')
 $('.accounts').html(account)
 //用户名点击事件,修改密码以及退出登录
-function usernamedj(){
-   var src = $('.nav-right-right-tb').attr('src')
-   if(src=='img/imagess/daohangjiantoux.png'){
-      $('.nav-right-right-tb').attr('src','img/imagess/daohangjiantous.png')
-      $('.nav-right-right-xl').css('display','');
-   }else if(src=='img/imagess/daohangjiantous.png'){
-      $('.nav-right-right-tb').attr('src','img/imagess/daohangjiantoux.png')
-      $('.nav-right-right-xl').css('display','none');
-   }
-}
+// $(function(){
+	$('#pswquit').click(function(event){
+		var src = $('.nav-right-right-tb').attr('src')
+		if(src=='img/imagess/daohangjiantoux.png'){
+			$('.nav-right-right-tb').attr('src','img/imagess/daohangjiantous.png')
+			$('.nav-right-right-xl').css('display','');
+		}else if(src=='img/imagess/daohangjiantous.png'){
+			$('.nav-right-right-tb').attr('src','img/imagess/daohangjiantoux.png')
+			$('.nav-right-right-xl').css('display','none');
+		}
+		event.stopPropagation();
+	})
+	$(document).on("click", function () {
+		//对document绑定一个影藏Div方法
+		$('.nav-right-right-tb').attr('src','img/imagess/daohangjiantoux.png')
+		$('.nav-right-right-xl').css('display','none');
+	});
+// })
+
 //修改密码事件
 function amendpsw(){
-   $('.nav-right-right-xl').css('display','none');
-   $('.nav-right-right-tb').attr('src','img/imagess/daohangjiantoux.png')
+    $('#myModal').modal('show');
 }
 function amendpassword(){
     if($('.newpsw').val()!=$('.newpsword').val()){
@@ -570,7 +582,8 @@ $('.sox').linkbutton({
 
 //点击车厂管理触发的事件
 $('#managementli1').click(function() {
-	clearInterval(seti);							   
+	clearInterval(seti);
+	clearInterval(Realtimeconditionset);							   
 	id=''
 	$('.rightright').css('display', 'none')
 	$('main>div').css('display', 'none')
@@ -627,7 +640,6 @@ $('#managementli1').click(function() {
 })
 //找出选中的tree树的值
 function tre(node) {
-	console.log(node)
 	$('#itemid').val('')
 	$('#productid').val('')
 	$('#Yardmanagementrole').val('')
@@ -967,7 +979,7 @@ function save() {
 				$('#dlmyModal').modal('hide');
 				$("#dgl").datagrid("reload");
 			}else {
-				Statuscodeprompt(data.error_code,"保存失败",'error')
+				Statuscodeprompt(data.error_code)
 			}
 		}
 	});
@@ -976,26 +988,27 @@ function save() {
 function saveUser() {
 	var phone = /^((0\d{2,3}-\d{7,8})|(1[3584]\d{9}))$/;
 	var selected = $("#dg").datagrid('getSelected');
+	if($("#id").val()==''||$("#name").val()==''||$("#phone").val()==''||$("#email").val()==''||$("#countyn").val()==''||$("#parlingaddress").val()==''){
+         $.messager.alert('系统提示','必填字段不能为空','warning');
+		 return;
+	}
+	if(!phone.test($('#phone').val())) {
+		   $.messager.alert('系统提示','手机号不符合格式','warning');
+		   $('#phone').focus();
+		   return;
+	}
 	var data = {
 		'id':selected.id,
 		'groupName': $("#id").val(),
 		'principal': $("#name").val(),
 		'phone': $("#phone").val(),
 		'email': $("#email").val(),
-		'roleId': $("#parlinglotrole").val(),
+		// 'roleId': $("#parlinglotrole").val(),
 		'areaId':$("#countyn").val(),
 		'address':$("#parlingaddress").val()
 	}
-	$.each(data,function(v,h){
-		if(h==''){
-			$.messager.alert('系统提示','必填字段不能为空','warning');
-			return;
-		}
-	})
-	if(!phone.test($('#phone').val())) {
-		   $.messager.alert('系统提示','手机号不符合格式','warning');
-		   $('#phone').focus();
-		   return;
+	if($("#parlinglotrole").val()!=-1){
+        data.roleId = $("#parlinglotrole").val()
 	}
 	$.ajax({
 		type: "post",
@@ -1017,13 +1030,10 @@ function saveUser() {
 //top编辑按钮
 function openUserAddDialog() {
 	var selected = $("#dg").datagrid('getSelected');
-	console.log(selected)
 	if(selected == null) {
 		$.messager.alert("系统提示", "请选择要编辑的数据！",'warning');
 		return;
 	}
-	console.log(selected.cityId)
-	console.log(selected.districtId)
 	$('#mydlgModal').modal('show')
 	//省请求
 	$.ajax({
@@ -1098,7 +1108,7 @@ function openUserAddDialog() {
 	   },
 	   success:function(data){
 	      data=data.data
-		  $('#parlinglotrole option').remove()
+		  $('#parlinglotrole').find('option').nextAll().remove();
 		  for(var i=0;i<data.length;i++){
 			  if(selected.roleId==data[i].id){
 			     $('<option selected="selected" value='+data[i].id+'>'+data[i].name+'</option>').appendTo($('#parlinglotrole'))
@@ -1200,7 +1210,8 @@ function convert(data) {
 					type:row.type,
 					actualId:row.actualId,
 					level:row.level,
-					checked:row.checked
+					checked:row.checked,
+					topGroupId:row.topGroupId
 				});
 			}
 		}else if(row.level==2){
@@ -1214,7 +1225,8 @@ function convert(data) {
 					actualId:row.actualId,
 					checked:row.checked,
 					level:row.level,
-					iconCls:'icon-two'
+					iconCls:'icon-two',
+					topGroupId:row.topGroupId
 				});
 			}
 		}
@@ -1229,7 +1241,8 @@ function convert(data) {
 					actualId:row.actualId,
 					checked:row.checked,
 					level:row.level,
-					iconCls:'icon-three'
+					iconCls:'icon-three',
+					topGroupId:row.topGroupId
 				});
 			}
 		}
@@ -1244,7 +1257,8 @@ function convert(data) {
 					actualId:row.actualId,
 					checked:row.checked,
 					level:row.level,
-					iconCls:'icon-four'
+					iconCls:'icon-four',
+					topGroupId:row.topGroupId
 				});
 			}
 		}else if(row.level==5){
@@ -1258,7 +1272,8 @@ function convert(data) {
 					actualId:row.actualId,
 					checked:row.checked,
 					level:row.level,
-					iconCls:'icon-five'
+					iconCls:'icon-five',
+					topGroupId:row.topGroupId
 				});
 			}
 		}else if(row.level==0||row.type==2){
@@ -1272,7 +1287,8 @@ function convert(data) {
 					actualId:row.actualId,
 					checked:row.checked,
 					level:row.level,
-					iconCls:'icon-eight'
+					iconCls:'icon-eight',
+					topGroupId:row.topGroupId
 				});
 			}
 		}else if(row.level==6){
@@ -1286,7 +1302,8 @@ function convert(data) {
 					actualId:row.actualId,
 					checked:row.checked,
 					level:row.level,
-					iconCls:'icon-six'
+					iconCls:'icon-six',
+					topGroupId:row.topGroupId
 				});
 			}
 		}else if(row.level==7){
@@ -1300,7 +1317,8 @@ function convert(data) {
 					actualId:row.actualId,
 					checked:row.checked,
 					level:row.level,
-					iconCls:'icon-seven'
+					iconCls:'icon-seven',
+					topGroupId:row.topGroupId
 				});
 			}
 		}
@@ -1325,7 +1343,8 @@ function convert(data) {
 						actualId:row.actualId,
 						checked:row.checked,
 						level:row.level,
-						iconCls:'icon-one'
+						iconCls:'icon-one',
+						topGroupId:row.topGroupId
 					};
 				}else if(row.level==2){
                     var child = {
@@ -1337,7 +1356,8 @@ function convert(data) {
 						actualId:row.actualId,
 						checked:row.checked,
 						level:row.level,
-						iconCls:'icon-two'
+						iconCls:'icon-two',
+						topGroupId:row.topGroupId
 					}
 				}
 				else if(row.level==3){
@@ -1350,7 +1370,8 @@ function convert(data) {
 						actualId:row.actualId,
 						checked:row.checked,
 						level:row.level,
-						iconCls:'icon-three'
+						iconCls:'icon-three',
+						topGroupId:row.topGroupId
 					}
 				}else if(row.level==4){
                     var child = {
@@ -1362,7 +1383,8 @@ function convert(data) {
 						actualId:row.actualId,
 						checked:row.checked,
 						level:row.level,
-						iconCls:'icon-four'
+						iconCls:'icon-four',
+						topGroupId:row.topGroupId
 					}
 				}else if(row.level==5){
                     var child = {
@@ -1374,7 +1396,8 @@ function convert(data) {
 						actualId:row.actualId,
 						checked:row.checked,
 						level:row.level,
-						iconCls:'icon-five'
+						iconCls:'icon-five',
+						topGroupId:row.topGroupId
 					}
 				}else if(row.level==0||row.type==2){
                         var child = {
@@ -1386,7 +1409,8 @@ function convert(data) {
 							actualId:row.actualId,
 							checked:row.checked,
 							level:row.level,
-							iconCls:'icon-eight'
+							iconCls:'icon-eight',
+							topGroupId:row.topGroupId
 					}
 				}else if(row.level==6){
                     var child = {
@@ -1398,7 +1422,8 @@ function convert(data) {
 						actualId:row.actualId,
 						checked:row.checked,
 						level:row.level,
-						iconCls:'icon-six'
+						iconCls:'icon-six',
+						topGroupId:row.topGroupId
 					}
 				}else if(row.level==7){
                     var child = {
@@ -1410,7 +1435,8 @@ function convert(data) {
 						actualId:row.actualId,
 						checked:row.checked,
 						level:row.level,
-						iconCls:'icon-seven'
+						iconCls:'icon-seven',
+						topGroupId:row.topGroupId
 					}
 				}
 				if(node.children) {
@@ -1543,8 +1569,7 @@ function dispValue(row) {
 			     $('<option selected="selected" value='+data[i].id+'>'+data[i].name+'</option>').appendTo($('.roles'))
 			  }else{
 				 $('<option value='+data[i].id+'>'+data[i].name+'</option>').appendTo($('.roles'))
-			  }
-			  
+			  } 
 		  }
 	   }
 	})
@@ -1577,7 +1602,7 @@ function openUserModifyDialog() {
 	}
 	$('#dlmyModal').modal('show');
 	$('.usergroupfmm input').remove();
-	$('.usergroupfmm span').remove();
+	// $('.usergroupfmm span').remove();
 	$('<input type="text" class="usergroup" id="age">').appendTo('.usergroupfmm')
 	$('.dlmyModaltitle').text('修改用户信息')
 	$('#ResetPassword').css('display','')
@@ -1596,6 +1621,7 @@ var jurisdictionlist;//权限列表权限
 $('.rolemanagement').css('display', 'none') //放Js上边上边,不要最上边,在页面节点创建完之后
 $('#managementli2').click(function() {
 	    clearInterval(seti);
+		clearInterval(Realtimeconditionset);
 	    id1=1;
 		$('.addrole').css('display', 'none')
 		$('.removerole').css('display', 'none')
@@ -1944,6 +1970,7 @@ function treeadds(){
 		return;
 	}
 	$('#myModalfmm').modal('show')
+	$('#treenameo').val('');
 }
 //添加角色保存按钮
 function addrole() {
@@ -2009,6 +2036,7 @@ var operateIp=0;//操作ip的权限
 $('.accessmanagement').css('display', 'none')
 $('#managementli3').click(function() {
 		clearInterval(seti);
+		clearInterval(Realtimeconditionset);
 		$('#addressip').val('')
 		$('main>div').css('display', 'none');
 		$('.accessmanagement').css('display', '');
@@ -2082,25 +2110,29 @@ $('#managementli3').click(function() {
 	 //启动禁用ip
    function ownerVerify(){
    	  var row = $("#dgip").datagrid('getSelected');
-	  if(operateIp==17){
-		  $.ajax({
-			type:"post",
-			url:server_context+"/updateAccessStatus",
-			async:true,
-			data:{
-				id:row.id,
-				status:row.status
-			},
-			success:function(data){
-				if(data.error_code==0){
-					$("#dgip").datagrid('reload')
-				}
-			}
-		});
-	  }else{
-		  $.messager.alert('系统提示','你不具备操作ip的权限','warning')
+	  if(operateIp!=17){
+		  $.messager.alert('系统提示','你不具备操作ip的权限','warning');
+		  return;
 	  }
-   	  
+	  $.messager.confirm('系统提示','确认进行此操作..',function(r){
+		  if(r){
+               $.ajax({
+					type:"post",
+					url:server_context+"/updateAccessStatus",
+					async:true,
+					data:{
+						id:row.id,
+						status:row.status
+					},
+					success:function(data){
+						if(data.error_code==0){
+							$("#dgip").datagrid('reload')
+						}
+					}
+				}); 
+		  }
+	  })
+		
    }
 //新增ip保存按钮
 function saveip() {
@@ -2128,7 +2160,7 @@ function saveip() {
 				$('#myModalip').modal('hide');
 				$("#dgip").datagrid("reload");
 			}else{
-				Statuscodeprompt(data.error_code,"IP添加失败",'error')
+				Statuscodeprompt(data.error_code)
 			}
 		}
 	});
@@ -2178,6 +2210,7 @@ $('.systemLog').css('display','none')
 $('.systemLog-bottom-bottomtwo').css('display','none');
 $('#managementli4').click(function(){
 	clearInterval(seti);
+	clearInterval(Realtimeconditionset);
 	$('.LoguserName').val(''),
 	$('.Logstarttime').val(''),
 	$('.Logfinishtime').val(''),
@@ -2290,6 +2323,8 @@ var canidSeturl;
 var canidSetmodelAlias;
 var canidSettopGroupId;
 $('#managementli36').click(function(){
+	clearInterval(seti);
+	clearInterval(Realtimeconditionset);
 	$('main>div').css('display','none');
 	$('.canidSet').css('display','');
 	$('#canidSetinver').css('display','none');
@@ -2462,9 +2497,19 @@ var carMk;//上一次请求的车图片
 var points=[]//上一次和这一次的坐标点
 $('#managementli19').click(function(){
 	clearInterval(seti);
+	clearInterval(Realtimeconditionset);
 	$('main>div').css('display','none');
 	$('.Realtimecondition').css('display','')
 	$('#RealtimeconditionSerial').val('')
+	for(var i=0;i<$('.Realtimecondition-relaTime-top>div').length;i++){
+       $('.Realtimecondition-relaTime-top>div').eq(i).find('p').eq(0).text('')
+	}
+	for(var i=0;i<$('.lushushuju>p').length;i++){
+       $('.lushushuju>p').eq(i).find('span').eq(1).text('')
+	}
+	for(var i=0;i<$('.Realtimecondition-relaTime-main-one>div').length;i++){
+       $('.Realtimecondition-relaTime-main-one>div').eq(i).find('p').eq(1).text('')
+	}
 	points = [];
 	$('#lushuslider').slider({
 		min:3,
@@ -2484,7 +2529,6 @@ $('#managementli19').click(function(){
 	map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
 	$('.Realtimecondition-relaTime-top>div>p').eq(0).text('');
 	$('.Realtimecondition-relaTime-main div>p').eq(1).text('');
-	
 })
 
 function Realtimeconditionqinquire(){
@@ -2515,7 +2559,9 @@ function Realtimeconditionqinquire(){
 			$('#Realtimecondition-phone').text(data.contactsMobile);//紧急联系人电话
 			RealtimeconditionSerial = data.deviceId;
 			RealtimeconditionTime = $('#lushuslider').slider('getValue')
-			Realtimeconditionset = setInterval('relatimels()',RealtimeconditionTime*1000)
+			clearInterval(Realtimeconditionset);
+			RealtimeconditionTime = RealtimeconditionTime*1000
+			Realtimeconditionset = setInterval('relatimels()',RealtimeconditionTime)
 			$('.Realtimecondition-xiabottom span img').attr('src','img/relatime/guanbi.png')
 			$('.Realtimecondition-xiabottom').eq(4).find('span').find('img').attr('src','img/relatime/dakai.png')
 			relatimels();
@@ -2721,8 +2767,8 @@ function relatimels(){
 			$('.rightanterior>span').eq(1).text('右后胎压'+data.rrtirepressure)      
 			$('.leftTiretemperature>span').eq(0).text('左前胎温度'+data.lftiretemperature)
 			$('.leftTiretemperature>span').eq(1).text('右前胎温度'+data.rftiretemperature)
-			$('.rightTiretemperature>img').eq(0).text('左后胎温度'+data.lrtiretemperature)
-			$('.rightTiretemperature>img').eq(1).text('右后胎温度'+data.rrtiretemperature)
+			$('.rightTiretemperature>span').eq(0).text('左后胎温度'+data.lrtiretemperature)
+			$('.rightTiretemperature>span').eq(1).text('右后胎温度'+data.rrtiretemperature)
 			// var address;
 			var centerGPS = GPS.disposeGPS(data.lng,data.lat);
 			var lng = Number(centerGPS.split(",")[0]);  
@@ -2771,8 +2817,11 @@ function relatimels(){
 }
 
 function Realtimeconditiontsbcs(){
+	 clearInterval(Realtimeconditionset);	
      RealtimeconditionTime = $('#lushuslider').slider('getValue')
-	 Realtimeconditionset = setInterval('relatimels()',RealtimeconditionTime*1000)
+	 RealtimeconditionTime = RealtimeconditionTime*1000
+	 Realtimeconditionset = setInterval('relatimels()',RealtimeconditionTime)
+	 $.messager.alert('系统提示','刷新时间为'+RealtimeconditionTime/1000+'秒')
 }
 
 $('.lushusq').click(function(){
@@ -2801,6 +2850,8 @@ $('.lushusq').click(function(){
 
 // 升级管理---升级日志
 $('#managementli26').click(function(){
+	clearInterval(seti);
+	clearInterval(Realtimeconditionset);
 	$('main>div').css('display','none');
   	$('.UpdateLog').css('display','');
   	$('.UpdateLogtails input').val('');
@@ -2875,6 +2926,7 @@ function UpdateLogchaxun(){
 // 6.1推送管理---信息推送
 $('#managementli29').click(function(){
     clearInterval(seti);
+	clearInterval(Realtimeconditionset);
 	$('main>div').css('display','none')
 	$('.informationpush').css('display','')
 	$('#pushType').find('option').nextAll().remove();
@@ -3057,11 +3109,13 @@ function addmoveMessagebc(){
 		});
 	}
 	if($('.addmoveMessageModaltitle').attr('name')=='2'){
+	   var  row = $('.informationpushbottom-bottom-datagrid').datagrid('getSelected')
        $.ajax({
 			type:"post",
 			url:server_context+"/updatePushMessage",
 			async:true,
 			data:{
+				id:row.id,
 				title:$('#messagetitle').val(),//标题
 				content:$('#messagecontent').val(),//信息内容
 				os:radi, //单选框
@@ -3150,7 +3204,8 @@ function leftdatagrid(){
 			$('.monocasedatagrid-bottom-datagrid1').datagrid('appendRow',{
 				ownerName: item.ownerName,
 				mobile: item.mobile,
-				deviceId: item.deviceId
+				deviceId: item.deviceId,
+				id:item.id
 			});
 		}
 	});
@@ -3177,7 +3232,8 @@ function rightdatagrid(){
 			$('.monocasedatagrid-bottom-datagrid2').datagrid('appendRow',{
 				ownerName: item.ownerName,
 				mobile: item.mobile,
-				deviceId: item.deviceId
+				deviceId: item.deviceId,
+				id:item.id
 			});
 		}
 	});
@@ -3339,6 +3395,7 @@ function lookoverPushMessage(){
 		$.messager.alert("系统提示", "请选择需要查看的数据",'error');
 		return;
 	}
+	console.log(row)
 	$('#LookauditMessageModal').modal('show');
 	$('.auditMessagestitle').text('查看推送消息')
 	$('.auditMessagefooter').css('display','none')
@@ -3362,7 +3419,7 @@ function lookoverPushMessage(){
 	if(row.os==2){
 		$('#Looksystemtype').text('全部');
 	}
-	$('#Lookfounder').text(row.verifyUserName);
+	$('#Lookfounder').text(row.createUserName);
 	$('#Lookheadline').text(row.title);
 	$('#Lookinformationcontent').text(row.content);
 }
@@ -3392,9 +3449,11 @@ function Lookshquire(row){
 }
 //查看/审核弹出框下册表   单体推送查询
 function inquireaudit(){
+	var row = $('.informationpushbottom-bottom-datagrid').datagrid('getSelected')
 	$('.LookPushMessage-datagrid').datagrid('load',{
 		ownerName:$('#inquireNameau').val(),
-		mobile:$('#inquireNamedit').val()
+		mobile:$('#inquireNamedit').val(),
+		pushId:row.id
 	})
 }
 //查看/审核弹出框下册表加载   分组推送
@@ -3425,8 +3484,10 @@ function Lookshquiretwo(row){
 }
 //查看/审核弹出框下册表    分组推送查询
 function inquireaudittwo(){
+	var row = $('.informationpushbottom-bottom-datagrid').datagrid('getSelected')
 	$('.LookPushMessage-datagrid-two').datagrid('load',{
-		groupName:$('#inquireNameaustwo').val()
+		groupName:$('#inquireNameaustwo').val(),
+		pushId:row.id
 	})
 }
 //审核推送消息
@@ -3459,7 +3520,7 @@ function auditPushMessage(){
 	if(row.os==2){
 		$('#Looksystemtype').text('全部');
 	}
-	$('#Lookfounder').text(row.verifyUserName);
+	$('#Lookfounder').text(row.createUserName);
 	$('#Lookheadline').text(row.title);
 	$('#Lookinformationcontent').text(row.content);
 }
@@ -3513,10 +3574,10 @@ function queryPushStatus(index){
 				},
 				columns:[[
 					{ field:"cb",checkbox:"true",align:"center"},
-					{ field:"ownerName",title:'车主姓名',align:"center",width:"19%"},
+					{ field:"ownerName",title:'车主姓名',align:"center",width:"15%"},
 					{ field:"mobile",title:'联系电话',align:"center",width:"19%"},
-					{ field:"deviceId",title:'设备ID',align:"center",width:"19%"},
-					{ field:"groupName",title:'推送时间',align:"center",width: '19%'},
+					{ field:"deviceId",title:'设备ID',align:"center",width:"16%"},
+					{ field:"ts",title:'推送时间',align:"center",width: '26%'},
 					{ field:"Status",title:'推送状态',align:"center",
 						formatter: function (value, row, index) {
 							var value=row['Status'];
@@ -3537,38 +3598,58 @@ function queryPushStatus(index){
 		$('.pushTypetwo').css('display','none')
 		$.ajax({
 			type:'get',
-			url:server_context+'/updateGroupPushStatus',
+			url:server_context+'/getGroupPushStatus',
 			async:'true',
 			data:{
-				pushId:row.id,
-				os:1
+				pushId:row.id
 			},    
 			success:function(data){
+				console.log(data)
 				var data = data.data;
-				$('#messageIDandroid').text(data);
-				$('#Pushthetimeandroid').text(data);
-				$('#informationpushandroid').text(data);
-				$('#Completethepushandroid').text(data);
-				$('#sendstateandroid').text(data);
-				$('#refreshtimeandroid').text(data);
-			}
-		})
-		$.ajax({
-			type:'get',
-			url:server_context+'/updateGroupPushStatus',
-			async:'true',
-			data:{
-				pushId:row.id,
-				os:2
-			},
-			success:function(data){
-				var data = data.data;
-				$('#messageIDios').text(data)
-				$('#Pushthetimeios').text(data)
-				$('#informationpushios').text(data)
-				$('#Completethepushios').text(data)
-				$('#sendstateios').text(data)
-				$('#refreshtimeios').text(data)
+				if(data[0].os==0){
+                    $('#messageIDandroid').text(data[0].id);
+					$('#Pushthetimeandroid').text(data[0].ts);
+					$('#informationpushandroid').text(data[0].finished);
+					$('#Completethepushandroid').text(data[0].startDate);
+					if(data[0].status==0){
+                       $('#sendstateandroid').text('正在发送');
+					}else{
+						$('#sendstateandroid').text('发送完成');
+					}
+					$('#refreshtimeandroid').text(data[0].ts);
+					$('#messageIDios').text(data[1].id);
+					$('#Pushthetimeios').text(data[1].ts);
+					$('#informationpushios').text(data[1].finished);
+					$('#Completethepushios').text(data[1].startDate);
+					if(data[1].status==0){
+                        $('#sendstateios').text('正在发送')
+					}else{
+                        $('#sendstateios').text('发送完成')
+					}
+					$('#refreshtimeios').text(data[1].ts);
+				}
+				if(data[0].os==1){
+                    $('#messageIDandroid').text(data[1].id);
+					$('#Pushthetimeandroid').text(data[1].ts);
+					$('#informationpushandroid').text(data[1].finished);
+					$('#Completethepushandroid').text(data[1].startDate);
+					if(data[1].status==0){
+                       $('#sendstateandroid').text('正在发送');
+					}else{
+						$('#sendstateandroid').text('发送完成');
+					}
+					$('#refreshtimeandroid').text(data[1].ts);
+					$('#messageIDios').text(data[0].id);
+					$('#Pushthetimeios').text(data[0].ts);
+					$('#informationpushios').text(data[0].finished);
+					$('#Completethepushios').text(data[0].startDate);
+					if(data[0].status==0){
+                        $('#sendstateios').text('正在发送')
+					}else{
+                        $('#sendstateios').text('发送完成')
+					}
+					$('#refreshtimeios').text(data[0].ts);
+				}
 			}
 		})
 	}
