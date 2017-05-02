@@ -39,8 +39,8 @@
   					  }
     				}
 				},
-				{ field:"fileName",title:'文件名称',align:"center",width:'30%'},
-				{ field:"url",title:'文件路径',align:"center",width:'6%',
+				{ field:"fileName",title:'文件名称',align:"center",width:'36%'},
+				{ field:"url",title:'文件路径',align:"center",width:'4%',
 				   formatter: function (value, row, index) {
   					  var value=row['url'];
   					  if(value==null||value==''||value=='undefined'){
@@ -61,7 +61,7 @@
   					  }
     				}
 				},
-				{ field:"active",title:'状态',align:"center",width:'8%',
+				{ field:"active",title:'状态',align:"center",width:'4%',
 				   formatter: function (value, row, index) {
   					  var value=row['active'];
   					  if(value==0){
@@ -268,7 +268,7 @@
 		if(updateType=='2'){
 			row = $('.uploadFiledatagird2-one1').datagrid("getRows");
 			if(row.length==0){
-				$.messager.alert("系统提示",'请选择用户','warning')
+				$.messager.alert("系统提示",'请选择设备','warning')
 				return;
 			}
 			for(var i=0;i<row.length;i++){
@@ -376,6 +376,7 @@
 		if($("#update_type").val()==1){
 			$('#uploadForm>div').css('display','none')
 			$('.uploadFiledatagirdone').css('display','')
+			$('#filedevicegroup').val('')
 			$('.uploadFiledatagird1').datagrid({
 				url: server_context+'/listDeviceGroups',
 				method: 'get',
@@ -385,6 +386,9 @@
 				rownumbers: 'true',
 				pageSize:50,
 				pagination: "true",
+				queryParams:{
+					deviceGroupName:''
+				},
 				columns:[[
 				    { field:"cb",checkbox:"true",align:"center"},
 					{ field:"deviceGroupName",title:'设备组',align:"center"}
@@ -394,16 +398,16 @@
 		if($("#update_type").val()==2){
 			$('#uploadForm>div').css('display','none')
 			$('.uploadFiledatagirdtwo').css('display','')
+			$('#filededeviceone').val('')
+			$('#filededevicetwo').val('')
 			$('.uploadFiledatagird2-one1').datagrid({
                 pageSize:50,
 				pagination: "true",
 				columns:[[
 				    { field:"cb",checkbox:"true",align:"center"},
-				    { field:"deviceId",title:'设备编号',align:"center",width:"20%"},
-				    // { field:"vin",title:'车架号',align:"center",width:"20%"},
-				    { field:"iccid",title:'iccid',align:"center",width:"35%"},
-					{ field:"hardVer",title:'硬件版本号',align:"center",width:"20%"},
-					{ field:"model",title:'适用型号',align:"center"}
+				    { field:"deviceId",title:'设备编号',align:"center",width:"25%"},
+				    { field:"iccid",title:'iccid',align:"center",width:"42%"},
+					{ field:"hardVer",title:'硬件版本号',align:"center"}
 				]]
 			})
 			$('.uploadFiledatagird2-thr1').datagrid({
@@ -415,15 +419,24 @@
 				rownumbers: 'true',
 				pageSize:50,
 				pagination: "true",
+				queryParams:{
+                    deviceId:'',
+					hardVer:''
+				},
 				columns:[[
 				    { field:"cb",checkbox:"true",align:"center"},
-				    { field:"deviceId",title:'设备编号',align:"center",width:"20%"},
-				    // { field:"vin",title:'车架号',align:"center",width:"20%"},
-				    { field:"iccid",title:'iccid',align:"center",width:"35%"},
-					{ field:"hardVer",title:'硬件版本号',align:"center",width:"20%"},
-					{ field:"model",title:'适用型号',align:"center"}
+				    { field:"deviceId",title:'设备编号',align:"center",width:"25%"},
+				    { field:"iccid",title:'iccid',align:"center",width:"42%"},
+					{ field:"hardVer",title:'硬件版本号',align:"center"}
 				]]
 			})
+			var item = $('.uploadFiledatagird2-one1').datagrid('getRows');  
+			if (item) {  
+				for (var i = item.length - 1; i >= 0; i--) {  
+					var index = $('.uploadFiledatagird2-one1').datagrid('getRowIndex', item[i]);  
+					$('.uploadFiledatagird2-one1').datagrid('deleteRow', index);  
+				}  
+			}  
 		}
 	}
 	//指定升级左侧添加数据
@@ -496,10 +509,10 @@
 		});
 	}
 	function uploadFilecx2(){
-		$('.uploadFiledatagird2').datagrid('load',{
+		$('.uploadFiledatagird2-thr1').datagrid('load',{
 			deviceId:$('#filededeviceone').val(),
-			hardwareVer:$('#filededevicetwo').val(),
-			model:$('#filededevicethr').val()
+			hardVer:$('#filededevicetwo').val()
+			// model:$('#filededevicethr').val()
 		});
 	}
 /*分组升级*/
@@ -784,10 +797,10 @@
 			},
 			columns: [[
 					{ field: 'id', title: 'id', align: 'center',checkbox:true,},
-					{ field: 'deviceId', title: '设备编号', align: 'center',sortable:true,width:'18%'},
-				    { field: 'vin', title: '车架号', align: 'center',width:'18%', formatter: function (value) {return dataProcessing(value);}},
-					{ field: 'hardVer', title: '硬件版本号', align: 'center',width:'18%',formatter: function (value) {return dataProcessing(value);}},
-					{ field: 'model', title: '适用类型', align: 'center',sortable:true,width:'18%',formatter: function (value) {return dataProcessing(value);}},      		
+					{ field: 'deviceId', title: '设备编号', align: 'center',sortable:true,width:'30%'},
+				    { field: 'vin', title: '车架号', align: 'center',width:'30%', formatter: function (value) {return dataProcessing(value);}},
+					{ field: 'hardVer', title: '硬件版本号', align: 'center',formatter: function (value) {return dataProcessing(value);}}
+					// { field: 'model', title: '适用类型', align: 'center',sortable:true,width:'18%',formatter: function (value) {return dataProcessing(value);}},      		
 		       	]]
 	    });
 	}
@@ -818,11 +831,11 @@
 			},
 			 columns: [[
 					{ field: 'id', title: 'id', align: 'center',checkbox:true,},
-					{ field: 'deviceId', title: '设备编号', align: 'center',width:'18%',sortable:true,},
+					{ field: 'deviceId', title: '设备编号', align: 'center',width:'30%',sortable:true,},
 					// { field: 'model', title: '制造商', align: 'center',width:'18%',sortable:true,formatter: function (value) {return dataProcessing(value);}},
-				    { field: 'vin', title: '车架号', align: 'center',width:'18%',formatter: function (value) {return dataProcessing(value);}},
-					{ field: 'hardVer', title: '硬件版本号', align: 'center',width:'18%',formatter: function (value) {return dataProcessing(value);}},
-					{ field: 'model', title: '适用类型', align: 'center',sortable:true,width:'18%',formatter: function (value) {return dataProcessing(value);}},      		
+				    { field: 'vin', title: '车架号', align: 'center',width:'30%',formatter: function (value) {return dataProcessing(value);}},
+					{ field: 'hardVer', title: '硬件版本号', align: 'center',formatter: function (value) {return dataProcessing(value);}}
+					// { field: 'model', title: '适用类型', align: 'center',sortable:true,width:'18%',formatter: function (value) {return dataProcessing(value);}},      		
 		       	]]
 	    });
 	}

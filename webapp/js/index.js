@@ -72,27 +72,25 @@ function Statuscodeprompt(code,msg,img){
 }
 
 /************************1.1进入主页*******************************/
-var account = $.cookie('account')
-$('.accounts').html(account)
+var account = $.cookie('account');
+$('.accounts').html(account);
 //用户名点击事件,修改密码以及退出登录
-// $(function(){
-	$('#pswquit').click(function(event){
-		var src = $('.nav-right-right-tb').attr('src')
-		if(src=='img/imagess/daohangjiantoux.png'){
-			$('.nav-right-right-tb').attr('src','img/imagess/daohangjiantous.png')
-			$('.nav-right-right-xl').css('display','');
-		}else if(src=='img/imagess/daohangjiantous.png'){
-			$('.nav-right-right-tb').attr('src','img/imagess/daohangjiantoux.png')
-			$('.nav-right-right-xl').css('display','none');
-		}
-		event.stopPropagation();
-	})
-	$(document).on("click", function () {
-		//对document绑定一个影藏Div方法
+$('#pswquit').click(function(event){
+	var src = $('.nav-right-right-tb').attr('src')
+	if(src=='img/imagess/daohangjiantoux.png'){
+		$('.nav-right-right-tb').attr('src','img/imagess/daohangjiantous.png')
+		$('.nav-right-right-xl').css('display','');
+	}else if(src=='img/imagess/daohangjiantous.png'){
 		$('.nav-right-right-tb').attr('src','img/imagess/daohangjiantoux.png')
 		$('.nav-right-right-xl').css('display','none');
-	});
-// })
+	}
+	event.stopPropagation();
+})
+$(document).on("click", function () {
+	//对document绑定一个隐藏Div方法
+	$('.nav-right-right-tb').attr('src','img/imagess/daohangjiantoux.png');
+	$('.nav-right-right-xl').css('display','none');
+});
 
 //修改密码事件
 function amendpsw(){
@@ -556,7 +554,7 @@ for(var i = 0; i < $('.management>li').length; i++) {
 	if($('.management>li').eq(i).text()=='应用管理'){
 		$('.management>li').eq(i).attr('id','managementli34')
 	}
-	if($('.management>li').eq(i).text()=='CANID设置'){
+	if($('.management>li').eq(i).text()=='总线设置'){
 		$('.management>li').eq(i).attr('id','managementli36')
 	}
 }
@@ -635,6 +633,12 @@ $('#managementli1').click(function() {
 			idlever=node.level
 			idparentid = node.parentId
 			return tre(node);
+		},
+		onLoadSuccess(data){
+			if(id!=''&&id!=null){
+                var node = $('#leftleft1').tree('find', id);  
+            	$('#leftleft1').tree('expandTo', node.target).tree('select', node.target);  
+			}
 		}
 	})
 })
@@ -696,7 +700,6 @@ function treeadd() {
 		$.messager.alert("系统提示", "请选择用户组进行添加",'warning');
 		return;
 	}
-	console.log(idlever)
 	if(idlever==7){
        $.messager.alert("系统提示", "无法添加组织架构，超过系统限制层级。",'warning');
 	   return; 
@@ -722,7 +725,6 @@ function treeadd() {
 }
 //省的onchang事件
 function sheng(value){
-	console.log(value)
 	var id = value;
 	$.ajax({
 		type:"post",
@@ -775,7 +777,6 @@ function shi(value){
 		}
 	});
 }
-
 function ajaxFileUpload(){
 	var phone = /^1[34578]\d{9}$/;
 	var email = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
@@ -815,7 +816,6 @@ function uploadComplee(evt) {
 		$("#leftleft1").tree('reload');
 		var Antaurin = document.querySelectorAll('.Antaurinformation')
 		$.post(server_context+'/getGroupInfo',{id:id},function(data){
-			console.log(data);
 			var data = data.rows[0];
 			$('.xxbjtwobottom-left-image').attr('src',data.logoUrl)
 			Antaurin[0].innerHTML=data.groupName;
@@ -893,7 +893,6 @@ function treeremoveo() {
 	}
 	$.messager.confirm("系统提示", "您确认要删除此用户组吗？",function(r) {
 		if(r) {
-			console.log(123)
 			$.ajax({
 				type: "post",
 				url: server_context+"/removeGroup",
@@ -1156,7 +1155,6 @@ function pros(value){
 }
 //市的onchange事件
 function municg(value){
-	console.log(value)
 	var id = value;
 	$.ajax({
 		type:"post",
@@ -1595,7 +1593,6 @@ function roles(node){
 function openUserModifyDialog() {
 	$('#_id').attr("disabled", true);
 	var row = $("#dgl").datagrid('getSelected');
-	console.log(row)
 	if(row == null) {
 		$.messager.alert("系统提示", "请选择一条数据进行修改",'warning');
 		return;
@@ -1663,7 +1660,6 @@ $('#managementli2').click(function() {
 				return convertjs(rows);
 			},
 			onSelect: function(node) {
-				console.log(node)
 				return tree(node);
 			}
 		})
@@ -1927,7 +1923,6 @@ function roleadd() {
 	var id = [];
 	for(var i = 0; i < data.length; i++) {
 		if(data[i].type == 2) {
-			//			console.log(data[i])
 			var idd;
 			idd = data[i].actualId;
 			id.push(idd)
@@ -1937,14 +1932,12 @@ function roleadd() {
 		RoleOperationIds: id.join(","),
 		roleId: roleId
 	}
-	console.log(add);
 	$.ajax({
 		type: "post",
 		url: server_context+"/saveRolePrivilege",
 		async: true,
 		data: add, //这个地方要字符串
 		success: function(data) {
-			console.log(data)
 			if(data.error_code==0){
 				$.messager.alert('系统提示','权限保存成功','info')
 			}else{
@@ -1964,7 +1957,6 @@ $('.removerole').linkbutton({
 })
 //添加角色按钮
 function treeadds(){
-	console.log(id1)
 	if(!id1) {
 		$.messager.alert("系统提示", "请选择用户组进行添加",'warning');
 		return;
@@ -1987,7 +1979,6 @@ function addrole() {
 			'roleName': $('#treenameo').val()
 		},
 		success: function(data) {
-			console.log(data)
 			if(data.error_code == 0) {
 				$.messager.alert("系统提示", "添加成功",'info');
 				$('#myModalfmm').modal('hide');
@@ -2000,7 +1991,6 @@ function addrole() {
 }
 //删除角色
 function treeremove() {
-	console.log(id1)
 	if(id1!=0){
 		$.messager.alert("系统提示", "请选择角色进行删除");
 		return;
@@ -2016,7 +2006,6 @@ function treeremove() {
 						roleId: roleId
 					},
 					success: function(data) {
-						console.log(data)
 						if(data.error_code == 0) {
 							$.messager.alert("系统提示", "删除成功",'info');
 							$(".roleListonebottom").tree('reload');
@@ -2308,7 +2297,6 @@ $('.Loginquire').click(function(){
 })
 //操作日志查询
 $('.operateinquire').click(function(){
-	console.log($('.operatemenuName').val())
 	$('#operateLog').datagrid('load',{
 		userName:$('.operateName').val(),
 		startTime:$('.operatestarttime').val(),
@@ -2419,7 +2407,6 @@ function editorcanidSet(){
 //删除
 function removecanidSet(){
 	var row = $('.canidSet-datagrid').datagrid('getSelected');
-	console.log(row)
 	if(row == null){
        $.messager.alert('系统提示','请选择需要删除的数据','error');
 	   return;
@@ -2447,8 +2434,12 @@ function removecanidSet(){
 	
 }
 $('#canidSetSubmit').click(function(){
-	if($('#canidSet-myid').val()==''||$('#canidSet-myname').val()==''){
-		$.messager.alert('系统提示','必填字段不能为空');
+	if($('#canidSet-myid').val()==''||$('#canidSet-myname').val()==''||$('#canidSet-mymask').val()==''){
+		$.messager.alert('系统提示','必填字段不能为空','error');
+		return;
+	}
+	if($('#canidSet-mymask').val().length!=16){
+		$.messager.alert('系统提示','掩码应为16位','error');
 		return;
 	}
 	var data;
@@ -2487,10 +2478,9 @@ $('#canidSetSubmit').click(function(){
 })
 
 
-
 /*9.2数据查询--实时车况*/
 var RealtimeconditionSerial; //实时车况设备编号
-var RealtimeconditionTime;   //实时车况刷新时间
+var RealtimeconditionTime;   //实时车况定时刷新时间                                                                                                                                                                                                   时车况刷新时间
 var Realtimeconditionset;   //实时车况定时刷新
 var map;//百度地图实例
 var carMk;//上一次请求的车图片
@@ -2777,11 +2767,9 @@ function relatimels(){
 			var ads = map.getZoom();
 			map.centerAndZoom(pt,ads);
 			points.push(pt)
-			// console.log(points.length)
 			if(points.length==3){
 				points.splice(0,1);
 			}
-			// console.log(points)
 			//删除车图片
 			map.removeOverlay(carMk)
 			//添加折线到地图上
@@ -2807,8 +2795,7 @@ function relatimels(){
 			// 	var addComp = rs.addressComponents;
 			// 	address = addComp.province+addComp.city+addComp.district+addComp.street+addComp.streetNumber;
 			// 	var infoWindow = new BMap.InfoWindow("<div style='width:100%;height:100%;'>"+"<p>速度:"+data.speed+"km/h</p>"+"<p>时间:"+data.gpsTime+"</p>"+"<p>地址:"+address+"</p>"+"</div>", opts);
-			// 	marker2.addEventListener("click", function(e){
-			// 		console.log(e)          
+			// 	marker2.addEventListener("click", function(e){        
 			// 		// map.openInfoWindow(infoWindow,e); //开启信息窗口
 			// 	});	
 			// })
@@ -2900,11 +2887,11 @@ $('.UpdateLog-div').click(function(){
 			},
 			columns:[[
 			    { field:"deviceId",title:'设备编号',align:"center",width:'8%'},
-				{ field:"iccid",title:'ICCID',align:"center",width:'14%'},
+				{ field:"iccid",title:'ICCID',align:"center",width:'16%'},
 				{ field:"release",title:'tsr',align:"center",width:'12%'},
 				{ field:"swr",title:'swr',align:"center",width:'12%'},
-				{ field:"requestsNumber",title:'请求次数',align:"center",width:'5%'},
-				{ field:"hardVer",title:'硬件版本号',align:"center",width:'10%'},
+				// { field:"requestsNumber",title:'请求次数',align:"center",width:'5%'},
+				{ field:"hardVer",title:'硬件版本号',align:"center",width:'9%'},
 				{ field:"remoteAddr",title:'请求IP地址',align:"center",width:'10%'},
 				{ field:"fileName",title:'文件名',align:"center",width:'15%'},
 				{ field:"ts",title:'请求时间',align:"center"}
@@ -3348,7 +3335,6 @@ function editorPushMessage(){
 		$('<input type="radio" name="optionsRadiosinline" style="width: 10px;" value="0">android</input>').appendTo('#optionsRadios2')
 		$('<input type="radio" name="optionsRadiosinline" style="width: 10px;" value="1">ios</input>').appendTo('#optionsRadios1')
 	}
-	console.log(row)
 	$('#founders').val(row.createUserName) //创建人
 	$('#messagetitle').val(row.title)  //标题
 	$('#messagecontent').val(row.content)
@@ -3395,7 +3381,6 @@ function lookoverPushMessage(){
 		$.messager.alert("系统提示", "请选择需要查看的数据",'error');
 		return;
 	}
-	console.log(row)
 	$('#LookauditMessageModal').modal('show');
 	$('.auditMessagestitle').text('查看推送消息')
 	$('.auditMessagefooter').css('display','none')
@@ -3549,7 +3534,6 @@ $('.auditMessagesbutton').click(function(){
 //推送信息发送状态
 function queryPushStatus(index){
 	var row = $('.informationpushbottom-bottom-datagrid').datagrid('getData').rows[index];
-	console.log(row);
 	if(row.pushState==0){
 	    $.messager.alert('系统提示','该消息未发送,暂无详细数据');
 		return;
@@ -3604,7 +3588,6 @@ function queryPushStatus(index){
 				pushId:row.id
 			},    
 			success:function(data){
-				console.log(data)
 				var data = data.data;
 				if(data[0].os==0){
                     $('#messageIDandroid').text(data[0].id);

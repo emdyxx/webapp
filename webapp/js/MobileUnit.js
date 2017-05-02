@@ -11,6 +11,7 @@ var dgNumber = 1;
 var topMobileSeeksjfz;
 $('.MobileUnit').css('display', 'none')
 $('#managementli9').click(function () {	
+    topMobileSeeksjfz=0
     clearInterval(Realtimeconditionset);						
     Dateupo = $('#未指定设备组').val();
     $('main>div').css('display', 'none');
@@ -205,7 +206,7 @@ function MobDatagrid(){
 //车载设备查询
 function Mobileinput() {
     if(topMobileSeeksjfz!=0){
-       $.messager.alert('系统提示','查询按钮,升级分组不得选择车场','error');
+       $.messager.alert('系统提示','升级分组不得选择车场...','error');
        return;
     }
     var data = {

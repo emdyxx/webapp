@@ -158,11 +158,11 @@
                 candata = data.data;
 				$('#CANchannelnumber').find('option').remove();
 				if(data.data.channel==11){
-                   $('<option value="11" checked>11</option>').appendTo($('#CANchannelnumber'))
-				   $('<option value="12">12</option>').appendTo($('#CANchannelnumber'))
+                   $('<option value="11" checked>CAN1</option>').appendTo($('#CANchannelnumber'))
+				   $('<option value="12">CAN2</option>').appendTo($('#CANchannelnumber'))
 				}else{
-					$('<option value="11">11</option>').appendTo($('#CANchannelnumber'))
-				    $('<option value="12" checked>12</option>').appendTo($('#CANchannelnumber'))
+					$('<option value="11">CAN1</option>').appendTo($('#CANchannelnumber'))
+				    $('<option value="12" checked>CAN2</option>').appendTo($('#CANchannelnumber'))
 				}
 				$('#CANstoptime').datetimebox('setValue', data.data.endTime);
         		var data = data.rows;
@@ -180,6 +180,10 @@
         	}
         })
   }
+//   $('#masks>input').keyup(function(){  
+// 	   var value = $(this).val().replace(/\s/g,'').replace(/(\w{2})(?=\w)/g,"$1 ");  
+// 	   $(this).val(value);  
+//    });  
  //can录制设备唤醒按钮
  $('#canawaken').click(function(){
  	var deviceId = $('#Recordmanagementtdd1').text();
@@ -331,6 +335,7 @@ $('#Bustorecordsend').on('click',function(){
     	success:function(data){
     		if(data.error_code==0){
  				$.messager.alert('系统提示','保存成功','info')
+				 $('#RecordingoptionsModal').modal('hide');
  			}else{
 				 Statuscodeprompt(data.error_code)
 			 }
@@ -361,6 +366,7 @@ $('#cancelrecording').click(function(){
 		success:function(data){
 			if(data.error_code==0){
 				$.messager.alert('系统提示','设备取消录制成功','info');
+				$('#RecordingoptionsModal').modal('hide');
 			}else{
                 Statuscodeprompt(data.error_code)
 			}

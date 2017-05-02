@@ -2393,7 +2393,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<a href="javascript:upgradetopModal()">上传</a>
 								    <!--上传模态框（Modal）-->
 									<div class="modal fade" id="upgradetopModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-										<div class="modal-dialog" style="width: 800px;">
+										<div class="modal-dialog" style="width: 950px;">
 											<div class="modal-content">
 												<div class="modal-header">
 													<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
@@ -2454,25 +2454,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													    </div>
 													    <div class="uploadFiledatagirdtwo" style="width: 100%;height: 300px;position: relative;">
 													    	<div style="width: 710px;margin: 0 auto;margin-bottom: 5px;">
-													    		<span>设备编号:</span>
+													    		<span style="margin-left: 120px;">设备编号:</span>
 													    		<input type="text" maxlength="10" id="filededeviceone"/>
 													    		<span>硬件版本:</span>
 													    		<input type="text" maxlength="10" id="filededevicetwo"/>
-													    		<span>设备类型:</span>
-													    		<input type="text" maxlength="20" id="filededevicethr"/>
+													    		<!--<span>设备类型:</span>
+													    		<input type="text" maxlength="20" id="filededevicethr"/>-->
 													    		<a href="javascript:uploadFilecx2()" style="display: inline-block;text-align: center;width: 60px;color: white;background: #4AAA4A;">查询</a>
 													    	</div>
 													    	<div class="uploadFiledatagird2" style="width:100%;height:auto;position:absolute;top:24px;bottom:0;">
-													    		<div class="uploadFiledatagird2-one" style="width:333px;height:290px;position: absolute;overflow: auto;">
+													    		<div class="uploadFiledatagird2-one" style="width:415px;height:290px;position: absolute;overflow: auto;">
                                                                      <div class="uploadFiledatagird2-one1">
 
 																	 </div>
 																</div>
-																<div class="uploadFiledatagird2-two" style="width:90px;height:300px;background:white;position: absolute;left:336px;">
+																<div class="uploadFiledatagird2-two" style="width:75px;height:300px;background:white;position: absolute;left:421px;">
                                                                      <img src="img/Theowner/zuoshanchu.png" alt="" onclick="uploadFiledatagird2left()">
 																	 <img src="img/Theowner/youshanchu.png" alt="" onclick="uploadFiledatagird2right()">
 																</div>
-																<div class="uploadFiledatagird2-thr" style="width:333px;height:290px;position: absolute;right:0;">
+																<div class="uploadFiledatagird2-thr" style="width:425px;height:290px;position: absolute;right:0;">
 																	 <div class="uploadFiledatagird2-thr1">
 
 																	 </div>
@@ -2713,7 +2713,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								</div>
 								<!--查看详情模态框（Modal） -->
 								<div class="modal fade" id="UpdateLogmyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-								    <div class="modal-dialog" style="width: 700px;">
+								    <div class="modal-dialog" style="width: 1050px;">
 								        <div class="modal-content">
 								            <div class="modal-header">
 								                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -3272,7 +3272,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																<td><input type="text" id="canidSet-myname"/></td>
 															</tr>
 															<tr>
-																<td>掩码</td>
+																<td><i>*</i>掩码</td>
 																<td><input type="text" id="canidSet-mymask"/></td>
 															</tr>
 														</table>

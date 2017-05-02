@@ -1281,7 +1281,6 @@ function Theownermigrationsave(){
 	$('#vehicleTax').val(row.vehicleTax),
 	$('#other').val(row.other),
 	$('#remark').val(row.remark)
-	
 	$('#Nextstep2').val('保险')
 })*/
 

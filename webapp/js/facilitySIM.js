@@ -48,11 +48,11 @@
 			columns:[[
 			    { field: 'deviceId', title: '设备编号',width:'10%', align: 'center',formatter: function (value) {return dataProcessing(value);}},
 				{ field: 'iccid', title: 'ICCID', width:'20%',align: 'center',formatter: function (value) {return dataProcessing(value);}},
-				{ field: 'ratePlan', title: '套餐',width:'20%', align: 'center',formatter: function (value) {return dataProcessing(value);}},
-       			{ field: 'dataUsage', title: '当月数据(MB)',width:'10%', align: 'center',formatter: function (value) {return dataProcessing(value);}},
-       			{ field: 'smsUsage', title: '当月短信(条)',width:'10%', align: 'center',formatter: function (value) {return dataProcessing(value);}},
-       			{ field: 'voiceUsage', title: '当月语音(秒)',width:'10%', align: 'center',formatter: function (value) {return dataProcessing(value);}},
-				{ field: 'simStatus', title: 'SIM卡当前状态',width:'10%', align: 'center',
+				{ field: 'ratePlan', title: '套餐',width:'28%', align: 'center',formatter: function (value) {return dataProcessing(value);}},
+       			{ field: 'dataUsage', title: '当月数据(MB)',width:'8%', align: 'center',formatter: function (value) {return dataProcessing(value);}},
+       			{ field: 'smsUsage', title: '当月短信(条)',width:'9%', align: 'center',formatter: function (value) {return dataProcessing(value);}},
+       			{ field: 'voiceUsage', title: '当月语音(秒)',width:'8%', align: 'center',formatter: function (value) {return dataProcessing(value);}},
+				{ field: 'simStatus', title: 'SIM卡当前状态',width:'8%', align: 'center',
 				    formatter: function (value, row, index) {
   					  var value=row['simStatus'];
   					  if(value=="DEACTIVATED_NAME"){
