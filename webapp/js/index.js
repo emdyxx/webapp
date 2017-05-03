@@ -533,9 +533,6 @@ for(var i = 0; i < $('.management>li').length; i++) {
 	if($('.management>li').eq(i).text() == '升级日志') {
 		$('.management>li').eq(i).attr('id', 'managementli26')
 	}
-	if($('.management>li').eq(i).text() == '应用管理') {
-		$('.management>li').eq(i).attr('id', 'managementli27')
-	}
 	if($('.management>li').eq(i).text() == '回拨设置') {
 		$('.management>li').eq(i).attr('id', 'managementli28')
 	}
@@ -2306,7 +2303,7 @@ $('.operateinquire').click(function(){
 	})
 })
 
-// <!--总线录制---CANID设置-->
+/************************7.3总线录制---CANID设置*******************************/
 var canidSeturl;
 var canidSetmodelAlias;
 var canidSettopGroupId;
@@ -2477,8 +2474,7 @@ $('#canidSetSubmit').click(function(){
 	});
 })
 
-
-/*9.2数据查询--实时车况*/
+/************************9.2数据查询--实时车况*******************************/
 var RealtimeconditionSerial; //实时车况设备编号
 var RealtimeconditionTime;   //实时车况定时刷新时间                                                                                                                                                                                                   时车况刷新时间
 var Realtimeconditionset;   //实时车况定时刷新
@@ -2834,8 +2830,33 @@ $('.lushusq').click(function(){
 		$('.lushusq').attr('name','1')
 	}
 })
+function Realtimeconditionsl(){
+	console.log(123)
+	$('.Realtimecondition-relaTime').css('z-index','99999')
+	if($('.Realtimecondition-relaTime').attr('name')=='1'){
+		$('.Realtimecondition-relaTime').animate({top:'60px',height:'100%'});
+		$('.Realtimecondition-relaTime').attr('name','2');
+		$('.Realtimecondition-relaTime>div').eq(0).find('img').css({
+			'transform':'rotate(180deg)',
+			'-ms-transform':'rotate(180deg)',	/* IE 9 */
+			'-moz-transform':'rotate(180deg)', 	/* Firefox */
+			'-webkit-transform':'rotate(180deg)', /* Safari 和 Chrome */
+			'-o-transform':'rotate(180deg)'
+		})
+	}else if($('.Realtimecondition-relaTime').attr('name')=='2'){
+		$('.Realtimecondition-relaTime').animate({top:'690px',height:'650px'});
+		$('.Realtimecondition-relaTime').attr('name','1');
+		$('.Realtimecondition-relaTime>div').eq(0).find('img').css({
+			'transform':'rotate(0deg)',
+			'-ms-transform':'rotate(0deg)',	/* IE 9 */
+			'-moz-transform':'rotate(0deg)', 	/* Firefox */
+			'-webkit-transform':'rotate(0deg)', /* Safari 和 Chrome */
+			'-o-transform':'rotate(0deg)'
+		})
+	}
+}
 
-// 升级管理---升级日志
+/************************5.2升级管理---升级日志*******************************/
 $('#managementli26').click(function(){
 	clearInterval(seti);
 	clearInterval(Realtimeconditionset);
@@ -2909,13 +2930,12 @@ function UpdateLogchaxun(){
 	})
 }
 
-
-// 6.1推送管理---信息推送
+/************************6.1推送管理---信息推送******************************/
 $('#managementli29').click(function(){
     clearInterval(seti);
 	clearInterval(Realtimeconditionset);
-	$('main>div').css('display','none')
-	$('.informationpush').css('display','')
+	$('main>div').css('display','none');
+	$('.informationpush').css('display','');
 	$('#pushType').find('option').nextAll().remove();
 	$('#pushState').find('option').nextAll().remove();
 	$('#verifyState').find('option').nextAll().remove();
@@ -2924,7 +2944,6 @@ $('#managementli29').click(function(){
 	$('<option value="2">单体推送</option>').appendTo($('#pushType'))
 	$('<option value="0">未推送</option>').appendTo($('#pushState'))
 	$('<option value="1">已推送</option>').appendTo($('#pushState'))
-	$('<option value="2">待推送</option>').appendTo($('#pushState'))
 	$('<option value="0">未审核</option>').appendTo($('#verifyState'))
 	$('<option value="1">审核通过</option>').appendTo($('#verifyState'))
 	$('<option value="2">审核未通过</option>').appendTo($('#verifyState'))
@@ -2962,6 +2981,12 @@ $('#managementli29').click(function(){
 		rownumbers: 'true',
 		pageSize:50,
 		pagination: "true",
+		queryParams:{
+            pushType:'',
+			pushState:'',
+			verifyState:'',
+			createUserName:''
+		},
 		columns:[[
 			{ field:"cb",checkbox:"true",align:"center"},
 			{ field:"pushType",title:'推送类别',align:"center",width:'10%',
@@ -3056,12 +3081,16 @@ function addmoveMessagebc(){
 		var id = [];
 		if($('#Pushthecategory').val()==2){
 			row = $('.monocasedatagrid-bottom-datagrid1').datagrid('getRows')
+			if(row.length==0||row==''){
+				$.messager.alert('系统提示','请选择车主','error')
+				return;
+			}
 		}else if($('#Pushthecategory').val()==1){
 			row = $('.groupingdatagrid-top').datagrid('getChecked')
-		}
-		if(row.length==0||row==''){
-			$.messager.alert('系统提示','角色或用户组不能为空','error')
-			return;
+			if(row.length==0||row==''){
+				$.messager.alert('系统提示','请选择用户组','error')
+				return;
+			}
 		}
 		for(var i = 0;i<row.length;i++){
 			id.push(row[i].id)
@@ -3147,8 +3176,10 @@ function monocasetuisong(){
 	$('.groupingdatagrid').css('display','none')
 	$('.monocasedatagrid').css('display','')
 	$('.monocasedatagrid-bottom-datagrid1').datagrid({
+		data: {total: 0, rows:[]},
+		fit: true,
 		pageSize:50,
-		pagination: "true",
+		pagination: true,
 		columns:[[
 			{ field:"cb",checkbox:"true",align:"center"},
 			{ field:"ownerName",title:'车主姓名',align:"center",width:"25%"},
@@ -3261,6 +3292,10 @@ function editorPushMessage(){
 	var row = $('.informationpushbottom-bottom-datagrid').datagrid('getSelected')
 	if(row == null) {
 		$.messager.alert("系统提示", "请选择需要编辑的数据",'error');
+		return;
+	}
+	if(row.pushState==1){
+        $.messager.alert("系统提示", "消息已经推送不能再进行编辑",'error');
 		return;
 	}
 	$('#addmoveMessageModal').modal('show');
@@ -3482,6 +3517,10 @@ function auditPushMessage(){
 		$.messager.alert("系统提示", "请选择消息进行审核",'error');
 		return;
 	}
+	if(row.verifyState==1){
+        $.messager.alert("系统提示", "审核已通过不能再进行审核",'error');
+		return;
+	}
 	$('#LookauditMessageModal').modal('show');
 	$('.auditMessagestitle').text('审核推送消息')
 	$('.auditMessagefooter').css('display','')
@@ -3512,6 +3551,7 @@ function auditPushMessage(){
 //审核推送消息通过/未通过接口
 $('.auditMessagesbutton').click(function(){
 	var row = $('.informationpushbottom-bottom-datagrid').datagrid('getSelected')
+	$('.auditMessagesbutton').attr('disabled','disabled')
 	$.ajax({
 		type:"post",
 		url:server_context+"/verifyPushMessage",
@@ -3521,8 +3561,9 @@ $('.auditMessagesbutton').click(function(){
 			verifyState:$(this).attr('name')
 		},
 		success:function(data){
+			$('.auditMessagesbutton').removeAttr('disabled','disabled')
 			if(data.error_code==0){
-				$.messager.alert('系统提示','状态修改成功','info');
+				$.messager.alert('系统提示','审核成功','info');
 				$('#LookauditMessageModal').modal('hide');
 				$('.informationpushbottom-bottom-datagrid').datagrid('reload');
 			}else{
@@ -3532,7 +3573,9 @@ $('.auditMessagesbutton').click(function(){
 	});
 })
 //推送信息发送状态
+var queryPushStatusindex;
 function queryPushStatus(index){
+	queryPushStatusindex = index;
 	var row = $('.informationpushbottom-bottom-datagrid').datagrid('getData').rows[index];
 	if(row.pushState==0){
 	    $.messager.alert('系统提示','该消息未发送,暂无详细数据');
@@ -3541,6 +3584,7 @@ function queryPushStatus(index){
 	$('#PushstateModalbottom').modal('show');
 	//单体推送
 	if(row.pushType==2){
+		$('.informationpushbtmsx').css('display','none')
 		$('.pushTypeone').css('display','none')
 		$('.pushTypetwo').css('display','')
 		setTimeout(function(){
@@ -3578,8 +3622,11 @@ function queryPushStatus(index){
 	}
 	//分组推送
 	if(row.pushType==1){
+		$('.informationpushbtmsx').css('display','')
 		$('.pushTypeone').css('display','')
 		$('.pushTypetwo').css('display','none')
+		$('.pushTypeone>p').css('display','none')
+		$('.pushTypeone>div').css('display','none')
 		$.ajax({
 			type:'get',
 			url:server_context+'/getGroupPushStatus',
@@ -3589,51 +3636,385 @@ function queryPushStatus(index){
 			},    
 			success:function(data){
 				var data = data.data;
+				if(data.length==0){
+                    return;
+				}
 				if(data[0].os==0){
-                    $('#messageIDandroid').text(data[0].id);
-					$('#Pushthetimeandroid').text(data[0].ts);
-					$('#informationpushandroid').text(data[0].finished);
-					$('#Completethepushandroid').text(data[0].startDate);
+                    $('.pushTypeone>p').eq(0).css('display','')
+					$('.pushTypeone>div').eq(0).css('display','')
+                    $('#messageIDandroid').text(data[0].xgPushId);
+					$('#Pushthetimeandroid').text(data[0].startDate);
+					$('#informationpushandroid').text(data[0].total);
+					$('#Completethepushandroid').text(data[0].finished);
 					if(data[0].status==0){
-                       $('#sendstateandroid').text('正在发送');
-					}else{
+                       $('#sendstateandroid').text('待发送');
+					}else if(data[0].status==1){
+						$('#sendstateandroid').text('发送中');
+					}else if(data[0].status==2){
 						$('#sendstateandroid').text('发送完成');
+					}else if(data[0].status==3){
+						$('#sendstateandroid').text('发送失败');
 					}
 					$('#refreshtimeandroid').text(data[0].ts);
-					$('#messageIDios').text(data[1].id);
-					$('#Pushthetimeios').text(data[1].ts);
-					$('#informationpushios').text(data[1].finished);
-					$('#Completethepushios').text(data[1].startDate);
-					if(data[1].status==0){
-                        $('#sendstateios').text('正在发送')
+					if(data.length==2){
+                        $('.pushTypeone>p').eq(1).css('display','')
+						$('.pushTypeone>div').eq(1).css('display','')
+                        $('#messageIDios').text(data[1].xgPushId);
+						$('#Pushthetimeios').text(data[1].startDate);
+						$('#informationpushios').text(data[1].total);
+						$('#Completethepushios').text(data[1].finished);
+						if(data[1].status==0){
+							$('#sendstateios').text('待发送')
+						}else if(data[1].status==1){
+							$('#sendstateios').text('发送中')
+						}
+						else if(data[1].status==2){
+							$('#sendstateios').text('发送完成')
+						}
+						else if(data[1].status==3){
+							$('#sendstateios').text('发送失败')
+						}
+						$('#refreshtimeios').text(data[1].ts);
+					}
+				}
+				if(data[0].os==1){
+					$('.pushTypeone>p').eq(1).css('display','')
+					$('.pushTypeone>div').eq(1).css('display','')
+					$('#messageIDios').text(data[0].xgPushId);
+					$('#Pushthetimeios').text(data[0].startDate);
+					$('#informationpushios').text(data[0].total);
+					$('#Completethepushios').text(data[0].finished);
+					if(data[0].status==0){
+						$('#sendstateios').text('正在发送')
+					}else if(data[0].status==1){
+						$('#sendstateios').text('发送中')
+					}
+					else if(data[0].status==2){
+						$('#sendstateios').text('发送完成')
+					}
+					else if(data[0].status==3){
+						$('#sendstateios').text('发送失败')
+					}
+					$('#refreshtimeios').text(data[0].ts);
+					if(data.length==2){
+						$('.pushTypeone>p').eq(0).css('display','')
+						$('.pushTypeone>div').eq(0).css('display','')
+						$('#messageIDandroid').text(data[1].xgPushId);
+						$('#Pushthetimeandroid').text(data[1].startDate);
+						$('#informationpushandroid').text(data[1].total);
+						$('#Completethepushandroid').text(data[1].finished);
+						if(data[1].status==0){
+						$('#sendstateandroid').text('正在发送');
+						}else if(data[1].status==1){
+							$('#sendstateandroid').text('发送中');
+						}else if(data[1].status==2){
+							$('#sendstateandroid').text('发送完成');
+						}else if(data[1].status==3){
+							$('#sendstateandroid').text('发送失败');
+						}
+						$('#refreshtimeandroid').text(data[1].ts);
+					}
+				}
+				if(data.length==1){
+
+				}
+				if(data.length==1){
+					if(data[0].status==2){
+						$('.informationpushbtmsx').attr('disabled','disabled');
+					}
+					else{
+						$('.informationpushbtmsx').removeAttr('disabled','disabled');
+					}
+				}
+				if(data.length==2){
+					if(data[0].status==2&&data[1].status==2){
+						$('.informationpushbtmsx').attr('disabled','disabled');
 					}else{
-                        $('#sendstateios').text('发送完成')
+						$('.informationpushbtmsx').removeAttr('disabled','disabled');
+					}
+				}
+				// if($('#sendstateandroid').text()=='发送完成'&&$('#sendstateios').text()=='发送完成'){
+				// 	$('.informationpushbtmsx').attr('disabled','disabled');
+				// }else{
+				// 	$('.informationpushbtmsx').removeAttr('disabled','disabled');
+				// } 
+			}
+		})
+       
+	}
+	
+}
+//推送信息刷新按钮
+$('.informationpushbtmsx').click(function(){
+	$('.informationpushbtmsx').attr('disabled','disabled');
+	 var row = $('.informationpushbottom-bottom-datagrid').datagrid('getData').rows[queryPushStatusindex];
+	 var data={};
+	 var xgid=[];
+	 var os=[];
+	 data.pushId = row.id;
+	 if($('#sendstateandroid').text()!='发送完成'){
+        xgid.push($('#messageIDandroid').text());
+		os.push('0');
+	 }
+	 if($('#sendstateios').text()!='发送完成'){
+        xgid.push($('#messageIDios').text());
+		os.push('1');
+	 }
+	 data.xgPushId = xgid.join(',');
+	 data.os = os.join(',')
+	 $.ajax({
+		type:'post',
+		url:server_context+'/updateGroupPushStatus',
+		async:'true',
+		data:data,
+		success:function(data){
+			var data = data.data;
+			if(data.length==0){
+				return;
+			}
+			if(data[0].os==0){
+				$('.pushTypeone>p').eq(0).css('display','')
+				$('.pushTypeone>div').eq(0).css('display','')
+				$('#messageIDandroid').text(data[0].xgPushId);
+				$('#Pushthetimeandroid').text(data[0].startDate);
+				$('#informationpushandroid').text(data[0].total);
+				$('#Completethepushandroid').text(data[0].finished);
+				if(data[0].status==0){
+					$('#sendstateandroid').text('待发送');
+				}else if(data[0].status==1){
+					$('#sendstateandroid').text('发送中');
+				}else if(data[0].status==2){
+					$('#sendstateandroid').text('发送完成');
+				}else if(data[0].status==3){
+					$('#sendstateandroid').text('发送失败');
+				}
+				$('#refreshtimeandroid').text(data[0].ts);
+				if(data.length==2){
+					$('.pushTypeone>p').eq(1).css('display','')
+					$('.pushTypeone>div').eq(1).css('display','')
+					$('#messageIDios').text(data[1].xgPushId);
+					$('#Pushthetimeios').text(data[1].startDate);
+					$('#informationpushios').text(data[1].total);
+					$('#Completethepushios').text(data[1].finished);
+					if(data[1].status==0){
+						$('#sendstateios').text('待发送')
+					}else if(data[1].status==1){
+						$('#sendstateios').text('发送中')
+					}
+					else if(data[1].status==2){
+						$('#sendstateios').text('发送完成')
+					}
+					else if(data[1].status==3){
+						$('#sendstateios').text('发送失败')
 					}
 					$('#refreshtimeios').text(data[1].ts);
 				}
-				if(data[0].os==1){
-                    $('#messageIDandroid').text(data[1].id);
-					$('#Pushthetimeandroid').text(data[1].ts);
-					$('#informationpushandroid').text(data[1].finished);
-					$('#Completethepushandroid').text(data[1].startDate);
+			}
+			if(data[0].os==1){
+				$('.pushTypeone>p').eq(1).css('display','')
+				$('.pushTypeone>div').eq(1).css('display','')
+				$('#messageIDios').text(data[0].xgPushId);
+				$('#Pushthetimeios').text(data[0].startDate);
+				$('#informationpushios').text(data[0].total);
+				$('#Completethepushios').text(data[0].finished);
+				if(data[0].status==0){
+					$('#sendstateios').text('正在发送')
+				}else if(data[0].status==1){
+					$('#sendstateios').text('发送中')
+				}
+				else if(data[0].status==2){
+					$('#sendstateios').text('发送完成')
+				}
+				else if(data[0].status==3){
+					$('#sendstateios').text('发送失败')
+				}
+				$('#refreshtimeios').text(data[0].ts);
+				if(data.length==2){
+					$('.pushTypeone>p').eq(0).css('display','')
+					$('.pushTypeone>div').eq(0).css('display','')
+					$('#messageIDandroid').text(data[1].xgPushId);
+					$('#Pushthetimeandroid').text(data[1].startDate);
+					$('#informationpushandroid').text(data[1].total);
+					$('#Completethepushandroid').text(data[1].finished);
 					if(data[1].status==0){
-                       $('#sendstateandroid').text('正在发送');
-					}else{
+					$('#sendstateandroid').text('正在发送');
+					}else if(data[1].status==1){
+						$('#sendstateandroid').text('发送中');
+					}else if(data[1].status==2){
 						$('#sendstateandroid').text('发送完成');
+					}else if(data[1].status==3){
+						$('#sendstateandroid').text('发送失败');
 					}
 					$('#refreshtimeandroid').text(data[1].ts);
-					$('#messageIDios').text(data[0].id);
-					$('#Pushthetimeios').text(data[0].ts);
-					$('#informationpushios').text(data[0].finished);
-					$('#Completethepushios').text(data[0].startDate);
-					if(data[0].status==0){
-                        $('#sendstateios').text('正在发送')
-					}else{
-                        $('#sendstateios').text('发送完成')
-					}
-					$('#refreshtimeios').text(data[0].ts);
 				}
 			}
-		})
+			if(data.length==1){
+               if(data[0].status==2){
+                   $('.informationpushbtmsx').attr('disabled','disabled');
+			   }
+			   else{
+					$('.informationpushbtmsx').removeAttr('disabled','disabled');
+				}
+			}
+			if(data.length==2){
+ 				if(data[0].status==2&&data[1].status==2){
+                   $('.informationpushbtmsx').attr('disabled','disabled');
+			    }else{
+					$('.informationpushbtmsx').removeAttr('disabled','disabled');
+				}
+			}
+		}   
+	 })
+})
+
+
+/************************8.1应用管理--应用管理******************************/
+var appliedmanagementurl;
+$('#managementli34').click(function(){
+	clearInterval(seti);
+	clearInterval(Realtimeconditionset);
+	$('main>div').css('display','none');
+	$('.appliedmanagement').css('display','');
+	//权限请求
+	var data={
+		id:$('#managementli34').attr('name')
 	}
+	$.post(server_context+'/setMenuId',data,function(data){
+		if(data.error_code!=0){
+			Statuscodeprompt(data.error_code)
+		}
+		for(var i=0;i<data.data.length;i++){
+			if(data.data[i]==141){
+				$('.appliedmanagement-top-one').css('display','')
+			}
+			if(data.data[i]==142){
+				$('.appliedmanagement-top-two').css('display','')
+			}
+			if(data.data[i]==143){
+				$('.appliedmanagement-top-thr').css('display','')
+			}
+		}
+	})
+	$('.appliedmanagement-datagrid').datagrid({
+		url:server_context+'/listOpenApp',
+		method: 'post',
+		singleSelect: 'true',
+		fit: 'true',
+		fitColumns: 'true',
+		rownumbers: 'true',
+		pageSize:50,
+		pagination: "true",
+		columns:[[
+			{ field:"cb",checkbox:"true",align:"center"},
+			{ field:"appId",title:'应用ID',align:"center",width:'12%'},
+			{ field:"secret",title:'唯一标示密钥',align:"center",width:'16%'},
+			{ field:"active",title:'状态',align:"center",width:'12%',
+		        formatter:function(value, rows, index){
+                    var active = rows.active;
+					if(active==1){
+                       return '<a style="color:#7CAD16">启用</a>';
+					}else{
+                       return '<a style="color:#EC5759">禁用</a>';
+					}
+				}
+		    },
+			{ field:"provider",title:'设备供应商',align:"center",width:'12%'},
+			{ field:"ts",title:'最后请求时间戳',align:"center",width:'16%'},
+			{ field:"uuid",title:'UUID',align:"center"}
+		]]
+	})
+})
+//添加应用
+function appliedmanagementadd(){
+	$('#appliedmanagementModal').modal('show')
+	$('#appliedmanagement-ID').val('');
+	$('#appliedmanagement-supplier').val('')
+	$('#appliedmanagement-state').find('option').remove()
+	$('<option value="0" selected>禁用</option>').appendTo($('#appliedmanagement-state'))
+	$('<option value="1">启用</option>').appendTo($('#appliedmanagement-state'))
+	appliedmanagementurl=server_context+"/saveOpenApp"
+}
+//保存
+$('#appliedmanagement-save').click(function(){
+	if($('#appliedmanagement-ID').val()==''||$('#appliedmanagement-supplier').val()==''){
+		$.messager.alert('系统提示','必填字段不能为空','error');
+		return;
+	}
+	var id='';
+	var uuid='';
+	if(appliedmanagementurl==server_context+"/updateOpenApp"){
+        var row = $('.appliedmanagement-datagrid').datagrid('getSelected')
+		id=row.id
+		uuid=row.uuid
+	}
+	$.ajax({
+		type:"post",
+		url:appliedmanagementurl,
+		async:true,
+		data:{
+            id:id,
+			uuid:uuid,
+			active:$('#appliedmanagement-state').val(),
+			appId:$('#appliedmanagement-ID').val(),
+			provider:$('#appliedmanagement-supplier').val()
+		},
+		success:function(data){
+			if(data.error_code==0){
+				$.messager.alert('系统提示','保存成功','info')
+				$('#appliedmanagementModal').modal('hide')
+				$('.appliedmanagement-datagrid').datagrid('reload')
+			}else{
+			    Statuscodeprompt(data.error_code)
+			}
+		}
+	});
+})
+//编辑应用
+function appliedmanagementModify(){
+	var row = $('.appliedmanagement-datagrid').datagrid('getSelected');
+	if(row == null){
+		$.messager.alert('系统提示','请选择需要编辑的应用','error')
+		return;
+	}
+	$('#appliedmanagementModal').modal('show')
+	$('#appliedmanagement-state').find('option').remove()
+	if(row.active==0){
+		$('<option value="0" selected>禁用</option>').appendTo($('#appliedmanagement-state'))
+		$('<option value="1">启用</option>').appendTo($('#appliedmanagement-state'))
+	}else{
+		$('<option value="0">禁用</option>').appendTo($('#appliedmanagement-state'))
+		$('<option value="1" selected>启用</option>').appendTo($('#appliedmanagement-state'))
+	}
+	$('#appliedmanagement-ID').val(row.appId);
+	$('#appliedmanagement-supplier').val(row.provider)
+	appliedmanagementurl=server_context+"/updateOpenApp"
+}
+//删除应用
+function appliedmanagementremove(){
+	var row = $('.appliedmanagement-datagrid').datagrid('getSelected');
+	if(row == null){
+		$.messager.alert('系统提示','请选择需要删除的应用','error')
+		return;
+	}
+	$.messager.confirm('系统提示','确认删除?',function(r){
+		if(r){
+             $.ajax({
+				type:"post",
+				url:server_context+"/removeOpenApp",
+				async:true,
+				data:{
+					id:row.id
+				},
+				success:function(data){
+					if(data.error_code==0){
+						$.messager.alert('系统提示','应用删除成功','info')
+						$('#appliedmanagementModal').modal('hide')
+						$('.appliedmanagement-datagrid').datagrid('reload')
+					}else{
+						Statuscodeprompt(data.error_code)
+					}
+				}
+			});
+		}
+	})
 }

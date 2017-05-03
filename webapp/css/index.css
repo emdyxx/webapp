@@ -1122,7 +1122,7 @@ main {
 }
 .Realtimecondition-option{
 	width: 240px;
-	height: 500px;
+	height: 630px;
 	background: black;
 	position: absolute;
 	top: 60px;
@@ -1148,7 +1148,7 @@ main {
 	display: inline-block;
 	color: white;
 	width: 40px;
-	background: #00AAFF;
+	background: orange;
 	border-radius: 3px;
 	text-align: center;
 	height: 25px;
@@ -1156,16 +1156,16 @@ main {
 	cursor: pointer;
 	position: absolute;
 	top: -3px;
-	right: 35px;
+	right: 40px;
 }
 .lushuflush>a{
 	margin-left: 50px;
 }
 .lushushuju{
 	position: absolute;
-	bottom: 0;
+	bottom: 100px;
 	width: 100%;
-	height: 230px;
+	height: 210px;
 	padding-left: 10px;
 	color: white;
 	font-size: 13px;
@@ -1180,7 +1180,7 @@ main {
 	width: 100%;
 	height: 650px;
 	position: absolute;
-	top: 560px;
+	top: 690px;
 	background: white;
 }
 .Realtimecondition-relaTime-top{
@@ -1283,6 +1283,7 @@ main {
 	border: 2px solid #00ABFD;
 	border-radius: 12px;
 	text-align: center;
+	top:-55px;
 }
 .Realtimecondition-xiatop span:nth-of-type(2)>img{
 	position: absolute;

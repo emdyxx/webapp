@@ -2762,8 +2762,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                 <select id="pushState">
                                 	<option value="">--请选择--</option>
                                 	<option value="0">未推送</option>
-                                	<option value="1">待推送</option>
-                                	<option value="2">已推送</option>
+                                	<option value="1">已推送</option>
                                 </select>
                                 <span>审核状态:</span>
                                 <select id="verifyState">
@@ -2828,13 +2827,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								            				</td>
 								            				<td><i>*</i>信息标题</td>
 								            				<td>
-								            					<input type="text" id="messagetitle" style="width: 100%;"/>
+								            					<input type="text" maxlength="100" id="messagetitle" style="width: 100%;"/>
 								            				</td>
 								            			</tr>
 								            			<tr>
 								            				<td><i>*</i>信息内容</td>
 								            				<td colspan="3">
-								            					<textarea class="form-control" id="messagecontent" rows="3" maxlength="200" style="width:100%;height:60px;"></textarea>
+								            					<textarea class="form-control" maxlength="800" id="messagecontent" rows="3" maxlength="200" style="width:100%;height:60px;"></textarea>
 								            				</td>
 								            			</tr>
 								            		</table>
@@ -2933,8 +2932,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 												<!--//分组推送-->
 												<div id="LookauditMessagedtfz" style="width: 768px;height: 250px;position: relative;">
 													<div style="width: 100%;height:35px;position: absolute;top: 0;">
-														<div style="width: 220px;height: 100%;margin: 0 auto;padding: 6px;">
-															<label for="">用户组:</label>
+														<div style="width: 240px;height: 100%;margin: 0 auto;padding: 6px;">
+															<label for="">用户组名称:</label>
 															<input type="text" id="inquireNameaustwo" style="width: 100px;"/>
 															<button onclick="inquireaudittwo()" style="border: 1px solid #3C8B3C;background: #47A447;color: white;border-radius: 4px;width: 37px;">查询</button>
 														</div>
@@ -2975,9 +2974,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											</div>
 											<div class="modal-body">
 												<!--分组推送-->
-												<div class="pushTypeone" style="width:568px;height:320px;">
-													<p style="font-size:18px;margin:0;">android用户推送状态</p>
-                                                    <div style="width:100%;height:130px;">
+												<div class="pushTypeone" style="width:568px;">
+													<p style="font-size:18px;margin:0;display:none;">android用户推送状态</p>
+                                                    <div style="width:100%;height:130px;display:none;">
                                                         <table class='table table-striped table-bordered text-center'>
                                                             <tr>
 																<td>信息ID</td>
@@ -2999,8 +2998,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 															</tr>
 														</table>
 													</div>
-													<p style="font-size:18px;margin:0;margin-top:15px;">ios用户推送状态</p>
-													<div style="width:100%;height:130px;">
+													<p style="font-size:18px;margin:0;margin-top:15px;display:none;">ios用户推送状态</p>
+													<div style="width:100%;height:130px;display:none;">
                                                          <table class='table table-striped table-bordered text-center'>
                                                             <tr>
 																<td>信息ID</td>
@@ -3031,8 +3030,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 												</div>
 											</div>
 											<div class="modal-footer">
-												<button type="button" class="btn btn-default" data-dismiss="modal" style="margin-right:250px;">关闭
+												<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 												</button>
+												<button type="button" class="btn btn-primary informationpushbtmsx" style="margin-right:230px;">刷新</button>
 											</div>
 										</div><!-- /.modal-content -->
 									</div>
@@ -3411,11 +3411,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								</div>
 							</div>
 					        <!--地图图层-->
-                            <div class="Realtimecondition-bottom" id="allmap" style="width: 100%;height: 500px;">
+                            <div class="Realtimecondition-bottom" id="allmap" style="width: 100%;height: 630px;">
 					        	
 					        </div>
 					        <!--下侧实时数据层-->
-					        <div class="Realtimecondition-relaTime">
+					        <div class="Realtimecondition-relaTime" name='1'>
+								<div style="width:20px;height:20px;margin:0 auto;" onclick="Realtimeconditionsl()">
+									<img src="img/icon/sqs.png" alt="">
+								</div>
 					        	<div class="Realtimecondition-relaTime-top">
 					        		<div>
 					        			<img src="img/relatime/fadongji.png" alt="" />
@@ -3748,7 +3751,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					            					告警状态-->
 					            				</span>
 					            				<span style="position: relative;">
-					            					<span>胎压温度</span>
+					            					<span style="top: -35px;">胎压温度</span>
 					            					<img style="top:5px;" src="img/relatime/taiya.png" alt="" />
 					            				</span>
 					            			</div>
