@@ -846,7 +846,7 @@ main {
 .systemLog-bottom{
 	width: 100%;
 	height: auto;
-	border: 1px solid #95B8E7;
+	border: 1px solid #95B8E7 !important;
 	position: absolute;
 	top: 60px;
 	bottom: 0;
@@ -1115,7 +1115,7 @@ main {
 }
 .Realtimecondition-bottom{
 	position: absolute;
-	top: 60px;
+	top: 0px;
 	bottom: 0;
 	width: 100%;
 	height: auto;
@@ -1125,7 +1125,7 @@ main {
 	height: 630px;
 	background: black;
 	position: absolute;
-	top: 60px;
+	/*top: 60px;*/
 	left: 0;
 	z-index: 9;
 	opacity: 0.8;
@@ -1180,7 +1180,7 @@ main {
 	width: 100%;
 	height: 650px;
 	position: absolute;
-	top: 690px;
+	top: 80%;
 	background: white;
 }
 .Realtimecondition-relaTime-top{
@@ -1501,10 +1501,10 @@ main {
 	top: 160px;
 }
 
-#_easyui_textbox_input18,
+/*#_easyui_textbox_input18,
 #_easyui_textbox_input16{
 	background: #EAEAEA;
-}
+}*/
 /*总线录制--录制管理*/
 .Recordmanagement{
 	width: 100%;
@@ -1547,10 +1547,9 @@ main {
 /*总线录制--数据查询*/
 .queryandpivot-inquier{
 	position: absolute;
-	top: 60px;
 }
 .queryandpivot-inquier>input{
-	background: #EAEAEA !important;
+	background: white !important;
 	border: 1px solid #6DC8F5;
 	margin-top: 7px;
 }
@@ -1558,7 +1557,7 @@ main {
 	width: 100%;
 	height: auto;
 	position: absolute;
-	top: 97px;
+	top: 37px;
 	bottom: 0;
 }
 .queryandpivot-bottom-left{
@@ -1598,7 +1597,7 @@ main {
 	height: 100%;
 }
 .queryandpivot-bottom-right-in{
-	margin-left: 255px;
+	width: 100%;
 	height: 100%;
 	background: white;
 }
@@ -1607,7 +1606,7 @@ main {
 	width: 100%;
 	height: auto;
 	top: 0;
-	bottom: 40px;
+	bottom: 0px;
 }
 .queryandpivot-bottom-datagrid-bottom{
 	position: absolute;

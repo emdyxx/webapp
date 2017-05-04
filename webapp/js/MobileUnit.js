@@ -139,27 +139,27 @@ function MobDatagrid(){
             },
             { field: "ecuSerialNum", title: '电控单元序列号', align: "center", width: '15%' },
             { field: "vin", title: '车架号', align: "center", width: '12%' },
-            { field: "iccid", title: 'ICCID', align: "center", width: '12%' },
-            { field: "groupName", title: '归属分组', align: "center", width: '8%'},
-            { field: "onlineTime", title: '最后上线时间', align: "center", width: '11%' },
+            { field: "iccid", title: 'ICCID', align: "center", width: '14%' },
+            { field: "groupName", title: '归属分组', align: "center", width: '10%'},
+            { field: "onlineTime", title: '最后上线时间', align: "center", width: '13%' },
             // { field: "remoteAddr", title: '远端地址', align: "center", width: '11%' },
             { field: "deviceGroupName", title: '升级分组', align: "center", width: '11%' },
-            { field: "online", title: '更多操作', align: "center", width: '22%',
+            { field: "online", title: '更多操作', align: "center",
                 formatter: function (value, row, index) {
                     var value = row['online'];
                     var str = '';
                     if (value == false) {
-                        str += '<a href=\javaScript:awaken(' + index + ') style="background:#00AAFF;color:white;display:inline-block;width:19%;margin-left:5%;height:18px">' + "设备唤醒" + '</a>';
+                        str += '<a href=\javaScript:awaken(' + index + ') style="background:#00AAFF;color:white;display:inline-block;width:19%;margin-left:5%;height:18px">' + "唤醒" + '</a>';
                     } else {
-                        str += '<a style="background:#989898;color:white;display:inline-block;width:19%;margin-left:5%;height:18px">' + "已唤醒" + '</a>';
+                        str += '<a style="background:#989898;color:white;display:inline-block;width:19%;margin-left:5%;height:18px">' + "在线" + '</a>';
                     }
-                    if (value == false) {
-                        str += '<a style="background:#989898;color:white;display:inline-block;width:19%;margin-left:5%;height:18px">' + "设备重启" + '</a>';
-                    } else {
-                        str += '<a href=\javaScript:restart(' + index + ') style="background:#00AAFF;color:white;display:inline-block;width:19%;margin-left:5%;height:18px">' + "设备重启" + '</a>';
-                    }
-                    str += '<a href=\javaScript:longdistance(' + index + ') style="background:#00AAFF;color:white;display:inline-block;width:19%;margin-left:5%;height:18px">' + "远程操作" + '</a>';
-                    str += '<a href=\javaScript:particulars(' + index + ') style="background:#00AAFF;color:white;display:inline-block;width:19%;margin-left:5%;height:18px">' + "查看详情" + '</a>';
+                    // if (value == false) {
+                    //     str += '<a style="background:#989898;color:white;display:inline-block;width:19%;margin-left:5%;height:18px">' + "设备重启" + '</a>';
+                    // } else {
+                    //     str += '<a href=\javaScript:restart(' + index + ') style="background:#00AAFF;color:white;display:inline-block;width:19%;margin-left:5%;height:18px">' + "设备重启" + '</a>';
+                    // }
+                    str += '<a href=\javaScript:longdistance(' + index + ') style="background:#00AAFF;color:white;display:inline-block;width:19%;margin-left:5%;height:18px">' + "操作" + '</a>';
+                    str += '<a href=\javaScript:particulars(' + index + ') style="background:#00AAFF;color:white;display:inline-block;width:19%;margin-left:5%;height:18px">' + "详情" + '</a>';
                     return str;
                 }
             }
@@ -1613,6 +1613,9 @@ function reulaeight() {
 }
 //发送按钮
 $('.compileeigh').click(function () {
+    if (onlin == false) {
+        return;
+    }
     $.ajax({
         type: "post",
         url: server_context+"/sendIncomingCallSettings",
@@ -1690,6 +1693,48 @@ $('.compilete').click(function () {
             }
         }
     });
+})
+//设备重启点击事件
+function reulaeleven(){
+    $('.remoteManipulationheader>div').removeClass('reulacolor')
+    $('#reulaeleven').addClass('reulacolor')
+    $('.remoteManipulation-body>form').css('display', 'none')
+    $('.configurationinformationeleven').css('display', '')
+    $.ajax({
+        type: "post",
+        url: server_context+"/getDeviceConfig",
+        data: { deviceId: device },
+        success: function (data) {
+            var config = data.data[0];
+            $('.equipmentnumber').text(config.deviceId);
+            onlin = data.online
+            if (config.online == false) {
+                $('.EquipmentStatus').text('未在线').css('color', 'gray')
+                $('.compileeleve').css('background', 'url(img/Theowner/bacunanniuhui.png) no-repeat')
+            } else {
+                $('.EquipmentStatus').text('在线').css('color', '#00bd28')
+                $('.compileeleve').css('background', 'url(img/Theowner/baocunanniu.png) no-repeat')
+            }
+        },
+        error: function () {
+            $.messager.alert("操作提示", "系统错误，请稍后重试！", "error");
+        }
+    });
+}
+//重启按钮点击事件
+$('.compileeleve').click(function(){
+    if (onlin == false) {
+        return;
+    }
+    $.ajax({
+        type: "post",
+        url: server_context+"/deviceReset",
+        async: true,
+        data: {
+            deviceId: $('#equipmentnumbereleven').text()
+        }
+    });
+    $.messager.alert('系统提示', '重启命令发送成功,等待设备重启', 'info')
 })
 //关闭取消点击事件
 function reulaten() {

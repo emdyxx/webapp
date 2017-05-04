@@ -66,6 +66,10 @@ function Statuscodeprompt(code,msg,img){
 		$.messager.alert('系统提示','发送失败','error');
 	}else if(code==10027){
 		$.messager.alert('系统提示','Redis无数据','error');
+	}else if(code==10028){
+		$.messager.alert('系统提示','导出失败','error');
+	}else if(code==10029){
+		$.messager.alert('系统提示','未找到设备','error');
 	}else{
 		$.messager.alert('系统提示',msg,img);
 	}
@@ -1606,9 +1610,7 @@ function openUserModifyDialog() {
 	rowid=1;
 }
 
-
 /************************1.2系统管理---角色管理*******************************/
-/******角色列表********/
 var roleId;//角色真实ID
 var id1;//判断用户组，角色的ID
 var jurisdictionlist;//权限列表权限
@@ -1676,7 +1678,7 @@ function convertjs(rows) {
 				nodes.push({
 					id: row.id,
 					text: row.name,
-					iconCls:'icon-juesetubiao',
+					iconCls:'icon-bianzutubiao',
 					parendId: row.parendId,
 					parentId:row.parentId,
 					type:row.type,
@@ -1689,7 +1691,7 @@ function convertjs(rows) {
 				nodes.push({
 					id: row.id,
 					text: row.name,
-					iconCls:'icon-bianzutubiao',
+					iconCls:'icon-juesetubiao',
 					parendId: row.parendId,
 					parentId:row.parentId,
 					type:row.type,
@@ -1708,18 +1710,7 @@ function convertjs(rows) {
 		for(var i = 0; i < rows.length; i++) {
 			var row = rows[i];
 			if(row.parentId == node.id) {
-				if(row.type==2){
-				   var child = {
-						id: row.id,
-						text: row.name,
-						iconCls:'icon-juesetubiao',
-						parendId: row.parendId,
-						parentId:row.parentId,
-						type:row.type,
-						actualId:row.actualId,
-						checked:row.checked
-					};
-		    	}else if(row.type==1){
+				if(row.type==1){
 					var child = {
 						id: row.id,
 						text: row.name,
@@ -1730,7 +1721,18 @@ function convertjs(rows) {
 						actualId:row.actualId,
 						checked:row.checked
 					};
-				}
+				}else if(row.type==2){
+				   var child = {
+						id: row.id,
+						text: row.name,
+						iconCls:'icon-juesetubiao',
+						parendId: row.parendId,
+						parentId:row.parentId,
+						type:row.type,
+						actualId:row.actualId,
+						checked:row.checked
+					};
+		    	} 
 				
 				if(node.children) {
 					node.children.push(child);
@@ -2564,6 +2566,9 @@ function relatimels(){
 			deviceId:RealtimeconditionSerial
 		},
 		success:function(data){
+			if(data.error_code!=0){
+				Statuscodeprompt(data.error_code)
+			}
 			var data = data.data[0]
 			// 下侧数据
 			//第一栏
@@ -2844,7 +2849,7 @@ function Realtimeconditionsl(){
 			'-o-transform':'rotate(180deg)'
 		})
 	}else if($('.Realtimecondition-relaTime').attr('name')=='2'){
-		$('.Realtimecondition-relaTime').animate({top:'690px',height:'650px'});
+		$('.Realtimecondition-relaTime').animate({top:'80%',height:'650px'});
 		$('.Realtimecondition-relaTime').attr('name','1');
 		$('.Realtimecondition-relaTime>div').eq(0).find('img').css({
 			'transform':'rotate(0deg)',

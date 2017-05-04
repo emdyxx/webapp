@@ -247,7 +247,7 @@ input {
 	position: absolute;
 }
 
-.remoteManipulationheader>div:nth-of-type(10) {
+.remoteManipulationheader>div:nth-of-type(11) {
 	width: 47px;
 }
 
@@ -298,7 +298,8 @@ input {
 .compilesi,
 .compileseven>a,
 .compileeigh,
-.compilete {
+.compilete,
+.compileeleve {
 	display: inline-block;
 	text-align: center;
 	width: 160px;

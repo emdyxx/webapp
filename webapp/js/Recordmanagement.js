@@ -1,5 +1,4 @@
   var equipmentnumber;//设备编号
-  var vin;//车架号
   var startingtime//起始时间
   var endtime//结束时间
   var canLookUp;//查看权限
@@ -102,13 +101,11 @@
   	var rows = $('.RecordmanagementModal-datagrid').datagrid('getRows');
 	var row = rows[index];
 	equipmentnumber=$('#Recordmanagementtd1').text();
-	vin=$('#Recordmanagementtd3').text();
 	startingtime=row.startTime;
 	endtime=row.endTime;
 	$('#RecordmanagementModal').modal('hide');
 	$('main>div').css('display','none');
   	$('.queryandpivot').css('display','')
-	candatagrid()
 	candatarid()
   }
   //录制设置
@@ -383,65 +380,161 @@ function Recordmnagement(){
 }
 
 //7.2 总线录制---录制查询
-$('#managementli33').click(function(){
+$('#managementli33').click(function(){   
 	clearInterval(seti);
 	$('main>div').css('display','none');
   	$('.queryandpivot').css('display','')
-	candatagrid()
-	candatarid()
-})
-
-function candatagrid(){
-	$.ajax({
-		type:"post",
-		url:server_context+"/listCanName",
-		async:true,
-		success:function(data){
-			if(data.error_code==0){
-				$('.queryandpivot-bottom-left-bottom').find('button').nextAll().remove();
-				for(var i=0;i<data.data.length;i++){
-					$('<button onclick="candatarid()" name='+data.data[i].canId+'>'+data.data[i].canName+'</button>').appendTo($('.queryandpivot-bottom-left-bottom'))
-				}
-			}else{
-				Statuscodeprompt(data.error_code)
-			}
-		}
-	});
-	
-}
-function candatarid(){
 	$('.queryandpivot-datagrid').datagrid({
-		url: server_context+'/getCanData',
-		method: 'post',
+		url: server_context+'/listCanData',
+		method: 'get',
 		singleSelect: 'true',
 		fit: 'true',
 		fitColumns: 'true',
 		rownumbers: 'true',
-		pagination: "true",
+		// pagination: "true",
+		queryParams: {
+			deviceId:'',
+            startTime:'',
+            endTime:''
+		},
+		columns:[[
+		    { field:"cb",checkbox:"true",align:"center"},
+			{ field:"DeviceId ",title:'设备编号',align:"center",width:'11%'},
+			{ field:"CanId",title:'CANID',align:"center",width:'11%'},
+			{ field:"Model",title:'车型',align:"center",width:'11%'},
+			{ field:"DATA",title:'数据项',align:"center",width:'11%'},
+			{ field:"RxTime",title:'数据接收时间',align:"center",width:'11%'},
+			{ field:"DLC",title:'数据项长度',align:"center",width:'11%'},
+			{ field:"EndTime",title:'节点丢失时间',align:"center",width:'11%'},
+			{ field:"MSec",title:'毫秒级时间',align:"center",width:'11%'},
+			{ field:"Time_t",title:'秒级时间',align:"center"}
+		]]
+	})
+})
+function queryandpivotmanagement(){
+	$('.queryandpivot-datagrid').datagrid('load',{
+		deviceId:$('#queryandpivot-number').val(),
+		startTime:$('#queryandpivot-startElectronic').val(),
+		endTime:$('#queryandpivot-oldElectronic').val()
+	})
+}
+function candatarid(){
+	$('.queryandpivot-datagrid').datagrid({
+		url: server_context+'/listCanData',
+		method: 'get',
+		singleSelect: 'true',
+		fit: 'true',
+		fitColumns: 'true',
+		rownumbers: 'true',
+		// pagination: "true",
 		queryParams: {
 			deviceId:equipmentnumber,
-			vin:vin,
             startTime:startingtime,
             endTime:endtime
 		},
 		columns:[[
 		    { field:"cb",checkbox:"true",align:"center"},
-			{ field:"one1",title:'CAN-ID',align:"center",width:'10%'},
-			{ field:"one2",title:'Column 3',align:"center",width:'14%'},
-			{ field:"one3",title:'数据长度',align:"center",width:'25%'},
-			{ field:"one4",title:'数据长传时间',align:"center",width:'10%'},
-			{ field:"one5",title:'设备类型',align:"center",width:'10%'},
-			{ field:"one6",title:'设备编号',align:"center",width:'10%'}
+			{ field:"DeviceId ",title:'设备编号',align:"center",width:'11%'},
+			{ field:"CanId",title:'CANID',align:"center",width:'11%'},
+			{ field:"Model",title:'车型',align:"center",width:'11%'},
+			{ field:"DATA",title:'数据项',align:"center",width:'11%'},
+			{ field:"RxTime",title:'数据接收时间',align:"center",width:'11%'},
+			{ field:"DLC",title:'数据项长度',align:"center",width:'11%'},
+			{ field:"EndTime",title:'节点丢失时间',align:"center",width:'11%'},
+			{ field:"MSec",title:'毫秒级时间',align:"center",width:'11%'},
+			{ field:"Time_t",title:'秒级时间',align:"center"}
 		]]
 	})
 }
-function queryandpivotmanagement(){
-	$('.queryandpivot-datagrid').datagrid('load',{
-		deviceId:equipmentnumber,
-		vin:vin,
-		startTime:startingtime,
-		endTime:endtime
+//导出按钮
+function queryandpivotdaochu(){
+	if($('#queryandpivot-number').val()==''||$('#queryandpivot-startElectronic').val()==''||$('#queryandpivot-oldElectronic').val()==''){
+       $.messager.alert('系统提示','搜索条件(设备编号,起始,结束时间)不能为空','error');
+	   return;
+	}
+	$.ajax({
+		type:'post',
+		async:'true',
+		url: server_context+'/exportCanData',
+		data:{
+            deviceId:$('#queryandpivot-number').val(),
+			startTime:$('#queryandpivot-startElectronic').val(),
+			endTime:$('#queryandpivot-oldElectronic').val()
+		},
+		success:function(data){
+            console.log(data);
+		}
 	})
 }
+$('#queryandpivotLogs').click(function(){
+	$('#queryandpivotLogs').css('background','white');
+	$('#queryandpivotoperates').css('background','#E5E5E5');
+	$('.queryandpivot-bottom-one').css('display','');
+	$('.queryandpivot-bottom-two').css('display','none');
+})
+//导出详情点击事件
+$('#queryandpivotoperates').click(function(){
+	$('#queryandpivotoperates').css('background','white');
+	$('#queryandpivotLogs').css('background','#E5E5E5');
+	$('.queryandpivot-bottom-one').css('display','none');
+	$('.queryandpivot-bottom-two').css('display','');
+	$('#systemLogmyModal').modal('show')
+	$('.queryandpivot-datagrid-two').datagrid({
+		url: server_context+'/listCanExport',
+		method: 'get',
+		singleSelect: 'true',
+		fit: 'true',
+		fitColumns: 'true',
+		rownumbers: 'true',
+		pageSize:50,
+		pagination: "true",
+		queryParams: {
+			deviceId:'',
+            startTime:'',
+            endTime:''
+		},
+		columns:[[
+		    { field:"cb",checkbox:"true",align:"center"},
+			{ field:"fileName",title:'文件名称',align:"center",width:'11%'},
+			{ field:"deviceId",title:'设备编号',align:"center",width:'11%'},
+			{ field:"status",title:'导出状态',align:"center",width:'11%'},
+			{ field:"fileCount",title:'文件数量',align:"center",width:'11%'},
+			{ field:"startTime",title:'起始时间',align:"center",width:'11%'},
+			{ field:"endTime",title:'结束时间',align:"center",width:'11%'},
+			{ field:"ts",title:'创建时间',align:"center",width:'11%'},
+			{ field:"duration",title:'文件导出毫秒时间',align:"center",width:'11%'},
+			{ field:"duraton",title:'详情',align:"center",
+		          formatter: function (value, row, index) {
+                      return '<a href="javaScript:queryandpivotoperatesxq('+index+')" style="display:inline-block;">详情</a>'
+				  }
+		    }
+		]]
+	})
+})
+function queryandpivotmanagementtwo(){
+    $('.queryandpivot-datagrid-two').datagrid('load',{
+		deviceId:$('#queryandpivot-numbertwo').val(),
+		startTime:$('#queryandpivot-startElectronictwo').val(),
+        endTime:$('#queryandpivot-oldElectronictwo').val()
+	})
+}
+// function candatagrid(){
+// 	$.ajax({
+// 		type:"post",
+// 		url:server_context+"/listCanName",
+// 		async:true,
+// 		success:function(data){
+// 			if(data.error_code==0){
+// 				$('.queryandpivot-bottom-left-bottom').find('button').nextAll().remove();
+// 				for(var i=0;i<data.data.length;i++){
+// 					$('<button onclick="candatarid()" name='+data.data[i].canId+'>'+data.data[i].canName+'</button>').appendTo($('.queryandpivot-bottom-left-bottom'))
+// 				}
+// 			}else{
+// 				Statuscodeprompt(data.error_code)
+// 			}
+// 		}
+// 	});	
+// }
+
 
 
