@@ -94,8 +94,8 @@ $('#managementli9').click(function () {
 function MobileSele() {
     Dateupo=0
     clearInterval(seti);	
-	Dateupo=$('#MobileSelect').val()
-    var str = Dateupo/1000
+	Dateupo=$('#MobileSelect').val();
+    var str = Dateupo/1000;
     seti = setInterval(function(){
         dgNumber = $(".MobileData" ).datagrid("options").pageNumber;
         dgsize = $('.MobileData').datagrid('options').pageSize;
@@ -103,12 +103,16 @@ function MobileSele() {
     },Dateupo);
 }
 function MobileSelect() {
-    Dateupo=0
+    Dateupo=0;
     clearInterval(seti);	
-	Dateupo=$('#MobileSelect').val()
+	Dateupo=$('#MobileSelect').val();
     var str = Dateupo/1000
-    $.messager.alert('系统提示','当前定时刷新为'+str+'秒','info')
-	seti = setInterval('MobDatagrid()', Dateupo);
+    $.messager.alert('系统提示','当前定时刷新为'+str+'秒','info');
+	seti = setInterval(function(){
+        dgNumber = $(".MobileData" ).datagrid("options").pageNumber;
+        dgsize = $('.MobileData').datagrid('options').pageSize;
+        $('.MobileData').datagrid('reload');
+    }, Dateupo);
 }
 //车载设备下侧表加载
 function MobDatagrid(){
@@ -123,12 +127,12 @@ function MobDatagrid(){
         pageNumber:dgNumber,
 		pageSize:dgsize,
         queryParams:{
-            vin: '',
-            deviceId: '',
-            iccid: '',
-            ecuSerialNum: '',
-            userGroupId:'',
-            deviceGroupId:''
+            vin: $('.MobileID').val(),
+            deviceId: $('.Mobilename').val(),
+            iccid: $('.MobileICCID').val(),
+            ecuSerialNum: $('.MobileSeekID').val(),
+            userGroupId:$('.MobileSeekfz').val(),
+            deviceGroupId:$('.MobileSeeksjfz').val()
         },
         columns: [[
             { field: "cb", checkbox: "true", align: "center" },

@@ -2199,12 +2199,12 @@ $('.systemLog-bottom-bottomtwo').css('display','none');
 $('#managementli4').click(function(){
 	clearInterval(seti);
 	clearInterval(Realtimeconditionset);
-	$('.LoguserName').val(''),
-	$('.Logstarttime').val(''),
-	$('.Logfinishtime').val(''),
-	$('.Logaddress').val('')
-	$('main>div').css('display', 'none')
-	$('.systemLog').css('display','')
+	$('main>div').css('display', 'none');
+	$('.systemLog').css('display','');
+	$('.LoguserName').val('');
+	$('.Logaddress').val('');
+	$('.Logstarttime').datetimebox('setValue', '');
+	$('.Logfinishtime').datetimebox('setValue', '');
 	//登陆日志表的请求
 	$('#Logform').datagrid({
 		url:server_context+'/listLoginLog',
@@ -2215,6 +2215,12 @@ $('#managementli4').click(function(){
 		rownumbers: 'true',
 		pageSize:50,
 		pagination: "true",
+		queryParams:{
+            userName:'',
+			startTime:'',
+			endTime:'',
+			ipAddress:''
+		},
 		columns:[[
 		    {field:"userName",title:'用户名',align:"center",width: '20%'},
 		    {field:"ipAddress",title:'ip地址',align:"center",width: '20%'},
@@ -2642,114 +2648,186 @@ function relatimels(){
 			//车灯
 			if(data.turnleft==1){  
 				$('.turnlight>img').eq(0).attr('src','img/relatime/dakai.png')
+			}else{
+				$('.turnlight>img').eq(0).attr('src','img/relatime/guanbi.png')
 			}
 			if(data.turnright==1){
 				$('.turnlight>img').eq(1).attr('src','img/relatime/dakai.png')
+			}else{
+				$('.turnlight>img').eq(1).attr('src','img/relatime/guanbi.png')
 			}
 			if(data.leftanglelight==1){
 				$('.cornerlamp>img').eq(0).attr('src','img/relatime/dakai.png')
+			}else{
+				$('.cornerlamp>img').eq(0).attr('src','img/relatime/guanbi.png')
 			}
 			if(data.rightanglelight==1){
 				$('.cornerlamp>img').eq(1).attr('src','img/relatime/dakai.png')
+			}else{
+				$('.cornerlamp>img').eq(1).attr('src','img/relatime/guanbi.png')
 			}
 			if(data.lowbeam==1){  
 				$('.actiniclamp>img').eq(0).attr('src','img/relatime/dakai.png')
+			}else{
+				$('.actiniclamp>img').eq(0).attr('src','img/relatime/guanbi.png')
 			}
 			if(data.highbeam==1){
 				$('.actiniclamp>img').eq(1).attr('src','img/relatime/dakai.png')
+			}else{
+				$('.actiniclamp>img').eq(1).attr('src','img/relatime/guanbi.png')
 			}
 			if(data.frontfoglamp==1){
 				$('.foglight>img').eq(0).attr('src','img/relatime/dakai.png')
+			}else{
+				$('.foglight>img').eq(0).attr('src','img/relatime/guanbi.png')
 			}
 			if(data.rearfoglamp==1){
 				$('.foglight>img').eq(1).attr('src','img/relatime/dakai.png')
+			}else{
+				$('.foglight>img').eq(1).attr('src','img/relatime/guanbi.png')
 			}   
 			if(data.brakelight==1){
 				$('.stoplight>img').eq(0).attr('src','img/relatime/dakai.png')
-			}
+			}else{
+				$('.stoplight>img').eq(0).attr('src','img/relatime/guanbi.png')
+			}  
 			if(data.trianglewarninglamp==1){
 				$('.stoplight>img').eq(1).attr('src','img/relatime/dakai.png')
+			}else{
+				$('.stoplight>img').eq(1).attr('src','img/relatime/guanbi.png')
 			}
 			if(data.readinglamp==1){
 				$('.readinglamp>img').eq(0).attr('src','img/relatime/dakai.png')
+			}else{
+				$('.readinglamp>img').eq(0).attr('src','img/relatime/guanbi.png')
 			}
 			if(data.parkinglamp==1){
 				$('.readinglamp>img').eq(1).attr('src','img/relatime/dakai.png')
+			}else{
+				$('.readinglamp>img').eq(1).attr('src','img/relatime/guanbi.png')
 			}
 			if(data.widthlamp==1){
 				$('.clearancelamp>img').eq(0).attr('src','img/relatime/dakai.png')
+			}else{
+				$('.clearancelamp>img').eq(0).attr('src','img/relatime/guanbi.png')
 			}
 			if(data.parkingindicatorlamp==1){
 				$('.clearancelamp>img').eq(1).attr('src','img/relatime/dakai.png')
+			}else{
+				$('.clearancelamp>img').eq(1).attr('src','img/relatime/guanbi.png')
 			}
 			//座椅安全
 			if(data.leftheatedseat==1){  
 				$('.driversseat>img').eq(0).attr('src','img/relatime/dakai.png')
+			}else{
+				$('.driversseat>img').eq(0).attr('src','img/relatime/guanbi.png')
 			}
 			if(data.rightheatedseat==1){
 				$('.driversseat>img').eq(1).attr('src','img/relatime/dakai.png')
+			}else{
+				$('.driversseat>img').eq(1).attr('src','img/relatime/guanbi.png')
 			}
 			if(data.driverseatbelt==1){
 				$('.safetybelt>img').eq(0).attr('src','img/relatime/dakai.png')
+			}else{
+				$('.safetybelt>img').eq(0).attr('src','img/relatime/guanbi.png')
 			}
 			if(data.passengerseatbelt==1){
 				$('.safetybelt>img').eq(1).attr('src','img/relatime/dakai.png')
+			}else{
+				$('.safetybelt>img').eq(1).attr('src','img/relatime/guanbi.png')
 			}
 			//中控锁
 			if(data.fldoorlock==1){     
 				$('.frontdoorlock>img').eq(0).attr('src','img/relatime/dakai.png')
+			}else{
+				$('.frontdoorlock>img').eq(0).attr('src','img/relatime/guanbi.png')
 			}
 			if(data.frdoorlock==1){
 				$('.frontdoorlock>img').eq(1).attr('src','img/relatime/dakai.png')
+			}else{
+				$('.frontdoorlock>img').eq(1).attr('src','img/relatime/guanbi.png')
 			}
 			if(data.rldoorlock==1){
 				$('.reardoorlock>img').eq(0).attr('src','img/relatime/dakai.png')
+			}else{
+				$('.reardoorlock>img').eq(0).attr('src','img/relatime/guanbi.png')
 			}
 			if(data.rrdoorlock==1){
 				$('.reardoorlock>img').eq(1).attr('src','img/relatime/dakai.png')
+			}else{
+				$('.reardoorlock>img').eq(1).attr('src','img/relatime/guanbi.png')
 			}
 			if(data.trunklock==1){
 				$('.trunk>img').eq(0).attr('src','img/relatime/dakai.png')
+			}else{
+				$('.trunk>img').eq(0).attr('src','img/relatime/guanbi.png')
 			}
 			//车门车窗
 			if(data.driverdoor==1){       
 				$('.driverdoor>img').eq(0).attr('src','img/relatime/dakai.png')
+			}else{
+				$('.driverdoor>img').eq(0).attr('src','img/relatime/guanbi.png')
 			}
 			if(data.passengerdoor==1){
 				$('.driverdoor>img').eq(1).attr('src','img/relatime/dakai.png')
+			}else{
+				$('.driverdoor>img').eq(1).attr('src','img/relatime/guanbi.png')
 			}
 			if(data.rldoor==1){
 				$('.backdoor>img').eq(0).attr('src','img/relatime/dakai.png')
+			}else{
+				$('.backdoor>img').eq(0).attr('src','img/relatime/guanbi.png')
 			}
 			if(data.rrdoor==1){
 				$('.backdoor>img').eq(1).attr('src','img/relatime/dakai.png')
+			}else{
+				$('.backdoor>img').eq(1).attr('src','img/relatime/guanbi.png')
 			}
 			if(data.flwindow==1){         
 				$('.drivershatchdor>img').eq(0).attr('src','img/relatime/dakai.png')
+			}else{
+				$('.drivershatchdor>img').eq(0).attr('src','img/relatime/guanbi.png')
 			}
 			if(data.frwindow==1){
 				$('.drivershatchdor>img').eq(1).attr('src','img/relatime/dakai.png')
+			}else{
+				$('.drivershatchdor>img').eq(1).attr('src','img/relatime/guanbi.png')
 			}
 			if(data.rlwindow==1){
 				$('.drivershatchdoor>img').eq(0).attr('src','img/relatime/dakai.png')
+			}else{
+				$('.drivershatchdoor>img').eq(0).attr('src','img/relatime/guanbi.png')
 			}
 			if(data.rrwindow==1){
 				$('.drivershatchdoor>img').eq(1).attr('src','img/relatime/dakai.png')
+			}else{
+				$('.drivershatchdoor>img').eq(1).attr('src','img/relatime/guanbi.png')
 			}
 			if(data.trunk==1){
 				$('.WIPERFRONT>img').eq(0).attr('src','img/relatime/dakai.png')
+			}else{
+				$('.WIPERFRONT>img').eq(0).attr('src','img/relatime/guanbi.png')
 			}
 			if(data.frontwiper==1){
 				$('.WIPERFRONT>img').eq(1).attr('src','img/relatime/dakai.png')
+			}else{
+				$('.WIPERFRONT>img').eq(1).attr('src','img/relatime/guanbi.png')
 			}
 			if(data.rearwiper==1){
 				$('.frontdefrost>img').eq(0).attr('src','img/relatime/dakai.png')
+			}else{
+				$('.frontdefrost>img').eq(0).attr('src','img/relatime/guanbi.png')
 			}
 			if(data.frontdefros==1){
 				$('.frontdefrost>img').eq(1).attr('src','img/relatime/dakai.png')
+			}else{
+				$('.frontdefrost>img').eq(1).attr('src','img/relatime/guanbi.png')
 			}
 			if(data.reardefros==1){
 				$('.queendefrost>img').eq(0).attr('src','img/relatime/dakai.png')
+			}else{
+				$('.queendefrost>img').eq(0).attr('src','img/relatime/guanbi.png')
 			}
 			//胎压温度      
 			$('.leftanterior>span').eq(0).text('左前胎压'+data.lftirepressure)

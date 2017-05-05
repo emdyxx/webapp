@@ -3220,6 +3220,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<a href="javaScript:queryandpivotmanagement()">查询</a>
 											<a href="javaScript:queryandpivotdaochu()">导出</a>
 										</div>
+										<div style="position: absolute;top:32px;padding-left: 20px;">备注：列表页面最多展示1000条数据，可通过修改查询时间查看更多数据，或导出数据进行查看。</div>
 										<!--下侧表-->
 										<div class="queryandpivot-bottom">
 											<!--<div class="queryandpivot-bottom-left">
@@ -3242,7 +3243,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											</div>
 										</div>
 									</div>
-									<!--录入查询-->
+									<!--导出记录-->
 									<div class="queryandpivot-bottom-two" style="display:none;">
                                          <!--查询条件-->
 										<div class="queryandpivot-inquier">
@@ -3255,6 +3256,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<input type="text" class="easyui-datetimebox" id="queryandpivot-oldElectronictwo" style="background: #EAEAEA !important;"/>
 											<a href="javaScript:queryandpivotmanagementtwo()">查询</a>
 										</div>
+										<div style="position: absolute;top:32px;padding-left: 20px;">备注：数据导出记录及导出文件服务器最多保留一个月。导出数据后请及时下载导出文件。</div>
 										<div class="queryandpivot-bottom">
 											<div class="queryandpivot-datagrid-two">
 
@@ -3265,7 +3267,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</div>
 							<!--导出详情模态框-->
 							<div class="modal fade" id="systemLogmyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-								<div class="modal-dialog" style="width:850px;">
+								<div class="modal-dialog" style="width:550px;">
 									<div class="modal-content">
 										<div class="modal-header">
 											<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>

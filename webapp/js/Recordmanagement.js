@@ -54,7 +54,12 @@
 		        	return '<a href="javaScript:Recordingoptions('+index+')" style="display:inline-block;line-height:20px;width:60px;height:20px;background:#00AAFF;color:white">'+"录制设置"+'</a>';
 		        }
 			},
-		]]
+		]],
+		onLoadSuccess: function (data) { 
+			if(data.error_code!=0){
+                Statuscodeprompt(data.error_code)
+			}
+		}
   	})
   })
   //查看
@@ -92,7 +97,12 @@
 				        	return '<a href="javaScript:Recordingoptionsdata('+index+')" style="display:inline-block;line-height:20px;width:60px;height:20px;background:#00AAFF;color:white">'+"查询数据"+'</a>';
 				        }
 					}
-				]]
+				]],
+				onLoadSuccess: function (data) { 
+					if(data.error_code!=0){
+						Statuscodeprompt(data.error_code)
+					}
+				}
 		   })
 	   },500)
   }
@@ -153,6 +163,8 @@
         	},
         	success:function(data){
                 candata = data.data;
+				var inputeight1 = [];
+				var inputeight2 = [];
 				$('#CANchannelnumber').find('option').remove();
 				if(data.data.channel==11){
                    $('<option value="11" checked>CAN1</option>').appendTo($('#CANchannelnumber'))
@@ -162,25 +174,32 @@
 				    $('<option value="12" checked>CAN2</option>').appendTo($('#CANchannelnumber'))
 				}
 				$('#CANstoptime').datetimebox('setValue', data.data.endTime);
-        		var data = data.rows;
+				var data = data.rows;
+				for(var j = 0;j<data.length;j++){
+					inputeight1 = []
+                    for(var i=0;i<8;i++){
+						inputeight1.push(data[j].filter.substring(i*2,i*2+2))
+					}
+					inputeight2.push(inputeight1)
+				}
 				$('#cantable').find('tr').nextAll().remove();
         		for(var i=0;i<data.length;i++){
 					var list = ''
+					for(var j=0;j<8;j++){
+                       list += '<input maxlength="2" style="width:22px;margin-left:10px;" value='+inputeight2[i][j]+'>'
+					}
 					var arr=[];
         			$("<tr id='cantr'>"+"<td style='width: 40px;'>"
         			+"<input type='checkbox' name='cancheckbox' style='width: 22px;'>"+"</td>"
         			+"<td id='canIds'>"+data[i].canId+"</td>"+"<td>"+data[i].canName+"</td>"
         			+"<td>"+"<input id='canIdIntervals' value='"+data[i].interval+"' type='text'>"+"</td>"
-					+"<td id='masks'>"+"<input type='text' value='"+data[i].filter+"' maxlength='16'>"
+					+"<td id='masks'>"+list
 					+"</td>"+"</tr>").appendTo($('#cantable'))
         		}
+				console.log(inputeight2)
         	}
         })
   }
-//   $('#masks>input').keyup(function(){  
-// 	   var value = $(this).val().replace(/\s/g,'').replace(/(\w{2})(?=\w)/g,"$1 ");  
-// 	   $(this).val(value);  
-//    });  
  //can录制设备唤醒按钮
  $('#canawaken').click(function(){
  	var deviceId = $('#Recordmanagementtdd1').text();
@@ -288,10 +307,14 @@ $('#Bustorecordsend').on('click',function(){
 	for(var i=0;i<$('#cantable input[name="cancheckbox"]').length;i++){
 		if($('#cantable input[name="cancheckbox"]').eq(i).is(':checked')==true){
 			dt = 1;
+			var filters=[];
+			for(var s=0;s<$("#cantable tr").eq(i+1).find('td').eq(4).find('input').length;s++){
+                 filters.push($("#cantable tr").eq(i+1).find('td').eq(4).find('input').eq(s).val());
+			}
 			a.push({
 				canId:$("#cantable tr").eq(i+1).find('td').eq(1).text(),
 				interval:$("#cantable tr").eq(i+1).find('td').eq(3).find('input').val(),
-				filter:$("#cantable tr").eq(i+1).find('td').eq(4).find('input').val(),
+				filter:filters.join('')
 			})
 		}
 	}
@@ -338,7 +361,6 @@ $('#Bustorecordsend').on('click',function(){
 			 }
     	}
 	})
-	
 })
 //can取消录制按钮
 $('#cancelrecording').click(function(){
@@ -383,7 +405,10 @@ function Recordmnagement(){
 $('#managementli33').click(function(){   
 	clearInterval(seti);
 	$('main>div').css('display','none');
-  	$('.queryandpivot').css('display','')
+  	$('.queryandpivot').css('display','');
+	$('#queryandpivot-number').val('');
+	$('#queryandpivot-startElectronic').datetimebox('setValue', '');
+	$('#queryandpivot-oldElectronic').datetimebox('setValue', '');
 	$('.queryandpivot-datagrid').datagrid({
 		url: server_context+'/listCanData',
 		method: 'get',
@@ -399,7 +424,7 @@ $('#managementli33').click(function(){
 		},
 		columns:[[
 		    { field:"cb",checkbox:"true",align:"center"},
-			{ field:"DeviceId ",title:'设备编号',align:"center",width:'11%'},
+			{ field:"DeviceId",title:'设备编号',align:"center",width:'11%'},
 			{ field:"CanId",title:'CANID',align:"center",width:'11%'},
 			{ field:"Model",title:'车型',align:"center",width:'11%'},
 			{ field:"DATA",title:'数据项',align:"center",width:'11%'},
@@ -412,6 +437,18 @@ $('#managementli33').click(function(){
 	})
 })
 function queryandpivotmanagement(){
+	var statc = $('#queryandpivot-startElectronic').datetimebox('getValue');
+	var oldsta = $('#queryandpivot-oldElectronic').datetimebox('getValue');
+	var time1 = statc.substring(5,7);
+	var time2 = oldsta.substring(5,7);
+	if($('#queryandpivot-number').val()==''||statc==''||oldsta==''){
+        $.messager.alert('系统提示','查询字段不能为空(全必填)','error');
+		   return;
+	}
+	if(time1!=time2){
+          $.messager.alert('系统提示','起止与结束时间必须在同一月','error');
+		  return;
+	}
 	$('.queryandpivot-datagrid').datagrid('load',{
 		deviceId:$('#queryandpivot-number').val(),
 		startTime:$('#queryandpivot-startElectronic').val(),
@@ -434,7 +471,7 @@ function candatarid(){
 		},
 		columns:[[
 		    { field:"cb",checkbox:"true",align:"center"},
-			{ field:"DeviceId ",title:'设备编号',align:"center",width:'11%'},
+			{ field:"DeviceId",title:'设备编号',align:"center",width:'11%'},
 			{ field:"CanId",title:'CANID',align:"center",width:'11%'},
 			{ field:"Model",title:'车型',align:"center",width:'11%'},
 			{ field:"DATA",title:'数据项',align:"center",width:'11%'},
@@ -443,14 +480,27 @@ function candatarid(){
 			{ field:"EndTime",title:'节点丢失时间',align:"center",width:'11%'},
 			{ field:"MSec",title:'毫秒级时间',align:"center",width:'11%'},
 			{ field:"Time_t",title:'秒级时间',align:"center"}
-		]]
+		]],
+		onLoadSuccess: function (data) { 
+			if(data.error_code!=0){
+                Statuscodeprompt(data.error_code)
+			}
+		}
 	})
 }
 //导出按钮
 function queryandpivotdaochu(){
-	if($('#queryandpivot-number').val()==''||$('#queryandpivot-startElectronic').val()==''||$('#queryandpivot-oldElectronic').val()==''){
-       $.messager.alert('系统提示','搜索条件(设备编号,起始,结束时间)不能为空','error');
-	   return;
+	var statc = $('#queryandpivot-startElectronic').datetimebox('getValue');
+	var oldsta = $('#queryandpivot-oldElectronic').datetimebox('getValue');
+	var time1 = statc.substring(5,7);
+	var time2 = oldsta.substring(5,7);
+	if($('#queryandpivot-number').val()==''||statc==''||oldsta==''){
+        $.messager.alert('系统提示','查询字段不能为空(全必填)','error');
+		   return;
+	}
+	if(time1!=time2){
+          $.messager.alert('系统提示','起止与结束时间必须在同一月','error');
+		  return;
 	}
 	$.ajax({
 		type:'post',
@@ -462,7 +512,11 @@ function queryandpivotdaochu(){
 			endTime:$('#queryandpivot-oldElectronic').val()
 		},
 		success:function(data){
-            console.log(data);
+            if(data.error_code==0){
+                $.messager.alert('系统提示','数据正在导出中,请稍后于导出详情页面下载...','info');
+			}else{
+				row.fileUrl
+			}
 		}
 	})
 }
@@ -472,13 +526,15 @@ $('#queryandpivotLogs').click(function(){
 	$('.queryandpivot-bottom-one').css('display','');
 	$('.queryandpivot-bottom-two').css('display','none');
 })
-//导出详情点击事件
+//导出记录点击事件
 $('#queryandpivotoperates').click(function(){
 	$('#queryandpivotoperates').css('background','white');
 	$('#queryandpivotLogs').css('background','#E5E5E5');
 	$('.queryandpivot-bottom-one').css('display','none');
 	$('.queryandpivot-bottom-two').css('display','');
-	$('#systemLogmyModal').modal('show')
+	$('#queryandpivot-numbertwo').val('');
+	$('#queryandpivot-startElectronictwo').datetimebox('setValue', '');
+	$('#queryandpivot-oldElectronictwo').datetimebox('setValue', '');
 	$('.queryandpivot-datagrid-two').datagrid({
 		url: server_context+'/listCanExport',
 		method: 'get',
@@ -495,22 +551,82 @@ $('#queryandpivotoperates').click(function(){
 		},
 		columns:[[
 		    { field:"cb",checkbox:"true",align:"center"},
-			{ field:"fileName",title:'文件名称',align:"center",width:'11%'},
+			{ field:"fileName",title:'文件名称',align:"center",width:'17%'},
 			{ field:"deviceId",title:'设备编号',align:"center",width:'11%'},
-			{ field:"status",title:'导出状态',align:"center",width:'11%'},
-			{ field:"fileCount",title:'文件数量',align:"center",width:'11%'},
-			{ field:"startTime",title:'起始时间',align:"center",width:'11%'},
-			{ field:"endTime",title:'结束时间',align:"center",width:'11%'},
-			{ field:"ts",title:'创建时间',align:"center",width:'11%'},
-			{ field:"duration",title:'文件导出毫秒时间',align:"center",width:'11%'},
+			{ field:"status",title:'导出状态',align:"center",width:'8%',
+		          formatter: function (value, row, index) {
+					  var status = row['status']
+					  if(status==0){
+                          return "<a>导出中</a>"
+					  }else if(status==1){
+                          return "<a>导出成功</a>"
+					  }else if(status==2){
+                          return "<a>无数据导出</a>"
+					  }
+				  }
+	        },
+			{ field:"fileCount",title:'文件数量',align:"center",width:'8%'},
+			{ field:"startTime",title:'起始时间',align:"center",width:'13%'},
+			{ field:"endTime",title:'结束时间',align:"center",width:'13%'},
+			{ field:"ts",title:'创建时间',align:"center",width:'13%'},
+			{ field:"duration",title:'文件导出毫秒时间',align:"center",width:'8%'},
 			{ field:"duraton",title:'详情',align:"center",
 		          formatter: function (value, row, index) {
-                      return '<a href="javaScript:queryandpivotoperatesxq('+index+')" style="display:inline-block;">详情</a>'
+                      return '<a href="javaScript:queryandpivotoperatesxq('+index+')" style="display:inline-block;background: #00AAFF;color: white;width:50px;height:20px;line-height:20px;">详情</a>'
 				  }
 		    }
-		]]
+		]],
+		onLoadSuccess: function (data) { 
+			if(data.error_code!=0){
+                Statuscodeprompt(data.error_code)
+			}
+		}
 	})
 })
+function queryandpivotoperatesxq(index){
+	var rows = $('.queryandpivot-datagrid-two').datagrid('getRows');
+	var row = rows[index];
+	console.log(row)
+    $('#systemLogmyModal').modal('show');
+	setTimeout(function(){
+       $('.systemLogmyModal-datagrid').datagrid({
+			url: server_context+'/listCanExportDetail',
+			method: 'get',
+			singleSelect: 'true',
+			fit: 'true',
+			fitColumns: 'true',
+			rownumbers: 'true',
+			pageSize:50,
+			pagination: "true",
+			queryParams: {
+				excelExportId:row.id
+			},
+			columns:[[
+				{ field:"cb",checkbox:"true",align:"center"},
+				{ field:"fileName",title:'文件名称',align:"center",width:'45%'},
+				{ field:"fileUrl",title:'下载',align:"center",width:'18%',
+			        formatter: function (value, row, index) {
+						return '<a href="javaScript:systemLogmyModalurl('+index+')">下载</a>'
+					}
+		        },
+				{ field:"ts",title:'创建时间',align:"center"}
+			]],
+			onLoadSuccess: function (data) { 
+				if(data.error_code!=0){
+					Statuscodeprompt(data.error_code)
+				}
+			}
+		})
+	},600)
+}
+//下载
+function systemLogmyModalurl(index){
+	var rows = $('.systemLogmyModal-datagrid').datagrid('getRows');
+	var row = rows[index];
+    if(row.fileUrl!=''){
+         window.location.href = row.fileUrl;
+	}
+}
 function queryandpivotmanagementtwo(){
     $('.queryandpivot-datagrid-two').datagrid('load',{
 		deviceId:$('#queryandpivot-numbertwo').val(),
