@@ -779,30 +779,33 @@
 	}
 	//左侧表数据
 	function upgradeDevice(id){
-		$('#upgradeDeviceDg').datagrid({
-	        url:server_context+'/listSpecifiedDevice',
-			method: 'get',
-	        pagination: true,
-	        fit:true,
-		    fitColumns:true,
-		    autoRowHeight:true,
-		    rownumbers:true,
-		    scrollbarSize:0,
-	        pageSize: 50,
-	        remoteSort:false,
-	        queryParams: {
-	        	packageId:id,
-				deviceId:$('#UpgradeGroupone-inputone').val(),
-				vin:$('#UpgradeGroupone-inputtwo').val(),
-			},
-			columns: [[
-					{ field: 'id', title: 'id', align: 'center',checkbox:true,},
-					{ field: 'deviceId', title: '设备编号', align: 'center',sortable:true,width:'30%'},
-				    { field: 'vin', title: '车架号', align: 'center',width:'30%', formatter: function (value) {return dataProcessing(value);}},
-					{ field: 'hardVer', title: '硬件版本号', align: 'center',formatter: function (value) {return dataProcessing(value);}}
-					// { field: 'model', title: '适用类型', align: 'center',sortable:true,width:'18%',formatter: function (value) {return dataProcessing(value);}},      		
-		       	]]
-	    });
+		setTimeout(function(){
+			$('#upgradeDeviceDg').datagrid({
+				url:server_context+'/listSpecifiedDevice',
+				method: 'get',
+				pagination: true,
+				fit:true,
+				fitColumns:true,
+				autoRowHeight:true,
+				rownumbers:true,
+				scrollbarSize:0,
+				pageSize: 50,
+				remoteSort:false,
+				queryParams: {
+					packageId:id,
+					deviceId:$('#UpgradeGroupone-inputone').val(),
+					vin:$('#UpgradeGroupone-inputtwo').val(),
+				},
+				columns: [[
+						{ field: 'id', title: 'id', align: 'center',checkbox:true,},
+						{ field: 'deviceId', title: '设备编号', align: 'center',sortable:true,width:'30%'},
+						{ field: 'vin', title: '车架号', align: 'center',width:'30%', formatter: function (value) {return dataProcessing(value);}},
+						{ field: 'hardVer', title: '硬件版本号', align: 'center',formatter: function (value) {return dataProcessing(value);}}
+						// { field: 'model', title: '适用类型', align: 'center',sortable:true,width:'18%',formatter: function (value) {return dataProcessing(value);}},      		
+					]]
+			});
+		},300)
+		
 	}
 	//左侧表查询
 	function searchUpgradeDevice(){

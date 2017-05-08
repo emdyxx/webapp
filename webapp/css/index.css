@@ -1147,7 +1147,7 @@ main {
 .lushuflush>a{
 	display: inline-block;
 	color: white;
-	width: 40px;
+	width: 35px;
 	background: orange;
 	border-radius: 3px;
 	text-align: center;
@@ -1182,6 +1182,7 @@ main {
 	position: absolute;
 	top: 80%;
 	background: white;
+	z-index: 15;
 }
 .Realtimecondition-relaTime-top{
 	width: 100%;
@@ -1465,7 +1466,7 @@ main {
 }
 .monocasedatagrid-top-one,.monocasedatagrid-top-two{
 	position: absolute;
-	top: 0;
+	top: -3px;
 	width: 100%;
 	height: 24px;
 }

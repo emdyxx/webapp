@@ -115,6 +115,17 @@ function MobileSelect() {
     }, Dateupo);
 }
 //车载设备下侧表加载
+var fileview = $.extend({}, $.fn.datagrid.defaults.view, { onAfterRender: function (target) { ischeckItem(); } });
+function ischeckItem() {
+    var row =  $('.MobileData').datagrid('getRows');
+    for (var i = 0; i < is.length; i++) {
+        for(var j=0;j<row.length;j++){
+           if(is[i]==row[j].deviceId){
+               $('.MobileData').datagrid('selectRow',j);
+           }
+        }
+    }
+}
 function MobDatagrid(){
     $('.MobileData').datagrid({
         url: server_context+'/listDevice',
@@ -126,6 +137,7 @@ function MobDatagrid(){
         pagination: "true",
         pageNumber:dgNumber,
 		pageSize:dgsize,
+        view:fileview,
         queryParams:{
             vin: $('.MobileID').val(),
             deviceId: $('.Mobilename').val(),
@@ -135,7 +147,7 @@ function MobDatagrid(){
             deviceGroupId:$('.MobileSeeksjfz').val()
         },
         columns: [[
-            { field: "cb", checkbox: "true", align: "center" },
+            { field: "idField", checkbox: "true", align: "center" },
             { field: "deviceId", title: '设备编号', align: "center", width: '8%',
                 formatter: function (value, row, index) {
                    return row.deviceId.toUpperCase();
@@ -169,7 +181,11 @@ function MobDatagrid(){
             }
         ]],
         onCheck:function(i){
-            is.push(i)
+            var as = $('.MobileData').datagrid('getRows')[i];
+            if(as==''||as==undefined||as==null){
+                return;
+            }
+            is.push(as.deviceId)
             for(var i = 0; i < is.length; i++){
                 for(var j=i+1;j<is.length;j++){
                     if(is[i]===is[j]){
@@ -180,30 +196,39 @@ function MobDatagrid(){
             }
         },
         onUncheck:function(i){
+            var as = $('.MobileData').datagrid('getRows')[i];
+            if(as==''||as==undefined||as==null){
+                return;
+            }
             for(var s=0;s<is.length;s++){
-                if(i==is[s]){
+                if(as.deviceId==is[s]){
                     is.splice(s,1)
                 }
             }
         },
         onCheckAll:function(i){
+            var as = $('.MobileData').datagrid('getRows')[i];
+            if(as==''||as==undefined||as==null){
+                return;
+            }
             is.splice(0,is.length);
-            for(var s = 0;s<i.length;s++){
-                is.push(s)
+            for(var s = 0;s<as.length;s++){
+                is.push(as.deviceId)
             }
         },
         onUncheckAll:function(i){
             is.splice(0,is.length);
-        },
-        onLoadSuccess:function(data){
-            for(var i=0;i<is.length;i++){
-                for(var j=0;j<data.rows.length;j++){
-                    if(data.rows[i].id){
-                        $(".MobileData").datagrid('selectRow',is[i]);
-                    }
-                }
-            }
         }
+        // onLoadSuccess:function(data){
+        //     for(var i=0;i<is.length;i++){
+        //         for(var j=0;j<data.rows.length;j++){
+        //             if(data.rows[i].deviceId==is[i]){
+        //                 console.log(data.rows[i].deviceId)
+        //                 $(".MobileData").datagrid('selectRecord',is[i]);
+        //             }
+        //         }
+        //     }
+        // }
     })
 }
 
@@ -811,7 +836,7 @@ function deviceWakeupRetry(deviceId) {
         });
         $.ajax({
             type: "post",
-            url: server_context+"/networkWakeup",
+            url: server_context+"/phoneCallWakeup",
             data: { deviceId: deviceId },
             success: function (data) {
                 if (data.error_code == 0) {

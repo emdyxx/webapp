@@ -53,6 +53,17 @@ $('#managementli5').click(function() {
 			return TheOwner(node);
 		}
 	})
+	//归属分组
+	$('.GroupName').combotree({
+        url: server_context+'/listGroupTree',
+        method: 'post',
+        required: true,
+        editable:false,
+        loadFilter: function (data) {
+			var data =data.data
+            return convert(data);
+        }
+    })
 })
 //根据选中tree树的id加载右侧表
 function TheOwner(node){
@@ -104,7 +115,7 @@ function TheOwner(node){
 			{ field:"ownerName",title:'车主名称',align:"center",width: '12%'},
 			{ field:"deviceId",title:'设备编号',align:"center",width: '13%'},
 			{ field:"vin",title:'车架号',align:"center",width: '13%'},
-			{ field:"groupName",title:'编组名',align:"center",width: '12%'},
+			{ field:"groupName",title:'归属分组',align:"center",width: '12%'},
 			{ field:"bindStatus",title:'注册状态',align:"center",width: '13%',
 			    formatter: function (value, row, index) {
 				  var value=row['bindStatus'];
@@ -225,17 +236,17 @@ function TheOwneradd(){
 		}
 	});
     //保险公司的请求
-	$.ajax({
-    	type:"post",
-    	url:server_context+"/listInsurerName",
-    	async:true,
-    	success:function(data){
-    		$("#insurerId option").remove();
-			for(var i=0;i<data.data.length;i++){
-               $('<option value='+data.data[i].id+'>'+data.data[i].insurerName+'</option>').appendTo('#insurerId')
-			}
-    	}
-    });
+	// $.ajax({
+    // 	type:"post",
+    // 	url:server_context+"/listInsurerName",
+    // 	async:true,
+    // 	success:function(data){
+    // 		$("#insurerId option").remove();
+	// 		for(var i=0;i<data.data.length;i++){
+    //            $('<option value='+data.data[i].id+'>'+data.data[i].insurerName+'</option>').appendTo('#insurerId')
+	// 		}
+    // 	}
+    // });
 	//车辆品牌的信息
     $.ajax({
     	type:"post",
@@ -578,6 +589,7 @@ function  forbidden(){
 	$('#vin').attr('disabled','disabled');
     $('#TheOwnerFormtable-one').css('display','none');
 	$('#TheOwnerFormtable-two').css('display','none');
+	$('#contactsName').css('display','none')
 }
 //取消某些隐藏字段
 function  startusings(){
@@ -585,11 +597,14 @@ function  startusings(){
 	$('#vin').removeAttr('disabled','disabled');
     $('#TheOwnerFormtable-one').css('display','');
 	$('#TheOwnerFormtable-two').css('display','');
+	$('#contactsName').css('display','')
 }
 //审核操作按钮
+var deviceidchezhu;  //车主的真实id
 function ReviewOperation(index){
 	var rows = $("#TheOwner-datagrid-bottom").datagrid('getRows');
 	var row = rows[index]
+    deviceidchezhu = row.id;
 	startusings()
 	owner0=1
 	$('#TheOwnerModal').modal('show');
@@ -638,14 +653,14 @@ $('.Nextstep7').click(function(){
 		$.messager.alert('系统提示','你没有此权限','warning');
 		return;
 	}
+	console.log(123)
 	var states=$(this).attr('name')
-	var row = $("#TheOwner-datagrid-bottom").datagrid('getSelected');
 	$.ajax({
 		type:"post",
 		url:server_context+"/updateVerifyStatus",
 		async:true,
 		data:{
-			ownerId:row.id,
+			ownerId:deviceidchezhu,
 			verifyStatus:states
 		},
 		success:function(data){

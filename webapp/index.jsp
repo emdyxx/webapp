@@ -152,10 +152,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													<input type="text" id="treefzr" maxlength="10" required/>
 													<hr />
 													<label for=""><i>*</i>电话:</label>
-													<input type="text" id="treephone" required/>
+													<input type="text" id="treephone" maxlength="20" required/>
 													<hr />
 													<label for=""><i>*</i>邮箱:</label>
-													<input type="email" id="treeemail" required/>
+													<input type="email" id="treeemail" maxlength="20" required/>
 													<hr>
 													<label for=""><i>*</i>省份:</label>
 													<select onChange="sheng(value)" id="province" style="width: 60px">
@@ -416,10 +416,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			<!--<input type="text" class="usergroup" id="age" required/>-->
 																			<hr />
 																			<label><i>*</i>联系电话:</label>
-																			<input type="text" id="addressss" required/>
+																			<input type="text" id="addressss" maxlength="20" required/>
 																			<hr />
 																			<label><i>*</i>邮箱:</label>
-																			<input type="email" id="youxiang" required/>
+																			<input type="email" id="youxiang" maxlength="20" required/>
 																			<hr />
 																			<label><i>*</i>角色:</label>
 																			<select class="roles" id="sex" style="width:146px;height:19px;">
@@ -490,7 +490,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<div class="modal-body">
 												<form class="fmm-form">
 													<label for="treenameo"><i>*</i>角色名称:</label>
-													<input type="text" id="treenameo" maxlength="20" required/>
+													<input type="text" id="treenameo" maxlength="20"/>
 												</form>
 											</div>
 											<div class="modal-footer">
@@ -505,7 +505,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								</div><!-- /.modal -->
 								<div class="removerole" onClick="treeremove()"></div>
 								<!--规则-->
-								<div class="rule" style="display:none">
+								<div class="rule" style="display:none;top: 1px;">
 									<div class="rulediv">
 										<span>
 								         <img style="margin-top: 5px;" src="img/icon/guize.png" alt="" />
@@ -693,11 +693,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													</td>
 													<td style="padding-left: 10px;">开始时间:</td>
 													<td>
-														<input class="easyui-datetimebox Logstarttime">
+														<input class="easyui-datetimebox Logstarttime" data-options="editable:false">
 													</td>
 													<td style="padding-left: 10px;">结束时间:</td>
 													<td>
-														<input class="easyui-datetimebox Logfinishtime">
+														<input class="easyui-datetimebox Logfinishtime" data-options="editable:false">
 													</td>
 													<td style="padding-left: 10px;">IP地址:</td>
 													<td>
@@ -792,8 +792,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							        		<input type="text" maxlength="17" class="FrameNumber"/>
 							        		<label>设备编号:</label>
 							        		<input type="text" maxlength="10" class="EquipmentNumber"/>
-							        		<label>编组名:</label>
-							        		<input type="text" maxlength="15" class="GroupName"/>
+							        		<label>归属分组:</label>
+							        		<input type="text" class="GroupName"/>
 							        	    <label>注册状态:</label>
 							        	    <select class="TheOwner-inquire-select">
 							        	    	<option value="">-请选择-</option>
@@ -884,61 +884,62 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			<td><input type="text" id="address" maxlength="50" class="Noaddress" required/></td>
 																		</tr>
 																		<tr>
-																			<td><i>*</i>保险公司:</td>
+																			<!--<td><i>*</i>保险公司:</td>
 																			<td>
 																				<select id="insurerId">
 																	
 																				</select>
-																			</td>
+																			</td>-->
 																			<td>车牌号码:</td>
 																			<td><input type="text" maxlength="20" id="plate"/></td>
-																		</tr>
-																		<tr>
 																			<td><i>*</i>车架号:</td>
 																			<td><input type="text" id="vin" maxlength="17" class="noneNull" required/></td>
-																			<td><i>*</i>发动机编号:</td>
-																			<td><input type="text" id="engineCode" maxlength="11" class="noneNull" required/></td>
 																		</tr>
 																		<tr>
-																			<td><i>*</i>车型品牌:</td>
+																			<td><i>*</i>发动机编号:</td>
+																			<td><input type="text" id="engineCode" maxlength="11" class="noneNull" required/></td>
+                                                                            <td><i>*</i>车型品牌:</td>
 																			<td>
 																				<select id="vehicleBrand" onchange="Brand(value)">
 																					<option value="">请选择</option>
 																				</select>
 																			</td>
+																		</tr>
+																		<tr>
 																			<td><i>*</i>型号:</td>
 																			<td>
 																				<select id="vehicleModel" onchange="vecle(value)" class="noneNull"> 
 																	                  <option value="">-请选择-</option>
 																				</select>
 																			</td>
-																		</tr>
-																		<tr>
 																			<td><i>*</i>排量:</td>
 																			<td>
 																				<select id="vehicleDisplacement" onchange="place(value)" class="noneNull">
 																	                  <option value="">-请选择-</option>
 																				</select>
 																			</td>
+																		</tr>
+																		<tr>
 																			<td><i>*</i>配置:</td>
 																			<td>
 																				<select id="vehicleConfig" class="noneNull">
 																	                   <option value="">-请选择-</option>
 																				</select>
 																			</td>
+																			<td id="TheOwnerFormtable-two"><i>*</i>紧急联系人姓名:</td>
+																			<td><input type="text" id="contactsName" maxlength="20" class="NoName" required/></td>
 																		</tr>
 																		<tr id="TheOwnerFormtable-one">
 																			<!--<td>服务截止时间:</td>
 																			<td><input class="easyui-datetimebox" id="serviceEndTime" style="width:140px"></td>-->
-																			<td><i>*</i>紧急联系人姓名:</td>
-																			<td><input type="text" id="contactsName" maxlength="20" class="NoName" required/></td>
 																			<td><i>*</i>紧急联系人电话:</td>
 																			<td><input type="text" id="contactsMobile" maxlength="20" class="NoPhone" required/></td>
-																		</tr>
-																		<tr id="TheOwnerFormtable-two">
 																			<td><i>*</i>关系:</td>
 																			<td><input type="text" id="relation" maxlength="20" class="NoName" required/></td>
 																		</tr>
+																		<!--<tr id="TheOwnerFormtable-two">
+																			
+																		</tr>-->
 																	</tbody>
 																</table>
 															</form>
@@ -1018,26 +1019,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			<td class="owner8"></td>
 																		</tr>
 																		<tr>
-																			<td><i>*</i>保险公司:</td>
-																			<td class="owner9"></td>
+																			<!--<td><i>*</i>保险公司:</td>
+																			<td class="owner9"></td>-->
 																			<td>车牌号码:</td>
 																			<td class="owner10"></td>
-																		</tr>
-																		<tr>
 																			<td><i>*</i>车架号:</td>
 																			<td class="owner11"></td>
+																		</tr>
+																		<tr>
 																			<td><i>*</i>发动机编号:</td>
 																			<td class="owner12"></td>
-																		</tr>
-																		<tr>
 																			<td><i>*</i>车型品牌:</td>
 																			<td class="owner13"></td>
-																			<td><i>*</i>型号:</td>
-																			<td class="owner14"></td>
 																		</tr>
 																		<tr>
-																			<td><i>*</i>排量:</td>
+																			<td><i>*</i>型号:</td>
+																			<td class="owner14"></td>
+                                                                            <td><i>*</i>排量:</td>
 																			<td class="owner15"></td>
+																		</tr>
+																		<tr>
 																			<td><i>*</i>配置:</td>
 																			<td class="owner16"></td>
 																		</tr>
@@ -2958,10 +2959,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 												</div>
 											</div>
 											<div class="modal-footer auditMessagefooter">
-												<button type="button" class="btn btn-default auditMessagesbutton" name="1">通过
-												</button>
-												<button type="button" class="btn btn-primary auditMessagesbutton" name="2">
+												<button type="button" class="btn btn-default auditMessagesbutton" name="2">
 													未通过
+												</button>
+												<button type="button" class="btn btn-primary auditMessagesbutton" name="1">通过
 												</button>
 											</div>
 										</div><!-- /.modal-content -->
@@ -3705,10 +3706,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													<div style="width: 198px;margin: 0 auto;">
 														<span style="margin-top: 30px;">
 															<img src="img/relatime/dakai.png"/>
-															打开状态
+															解锁状态
 															<hr />
 															<img src="img/relatime/guanbi.png"/>
-															关闭状态
+															落锁状态
 														</span>
 														<span style="position: relative;">
 															<span>中控锁</span>
@@ -3825,28 +3826,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													<div style="width: 248px;margin: 0 auto;">
 														<span class="leftanterior">
 															<img src="img/relatime/dakai.png" alt="" />
-															<span>左前胎压</span>
+															<span style="width: 100px;">左前胎压</span>
 															<img style="margin-left: 0;" src="img/relatime/dakai.png" alt=""/>
 															<span>右前胎压</span>
 														</span>
 														<hr />
 														<span class="rightanterior">
 															<img src="img/relatime/dakai.png" alt="" />
-															<span>左后胎压</span>
+															<span style="width: 100px;">左后胎压</span>
 															<img style="margin-left: 0;" src="img/relatime/dakai.png" alt=""/>
 															<span>右后胎压</span>
 														</span>
 														<hr />
 														<span class="leftTiretemperature">
 															<img src="img/relatime/dakai.png" alt="" />
-															<span>左前胎温度</span>
+															<span style="width: 100px;">左前胎温度</span>
 															<img style="margin-left: 0;" src="img/relatime/dakai.png" alt=""/>
 															<span>右前胎温度</span>
 														</span>
 														<hr />
 														<span class="rightTiretemperature">
 															<img src="img/relatime/dakai.png" alt="" />
-															<span>左后胎温度</span>
+															<span style="width: 100px;">左后胎温度</span>
 															<img style="margin-left: 0;" src="img/relatime/dakai.png" alt=""/>
 															<span>右后前胎温度</span>
 														</span>

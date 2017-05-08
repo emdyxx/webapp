@@ -260,7 +260,7 @@ function deviceWeupRetry(deviceId){
         });
         $.ajax({
             type: "post",
-            url: server_context+"/networkWakeup",
+            url: server_context+"/phoneCallWakeup",
             data: { deviceId: deviceId },
             success: function (data) {
                 if (data.error_code == 0) {

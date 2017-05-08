@@ -1,3 +1,7 @@
+.messager-window{
+	background: white !important;
+	border: none !important;
+}
 .panel {
   overflow: hidden;
   text-align: left;
@@ -193,6 +197,7 @@
 .window .window-header {
   background: transparent;
   padding: 0px 0px 6px 0px;
+  border: none !important;
 }
 .window .window-body {
   border-width: 1px;
@@ -2492,10 +2497,14 @@
 .messager-body {
   padding: 10px;
   overflow: auto;
+  border: none !important;
+  padding-top: 20px;
 }
 .messager-button {
   text-align: center;
   padding: 5px;
+  border: none;
+  background: white;
 }
 .messager-button .l-btn {
   width: 70px;
