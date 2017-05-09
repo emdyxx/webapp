@@ -176,6 +176,7 @@ function TheOwneradd(){
 	owner0=0
 	$('#TheOwnerModal').modal('show');
 	startusings()
+	$('.tablefuwu tr input').removeAttr('disabled','disabled');
 	$('.spanerror').html('')
 	$('.TheOwnertitle').html('添加车主')
 	$('.TheOwnerModal-body>form').css('display','none');
@@ -391,6 +392,10 @@ function jbxh(judeg,url){
 	var sex;
 	var id;
 	var groupId;  
+	if($('#engineCode').val().length!=11){
+       $.messager.alert('系统提示','发动机编号不得小于11位','error');
+	   return;
+	}
 	if($('#sexx').val()==1){
        sex='男';
 	}
@@ -433,20 +438,21 @@ function jbxh(judeg,url){
             //    ownerIds=data.data[0].ownerId
 			// }
 			if(data.error_code==0){
-				$.messager.alert('系统提示','保存成功','info');
 				$("#TheOwner-datagrid-bottom").datagrid("reload");
 				if(judeg.id=='Nextstep'){
 					$('.TheOwnerForm').css('display','none');
 					$('.TheOwnerFormfour').css('display','');
 					$('.Nextstepbutton>button').css('display','none');
 					$('#Nextstep1').css('display','');
+				}else{
+					$.messager.alert('系统提示','保存成功','info');
+                    $('#TheOwnerModal').modal('hide');
 				}
 				if(data.data.length!=0){
                     if(data.data[0].ownerId!=''||data.data[0].ownerId!='undefined'||data.data[0].ownerId!=null){
 						ownerIds=data.data[0].ownerId
 					}
 				}
-				$('#TheOwnerModal').modal('hide');
 			}else{
 				Statuscodeprompt(data.error_code,"保存失败...",'error')
 			}
@@ -581,6 +587,7 @@ function TheOwnerbj(t){
 		$('#Nextstep6').css('display','');
 		$('#Nextstep2').val('基本');
 		$('.TheOwnertitle').html('修改车主信息');
+		$('.tablefuwu tr input').removeAttr('disabled','disabled');
 		TheOwnerValue(row);
 }
 //禁用和隐藏某些字段
@@ -679,7 +686,6 @@ $('#Nextstep9').click(function(){
 	$('#TheOwnerModal').modal('hide');
 })
 //查看详情
-
 function LookUp(index){
 	LookUpindexThe = index;
     owner0=1;
@@ -689,6 +695,7 @@ function LookUp(index){
 	$('.spanerror').html('')
 	$('.TheOwnertitle').html('查看详情');
 	$('.TheOwnerModal-body>form').css('display','none');
+	$('.tablefuwu tr input').attr('disabled','disabled');
 	$('.TheOwnerForm2').css('display','');
 	$('.Nextstepbutton>button').css('display','none');
 	$('#Nextstep3').css('display','');
@@ -716,7 +723,6 @@ function LookUp(index){
 }
 //修改用户往基本信息输入框添加数据
 function TheOwnerValue(row){
-	console.log(row)
 	$('#ownerName').val(row.ownerName),
 	$('#mobile').val(row.mobile),
 	// $('#TheOwnerxian').val(row.TheOwnerxian),
@@ -913,7 +919,7 @@ $('.addphone').click(function(){
 	var length = $('.Phonetbody>tr').length;
 	if(length>2){
 		$.messager.alert('系统提示','最多设置三个','warning');
-		return false;
+		return;
 	}
 	var trcls = 'addphone' + length;
 	var tdone = trcls + 'td1';
@@ -965,28 +971,39 @@ function addphone(t){
 }
 //保存紧急联系人
 function TheOwnerphone(){
-	console.log(1234656)
 	var row = $("#TheOwner-datagrid-bottom").datagrid('getSelected');
 	var str= '';
 	var pattern = /^[\u4E00-\u9FA5]{2,7}$/;// 验证中文名称
     var phone = /^1[34578]\d{9}$/; // 验证手机号
-	for(var i=0;i<$('#inputName').length;i++){
-		if(!pattern.test($('#inputName').eq(i).val())||$('#inputName').eq(i).val()=='') {
+	for(var i=0;i<$('.Phonetbody tr').length;i++){
+		if(!pattern.test($('.Phonetbody tr').eq(i).find('input').eq(0).val())) {
 		   str = ''
-		   str += '姓名(关系)不符合格式';
-		   $('#inputName').focus();
+		   str += '姓名不符合格式';
 		}
 	}
-	for(var i=0;i<$('#inputphone').length;i++){
-		if(!phone.test($('#inputphone').eq(i).val())||$('#inputphone').eq(i).val()=='') {
+	for(var i=0;i<$('.Phonetbody tr').length;i++){
+		if(!pattern.test($('.Phonetbody tr').eq(i).find('input').eq(2).val())) {
+		   str = ''
+		   str += '关系不符合格式';
+		}
+	}
+	for(var i=0;i<$('.Phonetbody tr').length;i++){
+		if(!phone.test($('.Phonetbody tr').eq(i).find('input').eq(1).val())) {
 		   str = ''
 		   str += '手机号不符合格式';
-		   $('#inputphone').focus();
 		}
 	}
+	for(var i=0;i<$('.Phonetbody tr input').length;i++){
+      if($('.Phonetbody tr input').eq(i).val()==''){
+         str = ''
+		    str += '必填字段不能为空';
+		}
+	}
+	console.log($('.Phonetbody tr').length);
+	// console.log(str)
 	if(str!=''){
 		$.messager.alert('系统提示',str,'warning');
-		return false;
+		return;
 	}
 	var one=[];
 	var two=[];  
@@ -1003,8 +1020,6 @@ function TheOwnerphone(){
 		contactsMobile:two.join(','),
 		relation:three.join(',')
 	};
-    
-    console.log(data)
 	$.ajax({
 		type:"post",
 		url:server_context+"/updateOwnerContacts",
@@ -1037,11 +1052,6 @@ $('#Nextstep3').click(function(){
 //紧急联系人信息点击事件
 $('#Nextstep5').click(function(){
 	var row;
-	if(owner0==1){
-       $('.phoneaddremove').css('display','none');
-	}else{
-		$('.phoneaddremove').css('display','');
-	}
 	$('.TheOwnerModal-body>form').css('display','none');
 	$('.TheOwnerFormthree').css('display','');
 	$('#Nextstep2').val('联系人')
@@ -1051,35 +1061,72 @@ $('#Nextstep5').click(function(){
         var rows = $("#TheOwner-datagrid-bottom").datagrid('getRows');
 		row = rows[LookUpindexThe];
 	}
-	$.ajax({
-		url:server_context+'/listOwnerContacts',
-		async:'true',
-		type:'post',
-		data:{
-           ownerId:row.id
-		},
-		success:function(data){
-			var data = data.data;
-			$('.Phonetbody tr').remove()
-            for(var i=0;i<data.length;i++){
-				var trcls = 'addphone' + i;
-				var tdone = trcls + 'td1';
-				var tdtwo = trcls + 'td2';
-				var tdthree = trcls + 'td3';
-				var inputone = trcls +'ip1';
-				var inputtwo = trcls +'ip2';
-				var inputthree = trcls +'ip3';
-				$('<tr class='+trcls+'></tr>').appendTo('.Phonetbody');
-				$('<td class='+tdone+'></td>').appendTo('.'+trcls);
-				$('<td class='+tdtwo+'></td>').appendTo('.'+trcls);
-				$('<td class='+tdthree+'></td>').appendTo('.'+trcls);
-				$('<td style="cursor: pointer;" id='+trcls+' onclick="addphone(this)">删除</td>').appendTo('.'+trcls);
-				$('<input type="text" id="inputName" name="one" class='+inputone+' value='+data[i].contactsName+'></input>').appendTo('.'+tdone);
-				$('<input type="text" id="inputphone" name="two" class='+inputtwo+' value='+data[i].contactsMobile+'></input>').appendTo('.'+tdtwo);
-				$('<input type="text" id="inputName" name="three" class='+inputthree+' value='+data[i].relation+'></input>').appendTo('.'+tdthree);
+	if(owner0==1){
+       $('.phoneaddremove').css('display','none');
+	   $('#TheOwnercaozuo').css('display','none');
+        $.ajax({
+			url:server_context+'/listOwnerContacts',
+			async:'true',
+			type:'post',
+			data:{
+			ownerId:row.id
+			},
+			success:function(data){
+				var data = data.data;
+				$('.Phonetbody tr').remove()
+				for(var i=0;i<data.length;i++){
+					var trcls = 'addphone' + i;
+					var tdone = trcls + 'td1';
+					var tdtwo = trcls + 'td2';
+					var tdthree = trcls + 'td3';
+					var inputone = trcls +'ip1';
+					var inputtwo = trcls +'ip2';
+					var inputthree = trcls +'ip3';
+					$('<tr class='+trcls+'></tr>').appendTo('.Phonetbody');
+					$('<td class='+tdone+'></td>').appendTo('.'+trcls);
+					$('<td class='+tdtwo+'></td>').appendTo('.'+trcls);
+					$('<td class='+tdthree+'></td>').appendTo('.'+trcls);
+					// $('<td style="cursor: pointer;" id='+trcls+' onclick="addphone(this)">删除</td>').appendTo('.'+trcls);
+					$('<input type="text" id="inputName" disabled="disabled" name="one" class='+inputone+' value='+data[i].contactsName+'></input>').appendTo('.'+tdone);
+					$('<input type="text" id="inputphone" disabled="disabled" name="two" class='+inputtwo+' value='+data[i].contactsMobile+'></input>').appendTo('.'+tdtwo);
+					$('<input type="text" id="inputName" disabled="disabled" name="three" class='+inputthree+' value='+data[i].relation+'></input>').appendTo('.'+tdthree);
+				}
 			}
-		}
-	})
+		})
+	}else{
+		$('.phoneaddremove').css('display','');
+		$('#TheOwnercaozuo').css('display','');
+        $.ajax({
+			url:server_context+'/listOwnerContacts',
+			async:'true',
+			type:'post',
+			data:{
+			ownerId:row.id
+			},
+			success:function(data){
+				var data = data.data;
+				$('.Phonetbody tr').remove()
+				for(var i=0;i<data.length;i++){
+					var trcls = 'addphone' + i;
+					var tdone = trcls + 'td1';
+					var tdtwo = trcls + 'td2';
+					var tdthree = trcls + 'td3';
+					var inputone = trcls +'ip1';
+					var inputtwo = trcls +'ip2';
+					var inputthree = trcls +'ip3';
+					$('<tr class='+trcls+'></tr>').appendTo('.Phonetbody');
+					$('<td class='+tdone+'></td>').appendTo('.'+trcls);
+					$('<td class='+tdtwo+'></td>').appendTo('.'+trcls);
+					$('<td class='+tdthree+'></td>').appendTo('.'+trcls);
+					$('<td style="cursor: pointer;" id='+trcls+' onclick="addphone(this)">删除</td>').appendTo('.'+trcls);
+					$('<input type="text" id="inputName" name="one" class='+inputone+' value='+data[i].contactsName+'></input>').appendTo('.'+tdone);
+					$('<input type="text" id="inputphone" name="two" class='+inputtwo+' value='+data[i].contactsMobile+'></input>').appendTo('.'+tdtwo);
+					$('<input type="text" id="inputName" name="three" class='+inputthree+' value='+data[i].relation+'></input>').appendTo('.'+tdthree);
+				}
+			}
+		})
+	}
+	
 })
 //服务信息点击事件
 $('#Nextstep6').click(function(){

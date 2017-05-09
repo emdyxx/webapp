@@ -460,7 +460,7 @@ function UpgradeGroupss() {
     }
     for(var i=0;i<row.length;i++){
         if(row[i].topGroupId==0){
-            $.messager.alert('系统提示','所选设备不在同一归属分组,请先进行归属分组操作','error');
+            $.messager.alert('系统提示','所选设备没有归属分组,请先进行归属分组操作','error');
             return false;
         }
         if(row[0].topGroupId==row[i].topGroupId){
@@ -1064,6 +1064,8 @@ $('.reads').click(function () {
             if(data.error_code==0){
                $.messager.alert('系统提示','读取成功','info')
                 reulaone()
+            }else{
+                Statuscodeprompt(data.error_code)
             }
         }
     })	
@@ -1217,6 +1219,8 @@ $('.readthr').click(function () {
             if(data.error_code==0){
                $.messager.alert('系统提示','读取成功','info')
                reulathree();
+            }else{
+                Statuscodeprompt(data.error_code)
             }
         }
     })		
@@ -1318,6 +1322,8 @@ $('.readfou').click(function () {
             if(data.error_code==0){
                $.messager.alert('系统提示','读取成功','info')
                reulafour();
+            }else{
+                Statuscodeprompt(data.error_code)
             }
         }
     })					  
@@ -1607,6 +1613,8 @@ $('.compileseve').click(function () {
             if(data.error_code==0){
                $.messager.alert('系统提示','读取成功','info')
                reulaseven();
+            }else{
+                Statuscodeprompt(data.error_code)
             }
         }
     })

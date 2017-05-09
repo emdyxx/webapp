@@ -2303,6 +2303,14 @@ $('.Loginquire').click(function(){
 		ipAddress:$('.Logaddress').val()
 	})
 })
+//登录日志查询取消
+$('.Loginquiretwo').click(function(){
+	$('.LoguserName').val('');
+	$('.Logaddress').val('');
+	$('.Logstarttime').datetimebox('setValue','');
+	$('.Logfinishtime').datetimebox('setValue','');
+	$('#Logform').datagrid('reload')
+})
 //操作日志查询
 $('.operateinquire').click(function(){
 	$('#operateLog').datagrid('load',{
@@ -2603,9 +2611,9 @@ function relatimels(){
 			}else{
                 $('#dianya').text('低压')
 			}
-			$('#youhao').text(data.averagefuelconsumption);
+			$('#youhao').text(data.fuelconsumption);
 			//第二栏
-			$('#vehiclestate1').text(data.continuedrivingtime)
+			$('#vehiclestate1').text(data.drivingduration)
 			$('#vehiclestate2').text(data.totalodometer)
 			if(data.acc==0){
 				$('#vehiclestate3').text('关闭')
@@ -2664,6 +2672,12 @@ function relatimels(){
 			$('#vehiclestate17').text(data.outsidepm25)
 			$('#vehiclestate18').text(data.insidetemperature)
 			$('#vehiclestate19').text(data.outsidetemperature)
+			$('#vehiclestate20').text(data.keyposition)
+			if(data.engine==0){
+               $('#vehiclestate21').text('开启')
+			}else{
+				$('#vehiclestate21').text('关闭')
+			}
 			//第三栏
 			//车灯
 			if(data.turnleft==1){  
@@ -2711,7 +2725,7 @@ function relatimels(){
 			}else{
 				$('.stoplight>img').eq(0).attr('src','img/relatime/guanbi.png')
 			}
-			if(data.trianglewarninglamp==1){
+			if(data.hazardwarning==1){
 				$('.stoplight>img').eq(1).attr('src','img/relatime/dakai.png')
 			}else{
 				$('.stoplight>img').eq(1).attr('src','img/relatime/guanbi.png')
@@ -2850,13 +2864,13 @@ function relatimels(){
 				$('.queendefrost>img').eq(0).attr('src','img/relatime/guanbi.png')
 			}
 			//胎压温度      
-			$('.leftanterior>span').eq(0).text('左前胎压'+data.lftirepressure)
-			$('.leftanterior>span').eq(1).text('右前胎压'+data.rftirepressure)
-			$('.rightanterior>span').eq(0).text('左后胎压'+data.lrtirepressure)
+			$('.leftanterior>span').eq(0).text('左前胎压'+data.fltirepressure)
+			$('.leftanterior>span').eq(1).text('右前胎压'+data.frtirepressure)
+			$('.rightanterior>span').eq(0).text('左后胎压'+data.rltirepressure)
 			$('.rightanterior>span').eq(1).text('右后胎压'+data.rrtirepressure)      
-			$('.leftTiretemperature>span').eq(0).text('左前胎温度'+data.lftiretemperature)
-			$('.leftTiretemperature>span').eq(1).text('右前胎温度'+data.rftiretemperature)
-			$('.rightTiretemperature>span').eq(0).text('左后胎温度'+data.lrtiretemperature)
+			$('.leftTiretemperature>span').eq(0).text('左前胎温度'+data.fltiretemperature)
+			$('.leftTiretemperature>span').eq(1).text('右前胎温度'+data.frtiretemperature)
+			$('.rightTiretemperature>span').eq(0).text('左后胎温度'+data.rltiretemperature)
 			$('.rightTiretemperature>span').eq(1).text('右后胎温度'+data.rrtiretemperature)
 			// var address;
 			var centerGPS = GPS.disposeGPS(data.lng,data.lat);
@@ -3655,6 +3669,7 @@ function auditPushMessage(){
 }
 //审核推送消息通过/未通过接口
 $('.auditMessagesbutton').click(function(){
+	$('.out').css('display','')
 	var row = $('.informationpushbottom-bottom-datagrid').datagrid('getSelected')
 	$('.auditMessagesbutton').attr('disabled','disabled')
 	$.ajax({
@@ -3666,6 +3681,7 @@ $('.auditMessagesbutton').click(function(){
 			verifyState:$(this).attr('name')
 		},
 		success:function(data){
+			$('.out').css('display','none')
 			$('.auditMessagesbutton').removeAttr('disabled','disabled')
 			if(data.error_code==0){
 				$.messager.alert('系统提示','审核成功','info');

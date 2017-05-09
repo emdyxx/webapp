@@ -589,6 +589,11 @@
 	// 导出多个设备
 	function exportMore(){
 		var selRows = $('#upgradeGroupDg').datagrid('getChecked');
+		var length = $('#upgradeGroupDg').datagrid('getRows');
+		if(selRows.length==length.length){
+            $.messager.alert('系统提示','至少保留一条数据','error');
+			return;
+		}
 		//添加行
 		addrows("unupgradeGroupDg",selRows);
 		//删除行
@@ -781,22 +786,22 @@
 	function upgradeDevice(id){
 		setTimeout(function(){
 			$('#upgradeDeviceDg').datagrid({
-				url:server_context+'/listSpecifiedDevice',
-				method: 'get',
-				pagination: true,
-				fit:true,
-				fitColumns:true,
-				autoRowHeight:true,
-				rownumbers:true,
-				scrollbarSize:0,
-				pageSize: 50,
-				remoteSort:false,
-				queryParams: {
+				 url:server_context+'/listSpecifiedDevice',
+				 method: 'get',
+				//  pagination: true,
+				 fit:true,
+			 	 fitColumns:true,
+				 autoRowHeight:true,
+				 rownumbers:true,
+				 scrollbarSize:0,
+				//  pageSize: 50,
+				 remoteSort:false,
+				 queryParams: {
 					packageId:id,
 					deviceId:$('#UpgradeGroupone-inputone').val(),
 					vin:$('#UpgradeGroupone-inputtwo').val(),
-				},
-				columns: [[
+				 },
+				 columns: [[
 						{ field: 'id', title: 'id', align: 'center',checkbox:true,},
 						{ field: 'deviceId', title: '设备编号', align: 'center',sortable:true,width:'30%'},
 						{ field: 'vin', title: '车架号', align: 'center',width:'30%', formatter: function (value) {return dataProcessing(value);}},
@@ -852,6 +857,12 @@
     // 导出多个设备
 	function exportMor(){
 		var selRows = $('#upgradeDeviceDg').datagrid('getChecked');
+        var options =$("#upgradeDeviceDg" ).datagrid('getPager').data("pagination").options;  
+		var total = options.total;  
+		if(selRows.length==total){
+			$.messager.alert('系统提示','至少保留一条数据','error');
+			return;
+		}
 		//添加行
 		addrow("unupgradeDeviceDg",selRows);
 		//删除行

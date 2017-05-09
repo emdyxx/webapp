@@ -24,11 +24,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<script src="js/public/GPS.js"></script>
 		<title>它石车联网数据管理平台</title>
 		<style>
-			
+		
 		</style>
 	</head>
 
 	<body>
+		<div class="out" style="display: none;">
+			<div class="sk-circle">
+				<div class="sk-circle1 sk-child"></div>
+				<div class="sk-circle2 sk-child"></div>
+				<div class="sk-circle3 sk-child"></div>
+				<div class="sk-circle4 sk-child"></div>
+				<div class="sk-circle5 sk-child"></div>
+				<div class="sk-circle6 sk-child"></div>
+				<div class="sk-circle7 sk-child"></div>
+				<div class="sk-circle8 sk-child"></div>
+				<div class="sk-circle9 sk-child"></div>
+				<div class="sk-circle10 sk-child"></div>
+				<div class="sk-circle11 sk-child"></div>
+				<div class="sk-circle12 sk-child"></div>
+			</div>
+		</div> 
 		<div class="all">
 			<div class="right">
 				<div class="right_in">
@@ -510,8 +526,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										<span>
 								         <img style="margin-top: 5px;" src="img/icon/guize.png" alt="" />
 								      </span>
-										<span style="margin-top: 5px;position: absolute;left: 21px;top: -1px;">
-								                规则设置
+									  <span style="margin-top: 5px;position: absolute;left: 21px;top: -1px;font-size:12px;padding-top: 3px;">
+								            规则设置
 								      </span>
 									</div>
 								</div>
@@ -704,6 +720,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 														<input type="text" class="Logaddress" />
 													</td>
 													<td><button class="Loginquire">查询</button></td>
+													<td><button class="Loginquiretwo">取消</button></td>
 												</tr>
 											</table>
 											<!--<div id="cc" class="easyui-calendar"></div>-->
@@ -952,7 +969,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																        <th style="text-align: center;">姓名</th>
 																        <th style="text-align: center;">手机号</th>
 																        <th style="text-align: center;">关系</th>
-																        <th style="text-align: center;">操作</th>
+																        <th id="TheOwnercaozuo" style="text-align: center;">操作</th>
 																      </tr>
 																    </thead>
 																    <tbody class="Phonetbody">
@@ -972,7 +989,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 														    <form class="TheOwnerFormfour" style="display:none">
 														        <p style="font-size: 18px;">服务信息:</p>
 														    	<table class="table table-striped table-bordered text-center">
-														    		<tbody>
+														    		<tbody class="tablefuwu">
 																      <tr>
 																        <td>商业服务电话</td>
 																        <td><input type="text" maxlength="15" id="business"/></td>
@@ -2425,7 +2442,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 															</tr>
 															<tr style="text-align: left;margin-left: 6px;">
 																<td style="text-align:center">MD5校验:</td>
-																<td colspan="3"><input type="text" name="md5" id="md5"  size=50 style="width: 300px;" class="easyui-validatebox"  validtype="deviceId" missingmessage="必填"  data-options="required:true,validType:'length[2,50]'" maxlength="50" ><i> *</i></td>
+																<td colspan="3"><input type="text" name="md5" id="md5"  size=50 style="width: 300px;" class="easyui-validatebox"  validtype="deviceId" missingmessage="必填"  data-options="required:true,validType:'length[2,32]'" maxlength="32" ><i> *</i></td>
 															</tr>
 															<tr>
 																<td style="width: 25%;">硬件版本:</td>
@@ -2869,7 +2886,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								            	    </div>
 								            	    <div>
 								            	    	<div class="monocasedatagrid-top-two">
-								            	    		<span>姓名:</span>
+								            	    		<span style="margin-left: 55px;">姓名:</span>
 								            	    		<input type="text" class="monocasedatagrid-top-two-name" style="width: 85px;"/>
 								            	    		<span>电话</span>
 								            	    		<input type="text" class="monocasedatagrid-top-two-phone" style="width: 85px;"/>
@@ -3289,7 +3306,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								</div>
 							</div><!-- /.modal -->
 					    </div>
-						<!--7.3总线录制---CANID设置-->
+						<!--7.3总线录制---总线设置-->
 					    <div class="canidSet">
 					    	<!--当前指向-->
 							<div class="oriented" style="position: absolute;">
@@ -3338,7 +3355,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 															</tr>
 															<tr>
 																<td><i>*</i>掩码</td>
-																<td><input type="text" id="canidSet-mymask"/></td>
+																<td><input type="text" id="canidSet-mymask" maxlength="16"/></td>
 															</tr>
 														</table>
 													</div>
@@ -3397,10 +3414,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								            		</select>
 								            		<hr />
 								            		<span style="width:86px;display: inline-block;margin-top: 15px;"><i>*</i>应用ID:</span>
-								            		<input type="text" id="appliedmanagement-ID" required/>
+								            		<input type="text" id="appliedmanagement-ID" maxlength="20"/>
 								            		<hr />
 								            		<span style="width:86px;display: inline-block;margin-top: 15px;"><i>*</i>设备供应商:</span>
-								            		<input type="text" id="appliedmanagement-supplier" required/>
+								            		<input type="text" id="appliedmanagement-supplier" maxlength="20"/>
 								            	</div>
 								            </div>
 								            <div class="modal-footer">
@@ -3509,7 +3526,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<div>
 												<img src="img/relatime/dianya.png" alt="" />
 												<p style="color:#EE43BD;" id="dianya"></p>
-												<p style="color:#EE43BD;">V</p>
+												<p style="color:#EE43BD;">正常/低压</p>
 											</div>
 											<div>
 												<img src="img/relatime/youhao.png" alt="" />
@@ -3595,6 +3612,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													<p>车外温度</p>
 													<p id="vehiclestate19"></p>
 												</div>
+												<div>
+													<p>钥匙位置</p>
+													<p id="vehiclestate20"></p>
+												</div>
+												<div>
+													<p>发动机状态</p>
+													<p id="vehiclestate21"></p>
+												</div>
 											</div>
 										</div>
 										<div class="Realtimecondition-relaTime-bottom">
@@ -3648,7 +3673,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 															<img src="img/relatime/guanbi.png" alt="" />
 															刹车灯
 															<img src="img/relatime/guanbi.png" alt=""/>
-															三角指示灯
+															三角警告灯
 														</span>
 														<hr />
 														<span class="readinglamp">
@@ -3823,31 +3848,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													</div>
 												</div>
 												<div class="Realtimecondition-xiabottom">
-													<div style="width: 248px;margin: 0 auto;">
+													<div style="width: 258px;margin: 0 auto;">
 														<span class="leftanterior">
 															<img src="img/relatime/dakai.png" alt="" />
-															<span style="width: 100px;">左前胎压</span>
+															<span style="width: 110px;">左前胎压</span>
 															<img style="margin-left: 0;" src="img/relatime/dakai.png" alt=""/>
 															<span>右前胎压</span>
 														</span>
 														<hr />
 														<span class="rightanterior">
 															<img src="img/relatime/dakai.png" alt="" />
-															<span style="width: 100px;">左后胎压</span>
+															<span style="width: 110px;">左后胎压</span>
 															<img style="margin-left: 0;" src="img/relatime/dakai.png" alt=""/>
 															<span>右后胎压</span>
 														</span>
 														<hr />
 														<span class="leftTiretemperature">
 															<img src="img/relatime/dakai.png" alt="" />
-															<span style="width: 100px;">左前胎温度</span>
+															<span style="width: 110px;">左前胎温度</span>
 															<img style="margin-left: 0;" src="img/relatime/dakai.png" alt=""/>
 															<span>右前胎温度</span>
 														</span>
 														<hr />
 														<span class="rightTiretemperature">
 															<img src="img/relatime/dakai.png" alt="" />
-															<span style="width: 100px;">左后胎温度</span>
+															<span style="width: 110px;">左后胎温度</span>
 															<img style="margin-left: 0;" src="img/relatime/dakai.png" alt=""/>
 															<span>右后前胎温度</span>
 														</span>
