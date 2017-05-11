@@ -8,7 +8,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE10" />
+		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE10" /> 
 		<link rel="stylesheet" href="css/index.css" />
 		<link rel="stylesheet" href="css/TheOwner.css">
 		<link rel="stylesheet" href="css/three.css" />
@@ -944,7 +944,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																				</select>
 																			</td>
 																			<td id="TheOwnerFormtable-two"><i>*</i>紧急联系人姓名:</td>
-																			<td><input type="text" id="contactsName" maxlength="20" class="NoName" required/></td>
+																			<td id="contactsNamess"><input type="text" id="contactsName" maxlength="20" class="NoName" required/></td>
 																		</tr>
 																		<tr id="TheOwnerFormtable-one">
 																			<!--<td>服务截止时间:</td>
@@ -1715,18 +1715,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									</div><!-- /.modal -->
 					        	    <!--远程模态框（Modal） -->
 									<div class="modal fade" id="remoteManipulationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-										<div class="modal-dialog" style="width: 1259px;">
+										<div class="modal-dialog" style="width: 1138px;">
 											<div class="remoteManipulationheader">
 													<div onClick="reulaone()" id="reulaone" class="reulacolor" style="left:1px;">配置信息</div>
 													<div onClick="reulatwo()" id="reulatwo" style="left: 122px;">设备激活</div>
 													<div onClick="reulathree()" id="reulathree" style="left: 243px;">陀螺仪校正</div>
 													<div onClick="reulafour()" id="reulafour" style="left: 364px;">can协议</div>
-													<div onClick="reulafive()" id="reulafive" style="left: 485px;">互连设备</div>
+													<div onClick="reulafive()" id="reulafive" style="left: 485px;">互联设备</div>
 													<div onClick="reulasix()" id="reulasix" style="left: 606px;">注册应答</div>
 													<div onClick="reulaseven()" id="reulaseven" style="left: 727px;">碰撞触发</div>
 													<div onClick="reulaeight()" id="reulaeight" style="left: 848px;">呼叫接入</div>
-													<div onClick="reulanine()" id="reulanine" style="left: 969px;">远程升级</div>
-													<div onClick="reulaeleven()" id="reulaeleven" style="left: 1090px;">设备重启</div>
+													<!--<div onClick="reulanine()" id="reulanine" style="left: 969px;">远程升级</div>-->
+													<div onClick="reulaeleven()" id="reulaeleven" style="left: 969px;">设备重启</div>
 													<div onClick="reulaten()" id="reulaten" style="right: 1px;background: white;">
 														<img src="img/Theowner/guanbi.png" alt="" />
 													</div>
@@ -2084,7 +2084,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													        </div>
 													    </div>
 												    </form>
-												    <form class="configurationinformationten" method="post">
+												    <!--<form class="configurationinformationten" method="post">
 												    	<div>
 															<p>		
 																<span>设备编号:</span>
@@ -2108,7 +2108,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 														    	<a class="compilete">升级</a>
 													        </div>
 													    </div>
-												    </form>
+												    </form>-->
 													<form class="configurationinformationeleven">
 														<div>
 															<p>		
@@ -2468,10 +2468,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																	<textarea id="summary" name="summary" cols="100" rows="8" maxlength="200" style="width:100%;height:100px;"></textarea>
 																</td>
 															</tr>
-															<tr>
-																<td colspan="4" align="center"><div id="progressNumber" class="easyui-progressbar" style="width:400px;margin: 0 auto;"></div></td>
-															</tr>
 														</table>
+														<div id="progressNumber" class="easyui-progressbar" style="width:400px;margin: 0 auto;margin-bottom: 10px;"></div>
 													    <div class="uploadFiledatagirdone" style="width: 100%;height: 300px;">
 													    	<div style="width: 300px;margin: 0 auto;margin-bottom: 5px;">
 													    		<span>设备组:</span>
@@ -3164,27 +3162,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													</tr>
 												</table>
 											</div>
-										    <div style="width: 640px;margin: 0 auto;">
-										    	<span>CAN通道号:</span>
-										    	<select id="CANchannelnumber" style="width: 146px;">
-										    		<!--<option value="11">11</option>
-													<option value="12">12</option>-->
-										    	</select>
+										    <div style="width: 450px;margin: 0 auto;">
 										    	<span style="margin-left: 40px;">结束时间:</span>
-										    	<input class="easyui-datetimebox" id="CANstoptime" style="width:146px">
+										    	<input class="easyui-datetimebox" id="CANstoptime" data-options="editable:false" style="width:146px">
 										    	<i>*</i>
 												<span style="margin-left: 20px;">设备状态:</span>
 												<span id="CANdeviceIdzt"></span>
 										    </div>
 										    <div style="width: 100%;height: 200px;margin-top: 10px;">
 										    	<div id="CANdatagridform" style="width: 100%;height:100%;overflow: auto;">
-										    		<table class="table table-striped table-bordered text-center" id="cantable">
+										    		<table class="table table-striped table-bordered text-center table-hover" id="cantable">
 										    			<tr>
 										    				<th></th>
 										    				<th style="text-align: center;">canID</th>
 										    				<th style="text-align: center;">名称</th>
 										    				<th style="text-align: center;">采集时间</th>
 										    				<th style="text-align: center;">掩码</th>
+															<th style="text-align: center;">CAN通道号</th>
 										    			</tr>
 										    			
 										    		</table>
@@ -3193,7 +3187,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										</div>
 										<div class="modal-footer">
 											<span>(设备需在线才能保存成功)</span>
-											<button type="button" id="canawaken" class="btn btn-primary">设备唤醒</button>
+											<button type="button" id="canIDduqu" class="btn btn-primary">读取</button>
+											<!--<button type="button" id="canawaken" class="btn btn-primary">设备唤醒</button>-->
 											<button type="button" id="Bustorecordsend" class="btn btn-primary">
 												保存并发送
 											</button>
@@ -3347,15 +3342,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 														<table class="table table-striped table-bordered text-center">
 															<tr>
 																<td><i>*</i>CANID</td>
-																<td><input type="text" id="canidSet-myid"/></td>
+																<td><input type="text" id="canidSet-myid" maxlength="4"/></td>
 															</tr>
 															<tr>
 																<td><i>*</i>CAN名称</td>
-																<td><input type="text" id="canidSet-myname"/></td>
+																<td><input type="text" id="canidSet-myname" maxlength="20"/></td>
 															</tr>
 															<tr>
 																<td><i>*</i>掩码</td>
-																<td><input type="text" id="canidSet-mymask" maxlength="16"/></td>
+																<td id="canidSet-mymask">
+
+																</td>
 															</tr>
 														</table>
 													</div>

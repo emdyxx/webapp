@@ -11,6 +11,9 @@
 	clearInterval(Realtimeconditionset);
   	$('main>div').css('display','none');
   	$('.Recordmanagement').css('display','')
+	$('#Recordmanagement-number').val('')
+	$('#Recordmanagement-vin').val('')
+	$('#Recordmanagement-Electronic').val('')
 	//权限判断
 	var data={
 		id:$('#managementli32').attr('name')
@@ -37,21 +40,35 @@
 		rownumbers: 'true',
         pageSize:50,
 		pagination: "true",
+		queryParams:{
+           deviceId:'',
+		   vin:'',
+		   ecuSerialNum:''
+		},
 		columns:[[
 		    { field:"cb",checkbox:"true",align:"center"},
 			{ field:"deviceId",title:'设备编号',align:"center",width:'12%'},
 			{ field:"vin",title:'车架号',align:"center",width:'12%'},
-			{ field:"ecuSerialNum",title:'电控单元号',align:"center",width:'25%'},
-			{ field:"iccid",title:'iccid',align:"center",width:'18%'},
+			{ field:"ecuSerialNum",title:'电控单元号',align:"center",width:'20%'},
+			{ field:"iccid",title:'iccid',align:"center",width:'15%'},
 			{ field:"modelAlias",title:'车系代码',align:"center",width:'12%'},
 			{ field:"one7",title:'录制信息',align:"center",width:'10%',
 		        formatter:function(value, rows, index){
 		        	return '<a href="javaScript:LookRecordmanagement('+index+')" style="display:inline-block;line-height:20px;width:60px;height:20px;background:#00AAFF;color:white">'+"查看"+'</a>';
 		        }
 			},
-			{ field:"one8",title:'录制设置',align:"center",width:'10%',
+			{ field:"one8",title:'操作',align:"center",
 		        formatter:function(value, rows, index){
-		        	return '<a href="javaScript:Recordingoptions('+index+')" style="display:inline-block;line-height:20px;width:60px;height:20px;background:#00AAFF;color:white">'+"录制设置"+'</a>';
+					var value = rows.online;
+					var list='';
+					if(value == false){
+						 list += '<a href="javaScript:canawakena('+index+')" style="background: #00AAFF;color: white;display: inline-block;width: 40px;height: 18px;">唤醒</a>'
+						 list += '<a style="display:inline-block;line-height:20px;width:60px;height:20px;background:#989898;color:white;margin-left: 5%;">'+"录制设置"+'</a>';
+					}else{
+						 list += '<a style="background: #989898;color: white;display: inline-block;width: 40px;height: 18px;">在线</a>'
+						 list += '<a href="javaScript:Recordingoptions('+index+')" style="display:inline-block;line-height:20px;width:60px;height:20px;margin-left: 5%;background:#00AAFF;color:white">'+"录制设置"+'</a>';
+					}
+		        	return list;
 		        }
 			},
 		]],
@@ -116,6 +133,18 @@
 	$('#RecordmanagementModal').modal('hide');
 	$('main>div').css('display','none');
   	$('.queryandpivot').css('display','')
+	$('.management>li').css('color', '#bbe0fb')
+	$('.management>li').removeClass('libj')
+	$('.management>li>img').attr('src','img/leftimg/yuanhuanw.png')
+	$('#managementli33').addClass('libj').css('color','#00aaff')
+	$('#managementli33').find('img').attr('src','img/leftimg/yuanhuanx.png')
+	$('#queryandpivot-number').val(equipmentnumber)
+	$('#queryandpivot-startElectronic').datetimebox('setValue',startingtime);	
+	$('#queryandpivot-oldElectronic').datetimebox('setValue',endtime);
+    $('#queryandpivotLogs').css('background','white');
+	$('#queryandpivotoperates').css('background','#E5E5E5');
+	$('.queryandpivot-bottom-one').css('display','');
+	$('.queryandpivot-bottom-two').css('display','none');
 	candatarid()
   }
   //录制设置
@@ -145,34 +174,46 @@
 				   if(data.data[0].online==false){
 					   $('#CANdeviceIdzt').text('未在线')
 					   $('#CANdeviceIdzt').css('color','gray')
+					   $('#canawaken').removeAttr('disabled','disabled')
+					   $('#Bustorecordsend').attr('disabled','disabled')
+					   $('#cancelrecording').attr('disabled','disabled')
+					   $('#canIDduqu').attr('disabled','disabled')
 				   }else{
 					   $('#CANdeviceIdzt').text('在线')
 					   $('#CANdeviceIdzt').css('color','#7EB00E')
+					   $('#canawaken').attr('disabled','disabled')
+					   $('#Bustorecordsend').removeAttr('disabled','disabled')
+					   $('#cancelrecording').removeAttr('disabled','disabled')
+					   $('#canIDduqu').removeAttr('disabled','disabled')
 				   }
 				}else{
                    Statuscodeprompt(data.error_code)
 				}
 			}
 		})
-		$.ajax({
+		listCnId()
+  }
+  function listCnId(){
+     $.ajax({
         	type:'post',
         	async:'true',
         	url:server_context+'/listCanId',
         	data:{
-        		deviceId:row.deviceId
+        		deviceId:$('#Recordmanagementtdd1').text()
         	},
         	success:function(data){
                 candata = data.data;
+				if(canonline==true){
+                    if(candata!=''){
+                     	 $('#Bustorecordsend').attr('disabled','disabled')
+						 $('#cancelrecording').removeAttr('disabled','disabled')
+					}else{
+						$('#Bustorecordsend').removeAttr('disabled','disabled')
+						$('#cancelrecording').attr('disabled','disabled')
+					}
+				}
 				var inputeight1 = [];
 				var inputeight2 = [];
-				$('#CANchannelnumber').find('option').remove();
-				if(data.data.channel==11){
-                   $('<option value="11" checked>CAN1</option>').appendTo($('#CANchannelnumber'))
-				   $('<option value="12">CAN2</option>').appendTo($('#CANchannelnumber'))
-				}else{
-					$('<option value="11">CAN1</option>').appendTo($('#CANchannelnumber'))
-				    $('<option value="12" checked>CAN2</option>').appendTo($('#CANchannelnumber'))
-				}
 				$('#CANstoptime').datetimebox('setValue', data.data.endTime);
 				var data = data.rows;
 				for(var j = 0;j<data.length;j++){
@@ -184,32 +225,67 @@
 				}
 				$('#cantable').find('tr').nextAll().remove();
         		for(var i=0;i<data.length;i++){
-					var list = ''
+					var list = '';
+					var selected ='';
 					for(var j=0;j<8;j++){
                        list += '<input maxlength="2" style="width:22px;margin-left:10px;" value='+inputeight2[i][j]+'>'
 					}
+					if(data[i].channel=='11'){
+                       selected = "<select id=''>"+"<option value='11' selected='selected'>"+'CAN1'+"</option>"+
+					   "<option value='12'>"+'CAN2'+"</option>"+"</select>"
+					}else if(data[i].channel=='12'){
+						selected = "<select>"+"<option value='11'>"+'CAN1'+"</option>"+
+					   "<option value='12' selected='selected'>"+'CAN2'+"</option>"+"</select>"
+					}else{
+						selected = "<select>"+"<option value='11'>"+'CAN1'+"</option>"+
+					   "<option value='12'>"+'CAN2'+"</option>"+"</select>"
+					}
 					var arr=[];
         			$("<tr id='cantr'>"+"<td style='width: 40px;'>"
-        			+"<input type='checkbox' name='cancheckbox' style='width: 22px;'>"+"</td>"
+        			+"<input type='checkbox' id='cancheckbox' name='cancheckbox' style='width: 22px;'>"+"</td>"
         			+"<td id='canIds'>"+data[i].canId+"</td>"+"<td>"+data[i].canName+"</td>"
-        			+"<td>"+"<input id='canIdIntervals' value='"+data[i].interval+"' type='text'>"+"</td>"
+        			+"<td>"+"<input id='canIdIntervals' style='width:80px;' value='"+data[i].interval+"' type='text'>"+"</td>"
 					+"<td id='masks'>"+list
-					+"</td>"+"</tr>").appendTo($('#cantable'))
+					+"</td>"+"<td id='CANchannelnumber'>"+selected+"</td>"+"</tr>").appendTo($('#cantable'))
         		}
-				console.log(inputeight2)
+				var canchcked = document.querySelectorAll('#cancheckbox');
+				for(var i=0;i<canchcked.length;i++){
+					canchcked[i].index=i;
+					canchcked[i].onclick = function(){
+						var j = this.index;
+						if(canchcked[j].checked==true){
+                            $("#cantable tr").eq(j+1).addClass('success')
+						}else if(canchcked[j].checked==false){
+							$("#cantable tr").eq(j+1).removeClass('success')
+						}
+					}
+				}
+				if(candata!=''){
+					for(var i=0;i<candata.filter.length;i++){
+                         for(var j=0;j<$('#cantable tr').length;j++){
+                             if(candata.filter[i].canId==$('#cantable tr').eq(j).find('td').eq(1).text()){
+                                 $("#cantable tr").eq(j).addClass('success');
+								 $('#cantable tr').eq(j).find('td').eq(0).find('input').attr('checked',true);
+							 }
+						 }
+					}
+				}
         	}
         })
   }
+  
  //can录制设备唤醒按钮
- $('#canawaken').click(function(){
- 	var deviceId = $('#Recordmanagementtdd1').text();
-    status = true;
+function canawakena(index){
+	var row = 	$('.Recordmanagement-primarymeter').datagrid('getRows');
+	var rows = row[index];
+ 	var deviceId = rows.deviceId;
+    status = 'true';
     $.messager.confirm("操作提示", "第" + n + "次尝试唤醒设备,请稍候。。。", function (data) {
         if (data) {
 
         } else {
             n = 1;
-            status = false;
+            status = 'false';
             clearTimeout(set);
         }
     });
@@ -220,10 +296,11 @@
         success: function (data) {
             if (data.error_code == 0) {
                 setTimeout(function () {
-                    status = true;
+                    status = 'true';
                     clearTimeout(set);
                     $(".messager-body").window('close');
                     $.messager.alert("操作提示", "唤醒命令发送成功,等待设备上线！", "info");
+					n=1;
                 }, 3000);
             } else {
                 if (n < 5) {
@@ -245,7 +322,7 @@
             $.messager.alert("操作提示", "系统错误，请稍后重试！", "error");
         }
     });
- })
+ }
  //can录制设备唤醒重试
 function deviceWeupRetry(deviceId){
 	if (status == 'true') {
@@ -254,7 +331,7 @@ function deviceWeupRetry(deviceId){
 
             } else {
                 n = 1;
-                status = false;
+                status = 'false';
                 clearTimeout(set);
             }
         });
@@ -265,8 +342,9 @@ function deviceWeupRetry(deviceId){
             success: function (data) {
                 if (data.error_code == 0) {
                     $(".messager-body").window('close');
-                    status = true;
+                    status = 'true';
                     clearTimeout(set);
+					n=1;
                     $.messager.alert("操作提示", "唤醒命令发送成功,等待设备上线！", "info");
                 } else {
                     if (n < 5) {
@@ -278,7 +356,7 @@ function deviceWeupRetry(deviceId){
                     } else {
                         setTimeout(function () {
                             n = 1;
-                            status = true;
+                            status = 'true';
                             $(".messager-body").window('close');
                             $.messager.alert("操作提示", "唤醒失败！", "error");
                         }, 4000);
@@ -314,7 +392,8 @@ $('#Bustorecordsend').on('click',function(){
 			a.push({
 				canId:$("#cantable tr").eq(i+1).find('td').eq(1).text(),
 				interval:$("#cantable tr").eq(i+1).find('td').eq(3).find('input').val(),
-				filter:filters.join('')
+				filter:filters.join(' '),
+				channel:$("#cantable tr").eq(i+1).find('td').eq(5).find('select').val()
 			})
 		}
 	}
@@ -331,7 +410,7 @@ $('#Bustorecordsend').on('click',function(){
           $.messager.alert('系统提示','所选设备掩码不能为空!','error')
 		  return;
 	   }
-	   if(a[i].filter.length!=16){
+	   if(a[i].filter.length!=23){
           $.messager.alert('系统提示','所选设备掩码不得低于16位!','error')
 		  return;
 	   }
@@ -340,6 +419,7 @@ $('#Bustorecordsend').on('click',function(){
         $.messager.alert('系统提示','结束时间不能为空!','error')
 		return;
 	}
+	$('.out').css('display','')
 	$.ajax({
 		type:'post',
     	async:'true',
@@ -347,12 +427,13 @@ $('#Bustorecordsend').on('click',function(){
     	traditional: true,
 		data:{
 			'deviceId':$('#Recordmanagementtdd1').text(),
-			'channel':$('#CANchannelnumber').val(),
+			// 'channel':$('#CANchannelnumber').val(),
 			'endTime':$('#CANstoptime').val(),
 			'filter':JSON.stringify(a)
 		},
     	dataType:"json",
     	success:function(data){
+			$('.out').css('display','none')
     		if(data.error_code==0){
  				$.messager.alert('系统提示','保存成功','info')
 				 $('#RecordingoptionsModal').modal('hide');
@@ -392,6 +473,28 @@ $('#cancelrecording').click(function(){
 		}
 	})
 })
+//can读取按钮
+$('#canIDduqu').click(function(){
+	$('.out').css('display','')
+	$.ajax({
+		type:'post',
+    	async:'true',
+    	url:server_context+'/readCanRecord',
+		data:{
+			'deviceId':$('#Recordmanagementtdd1').text()
+		},
+		success:function(data){
+           if(data.error_code==0){
+			   setTimeout(function() {
+				   listCnId()
+				   $('.out').css('display','none')
+			   }, 2000);
+		   }else{
+			   Statuscodeprompt(data.error_code);
+		   }
+		}
+	})
+})
 //主表查询按钮
 function Recordmnagement(){
 	$('.Recordmanagement-primarymeter').datagrid('load',{
@@ -409,6 +512,10 @@ $('#managementli33').click(function(){
 	$('#queryandpivot-number').val('');
 	$('#queryandpivot-startElectronic').datetimebox('setValue', '');
 	$('#queryandpivot-oldElectronic').datetimebox('setValue', '');
+	$('#queryandpivotLogs').css('background','white');
+	$('#queryandpivotoperates').css('background','#E5E5E5');
+	$('.queryandpivot-bottom-one').css('display','');
+	$('.queryandpivot-bottom-two').css('display','none');
 	$('.queryandpivot-datagrid').datagrid({
 		url: server_context+'/listCanData',
 		method: 'get',
@@ -416,14 +523,13 @@ $('#managementli33').click(function(){
 		fit: 'true',
 		fitColumns: 'true',
 		rownumbers: 'true',
-		// pagination: "true",
 		queryParams: {
 			deviceId:'',
             startTime:'',
             endTime:''
 		},
 		columns:[[
-		    { field:"cb",checkbox:"true",align:"center"},
+		    // { field:"cb",checkbox:"true",align:"center"},
 			{ field:"DeviceId",title:'设备编号',align:"center",width:'11%'},
 			{ field:"CanId",title:'CANID',align:"center",width:'11%'},
 			{ field:"Model",title:'车型',align:"center",width:'11%'},
@@ -463,14 +569,13 @@ function candatarid(){
 		fit: 'true',
 		fitColumns: 'true',
 		rownumbers: 'true',
-		// pagination: "true",
 		queryParams: {
 			deviceId:equipmentnumber,
             startTime:startingtime,
             endTime:endtime
 		},
 		columns:[[
-		    { field:"cb",checkbox:"true",align:"center"},
+		    // { field:"cb",checkbox:"true",align:"center"},
 			{ field:"DeviceId",title:'设备编号',align:"center",width:'11%'},
 			{ field:"CanId",title:'CANID',align:"center",width:'11%'},
 			{ field:"Model",title:'车型',align:"center",width:'11%'},
@@ -480,12 +585,7 @@ function candatarid(){
 			{ field:"EndTime",title:'节点丢失时间',align:"center",width:'11%'},
 			{ field:"MSec",title:'毫秒级时间',align:"center",width:'11%'},
 			{ field:"Time_t",title:'秒级时间',align:"center"}
-		]],
-		onLoadSuccess: function (data) { 
-			if(data.error_code!=0){
-                Statuscodeprompt(data.error_code)
-			}
-		}
+		]]
 	})
 }
 //导出按钮
@@ -520,11 +620,37 @@ function queryandpivotdaochu(){
 		}
 	})
 }
+//数据查询点击事件
 $('#queryandpivotLogs').click(function(){
 	$('#queryandpivotLogs').css('background','white');
 	$('#queryandpivotoperates').css('background','#E5E5E5');
 	$('.queryandpivot-bottom-one').css('display','');
 	$('.queryandpivot-bottom-two').css('display','none');
+	$('.queryandpivot-datagrid').datagrid({
+		url: server_context+'/listCanData',
+		method: 'get',
+		singleSelect: 'true',
+		fit: 'true',
+		fitColumns: 'true',
+		rownumbers: 'true',
+		queryParams: {
+			deviceId:'',
+            startTime:'',
+            endTime:''
+		},
+		columns:[[
+		    { field:"cb",checkbox:"true",align:"center"},
+			{ field:"DeviceId",title:'设备编号',align:"center",width:'11%'},
+			{ field:"CanId",title:'CANID',align:"center",width:'11%'},
+			{ field:"Model",title:'车型',align:"center",width:'11%'},
+			{ field:"DATA",title:'数据项',align:"center",width:'11%'},
+			{ field:"RxTime",title:'数据接收时间',align:"center",width:'11%'},
+			{ field:"DLC",title:'数据项长度',align:"center",width:'11%'},
+			{ field:"EndTime",title:'节点丢失时间',align:"center",width:'11%'},
+			{ field:"MSec",title:'毫秒级时间',align:"center",width:'11%'},
+			{ field:"Time_t",title:'秒级时间',align:"center"}
+		]]
+	})
 })
 //导出记录点击事件
 $('#queryandpivotoperates').click(function(){
@@ -575,12 +701,7 @@ $('#queryandpivotoperates').click(function(){
                       return '<a href="javaScript:queryandpivotoperatesxq('+index+')" style="display:inline-block;background: #00AAFF;color: white;width:50px;height:20px;line-height:20px;">详情</a>'
 				  }
 		    }
-		]],
-		onLoadSuccess: function (data) { 
-			if(data.error_code!=0){
-                Statuscodeprompt(data.error_code)
-			}
-		}
+		]]
 	})
 })
 function queryandpivotoperatesxq(index){
@@ -610,12 +731,7 @@ function queryandpivotoperatesxq(index){
 					}
 		        },
 				{ field:"ts",title:'创建时间',align:"center"}
-			]],
-			onLoadSuccess: function (data) { 
-				if(data.error_code!=0){
-					Statuscodeprompt(data.error_code)
-				}
-			}
+			]]
 		})
 	},600)
 }
@@ -634,23 +750,6 @@ function queryandpivotmanagementtwo(){
         endTime:$('#queryandpivot-oldElectronictwo').val()
 	})
 }
-// function candatagrid(){
-// 	$.ajax({
-// 		type:"post",
-// 		url:server_context+"/listCanName",
-// 		async:true,
-// 		success:function(data){
-// 			if(data.error_code==0){
-// 				$('.queryandpivot-bottom-left-bottom').find('button').nextAll().remove();
-// 				for(var i=0;i<data.data.length;i++){
-// 					$('<button onclick="candatarid()" name='+data.data[i].canId+'>'+data.data[i].canName+'</button>').appendTo($('.queryandpivot-bottom-left-bottom'))
-// 				}
-// 			}else{
-// 				Statuscodeprompt(data.error_code)
-// 			}
-// 		}
-// 	});	
-// }
 
 
 

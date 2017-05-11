@@ -1662,7 +1662,6 @@ main {
 	width: 40px;
 	height: 40px;
 	position: relative; 
-	opacity:1;
 	-moz-opacity:1;
 	z-index: 2999;
 }
@@ -1679,7 +1678,7 @@ main {
 	margin: 0 auto;
 	width: 15%;
 	height: 15%;
-	background-color: #69EE11;
+	background-color: #EE575A;
 	border-radius: 100%;
 	-webkit-animation: sk-circleBounceDelay 1.2s infinite ease-in-out both;
 	animation: sk-circleBounceDelay 1.2s infinite ease-in-out both;
@@ -1805,9 +1804,8 @@ main {
 	right: 0;
 	bottom: 0;
 	top: 0;
-	background: #000;
+	background: #E5E5E5;
+	opacity: 0.5;
 	display: flex;
-	opacity:0.1;
-	-moz-opacity:0.1;
 	z-index: 1999;
 }

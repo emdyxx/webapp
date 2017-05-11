@@ -23,10 +23,30 @@
 				pacVer:$('#upgradetopcxs4').val()
 			},
 			columns:[[
-				{ field:"softVer",title:'软件版本',align:"center",width:'7%'},
-				{ field:"hardVer",title:'硬件版本',align:"center",width:'7%'},
-				{ field:"model",title:'适用型号',align:"center",width:'7%'},
-				{ field:"pacVer",title:'PAC版本',align:"center",width:'9%'},
+				{ field:"softVer",title:'软件版本',align:"center",width:'7%',
+			        formatter: function (value, row, index) {
+						var value = row.softVer
+						return "<span title='" + value + "'>" + value + "</span>";
+					}
+		        },
+				{ field:"hardVer",title:'硬件版本',align:"center",width:'7%',
+			        formatter: function (value, row, index) {
+						var value = row.hardVer
+						return "<span title='" + value + "'>" + value + "</span>";
+					}
+		        },
+				{ field:"model",title:'适用型号',align:"center",width:'7%',
+			        formatter: function (value, row, index) {
+						var value = row.model
+						return "<span title='" + value + "'>" + value + "</span>";
+					}
+			    },
+				{ field:"pacVer",title:'PAC版本',align:"center",width:'9%',
+			        formatter: function (value, row, index) {
+						var value = row.pacVer
+						return "<span title='" + value + "'>" + value + "</span>";
+					}
+		        },
 				{ field:"updateType",title:'升级包类型',align:"center",width:'8%',
 				    formatter: function (value, row, index) {
   					  var value=row['updateType'];
@@ -39,12 +59,17 @@
   					  }
     				}
 				},
-				{ field:"fileName",title:'文件名称',align:"center",width:'36%'},
+				{ field:"fileName",title:'文件名称',align:"center",width:'36%',
+			        formatter: function (value, row, index) {
+						var value = row.fileName
+						return "<span title='" + value + "'>" + value + "</span>";
+					}
+		        },
 				{ field:"url",title:'文件路径',align:"center",width:'4%',
 				   formatter: function (value, row, index) {
   					  var value=row['url'];
   					  if(value==null||value==''||value=='undefined'){
-  					  	return "";
+  					  	return "--";
   					  }
   					  return "<a style='color:#0000EE;' href=\"javaScript:downloadFile('"+value+"')\">下载</a>";
     				}
@@ -346,10 +371,14 @@
     }
     // 校验上传文件是否存在
     function checkFile(){
+		var filename=$("#file_namess").val();
+		var name = filename.split('\\')
 		$.ajax({
 			url:server_context+'/checkPackageName',
 			type:'get',
-			data:{'fileName':$("#file_namess").val()},
+			data:{
+				'fileName':name[name.length-1]
+		    },
 			success:function(data){
 				if (data.error_code==10008){
 					$("#file_namess").val("");
@@ -363,6 +392,7 @@
 		$('#upgradetopModal').modal('show');
 		$('#uploadForm').form("reset");
 		$('#progressNumber').progressbar('setValue',0);
+		$('#progressNumber').css('display','')
 		dev=[];
 		updatetype()
 	}
@@ -370,6 +400,7 @@
 	function updatetype(){
 		if($("#update_type").val()==0){
 			$('#uploadForm>div').css('display','none')
+			$('#progressNumber').css('display','')
 		}
 		dev=[];
 		/*1:分组升级,2:指定升级*/
@@ -377,6 +408,7 @@
 			$('#uploadForm>div').css('display','none')
 			$('.uploadFiledatagirdone').css('display','')
 			$('#filedevicegroup').val('')
+			$('#progressNumber').css('display','')
 			$('.uploadFiledatagird1').datagrid({
 				url: server_context+'/listDeviceGroups',
 				method: 'get',
@@ -400,9 +432,16 @@
 			$('.uploadFiledatagirdtwo').css('display','')
 			$('#filededeviceone').val('')
 			$('#filededevicetwo').val('')
+			$('#progressNumber').css('display','')
 			$('.uploadFiledatagird2-one1').datagrid({
-                pageSize:50,
-				pagination: "true",
+				 pagination: true,
+				 fit:true,
+			 	 fitColumns:true,
+				 autoRowHeight:true,
+				 rownumbers:true,
+				 scrollbarSize:0,
+				 pageSize: 50,
+				 remoteSort:false,
 				columns:[[
 				    { field:"cb",checkbox:"true",align:"center"},
 				    { field:"deviceId",title:'设备编号',align:"center",width:"25%"},
@@ -788,13 +827,13 @@
 			$('#upgradeDeviceDg').datagrid({
 				 url:server_context+'/listSpecifiedDevice',
 				 method: 'get',
-				//  pagination: true,
+				 pagination: true,
 				 fit:true,
 			 	 fitColumns:true,
 				 autoRowHeight:true,
 				 rownumbers:true,
 				 scrollbarSize:0,
-				//  pageSize: 50,
+				 pageSize: 50,
 				 remoteSort:false,
 				 queryParams: {
 					packageId:id,

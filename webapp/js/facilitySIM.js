@@ -181,6 +181,7 @@
 			$.messager.alert("操作提示", "请选择需要同步的SIM卡",'warning');
 			return;
 		}
+		$('.out').css('display','')
 		$.ajax({
 			url:server_context+'/updateSim',
 			type:'POST',
@@ -188,6 +189,7 @@
 				'iccid':row.iccid
 			},
 			success:function(data){
+				$('.out').css('display','none')
 				if(data.error_code==0){
 					$.messager.alert("操作提示", "同步成功","info");
 					$('.facilitySIMbottomdata').datagrid('reload');
@@ -242,11 +244,13 @@
 	}
 	//SIM卡信息同步
 	function informations(){
+		$('.out').css('display','')
 		$.ajax({
 			url:server_context+'/synchronizationSim',
 			type:'POST',
 			async:true,
 			success:function(data){
+				$('.out').css('display','none')
 				if(data.error_code==0){
                     $.messager.alert('系统提示','信息同步成功','info');
 					$('.facilitySIMbottomdata').datagrid('reload');

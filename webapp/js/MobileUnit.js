@@ -138,6 +138,7 @@ function MobDatagrid(){
         pageNumber:dgNumber,
 		pageSize:dgsize,
         view:fileview,
+        loadMsg:0,
         queryParams:{
             vin: $('.MobileID').val(),
             deviceId: $('.Mobilename').val(),
@@ -150,16 +151,46 @@ function MobDatagrid(){
             { field: "idField", checkbox: "true", align: "center" },
             { field: "deviceId", title: '设备编号', align: "center", width: '8%',
                 formatter: function (value, row, index) {
-                   return row.deviceId.toUpperCase();
+                      var value = row.deviceId
+                      return "<span title='" + value + "'>" + value + "</span>";
                 }
             },
-            { field: "ecuSerialNum", title: '电控单元序列号', align: "center", width: '15%' },
-            { field: "vin", title: '车架号', align: "center", width: '12%' },
-            { field: "iccid", title: 'ICCID', align: "center", width: '14%' },
-            { field: "groupName", title: '归属分组', align: "center", width: '10%'},
-            { field: "onlineTime", title: '最后上线时间', align: "center", width: '13%' },
-            // { field: "remoteAddr", title: '远端地址', align: "center", width: '11%' },
-            { field: "deviceGroupName", title: '升级分组', align: "center", width: '11%' },
+            { field: "ecuSerialNum", title: '电控单元序列号', align: "center", width: '15%',
+                formatter: function (value, row, index) {
+                      var value = row.ecuSerialNum
+                      return "<span title='" + value + "'>" + value + "</span>";
+                } 
+            },
+            { field: "vin", title: '车架号', align: "center", width: '12%',
+                formatter: function (value, row, index) {
+                      var value = row.vin
+                      return "<span title='" + value + "'>" + value + "</span>";
+                }
+            },
+            { field: "iccid", title: 'ICCID', align: "center", width: '14%',
+                formatter: function (value, row, index) {
+                      var value = row.iccid
+                      return "<span title='" + value + "'>" + value + "</span>";
+                }
+            },
+            { field: "groupName", title: '归属分组', align: "center", width: '10%',
+                formatter: function (value, row, index) {
+                      var value = row.groupName
+                      return "<span title='" + value + "'>" + value + "</span>";
+                }
+            },
+            { field: "onlineTime", title: '最后上线时间', align: "center", width: '13%',
+                formatter: function (value, row, index) {
+                      var value = row.onlineTime
+                      return "<span title='" + value + "'>" + value + "</span>";
+                }
+            },
+            { field: "deviceGroupName", title: '升级分组', align: "center", width: '11%',
+                formatter: function (value, row, index) {
+                      var value = row.deviceGroupName
+                      return "<span title='" + value + "'>" + value + "</span>";
+                }
+            },
             { field: "online", title: '更多操作', align: "center",
                 formatter: function (value, row, index) {
                     var value = row['online'];
@@ -716,6 +747,7 @@ function Mobileyhseven(){
        $.messager.alert('系统提示', '所选设备没有iccid','warning');
        return;
     }
+    $('.out').css('display','')
     $.ajax({
         url:server_context+"/synchronizationDeviceMsisdn",
         type:'post',
@@ -724,6 +756,7 @@ function Mobileyhseven(){
             iccids:id.join(',')
         },
         success:function(data){
+            $('.out').css('display','none')
             if(data.error_code==0){
                $.messager.alert('系统提示','信息同步成功','info');
                $('.MobileData').datagrid('reload');
@@ -797,6 +830,7 @@ function awaken(index) {
                     clearTimeout(set);
                     $(".messager-body").window('close');
                     $.messager.alert("操作提示", "唤醒命令发送成功,等待设备上线！", "info");
+                    n=1;
                     $('.MobileData').datagrid('reload');	// reload the user data
                 }, 3000);
             } else {
@@ -824,6 +858,7 @@ function awaken(index) {
 
 // 设备唤醒重试
 function deviceWakeupRetry(deviceId) {
+    console.log(n)
     if (status == 'true') {
         $.messager.confirm("操作提示", "第" + n + "次尝试唤醒设备,请稍候。。。", function (data) {
             if (data) {
@@ -844,6 +879,7 @@ function deviceWakeupRetry(deviceId) {
                     status = true;
                     clearTimeout(set);
                     $.messager.alert("操作提示", "唤醒命令发送成功,等待设备上线！", "info");
+                    n=1;
                     $('.MobileData').datagrid('reload');
                 } else {
                     if (n < 5) {
@@ -929,7 +965,6 @@ function particulars(index) {
     $('.lookup25').text(row.groupName)
     $('.lookup26').text(row.deviceGroupName)
 }
-
 var device;//设备编号
 function longdistance(index) {
 	if(shebithree==''){
@@ -976,6 +1011,7 @@ function reulaone() {
                 $('.saves').css('background', 'url(img/Theowner/bacunanniuhui.png) no-repeat')
                 $('.reads').css('background', 'url(img/Theowner/duquanniu.png) no-repeat')
             }
+            $('.saves').attr('name','2');
             $('.config_ver').val(data.configVer);
             $('.iovdc_key').val(data.serverKey);
             $('.update_keyid').val(data.updateKeyId);
@@ -1062,8 +1098,10 @@ $('.reads').click(function () {
         data: {deviceId: device },
         success: function (data){
             if(data.error_code==0){
-               $.messager.alert('系统提示','读取成功','info')
-                reulaone()
+                 $.messager.alert('系统提示','读取成功','info')
+                 $('.saves').attr('name', '2')
+                 $('.compiles').text('编辑')
+                 reulaone()
             }else{
                 Statuscodeprompt(data.error_code)
             }
@@ -1158,6 +1196,7 @@ function reulathree() {
                 $('.threetbody input').attr('disabled', 'disabled')
                 $('.savethr').css('background', 'url(img/Theowner/bacunanniuhui.png) no-repeat')
             }
+            $('.savethr').attr('name','2')
             $('#xdirection').val(data.x);
             $('#ydirection').val(data.y);
             $('#traveldirection').val(data.z);
@@ -1218,6 +1257,8 @@ $('.readthr').click(function () {
         success: function (data){
             if(data.error_code==0){
                $.messager.alert('系统提示','读取成功','info')
+               $('.compilethr').text('编辑')
+               $('.savethr').attr('name', '2')
                reulathree();
             }else{
                 Statuscodeprompt(data.error_code)
@@ -1255,6 +1296,7 @@ function reulafour() {
                 $('.fourtbody input').attr('disabled', 'disabled')
                 $('.savefou').css('background', 'url(img/Theowner/bacunanniuhui.png) no-repeat')
             }
+            $('.savefou').attr('name','2')
             $('#cangallery').val(data.channel);
             $('#pagemark').val(data.page);
             $('#canid1').val(data.canId1);
@@ -1321,6 +1363,8 @@ $('.readfou').click(function () {
         success: function (data){
             if(data.error_code==0){
                $.messager.alert('系统提示','读取成功','info')
+               $('.compilefou').text('编辑')
+               $('.savefou').attr('name', '2')
                reulafour();
             }else{
                 Statuscodeprompt(data.error_code)
@@ -1419,6 +1463,10 @@ $('.compilefi').click(function () {
     if (name == '2') {
         return;
     }
+    if($('.fivetbody>tr').length==1){
+        $.messager.alert('系统提示','暂无设备不可以保存','error');
+        return;
+    }
     // 获取设备id、Sn
     var deviceId = $("#friendlyDeviceIdSpan").html();
     var deviceSn = $("#friendlyDeviceSnSpan").html();
@@ -1459,7 +1507,7 @@ $('.compilefi').click(function () {
             if (data.error_code == 0) {
                 $.messager.alert("操作提示", "操作成功！", "info");
             }else{
-                $.messager.alert("操作提示", "数据未变更或操作失败！", "error");
+                Statuscodeprompt(data.error_code)
             }
         },
         error: function () {
@@ -1555,6 +1603,7 @@ function reulaseven() {
             }else{
             	$("#ecallAutotrigger").combobox('setValue', config.ecallAutoTrigger);
             }
+            $('.compilesev').attr('id','2')
 			var device = data.data[0];
             for (var key in device) {
                 //console.log(key)
@@ -1611,7 +1660,9 @@ $('.compileseve').click(function () {
         data: {deviceId: device },
         success: function (data){
             if(data.error_code==0){
-               $.messager.alert('系统提示','读取成功','info')
+                $.messager.alert('系统提示','读取成功','info')
+                $('.compilese').text('编辑')
+                $('.compilesev').attr('id', '2')
                reulaseven();
             }else{
                 Statuscodeprompt(data.error_code)

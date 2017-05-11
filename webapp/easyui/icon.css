@@ -190,3 +190,9 @@
 .icon-tianjia{
 	background: url('icons/tianjia.png') no-repeat center center;
 }
+.icon-yaoshi{
+		background: url('icons/yaoshi.png') no-repeat center center !important;
+}
+.icon-suo{
+		background: url('icons/suo.png') no-repeat center center !important;
+}

@@ -70,6 +70,8 @@ function Statuscodeprompt(code,msg,img){
 		$.messager.alert('系统提示','导出失败','error');
 	}else if(code==10029){
 		$.messager.alert('系统提示','未找到设备','error');
+	}else if(code==10030){
+		$.messager.alert('系统提示','读取失败','error');
 	}else{
 		$.messager.alert('系统提示',msg,img);
 	}
@@ -931,6 +933,7 @@ $('#ResetPassword').click(function(){
 function save() {
 	var phone = /^((0\d{2,3}-\d{7,8})|(1[3584]\d{9}))$/;
 	var email = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+	var pattern = /^[\u4E00-\u9FA5]{2,7}$/;// 验证中文名称
 	var ids=0;
 	var groupd;
 	if(rowid==1){
@@ -953,6 +956,10 @@ function save() {
 	if(!email.test($('#youxiang').val())){
         $.messager.alert('系统提示','邮箱不符合格式','warning');
 		return;
+	}
+	if(pattern.test($("#_id").val())){
+        $.messager.alert('系统提示','用户名不能为中文','warning');
+		return; 
 	}
 	if($("#sex").val()==''||$("#sex").val()=='undefined'||$("#sex").val()==null){
         $.messager.alert('系统提示','角色不能为空或先在角色管理页面添加角色','warning');
@@ -1003,7 +1010,6 @@ function saveUser() {
 		'principal': $("#name").val(),
 		'phone': $("#phone").val(),
 		'email': $("#email").val(),
-		// 'roleId': $("#parlinglotrole").val(),
 		'areaId':$("#countyn").val(),
 		'address':$("#parlingaddress").val()
 	}
@@ -1180,10 +1186,6 @@ function dsValue(selected) {
 	$("#name").val(selected.principal);
 	$("#phone").val(selected.phone);
 	$("#email").val(selected.email);
-	// $("#parlinglotrole").combo('setValue', selected.roleId).combo('setText', selected.roleName);;//角色
-	// $("#provinces").val(selected.provinceId);//省
-	// $("#municipalityg").val(selected.cityId);//市
-	// $("#countyn").val(selected.areaId);//县
 	$("#parlingaddress").val(selected.address);//详细地址
 }
 
@@ -1757,17 +1759,34 @@ function convsss(rows) {
 	var nodes = [];
 	for(var i = 0; i < rows.length; i++) {
 		var row = rows[i];
-		if(!exists(rows, row.parentId)) {
-			nodes.push({
-				id: row.id,
-				text: row.name,
-				actualId:row.actualId,
-				checked:row.checked,
-				type:row.type,
-				parendId:row.parendId,
-				parentId:row.parentId
-			});
+		if(row.type==1){
+           if(!exists(rows, row.parentId)) {
+				nodes.push({
+					id: row.id,
+					text: row.name,
+					actualId:row.actualId,
+					checked:row.checked,
+					type:row.type,
+					parendId:row.parendId,
+					parentId:row.parentId,
+					iconCls:'icon-suo'
+				});
+			}
+		}else if(row.type==2){
+            if(!exists(rows, row.parentId)) {
+				nodes.push({
+					id: row.id,
+					text: row.name,
+					actualId:row.actualId,
+					checked:row.checked,
+					type:row.type,
+					parendId:row.parendId,
+					parentId:row.parentId,
+					iconCls:'icon-yaoshi'
+				});
+			}
 		}
+		
 	}
 	var toDo = [];
 	for(var i = 0; i < nodes.length; i++) {
@@ -1778,15 +1797,29 @@ function convsss(rows) {
 		for(var i = 0; i < rows.length; i++) {
 			var row = rows[i];
 			if(row.parentId == node.id) {
-				var child = {
-					id: row.id,
-					text: row.name,
-					actualId:row.actualId,
-				    checked:row.checked,
-					type:row.type,
-				    parendId:row.parendId,
-					parentId:row.parentId
-				};
+				if(row.type==1){
+                    var child = {
+						id: row.id,
+						text: row.name,
+						actualId:row.actualId,
+						checked:row.checked,
+						type:row.type,
+						parendId:row.parendId,
+						parentId:row.parentId,
+						iconCls:'icon-suo'
+					};
+				}else if(row.type==2){
+					var child = {
+						id: row.id,
+						text: row.name,
+						actualId:row.actualId,
+						checked:row.checked,
+						type:row.type,
+						parendId:row.parendId,
+						parentId:row.parentId,
+						iconCls:'icon-yaoshi'
+					};
+				}
 				if(node.children) {
 					node.children.push(child);
 				} else {
@@ -2309,7 +2342,38 @@ $('.Loginquiretwo').click(function(){
 	$('.Logaddress').val('');
 	$('.Logstarttime').datetimebox('setValue','');
 	$('.Logfinishtime').datetimebox('setValue','');
-	$('#Logform').datagrid('reload')
+	$('#Logform').datagrid({
+		url:server_context+'/listLoginLog',
+		method: 'post',
+		singleSelect: 'true',
+		fit: 'true',
+		fitColumns: 'true',
+		rownumbers: 'true',
+		pageSize:50,
+		pagination: "true",
+		queryParams:{
+            userName:'',
+			startTime:'',
+			endTime:'',
+			ipAddress:''
+		},
+		columns:[[
+		    {field:"userName",title:'用户名',align:"center",width: '20%'},
+		    {field:"ipAddress",title:'ip地址',align:"center",width: '20%'},
+		    {field:"content",title:'内容',align:"center",width: '20%'},
+		    {field:"status",title:'状态',align:"center",width: '20%',
+		        formatter:function(value, rows, index){
+		        	var value = rows['status']
+		        	if(value==1){
+		        		return '<a>'+"成功"+'</a>';
+		        	}else{
+		        		return '<a style="color:red">'+"失败"+'</a>';
+		        	}
+		        }
+		    },
+		    { field:"ts",title:'时间',align:"center",width: '20%'}
+		]]
+	})
 })
 //操作日志查询
 $('.operateinquire').click(function(){
@@ -2322,7 +2386,7 @@ $('.operateinquire').click(function(){
 	})
 })
 
-/************************7.3总线录制---CANID设置*******************************/
+/************************7.3总线录制---总线设置*******************************/
 var canidSeturl;
 var canidSetmodelAlias;
 var canidSettopGroupId;
@@ -2402,7 +2466,10 @@ function addcanidSet(){
 	$('#canidSetSubmit').attr('name','1');
 	$('#canidSet-myid').val('');
 	$('#canidSet-myname').val('');
-    $('#canidSet-mymask').val('');
+	$('#canidSet-mymask>input').remove();
+    for(var i = 0;i<8;i++){
+        $("<input maxlength='2' style='width:22px;margin-left:5px;'></input>").appendTo($('#canidSet-mymask'))
+	}
 	canidSeturl = server_context+'/saveCanId';
 }
 //编辑
@@ -2417,7 +2484,14 @@ function editorcanidSet(){
 	$('#canidSetSubmit').attr('name','2');
 	$('#canidSet-myid').val(row.canId);
 	$('#canidSet-myname').val(row.canName);
-    $('#canidSet-mymask').val(row.filter);
+    var input = [];
+	for(var i=0;i<8;i++){
+        input.push(row.filter.substring(i*2,i*2+2))
+	}
+    $('#canidSet-mymask>input').remove();
+    for(var i = 0;i<8;i++){
+       $("<input maxlength='2' value="+input[i]+" style='width:22px;margin-left:10px;'></input>").appendTo($('#canidSet-mymask'))
+	}
 	canidSeturl = server_context+'/updateCanId';
 }
 //删除
@@ -2450,14 +2524,23 @@ function removecanidSet(){
 	
 }
 $('#canidSetSubmit').click(function(){
-	if($('#canidSet-myid').val()==''||$('#canidSet-myname').val()==''||$('#canidSet-mymask').val()==''){
+	if($('#canidSet-myid').val()==''||$('#canidSet-myname').val()==''){
 		$.messager.alert('系统提示','必填字段不能为空','error');
 		return;
 	}
-	if($('#canidSet-mymask').val().length!=16){
-		$.messager.alert('系统提示','掩码应为16位','error');
+	var ym = [];
+	for(var i=0;i<$('#canidSet-mymask').find('input').length;i++){
+		if($('#canidSet-mymask').find('input').eq(i).val()==''){
+          	$.messager.alert('系统提示','掩码输入框不能为空','error');
+		  	return;
+		}
+        ym.push($('#canidSet-mymask').find('input').eq(i).val());
+	}
+	if(ym.join('').length!=16){
+        $.messager.alert('系统提示','掩码应为16位','error');
 		return;
 	}
+	console.log(ym)
 	var data;
 	if($('#canidSetSubmit').attr('name')==1){
 		data = {
@@ -2465,7 +2548,7 @@ $('#canidSetSubmit').click(function(){
 			topGroupId:canidSettopGroupId,
 			canId:$('#canidSet-myid').val(),
 			canName:$('#canidSet-myname').val(),
-			filter:$('#canidSet-mymask').val()
+			filter:ym.join(' ')
 		}
 	}else{
 		var row = $('.canidSet-datagrid').datagrid('getSelected');
@@ -2473,7 +2556,7 @@ $('#canidSetSubmit').click(function(){
 			id:row.id,
 			canId:$('#canidSet-myid').val(),
 			canName:$('#canidSet-myname').val(),
-			filter:$('#canidSet-mymask').val()
+			filter:ym.join(' ')
 		}
 	}
 	$.ajax({
@@ -2483,11 +2566,11 @@ $('#canidSetSubmit').click(function(){
 		data:data,
 		success:function(data){
 			if(data.error_code==0){
-				$.messager.alert('系统提示','保存成功','info')
+				$.messager.alert('系统提示','保存成功','info');
 				$('#canidSetModal').modal('hide');
-				$('.canidSet-datagrid').datagrid('reload')
+				$('.canidSet-datagrid').datagrid('reload');
 			}else{
-				Statuscodeprompt(data.error_code)
+				Statuscodeprompt(data.error_code);
 			}
 		}
 	});
@@ -2989,15 +3072,60 @@ $('#managementli26').click(function(){
 		rownumbers: 'true',
 		pagination: "true",
 		columns:[[
-		    { field:"deviceId",title:'设备编号',align:"center",width:'8%'},
-			{ field:"iccid",title:'ICCID',align:"center",width:'15%'},
-			{ field:"release",title:'tsr',align:"center",width:'12%'},
-			{ field:"swr",title:'swr',align:"center",width:'12%'},
-			{ field:"requestsNumber",title:'请求次数',align:"center",width:'6%'},
-			{ field:"hardVer",title:'硬件版本号',align:"center",width:'10%'},
-			{ field:"remoteAddr",title:'请求IP地址',align:"center",width:'10%'},
-			{ field:"fileName",title:'文件名',align:"center",width:'19%'},
-			{ field:"ts",title:'最近请求时间',align:"center",width:'10%'}
+		    { field:"deviceId",title:'设备编号',align:"center",width:'8%',
+		        formatter: function (value, row, index) {
+					var value = row.deviceId
+					return "<span title='" + value + "'>" + value + "</span>";
+				}
+	        },
+			{ field:"iccid",title:'ICCID',align:"center",width:'15%',
+		        formatter: function (value, row, index) {
+					var value = row.iccid
+					return "<span title='" + value + "'>" + value + "</span>";
+				}
+	        },
+			{ field:"release",title:'tsr',align:"center",width:'12%',
+		        formatter: function (value, row, index) {
+					var value = row.release
+					return "<span title='" + value + "'>" + value + "</span>";
+				}
+	        },
+			{ field:"swr",title:'swr',align:"center",width:'12%',
+		        formatter: function (value, row, index) {
+					var value = row.swr
+					return "<span title='" + value + "'>" + value + "</span>";
+				}
+	        },
+			{ field:"requestsNumber",title:'请求次数',align:"center",width:'6%',
+		        formatter: function (value, row, index) {
+					var value = row.requestsNumber
+					return "<span title='" + value + "'>" + value + "</span>";
+				}
+		    },
+			{ field:"hardVer",title:'硬件版本号',align:"center",width:'10%',
+		         formatter: function (value, row, index) {
+					var value = row.hardVer
+					return "<span title='" + value + "'>" + value + "</span>";
+				}
+		    },
+			{ field:"remoteAddr",title:'请求IP地址',align:"center",width:'10%',
+		         formatter: function (value, row, index) {
+					var value = row.remoteAddr
+					return "<span title='" + value + "'>" + value + "</span>";
+				}
+	        },
+			{ field:"fileName",title:'文件名',align:"center",width:'19%',
+		        formatter: function (value, row, index) {
+					var value = row.fileName
+					return "<span title='" + value + "'>" + value + "</span>";
+				}
+	        },
+			{ field:"ts",title:'最近请求时间',align:"center",width:'10%',
+		        formatter: function (value, row, index) {
+					var value = row.ts
+					return "<span title='" + value + "'>" + value + "</span>";
+				}
+	        }
 		]]
 	})
 })
@@ -3024,15 +3152,54 @@ $('.UpdateLog-div').click(function(){
 				release:row.tsr
 			},
 			columns:[[
-			    { field:"deviceId",title:'设备编号',align:"center",width:'8%'},
-				{ field:"iccid",title:'ICCID',align:"center",width:'16%'},
-				{ field:"release",title:'tsr',align:"center",width:'12%'},
-				{ field:"swr",title:'swr',align:"center",width:'12%'},
-				// { field:"requestsNumber",title:'请求次数',align:"center",width:'5%'},
-				{ field:"hardVer",title:'硬件版本号',align:"center",width:'9%'},
-				{ field:"remoteAddr",title:'请求IP地址',align:"center",width:'10%'},
-				{ field:"fileName",title:'文件名',align:"center",width:'15%'},
-				{ field:"ts",title:'请求时间',align:"center"}
+			    { field:"deviceId",title:'设备编号',align:"center",width:'8%',
+			        formatter: function (value, row, index) {
+						var value = row.deviceId
+						return "<span title='" + value + "'>" + value + "</span>";
+					}
+		        },
+				{ field:"iccid",title:'ICCID',align:"center",width:'16%',
+			         formatter: function (value, row, index) {
+						var value = row.iccid
+						return "<span title='" + value + "'>" + value + "</span>";
+					}
+		        },
+				{ field:"release",title:'tsr',align:"center",width:'12%',
+			         formatter: function (value, row, index) {
+						var value = row.release
+						return "<span title='" + value + "'>" + value + "</span>";
+					}
+		        },
+				{ field:"swr",title:'swr',align:"center",width:'12%',
+			        formatter: function (value, row, index) {
+						var value = row.swr
+						return "<span title='" + value + "'>" + value + "</span>";
+					}
+		        },
+				{ field:"hardVer",title:'硬件版本号',align:"center",width:'9%',
+			         formatter: function (value, row, index) {
+						var value = row.hardVer
+						return "<span title='" + value + "'>" + value + "</span>";
+					}
+		        },
+				{ field:"remoteAddr",title:'请求IP地址',align:"center",width:'10%',
+			         formatter: function (value, row, index) {
+						var value = row.remoteAddr
+						return "<span title='" + value + "'>" + value + "</span>";
+					}
+		        },
+				{ field:"fileName",title:'文件名',align:"center",width:'15%',
+			         formatter: function (value, row, index) {
+						var value = row.fileName
+						return "<span title='" + value + "'>" + value + "</span>";
+					}
+	         	},
+				{ field:"ts",title:'请求时间',align:"center",
+			         formatter: function (value, row, index) {
+						var value = row.ts
+						return "<span title='" + value + "'>" + value + "</span>";
+					}
+		        }
 			]]
 		})
 	},300)
