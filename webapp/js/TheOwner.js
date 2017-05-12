@@ -156,7 +156,12 @@ function TheOwner(node){
 				  return '<a style="display:inline-block;line-height:20px;width:60px;height:20px;background:#00AAFF;color:white" id="LookUp" href=\javaScript:LookUp('+ index +')>'+"查看详情"+'</a>';
 				}
 			}
-		]]
+		]],
+		onLoadSuccess:function(data){
+			if(data.error_code!=0){
+				Statuscodeprompt(data.error_code)
+			}
+		}
 	})
 }
 //查询按钮
@@ -933,9 +938,9 @@ $('.addphone').click(function(){
 	$('<td class='+tdtwo+'></td>').appendTo('.'+trcls);
 	$('<td class='+tdthree+'></td>').appendTo('.'+trcls);
 	$('<td style="cursor: pointer;" id='+trcls+' onclick="addphone(this)">删除</td>').appendTo('.'+trcls);
-	$('<input type="text" maxlength="20" name="one" id="inputName" class='+inputone+'>').appendTo('.'+tdone);
-	$('<input type="text" maxlength="20" name="two" id="inputphone" class='+inputtwo+'>').appendTo('.'+tdtwo);
-	$('<input type="text" maxlength="20" name="three" id="inputName" class='+inputthree+'>').appendTo('.'+tdthree);
+	$('<input type="text" maxlength="20" onkeyup="inputteshu(this)" name="one" id="inputName" class='+inputone+'>').appendTo('.'+tdone);
+	$('<input type="text" maxlength="20" onkeyup="inputteshu(this)" name="two" id="inputphone" class='+inputtwo+'>').appendTo('.'+tdtwo);
+	$('<input type="text" maxlength="20" onkeyup="inputteshu(this)" name="three" id="inputName" class='+inputthree+'>').appendTo('.'+tdthree);
 })
 //删除紧急联系人
 function addphone(t){
@@ -1086,9 +1091,9 @@ $('#Nextstep5').click(function(){
 					$('<td class='+tdtwo+'></td>').appendTo('.'+trcls);
 					$('<td class='+tdthree+'></td>').appendTo('.'+trcls);
 					// $('<td style="cursor: pointer;" id='+trcls+' onclick="addphone(this)">删除</td>').appendTo('.'+trcls);
-					$('<input type="text" id="inputName" disabled="disabled" name="one" class='+inputone+' value='+data[i].contactsName+'></input>').appendTo('.'+tdone);
-					$('<input type="text" id="inputphone" disabled="disabled" name="two" class='+inputtwo+' value='+data[i].contactsMobile+'></input>').appendTo('.'+tdtwo);
-					$('<input type="text" id="inputName" disabled="disabled" name="three" class='+inputthree+' value='+data[i].relation+'></input>').appendTo('.'+tdthree);
+					$('<input type="text" id="inputName" onkeyup="inputteshu(this)" disabled="disabled" name="one" class='+inputone+' value='+data[i].contactsName+'></input>').appendTo('.'+tdone);
+					$('<input type="text" id="inputphone" onkeyup="inputteshu(this)" disabled="disabled" name="two" class='+inputtwo+' value='+data[i].contactsMobile+'></input>').appendTo('.'+tdtwo);
+					$('<input type="text" id="inputName" onkeyup="inputteshu(this)" disabled="disabled" name="three" class='+inputthree+' value='+data[i].relation+'></input>').appendTo('.'+tdthree);
 				}
 			}
 		})

@@ -162,13 +162,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<div class="modal-body">
 												<form class="fmm-form">
 													<label for=""><i>*</i>编组名称:</label>
-													<input type="text" id="treename" maxlength="20" required/>
+													<input type="text" id="treename" maxlength="20" onkeyup="inputteshu(this)" required/>
 													<hr />
 													<label for=""><i>*</i>负责人:</label>
-													<input type="text" id="treefzr" maxlength="10" required/>
+													<input type="text" id="treefzr" maxlength="10" onkeyup="inputteshu(this)" required/>
 													<hr />
 													<label for=""><i>*</i>电话:</label>
-													<input type="text" id="treephone" maxlength="20" required/>
+													<input type="text" id="treephone" maxlength="20" onkeyup="inputteshu(this)" required/>
 													<hr />
 													<label for=""><i>*</i>邮箱:</label>
 													<input type="email" id="treeemail" maxlength="20" required/>
@@ -187,7 +187,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 													</select>
 													<label for=""><i>*</i>详细地址:</label>
-													<input type="text" id="inaddress" maxlength="100" required style="width: 132px" />
+													<input type="text" id="inaddress" maxlength="100" onkeyup="inputteshu(this)" required style="width: 132px" />
 												</form>
 											</div>
 											<div class="modal-footer">
@@ -244,16 +244,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																<div class="modal-body">
 																	<form action="" method="post" id="fm" style="overflow: hidden;">
 																		<label><i>*</i>编组名称:</label>
-																		<input type="text" id="id" required/>
+																		<input type="text" id="id" onkeyup="inputteshu(this)" required/>
 																		<hr />
 																		<label>成员总数:</label>
 																		<input type="text" id="male" disabled/>
 																		<hr />
 																		<label><i>*</i>负责人:</label>
-																		<input type="text" id="name" required/>
+																		<input type="text" id="name" onkeyup="inputteshu(this)" required/>
 																		<hr />
 																		<label><i>*</i>电话:</label>
-																		<input type="text" id="phone" required/>
+																		<input type="text" id="phone" onkeyup="inputteshu(this)" required/>
 																		<hr />
 																		<label><i>*</i>邮箱:</label>
 																		<input type="email" id="email" required/>
@@ -278,7 +278,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			
 																		</select>
 																		<label for=""><i>*</i>详细地址:</label>
-																		<input type="text" id="parlingaddress" style="width: 132px" required/>
+																		<input type="text" id="parlingaddress" onkeyup="this.value=this.value.replace(/\s+/g,'')" style="width: 132px" required/>
 																		<!--结尾-->
 																	</form>
 																</div>
@@ -323,16 +323,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			<input type="file" name="file_name" id="file_name" accept=".jpg,.jpeg,.png"/>
 																			<hr />
 																			<label for=""><i>*</i>名称:</label>
-																			<input type="text" id="iscompilename" maxlength="15" name="groupName" required/>
+																			<input type="text" id="iscompilename" maxlength="15" onkeyup="inputteshu(this)" name="groupName" required/>
 																			<hr />
 																			<label for=""><i>*</i>联系方式:</label>
-																			<input type="text" id="iscompilefzr" name="phone" required/>
+																			<input type="text" id="iscompilefzr" name="phone" onkeyup="inputteshu(this)" required/>
 																			<hr />
 																			<label for=""><i>*</i>总部地址:</label>
-																			<input type="text" id="iscompilephone" maxlength="100" name="address" required/>
+																			<input type="text" id="iscompilephone" maxlength="100" onkeyup="inputteshu(this)" name="address" required/>
 																			<hr />
 																			<label for=""><i>*</i>负责人:</label>
-																			<input type="text" id="iscompileprincipal" maxlength="10" name="principal" required/>
+																			<input type="text" id="iscompileprincipal" maxlength="10" onkeyup="inputteshu(this)" name="principal" required/>
 																		    <hr />
 																		    <label for=""><i>*</i>邮箱地址:</label>
 																			<input type="email" id="iscompileemail" name='email' required/>
@@ -416,14 +416,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																	<div class="modal-body">
 																		<form action="" method="post" id="fmmm" style="overflow: hidden;">
 																			<label><i>*</i>用户名:</label>
-																			<input type="text" id="_id" maxlength="10" required disabled/>
+																			<input type="text" id="_id" maxlength="10" onkeyup="inputteshu(this)" required disabled/>
 																			<hr />
 																			<label><i>*</i>密码:</label>
-																			<input type="text" id="psw" maxlength="20" required/>
+																			<input type="text" id="psw" maxlength="20" onkeyup="inputteshu(this)" required/>
 																			<span id="ResetPassword">重置密码</span>
 																			<hr />
 																			<label><i>*</i>姓名:</label>
-																			<input type="text" id="stuname" maxlength="10" required/>
+																			<input type="text" id="stuname" onkeyup="inputteshu(this)" maxlength="10" required/>
 																			<hr />
 																			<label><i>*</i>用户组:</label>
 																			<div class="usergroupfmm" style="display: inline-block;">
@@ -432,7 +432,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			<!--<input type="text" class="usergroup" id="age" required/>-->
 																			<hr />
 																			<label><i>*</i>联系电话:</label>
-																			<input type="text" id="addressss" maxlength="20" required/>
+																			<input type="text" id="addressss" onkeyup="inputteshu(this)" maxlength="20" required/>
 																			<hr />
 																			<label><i>*</i>邮箱:</label>
 																			<input type="email" id="youxiang" maxlength="20" required/>
@@ -506,7 +506,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<div class="modal-body">
 												<form class="fmm-form">
 													<label for="treenameo"><i>*</i>角色名称:</label>
-													<input type="text" id="treenameo" maxlength="20"/>
+													<input type="text" id="treenameo" onkeyup="inputteshu(this)" maxlength="20"/>
 												</form>
 											</div>
 											<div class="modal-footer">
@@ -621,7 +621,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<span><img src="img/imagess/sousuotubiaotwo.png" alt="" /></span>
 									<span>
 						        			<label for="">IP地址:</label>
-						        			<input type="text" id="addressip" maxlength="20" style="border: 1px solid #6DC8F5;"/>
+						        			<input type="text" id="addressip" maxlength="20" onkeyup="inputteshu(this)" style="border: 1px solid #6DC8F5;"/>
 						        			<label for="">归属车场:</label>
 						        			<select id="parkingip" style="width:146px;height: 22px;background: #EAEAEA;border: 1px solid #6DC8F5;">
 						        				<option value="0">-全部车场-</option>
@@ -861,7 +861,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																	<tbody>
 																		<tr>
 																			<td><i>*</i>车主姓名:</td>
-																			<td><input type="text" id="ownerName" maxlength="20" class="NoName" required/></td>
+																			<td><input type="text" id="ownerName" onkeyup="inputteshu(this)" maxlength="20" class="NoName" required/></td>
 																			<td><i>*</i>车主性别:</td>
 																			<td>
 																				<select id="sexx">
@@ -872,9 +872,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																		</tr>
 																		<tr>
 																			<td><i>*</i>车主身份证号</td>
-																			<td><input type="text" id="idNumber" maxlength="20" name="idNumber" class="noneNull" require></td>
+																			<td><input type="text" id="idNumber" onkeyup="inputteshu(this)" maxlength="20" name="idNumber" class="noneNull" require></td>
 																			<td><i>*</i>车主手机号:</td>
-																			<td><input type="text" id="mobile" maxlength="18" class="NoPhone" required/></td>
+																			<td><input type="text" id="mobile" maxlength="18" onkeyup="inputteshu(this)" class="NoPhone" required/></td>
 																		</tr>
 																		<tr>
 																			<td><i>*</i>省:</td>
@@ -898,7 +898,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																				</select>
 																			</td>
 																			<td><i>*</i>详细地址:</td>
-																			<td><input type="text" id="address" maxlength="50" class="Noaddress" required/></td>
+																			<td><input type="text" id="address" onkeyup="inputteshu(this)" maxlength="50" class="Noaddress" required/></td>
 																		</tr>
 																		<tr>
 																			<!--<td><i>*</i>保险公司:</td>
@@ -908,13 +908,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																				</select>
 																			</td>-->
 																			<td>车牌号码:</td>
-																			<td><input type="text" maxlength="20" id="plate"/></td>
+																			<td><input type="text" maxlength="20" onkeyup="inputteshu(this)" id="plate"/></td>
 																			<td><i>*</i>车架号:</td>
-																			<td><input type="text" id="vin" maxlength="17" class="noneNull" required/></td>
+																			<td><input type="text" id="vin" maxlength="17" onkeyup="inputteshu(this)" class="noneNull" required/></td>
 																		</tr>
 																		<tr>
 																			<td><i>*</i>发动机编号:</td>
-																			<td><input type="text" id="engineCode" maxlength="11" class="noneNull" required/></td>
+																			<td><input type="text" id="engineCode" onkeyup="inputteshu(this)" maxlength="11" class="noneNull" required/></td>
                                                                             <td><i>*</i>车型品牌:</td>
 																			<td>
 																				<select id="vehicleBrand" onchange="Brand(value)">
@@ -944,15 +944,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																				</select>
 																			</td>
 																			<td id="TheOwnerFormtable-two"><i>*</i>紧急联系人姓名:</td>
-																			<td id="contactsNamess"><input type="text" id="contactsName" maxlength="20" class="NoName" required/></td>
+																			<td id="contactsNamess"><input type="text" onkeyup="inputteshu(this)" id="contactsName" maxlength="20" class="NoName" required/></td>
 																		</tr>
 																		<tr id="TheOwnerFormtable-one">
 																			<!--<td>服务截止时间:</td>
 																			<td><input class="easyui-datetimebox" id="serviceEndTime" style="width:140px"></td>-->
 																			<td><i>*</i>紧急联系人电话:</td>
-																			<td><input type="text" id="contactsMobile" maxlength="20" class="NoPhone" required/></td>
+																			<td><input type="text" id="contactsMobile" onkeyup="inputteshu(this)" maxlength="20" class="NoPhone" required/></td>
 																			<td><i>*</i>关系:</td>
-																			<td><input type="text" id="relation" maxlength="20" class="NoName" required/></td>
+																			<td><input type="text" id="relation" maxlength="20" onkeyup="inputteshu(this)" class="NoName" required/></td>
 																		</tr>
 																		<!--<tr id="TheOwnerFormtable-two">
 																			
@@ -992,15 +992,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 														    		<tbody class="tablefuwu">
 																      <tr>
 																        <td>商业服务电话</td>
-																        <td><input type="text" maxlength="15" id="business"/></td>
+																        <td><input type="text" onkeyup="inputteshu(this)" maxlength="15" id="business"/></td>
 																      </tr>
 																      <tr>
 																        <td>故障服务电话</td>
-																        <td><input type="text" maxlength="15" id="malfunction"/></td>
+																        <td><input type="text" onkeyup="inputteshu(this)" maxlength="15" id="malfunction"/></td>
 																      </tr>
 																      <tr>
 																        <td>事故服务电话</td>
-																        <td><input type="text" maxlength="15" id="Accident"/></td>
+																        <td><input type="text" onkeyup="inputteshu(this)" maxlength="15" id="Accident"/></td>
 																      </tr>
 																    </tbody>
 														    	</table>
@@ -1295,11 +1295,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<div class="modal-body">
 												<form>
 													<span style="margin-left: 190px;" id="motorcycletype-type">车型:</span>
-													<input type="text" maxlength="20" class="Motorcycleinput"/>
+													<input type="text" maxlength="20" onkeyup="inputteshu(this)" class="Motorcycleinput"/>
 													<i>*</i>
 													<div style="margin-left: 163px;margin-top:10px;" id="motorcycletype-alias">
                                                         <span>车系代码:</span>
-														<input type="text" maxlength="20" class="Motorcycleinput-alias"/>
+														<input type="text" maxlength="20" onkeyup="inputteshu(this)" class="Motorcycleinput-alias"/>
 														<i>*</i>
 														<p>(车系代码:该系列车辆对应的T-BOX的型号代码)</p>
 													</div>
@@ -1453,26 +1453,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 												</div>
 												<div class="modal-body Mobileyhoneform">
 													<label for="deviceIds"><i>*</i>设备编号:</label>
-													<input type="text" minlength="5" maxlength="10" id="deviceIds"/>
+													<input type="text" minlength="5" onkeyup="inputteshu(this)" maxlength="10" id="deviceIds"/>
 													<label for="hardwareVers"><i>*</i>硬件版本号:</label>
-													<input type="text" maxlength="10" id="hardwareVers"/>
+													<input type="text" maxlength="10" onkeyup="inputteshu(this)" id="hardwareVers"/>
 													<hr />
 													<label for="vins">车架号:</label>
-													<input type="text" maxlength="17" id="vins"/>
+													<input type="text" maxlength="17" onkeyup="inputteshu(this)" id="vins"/>
 													<label for="models">车系代码:</label>
-													<input type="text" id="models"/>
+													<input type="text" onkeyup="inputteshu(this)" id="models"/>
 													<hr />
 													<label for="softVers">软件版本号:</label>
-													<input type="text" maxlength="50" id="softVers"/>
+													<input type="text" maxlength="50" onkeyup="inputteshu(this)" id="softVers"/>
 													<label for="serialNums">设备序列号:</label>
-													<input type="text" maxlength="20" id="serialNums"/>
+													<input type="text" maxlength="20" onkeyup="inputteshu(this)" id="serialNums"/>
 													<hr />
 													<!--<label for="makers">车型:</label>
 													<input type="text" id="makers"/>-->
 													<label for="call_nums">呼叫号码:</label>
-													<input type="text" maxlength="20" id="call_nums"/>
+													<input type="text" maxlength="20" onkeyup="inputteshu(this)" id="call_nums"/>
 													<label for="ecuSerialNums">电控单元序列号:</label>
-													<input type="text" maxlength="50" id="ecuSerialNums"/>
+													<input type="text" maxlength="50" onkeyup="inputteshu(this)" id="ecuSerialNums"/>
 												</div>
 												<div class="modal-footer">
 													<button type="button" class="btn btn-default" data-dismiss="modal">关闭
@@ -1746,39 +1746,39 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 														</div>
 														<div class="configurationinformationtwo" style="width: 980px;margin: 0 auto;">
 															<label for="">配置版本</label>
-															<input type="text" maxlength="20" class="config_ver"/>
+															<input type="text" maxlength="20" onkeyup="inputteshu(this)" class="config_ver"/>
 															<label for="">iovdc_key</label>
 															<input type="text" class="iovdc_key"/>
 															<label for="">升级包密钥ID</label>
-															<input type="text" maxlength="10" class="update_keyid"/>
+															<input type="text" maxlength="10" onkeyup="inputteshu(this)" class="update_keyid"/>
 															<hr />
 															<label for="">升级包密钥(hex)</label>
-															<input type="text" maxlength="32" class="update_key"/>
+															<input type="text" maxlength="32" onkeyup="inputteshu(this)" class="update_key"/>
 															<label for="">车牌号</label>
-															<input type="text" maxlength="10" class="plate"/>
+															<input type="text" maxlength="10" onkeyup="inputteshu(this)" class="plate"/>
 															<label for="">sim卡电话号码</label>
-															<input type="text" maxlength="20" class="callNum"/>
+															<input type="text" maxlength="20" onkeyup="inputteshu(this)" class="callNum"/>
 															<hr />
 															<label for="">Ecall服务号码</label>
-															<input type="text" maxlength="20" class="ecallNum"/>
+															<input type="text" maxlength="20" onkeyup="inputteshu(this)" class="ecallNum"/>
 															<label for="">Bcall服务号码</label>
-															<input type="text" maxlength="20" class="bcallNum"/>
+															<input type="text" maxlength="20" onkeyup="inputteshu(this)" class="bcallNum"/>
 															<label for="">Icall服务号码</label>
-															<input type="text" maxlength="20" class="icallNum"/>
+															<input type="text" maxlength="20" onkeyup="inputteshu(this)" class="icallNum"/>
 															<hr />
 															<label for="">Ecall短信号码</label>
-															<input type="text" maxlength="20" class="ecall_sms_num"/>
+															<input type="text" maxlength="20" onkeyup="inputteshu(this)" class="ecall_sms_num"/>
 															<label for="">apn接入名称</label>
-															<input type="text" maxlength="50" class="apn"/>
+															<input type="text" maxlength="50" onkeyup="inputteshu(this)" class="apn"/>
 															<label for="">接入服务器ip1</label>
-															<input type="text" maxlength="20" class="iovdc_ip1"/>
+															<input type="text" maxlength="20" onkeyup="inputteshu(this)" class="iovdc_ip1"/>
 															<hr />
 															<label for="">接入服务器ip2</label>
-															<input type="text" maxlength="20" class="iovdc_ip2"/>
+															<input type="text" maxlength="20" onkeyup="inputteshu(this)" class="iovdc_ip2"/>
 															<label for="">接入服务器ip3</label>
-															<input type="text" maxlength="20" class="iovdc_ip3"/>
+															<input type="text" maxlength="20" onkeyup="inputteshu(this)" class="iovdc_ip3"/>
 															<label for="">最近升级日期</label>
-															<input type="text" maxlength="20" class="update_time"/>
+															<input type="text" maxlength="20" onkeyup="inputteshu(this)" class="update_time"/>
 														</div>
 													    <div class="configurationinformationthree">
 													    	<a class="compiles">编辑</a>
@@ -1813,7 +1813,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 															        <td>
 															        	<select id="activationone" style="width: 146px;">
 															        		<option class="activationoneop1" value="1">激活</option>
-															        		<option class="activationoneop2" value="2">反激活</option>
+															        		<option class="activationoneop2" value="0">反激活</option>
 															        	</select>
 															        </td>
 															      </tr>
@@ -1840,15 +1840,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													    		<tbody class="threetbody">
 															      <tr>
 															        <td>x方向姿态角度校正</td>
-															        <td><input type="text" maxlength="45" id="xdirection" /></td>
+															        <td><input type="text" maxlength="45" onkeyup="inputteshu(this)" id="xdirection" /></td>
 															      </tr>
 															      <tr>
 															        <td>y方向姿态角度校正</td> 
-															        <td><input type="text" maxlength="45" id="ydirection" /></td>
+															        <td><input type="text" maxlength="45" onkeyup="inputteshu(this)" id="ydirection" /></td>
 															      </tr>
 															      <tr>
 															        <td>行使方向姿态角度校正</td>
-															        <td><input type="text" maxlength="45" id="traveldirection" /></td>
+															        <td><input type="text" maxlength="45" onkeyup="inputteshu(this)" id="traveldirection" /></td>
 															      </tr>
 															    </tbody>
 													    	</table>
@@ -1875,21 +1875,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													    		<tbody class="fourtbody">
 															      <tr>
 															        <td>can通道号</td>
-															        <td><input type="text" maxlength="20" id="cangallery" /></td>
+															        <td><input type="text" maxlength="20" onkeyup="inputteshu(this)" id="cangallery" /></td>
 															        <td>页面号</td>
-															        <td><input type="text" maxlength="20" id="pagemark" /></td>
+															        <td><input type="text" maxlength="20" onkeyup="inputteshu(this)" id="pagemark" /></td>
 															      </tr>
 															      <tr>
 															        <td>can id1</td> 
-															        <td><input type="text" maxlength="20" id="canid1" /></td>
+															        <td><input type="text" maxlength="20" onkeyup="inputteshu(this)" id="canid1" /></td>
 															        <td>can id1 发送时间间隔</td>
-															        <td><input type="text" maxlength="20" id="canid1jg" /></td>
+															        <td><input type="text" maxlength="20" onkeyup="inputteshu(this)" id="canid1jg" /></td>
 															      </tr>
 															      <tr>
 															        <td>can id2</td>
-															        <td><input type="text" maxlength="20" id="canid2" /></td>
+															        <td><input type="text" maxlength="20" onkeyup="inputteshu(this)" id="canid2" /></td>
 															        <td>can id2 发送时间间隔</td>
-															        <td><input type="text" maxlength="20" id="canid2jg" /></td>
+															        <td><input type="text" maxlength="20" onkeyup="inputteshu(this)" id="canid2jg" /></td>
 															      </tr>
 															    </tbody>
 													    	</table>
@@ -2120,8 +2120,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																<span class="EquipmentStatus"></span>
 															</p>
 														</div>
-                                                        <div class="compileeleven" style="width: 165px;margin: 0 auto;">
+                                                        <div class="compileeleven" style="width: 345px;margin: 0 auto;">
 															<a class="compileeleve">重启</a>
+															<a class="compileelevenn">读取</a>
 														</div>
 													</form>
 												</div>
@@ -2315,9 +2316,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																<td><i>*</i>更换时间</td>
 																<td><input class="easyui-datetimebox" data-options='editable:false' id="Modalreplacementtime" value="" style="width:146px"></td>
 																<td><i>*</i>原电控单元序列号</td>
-																<td><input type="text" maxlength="30" id="Modalrawserialnumber"></td>
+																<td><input type="text" maxlength="30" onkeyup='inputteshu(this)' id="Modalrawserialnumber"></td>
 																<td><i>*</i>新电控单元序列号</td>
-																<td><input type="text" maxlength="30" id="Modalnewserialnumber"></td>
+																<td><input type="text" maxlength="30" onkeyup='inputteshu(this)' id="Modalnewserialnumber"></td>
 															</tr>
 															<tr>
 																<td>维修内容</td>
@@ -2442,17 +2443,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 															</tr>
 															<tr style="text-align: left;margin-left: 6px;">
 																<td style="text-align:center">MD5校验:</td>
-																<td colspan="3"><input type="text" name="md5" id="md5"  size=50 style="width: 300px;" class="easyui-validatebox"  validtype="deviceId" missingmessage="必填"  data-options="required:true,validType:'length[2,32]'" maxlength="32" ><i> *</i></td>
+																<td colspan="3"><input type="text" name="md5" id="md5" onkeyup='inputteshu(this)' size=50 style="width: 300px;" class="easyui-validatebox"  validtype="deviceId" missingmessage="必填"  data-options="required:true,validType:'length[2,32]'" maxlength="32" ><i> *</i></td>
 															</tr>
 															<tr>
 																<td style="width: 25%;">硬件版本:</td>
-																<td style="width: 25%;"><input type="text" name="hdversion" id="hdversion" class="easyui-validatebox"   validtype="hardVer"   missingmessage="必填"  data-options="required:true,validType:'length[2,20]'" maxlength="10"><i> *</i></td>
+																<td style="width: 25%;"><input type="text" name="hdversion" onkeyup='inputteshu(this)' id="hdversion" class="easyui-validatebox"   validtype="hardVer"   missingmessage="必填"  data-options="required:true,validType:'length[2,20]'" maxlength="10"><i> *</i></td>
 																<td style="width: 25%;">软件版本:</td>
-																<td style="width: 25%;"><input type="text" name="version" id="version"  class="easyui-validatebox"   validtype="deviceId"  missingmessage="必填"  data-options="required:true,validType:'length[2,20]'" maxlength="20"><i> *</i></td>
+																<td style="width: 25%;"><input type="text" name="version" onkeyup='inputteshu(this)' id="version"  class="easyui-validatebox"   validtype="deviceId"  missingmessage="必填"  data-options="required:true,validType:'length[2,20]'" maxlength="20"><i> *</i></td>
 															</tr>
 															<tr>
 																<td >车系代码:</td>
-																<td><input type="text" name="model" id="modelss" class="easyui-validatebox"   validtype="deviceId"   missingmessage="必填"  data-options="required:true,validType:'length[2,20]'" maxlength="20"><i> *</i></td>
+																<td><input type="text" name="model" onkeyup='inputteshu(this)' id="modelss" class="easyui-validatebox"   validtype="deviceId"   missingmessage="必填"  data-options="required:true,validType:'length[2,20]'" maxlength="20"><i> *</i></td>
 																<td>升级类型:</td>
 																<td>
 																	<select id="update_type" name="update_type" onChange="updatetype()" style="width: 146px;">
@@ -3068,7 +3069,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					        </div>
 					    </div>
 						<!--7.1总线录制---录制管理-->
-						<div class="Recordmanagement">
+						<div class="Recordmanagement">s
 							<!--当前指向-->
 							<div class="oriented" style="position: absolute;">
 								<span><b>总线录制</b></span>
@@ -3342,11 +3343,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 														<table class="table table-striped table-bordered text-center">
 															<tr>
 																<td><i>*</i>CANID</td>
-																<td><input type="text" id="canidSet-myid" maxlength="4"/></td>
+																<td><input type="text" onkeyup='inputteshu(this)' id="canidSet-myid" maxlength="4"/></td>
 															</tr>
 															<tr>
 																<td><i>*</i>CAN名称</td>
-																<td><input type="text" id="canidSet-myname" maxlength="20"/></td>
+																<td><input type="text" onkeyup='inputteshu(this)' id="canidSet-myname" maxlength="20"/></td>
 															</tr>
 															<tr>
 																<td><i>*</i>掩码</td>
@@ -3411,10 +3412,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								            		</select>
 								            		<hr />
 								            		<span style="width:86px;display: inline-block;margin-top: 15px;"><i>*</i>应用ID:</span>
-								            		<input type="text" id="appliedmanagement-ID" maxlength="20"/>
+								            		<input type="text" id="appliedmanagement-ID" onkeyup='inputteshu(this)' maxlength="20"/>
 								            		<hr />
 								            		<span style="width:86px;display: inline-block;margin-top: 15px;"><i>*</i>设备供应商:</span>
-								            		<input type="text" id="appliedmanagement-supplier" maxlength="20"/>
+								            		<input type="text" id="appliedmanagement-supplier" onkeyup='inputteshu(this)' maxlength="20"/>
 								            	</div>
 								            </div>
 								            <div class="modal-footer">

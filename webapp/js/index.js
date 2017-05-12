@@ -76,7 +76,10 @@ function Statuscodeprompt(code,msg,img){
 		$.messager.alert('系统提示',msg,img);
 	}
 }
-
+function inputteshu(obj){
+	obj.value = obj.value.replace(/\s+/g,'');   //空格验证替换
+	obj.value = obj.value.replace(/[^\u4e00-\u9fa5\w]/g,'')  //特殊字符正则替换
+}
 /************************1.1进入主页*******************************/
 var account = $.cookie('account');
 $('.accounts').html(account);
@@ -685,7 +688,8 @@ function tre(node) {
 	
 	$('#dgl').datagrid({
 		url: server_context+"/listGroupUser",
-		singleSelect: 'true',
+		// singleSelect: 'true',
+		singSelect: false,
 		rownumbers: "true",
 		fit: 'true',
 		fitColumns: 'true',
@@ -694,6 +698,11 @@ function tre(node) {
 		pagination: "true",
 		queryParams: {
 			id: tr
+		},
+		onLoadSuccess:function(data){
+			if(data.error_code!=0){
+				Statuscodeprompt(data.error_code)
+			}
 		}
 	})
 }
@@ -933,7 +942,7 @@ $('#ResetPassword').click(function(){
 function save() {
 	var phone = /^((0\d{2,3}-\d{7,8})|(1[3584]\d{9}))$/;
 	var email = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
-	var pattern = /^[\u4E00-\u9FA5]{2,7}$/;// 验证中文名称
+	var pattern = /^[\u4E00-\u9FA5]{1,10}$/;// 验证中文名称
 	var ids=0;
 	var groupd;
 	if(rowid==1){
@@ -957,9 +966,11 @@ function save() {
         $.messager.alert('系统提示','邮箱不符合格式','warning');
 		return;
 	}
-	if(pattern.test($("#_id").val())){
-        $.messager.alert('系统提示','用户名不能为中文','warning');
-		return; 
+	for(var i=0;i<$("#_id").val().length;i++){
+		if(pattern.test($("#_id").val()[i])){
+			 $.messager.alert('系统提示','用户名不能包含中文','warning');
+			 return;
+		}
 	}
 	if($("#sex").val()==''||$("#sex").val()=='undefined'||$("#sex").val()==null){
         $.messager.alert('系统提示','角色不能为空或先在角色管理页面添加角色','warning');
@@ -1490,16 +1501,19 @@ function openUserAdd() {
 
 //最下侧删除用户
 function deleteUser() {
-	var selectedrow = $("#dgl").datagrid('getSelected');
+	var selectedrow = $("#dgl").datagrid('getChecked');
 	if(selectedrow == null) {
 		$.messager.alert("系统提示", "请选择要删除的数据！",'warning');
 		return;
 	}
-	var id = selectedrow.id;
+	var id = [];
+	for(var i=0;i<selectedrow.length;i++){
+       id.push(selectedrow[i].id)
+	}
 	$.messager.confirm("系统提示", "您确认要删除这条数据吗？", function(r) {
 		if(r) {
 			$.post(server_context+"/removeUser", {
-				id: id
+				id: id.join(',')
 			}, function(data) {
 				if(data.error_code == 0) {
 					$.messager.alert("系统提示", "数据已成功删除",'info');
@@ -1596,7 +1610,12 @@ function roles(node){
 function openUserModifyDialog() {
 	$('#_id').attr("disabled", true);
 	var row = $("#dgl").datagrid('getSelected');
+	var rows = $("#dgl").datagrid('getChecked'); 
 	if(row == null) {
+		$.messager.alert("系统提示", "请选择一条数据进行修改",'warning');
+		return;
+	}
+	if(rows.length>=2) {
 		$.messager.alert("系统提示", "请选择一条数据进行修改",'warning');
 		return;
 	}
@@ -1904,7 +1923,12 @@ function tree(node) {
     		pagination: "true",
     		queryParams: {
     			id: node.actualId
-    		}
+    		},
+			onLoadSuccess:function(data){
+				if(data.error_code!=0){
+					Statuscodeprompt(data.error_code)
+				}
+			}
     	})
     }else{
     	$('.roleListtwo-addmove').css('display','none')
@@ -2103,7 +2127,8 @@ $('#managementli3').click(function() {
 		$('#dgip').datagrid({
 			url: server_context+'/listAccess',
 			method: 'post',
-			singleSelect: 'true',
+			// singleSelect: 'true',
+			singSelect: false,
 			fit: 'true',
 			fitColumns: 'true',
 			rownumbers: 'true',
@@ -2128,7 +2153,12 @@ $('#managementli3').click(function() {
     				}
 				},
 				{ field:"ts",title:'创建时间',align:"center",width: '25%'}
-			]]
+			]],
+			onLoadSuccess:function(data){
+				if(data.error_code!=0){
+					Statuscodeprompt(data.error_code)
+				}
+			}
 		})
 	})
 	 //启动禁用ip
@@ -2192,16 +2222,19 @@ function saveip() {
 }
 //删除ip
 function deleteUserip() {
-	var row = $("#dgip").datagrid('getSelected');
-	if(row == null) {
-		$.messager.alert("系统提示", "请选择一条IP进行删除",'warning');
+	var row = $("#dgip").datagrid('getChecked');
+	if(row==''||row==null||row==undefined) {
+		$.messager.alert("系统提示", "请选择IP进行删除",'warning');
 		return;
 	}
-	var id = row.id;
+	var id = [];
+	for(var i=0;i<row.length;i++){
+       id.push(row[i].id)
+	}
 	$.messager.confirm("系统提示", "您确认要删除这条IP吗？",function(r) {
 		if(r) {
 			$.post(server_context+"/removeAccess", {
-				id: id
+				id: id.join(',')
 			}, function(data) { //result直接返回Object，所以无需转换为json
 				if(data.error_code == 0) {
 					$.messager.alert("系统提示", "IP删除成功",'info');
@@ -2272,7 +2305,12 @@ $('#managementli4').click(function(){
 		        }
 		    },
 		    { field:"ts",title:'时间',align:"center",width: '20%'}
-		]]
+		]],
+		onLoadSuccess:function(data){
+			if(data.error_code!=0){
+				Statuscodeprompt(data.error_code)
+			}
+		}
 	})
 })
 $('#Logs').click(function(){
@@ -2441,7 +2479,8 @@ function canidSetree(node){
 	$('.canidSet-datagrid').datagrid({
 		url: server_context+'/listModelAliseCanId',
         method: 'get',
-		singleSelect: 'true',
+		// singleSelect: 'true',
+		singSelect:false,
         fitColumns: 'true',
         fit: 'true',
         rownumbers: 'true',
@@ -2468,15 +2507,20 @@ function addcanidSet(){
 	$('#canidSet-myname').val('');
 	$('#canidSet-mymask>input').remove();
     for(var i = 0;i<8;i++){
-        $("<input maxlength='2' style='width:22px;margin-left:5px;'></input>").appendTo($('#canidSet-mymask'))
+        $("<input maxlength='2' onkeyup='inputteshu(this)' style='width:22px;margin-left:5px;'></input>").appendTo($('#canidSet-mymask'))
 	}
 	canidSeturl = server_context+'/saveCanId';
 }
 //编辑
 function editorcanidSet(){
 	var row = $('.canidSet-datagrid').datagrid('getSelected');
+	var rows = $('.canidSet-datagrid').datagrid('getChecked');
 	if(row == null){
        $.messager.alert('系统提示','请选择需要修改的数据','error');
+	   return;
+	}
+	if(rows.length>=2){
+		$.messager.alert('系统提示','请选择一条数据进行编辑','error');
 	   return;
 	}
 	$('#canidSetModal').modal('show');
@@ -2490,16 +2534,20 @@ function editorcanidSet(){
 	}
     $('#canidSet-mymask>input').remove();
     for(var i = 0;i<8;i++){
-       $("<input maxlength='2' value="+input[i]+" style='width:22px;margin-left:10px;'></input>").appendTo($('#canidSet-mymask'))
+       $("<input maxlength='2' onkeyup='inputteshu(this)' value="+input[i]+" style='width:22px;margin-left:10px;'></input>").appendTo($('#canidSet-mymask'))
 	}
 	canidSeturl = server_context+'/updateCanId';
 }
 //删除
 function removecanidSet(){
-	var row = $('.canidSet-datagrid').datagrid('getSelected');
-	if(row == null){
+	var row = $('.canidSet-datagrid').datagrid('getChecked');
+	if(row == null || row ==undefined || row==''){
        $.messager.alert('系统提示','请选择需要删除的数据','error');
 	   return;
+	}
+	var id = [];
+	for(var i=0;i<row.length;i++){
+        id.push(row[i].id)
 	}
 	$.messager.confirm('系统提示','确认删除',function(r){
 		if(r){
@@ -2508,7 +2556,7 @@ function removecanidSet(){
 				url: server_context+'/removeCanId',
 				async:true,
 				data:{
-					ids:row.id
+					ids:id.join(',')
 				},
 				success:function(data){
 					if(data.error_code==0){
@@ -3126,7 +3174,12 @@ $('#managementli26').click(function(){
 					return "<span title='" + value + "'>" + value + "</span>";
 				}
 	        }
-		]]
+		]],
+		onLoadSuccess:function(data){
+			if(data.error_code!=0){
+				Statuscodeprompt(data.error_code)
+			}
+		}
 	})
 })
 //查看详情
@@ -3259,7 +3312,8 @@ $('#managementli29').click(function(){
 	$('.informationpushbottom-bottom-datagrid').datagrid({
 		url:server_context+'/listPushMessage',
 		method: 'get',
-		singleSelect: 'true',
+		// singleSelect: 'true',
+		singSelect:false,
 		fit: 'true',
 		fitColumns: 'true',
 		rownumbers: 'true',
@@ -3322,7 +3376,12 @@ $('#managementli29').click(function(){
 					}
 				}
 			},
-		]]
+		]],
+		onLoadSuccess:function(data){
+			if(data.error_code!=0){
+				Statuscodeprompt(data.error_code)
+			}
+		}
 	})
 })
 //添加推送消息
@@ -3574,12 +3633,17 @@ function informationpushSEXH(){
 //编辑推送消息
 function editorPushMessage(){
 	var row = $('.informationpushbottom-bottom-datagrid').datagrid('getSelected')
+	var rows = $('.informationpushbottom-bottom-datagrid').datagrid('getChecked')
 	if(row == null) {
 		$.messager.alert("系统提示", "请选择需要编辑的数据",'error');
 		return;
 	}
 	if(row.pushState==1){
         $.messager.alert("系统提示", "消息已经推送不能再进行编辑",'error');
+		return;
+	}
+	if(rows.length>=2){
+		$.messager.alert("系统提示", "请选择一条数据进行编辑",'error');
 		return;
 	}
 	$('#addmoveMessageModal').modal('show');
@@ -3669,10 +3733,14 @@ function monocasedatagridinquire(){
 }
 //删除推送消息
 function removePushMessage(){
-	var row = $('.informationpushbottom-bottom-datagrid').datagrid('getSelected')
-	if(row==null){
+	var row = $('.informationpushbottom-bottom-datagrid').datagrid('getChecked')
+	if(row==null || row==undefined || row==''){
 		$.messager.alert("系统提示", "请选择需要删除的数据",'error');
 		return;
+	}
+	var id = [];
+	for(var i=0;i<row.length;i++){
+        id.push(row[i].id)
 	}
 	$.messager.confirm('系统提示','确认删除此数据',function(r){
 		if(r){
@@ -3681,7 +3749,7 @@ function removePushMessage(){
 				url:server_context+"/removePushMessage",
 				async:true,
 				data:{
-					id:row.id
+					id:id.join(',')
 				},
 				success:function(data){
 					if(data.error_code==0){
@@ -3698,8 +3766,13 @@ function removePushMessage(){
 //查看推送消息    
 function lookoverPushMessage(){
 	var row = $('.informationpushbottom-bottom-datagrid').datagrid('getSelected')
+	var rows = $('.informationpushbottom-bottom-datagrid').datagrid('getChecked')
 	if(row==null){
 		$.messager.alert("系统提示", "请选择需要查看的数据",'error');
+		return;
+	}
+	if(rows.length>=2){
+		$.messager.alert("系统提示", "请选择一条推送消息进行审核",'error');
 		return;
 	}
 	$('#LookauditMessageModal').modal('show');
@@ -3799,12 +3872,17 @@ function inquireaudittwo(){
 //审核推送消息
 function auditPushMessage(){
 	var row = $('.informationpushbottom-bottom-datagrid').datagrid('getSelected')
+	var rows = $('.informationpushbottom-bottom-datagrid').datagrid('getChecked')
 	if(row==null){
 		$.messager.alert("系统提示", "请选择消息进行审核",'error');
 		return;
 	}
 	if(row.verifyState==1){
         $.messager.alert("系统提示", "审核已通过不能再进行审核",'error');
+		return;
+	}
+	if(rows.length>=2){
+		$.messager.alert("系统提示", "请选择一条推送消息进行审核",'error');
 		return;
 	}
 	$('#LookauditMessageModal').modal('show');
@@ -4186,7 +4264,8 @@ $('#managementli34').click(function(){
 	$('.appliedmanagement-datagrid').datagrid({
 		url:server_context+'/listOpenApp',
 		method: 'post',
-		singleSelect: 'true',
+		// singleSelect: 'true',
+		singSelect:false,
 		fit: 'true',
 		fitColumns: 'true',
 		rownumbers: 'true',
@@ -4209,7 +4288,12 @@ $('#managementli34').click(function(){
 			{ field:"provider",title:'设备供应商',align:"center",width:'12%'},
 			{ field:"ts",title:'最后请求时间戳',align:"center",width:'16%'},
 			{ field:"uuid",title:'UUID',align:"center"}
-		]]
+		]],
+		onLoadSuccess:function(data){
+			if(data.error_code!=0){
+				Statuscodeprompt(data.error_code)
+			}
+		}
 	})
 })
 //添加应用
@@ -4280,7 +4364,7 @@ function appliedmanagementModify(){
 //删除应用
 function appliedmanagementremove(){
 	var row = $('.appliedmanagement-datagrid').datagrid('getSelected');
-	if(row == null){
+	if(row == null || row =='' ||row == undefined){
 		$.messager.alert('系统提示','请选择需要删除的应用','error')
 		return;
 	}

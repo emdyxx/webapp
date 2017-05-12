@@ -249,7 +249,12 @@ function MobDatagrid(){
         },
         onUncheckAll:function(i){
             is.splice(0,is.length);
-        }
+        },
+        onLoadSuccess:function(data){
+			if(data.error_code!=0){
+				Statuscodeprompt(data.error_code)
+			}
+		}
         // onLoadSuccess:function(data){
         //     for(var i=0;i<is.length;i++){
         //         for(var j=0;j<data.rows.length;j++){
@@ -1134,10 +1139,10 @@ function reulatwo() {
             }
             if (data.activated == true) {
                 $('#currentone').text('已激活')
-                $('.activationoneop2').attr('selected', 'selected')
+                $('.activationoneop2').attr('selected', true)
             } else {
                 $('#currentone').text('未激活')
-                $('.activationoneop1').attr('selected', 'selected')
+                $('.activationoneop1').attr('selected', true)
             }
         }
     });
@@ -1409,8 +1414,8 @@ function reulafive() {
                for (var i = 1; i < friendlyDevice.length + 1; i++) {
                     $(".fivetbody").append("<tr id=" + i + " align='center'>"
                         + "<td>" + i + "</td>"
-                        + "<td><input type='text' name='MACName" + i + "' id='MACName" + i + "' value='" + friendlyDevice[i - 1].split(":")[0] + "' /></td>"
-                        + "<td><input type='text' name='MACAdress" + i + "' id='MACAdress" + i + "' value='" + friendlyDevice[i - 1].split(":")[1] + "' /></td>"
+                        + "<td><input type='text' onkeyup='inputteshu(this)' name='MACName" + i + "' id='MACName" + i + "' value='" + friendlyDevice[i - 1].split(":")[0] + "' /></td>"
+                        + "<td><input type='text' onkeyup='inputteshu(this)' name='MACAdress" + i + "' id='MACAdress" + i + "' value='" + friendlyDevice[i - 1].split(":")[1] + "' /></td>"
                         + "<td><a href=\'#\' onclick=\'deltr(" + i + ")\'>删除</a></td>"
                         + "</tr>");
                 }
@@ -1428,8 +1433,8 @@ $('.compilefiv').click(function () {
     }
     $(".fivetbody").append("<tr id=" + (_len) + " align='center'>"
         + "<td>" + _len + "</td>"
-        + "<td><input type='text' name='MACName" + (_len) + "' id='MACName" + (_len) + "' maxlength='20'/></td>"
-        + "<td><input type='text' name='MACAdress" + (_len) + "' id='MACAdress" + (_len) + "' maxlength='20'/></td>"
+        + "<td><input type='text' onkeyup='inputteshu(this)' name='MACName" + (_len) + "' id='MACName" + (_len) + "' maxlength='20'/></td>"
+        + "<td><input type='text' onkeyup='inputteshu(this)' name='MACAdress" + (_len) + "' id='MACAdress" + (_len) + "' maxlength='20'/></td>"
         + "<td><a href=\'#\' onclick=\'deltr(" + (_len) + ")\'>删除</a></td>"
         + "</tr>");
 })
@@ -1823,6 +1828,10 @@ $('.compileeleve').click(function(){
         }
     });
     $.messager.alert('系统提示', '重启命令发送成功,等待设备重启', 'info')
+})
+//读取按钮点击事件
+$('.compileelevenn').click(function(){
+    reulaeleven()   //重新调用了点击重启事件
 })
 //关闭取消点击事件
 function reulaten() {

@@ -32,7 +32,8 @@
        $('.equipmentreplacementmastermeter').datagrid({
 		    url: server_context+'/listReplaces', 
 			method: 'post',
-			singleSelect: 'true',
+			// singleSelect: 'true',
+			singSelect:false,
 			fit:'true',
 			fitColumns: 'true',
 			rownumbers: 'true',
@@ -53,7 +54,12 @@
 				{ field:"userName",title:'更换人员',align:"center",width: '8%'},
 				{ field:"dateTime",title:'更换日期',align:"center",width: '14%'},
 				{ field:"ts",title:'登记日期',align:"center"}
-			]]
+			]],
+			onLoadSuccess:function(data){
+				if(data.error_code!=0){
+					Statuscodeprompt(data.error_code)
+				}
+			}
 	   })
    })
    //主表查询按钮
@@ -79,11 +85,15 @@
    //修改设备更换记录
    $('.Modifyequipmentreplacementrecord').click(function(){
 	   var row = $('.equipmentreplacementmastermeter').datagrid('getSelected')
+	   var rows = $('.equipmentreplacementmastermeter').datagrid('getChecked');
 	   if(row==null){
 		   $.messager.alert('系统提示','请选择数据进行修改','warning');
 		   return;
 	   }
-	   console.log(row)
+	   if(rows.length>=2){
+           $.messager.alert('系统提示','请选择一条数据进行修改','warning');
+		   return;
+	   }  
 	   $('#addequipmentreplacementrecordModal').modal('show');
 	   $('.equipmentreplacementtitle').text('修改设备更换记录')
 	   $('#repairfm input').attr('disabled','disabled')
@@ -122,10 +132,14 @@
    }
    //删除设备更换记录
    $('.removeequipmentreplacementrecord').click(function(){
-	    var row = $('.equipmentreplacementmastermeter').datagrid('getSelected');
-		if(row==null){
+	    var row = $('.equipmentreplacementmastermeter').datagrid('getChecked');
+		if(row==null||row==''||row==undefined){
 		   $.messager.alert('系统提示','请选择需要删除的数据','warning');
 		   return;
+	   }
+	   var id = [];
+	   for(var i=0;i<row.length;i++){
+           id.push(row[i].id)
 	   }
 	   $.messager.confirm('系统提示','确认删除',function(r){
 		   if(r){
@@ -134,7 +148,7 @@
 				   type:'post',
 				   async:'true',
 				   data:{
-					   id:row.id
+					   id:id.join(',')
 				   },
 				   success:function(data){
 					   if(data.error_code == 0){
@@ -151,10 +165,15 @@
    //查看设备更换记录
    $('.Lookequipmentreplacementrecord').click(function(){
 	   var row = $('.equipmentreplacementmastermeter').datagrid('getSelected');
+	   var rows = $('.equipmentreplacementmastermeter').datagrid('getChecked');
 	   if(row==null){
 		   $.messager.alert('系统提示','请选择需要查看的数据','warning');
 		   return;
-	   }            
+	   }   
+	   if(rows.length>=2){
+           $.messager.alert('系统提示','请选择一条数据进行查看','warning');
+		   return;
+	   }         
        $('#LookequipmentreplacementModal').modal('show');
        $('#LookModalusergroup').text(row.groupName);
 	   $('#LookModalrole').text(row.roleName);

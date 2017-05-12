@@ -299,7 +299,8 @@ input {
 .compileseven>a,
 .compileeigh,
 .compilete,
-.compileeleve {
+.compileeleve,
+.compileelevenn {
 	display: inline-block;
 	text-align: center;
 	width: 160px;
@@ -330,7 +331,7 @@ input {
 	background: url('../img/Theowner/baocunanniu.png') no-repeat;
 }
 
-.reads,.readthr,.readfou,.compileseve {
+.reads,.readthr,.readfou,.compileseve,.compileelevenn {
 	background: url('../img/Theowner/duquanniu.png') no-repeat;
 }
 .compilefiv{

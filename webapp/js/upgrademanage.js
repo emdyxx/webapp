@@ -110,7 +110,12 @@
   					  return str
     				}
 				}
-			]]
+			]],
+			onLoadSuccess:function(data){
+				if(data.error_code!=0){
+					Statuscodeprompt(data.error_code)
+				}
+			}
 		})
 	})
 	//下载文件

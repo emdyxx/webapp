@@ -228,7 +228,7 @@
 					var list = '';
 					var selected ='';
 					for(var j=0;j<8;j++){
-                       list += '<input maxlength="2" style="width:22px;margin-left:10px;" value='+inputeight2[i][j]+'>'
+                       list += '<input maxlength="2" onkeyup="inputteshu(this)" style="width:22px;margin-left:10px;" value='+inputeight2[i][j]+'>'
 					}
 					if(data[i].channel=='11'){
                        selected = "<select id=''>"+"<option value='11' selected='selected'>"+'CAN1'+"</option>"+
@@ -244,7 +244,7 @@
         			$("<tr id='cantr'>"+"<td style='width: 40px;'>"
         			+"<input type='checkbox' id='cancheckbox' name='cancheckbox' style='width: 22px;'>"+"</td>"
         			+"<td id='canIds'>"+data[i].canId+"</td>"+"<td>"+data[i].canName+"</td>"
-        			+"<td>"+"<input id='canIdIntervals' style='width:80px;' value='"+data[i].interval+"' type='text'>"+"</td>"
+        			+"<td>"+"<input id='canIdIntervals' onkeyup='inputteshu(this)' style='width:80px;' value='"+data[i].interval+"' type='text'>"+"</td>"
 					+"<td id='masks'>"+list
 					+"</td>"+"<td id='CANchannelnumber'>"+selected+"</td>"+"</tr>").appendTo($('#cantable'))
         		}
