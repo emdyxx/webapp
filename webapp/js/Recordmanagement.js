@@ -3,6 +3,7 @@
   var endtime//结束时间
   var canLookUp;//查看权限
   var canSettingUp;//录制设置权限
+  var canRouseUp=0;//唤醒按钮权限
   var canonline;//判断设备是否在线
   var candata;//判断设备是否在录制中
   //7.1录制管理--录制管理
@@ -23,16 +24,19 @@
 			Statuscodeprompt(data.error_code)
 		}
 		for(var i=0;i<data.data.length;i++){
-			if(data.data[i]==121){
+			if(data.data[i]=='121'){
 				canLookUp=121
 			}
-			if(data.data[i]==122){
+			if(data.data[i]=='122'){
 				canSettingUp=122
+			}
+			if(data.data[i]=='123'){
+				canRouseUp=123
 			}
 		}
 	})
   	$('.Recordmanagement-primarymeter').datagrid({
-  		url: server_context+'/listDevice',
+  		url: server_context+'/listCanDevice',
 		method: 'get',
 		singleSelect: 'true',
 		fit: 'true',
@@ -47,11 +51,21 @@
 		},
 		columns:[[
 		    { field:"cb",checkbox:"true",align:"center"},
-			{ field:"deviceId",title:'设备编号',align:"center",width:'12%'},
+			{ field:"deviceId",title:'设备编号',align:"center",width:'10%'},
 			{ field:"vin",title:'车架号',align:"center",width:'12%'},
-			{ field:"ecuSerialNum",title:'电控单元号',align:"center",width:'20%'},
+			{ field:"ecuSerialNum",title:'电控单元号',align:"center",width:'18%'},
 			{ field:"iccid",title:'iccid',align:"center",width:'15%'},
-			{ field:"modelAlias",title:'车系代码',align:"center",width:'12%'},
+			{ field:"modelAlias",title:'车系代码',align:"center",width:'10%'},
+			{ field:"one6",title:'录制状态',align:"center",width:'10%',
+		        formatter:function(value, rows, index){
+					var status = rows.status;
+					if(status==0){
+                       return '<a style="color:#EC5759">'+"录制中"+'</a>';
+					}else{
+                       return '<a style="color:#7CAD16">'+"录制结束"+'</a>';
+					}
+		        }
+			},
 			{ field:"one7",title:'录制信息',align:"center",width:'10%',
 		        formatter:function(value, rows, index){
 		        	return '<a href="javaScript:LookRecordmanagement('+index+')" style="display:inline-block;line-height:20px;width:60px;height:20px;background:#00AAFF;color:white">'+"查看"+'</a>';
@@ -161,7 +175,10 @@
 	    $('#Recordmanagementtdd3').text(row.vin);
 	    $('#Recordmanagementtdd4').text(row.iccid);
 	    $('#Recordmanagementtdd5').text(row.modelAlias);
-        $.ajax({
+		$('.out').css('display','')
+		$('.outTest').css('display','')
+        //获取设备的在线信息
+	    $.ajax({
 			type:'post',
         	async:'true',
         	url:server_context+'/getDeviceInfo',
@@ -176,22 +193,52 @@
 					   $('#CANdeviceIdzt').css('color','gray')
 					   $('#canawaken').removeAttr('disabled','disabled')
 					   $('#Bustorecordsend').attr('disabled','disabled')
-					   $('#cancelrecording').attr('disabled','disabled')
+					   //$('#cancelrecording').attr('disabled','disabled')
 					   $('#canIDduqu').attr('disabled','disabled')
+					   listCnId()
 				   }else{
 					   $('#CANdeviceIdzt').text('在线')
 					   $('#CANdeviceIdzt').css('color','#7EB00E')
 					   $('#canawaken').attr('disabled','disabled')
 					   $('#Bustorecordsend').removeAttr('disabled','disabled')
-					   $('#cancelrecording').removeAttr('disabled','disabled')
+					   //$('#cancelrecording').removeAttr('disabled','disabled')
 					   $('#canIDduqu').removeAttr('disabled','disabled')
+						var ajaxTimeout = $.ajax({
+							timeout:10000, //超时时间设置，单位毫秒
+							type:'post',
+							async:'true',
+							url:server_context+'/readCanRecord',
+							data:{
+								'deviceId':row.deviceId
+							},
+							success:function(data){
+						       if(data.error_code==0){
+						    	   $('.out').css('display','none')
+								   $('.outTest').css('display','none')
+							   }else{
+								   Statuscodeprompt(data.error_code);
+								   $('.out').css('display','none')
+								   $('.outTest').css('display','none')
+							   }
+						       listCnId()
+							},
+							complete:function(XMLHttpRequest,status){ //请求完成后最终执行参数
+								//超时,status还有success,error等值的情况
+								if(status=='timeout'){
+									ajaxTimeout.abort(); //取消请求
+									$('.out').css('display','none');
+									$('.outTest').css('display','none')
+								}
+							}
+						})
 				   }
 				}else{
-                   Statuscodeprompt(data.error_code)
+                   Statuscodeprompt(data.error_code);
+                   listCnId();
 				}
 			}
 		})
-		listCnId()
+		
   }
   function listCnId(){
      $.ajax({
@@ -203,7 +250,7 @@
         	},
         	success:function(data){
                 candata = data.data;
-				if(canonline==true){
+				/*if(canonline==true){
                     if(candata!=''){
                      	 $('#Bustorecordsend').attr('disabled','disabled')
 						 $('#cancelrecording').removeAttr('disabled','disabled')
@@ -211,7 +258,7 @@
 						$('#Bustorecordsend').removeAttr('disabled','disabled')
 						$('#cancelrecording').attr('disabled','disabled')
 					}
-				}
+				}*/
 				var inputeight1 = [];
 				var inputeight2 = [];
 				$('#CANstoptime').datetimebox('setValue', data.data.endTime);
@@ -227,6 +274,7 @@
         		for(var i=0;i<data.length;i++){
 					var list = '';
 					var selected ='';
+					var checked = '';
 					for(var j=0;j<8;j++){
                        list += '<input maxlength="2" onkeyup="inputteshu(this)" style="width:22px;margin-left:10px;" value='+inputeight2[i][j]+'>'
 					}
@@ -240,13 +288,17 @@
 						selected = "<select>"+"<option value='11'>"+'CAN1'+"</option>"+
 					   "<option value='12'>"+'CAN2'+"</option>"+"</select>"
 					}
+					if(data[i].deleted=="1"){
+						checked = 'checked';
+					}
 					var arr=[];
         			$("<tr id='cantr'>"+"<td style='width: 40px;'>"
         			+"<input type='checkbox' id='cancheckbox' name='cancheckbox' style='width: 22px;'>"+"</td>"
         			+"<td id='canIds'>"+data[i].canId+"</td>"+"<td>"+data[i].canName+"</td>"
         			+"<td>"+"<input id='canIdIntervals' onkeyup='inputteshu(this)' style='width:80px;' value='"+data[i].interval+"' type='text'>"+"</td>"
 					+"<td id='masks'>"+list
-					+"</td>"+"<td id='CANchannelnumber'>"+selected+"</td>"+"</tr>").appendTo($('#cantable'))
+					+"</td>"+"<td id='CANchannelnumber'>"+selected+"</td>"+"<td style='width: 40px;'>"
+        			+"<input type='checkbox' id='candeleted' name='candeleted' "+checked+" style='width: 35px;'>"+"</td>"+"</tr>").appendTo($('#cantable'))
         		}
 				var canchcked = document.querySelectorAll('#cancheckbox');
 				for(var i=0;i<canchcked.length;i++){
@@ -263,7 +315,7 @@
 				if(candata!=''){
 					for(var i=0;i<candata.filter.length;i++){
                          for(var j=0;j<$('#cantable tr').length;j++){
-                             if(candata.filter[i].canId==$('#cantable tr').eq(j).find('td').eq(1).text()){
+                             if(candata.filter[i].canId.toUpperCase()==$('#cantable tr').eq(j).find('td').eq(1).text()){
                                  $("#cantable tr").eq(j).addClass('success');
 								 $('#cantable tr').eq(j).find('td').eq(0).find('input').attr('checked',true);
 							 }
@@ -276,6 +328,10 @@
   
  //can录制设备唤醒按钮
 function canawakena(index){
+	if(canRouseUp==0){
+		$.messager.alert('系统提示','你没有唤醒权限','warning');
+		return;
+	}
 	var row = 	$('.Recordmanagement-primarymeter').datagrid('getRows');
 	var rows = row[index];
  	var deviceId = rows.deviceId;
@@ -375,10 +431,10 @@ $('#Bustorecordsend').on('click',function(){
        $.messager.alert('系统提示','设备不在线不能保存发送...','error');
 	   return;
 	}
-	if(candata!=''){
+	/*if(candata!=''){
        $.messager.alert('系统提示','设备正在录制中,请先取消录制再进行发送...','error');
 	   return;
-	}
+	}*/
 	var row = $('.Recordmanagement-primarymeter').datagrid('getSelected')
 	var a=[];
 	var dt;
@@ -386,6 +442,10 @@ $('#Bustorecordsend').on('click',function(){
 		if($('#cantable input[name="cancheckbox"]').eq(i).is(':checked')==true){
 			dt = 1;
 			var filters=[];
+			var deleted = "0";
+			if($('#cantable input[name="candeleted"]').eq(i).is(':checked')==true){
+				deleted = "1";
+			}
 			for(var s=0;s<$("#cantable tr").eq(i+1).find('td').eq(4).find('input').length;s++){
                  filters.push($("#cantable tr").eq(i+1).find('td').eq(4).find('input').eq(s).val());
 			}
@@ -393,7 +453,8 @@ $('#Bustorecordsend').on('click',function(){
 				canId:$("#cantable tr").eq(i+1).find('td').eq(1).text(),
 				interval:$("#cantable tr").eq(i+1).find('td').eq(3).find('input').val(),
 				filter:filters.join(' '),
-				channel:$("#cantable tr").eq(i+1).find('td').eq(5).find('select').val()
+				channel:$("#cantable tr").eq(i+1).find('td').eq(5).find('select').val(),
+				deleted:deleted,
 			})
 		}
 	}
@@ -444,7 +505,7 @@ $('#Bustorecordsend').on('click',function(){
 	})
 })
 //can取消录制按钮
-$('#cancelrecording').click(function(){
+/*$('#cancelrecording').click(function(){
     if(canonline!=true){
        $.messager.alert('系统提示','设备不在线不能取消录制...','error');
 	   return;
@@ -472,11 +533,12 @@ $('#cancelrecording').click(function(){
 			}
 		}
 	})
-})
+})*/
 //can读取按钮
 $('#canIDduqu').click(function(){
 	$('.out').css('display','')
-	$.ajax({
+	var ajaxTimeout1 = $.ajax({
+		timeout:10000, //超时时间设置，单位毫秒
 		type:'post',
     	async:'true',
     	url:server_context+'/readCanRecord',
@@ -485,13 +547,26 @@ $('#canIDduqu').click(function(){
 		},
 		success:function(data){
            if(data.error_code==0){
-			   setTimeout(function() {
+			  /* setTimeout(function() {
 				   listCnId()
+				   $.messager.alert('系统提示','读取成功','info');
 				   $('.out').css('display','none')
-			   }, 2000);
+			   }, 2000);*/
+			   listCnId()
+			   $.messager.alert('系统提示','读取成功','info');
+			   $('.out').css('display','none')
 		   }else{
 			   Statuscodeprompt(data.error_code);
+			   $('.out').css('display','none')
 		   }
+		},
+		complete:function(XMLHttpRequest,status){ //请求完成后最终执行参数
+			//超时,status还有success,error等值的情况
+			if(status=='timeout'){
+				ajaxTimeout1.abort(); //取消请求
+				$.messager.alert('系统提示','读取失败','error');
+				$('.out').css('display','none');
+			}
 		}
 	})
 })
@@ -505,6 +580,7 @@ function Recordmnagement(){
 }
 
 //7.2 总线录制---录制查询
+var canDataDetails=0;
 $('#managementli33').click(function(){   
 	clearInterval(seti);
 	$('main>div').css('display','none');
@@ -516,6 +592,30 @@ $('#managementli33').click(function(){
 	$('#queryandpivotoperates').css('background','#E5E5E5');
 	$('.queryandpivot-bottom-one').css('display','');
 	$('.queryandpivot-bottom-two').css('display','none');
+	
+	//权限请求
+	var data={
+		id:$('#managementli33').attr('name')
+	}
+	$.post(server_context+'/setMenuId',data,function(data){
+		if(data.error_code!=0){
+			Statuscodeprompt(data.error_code)
+		}
+		for(var i=0;i<data.data.length;i++){
+			if(data.data[i]=='125'){
+				//列表查看权限
+			}
+			if(data.data[i]=='126'){
+				// can数据导出
+				$('.canDataExport').css('display','');
+			}
+			if(data.data[i]=='127'){
+				//can数据导出详情查看
+				canDataDetails=127;
+			}
+		}
+	})
+	
 	$('.queryandpivot-datagrid').datagrid({
 		url: server_context+'/listCanData',
 		method: 'get',
@@ -705,6 +805,10 @@ $('#queryandpivotoperates').click(function(){
 	})
 })
 function queryandpivotoperatesxq(index){
+	if(canDataDetails!=127){
+		$.messager.alert('系统提示','你没有查看详情权限','warning');
+		return;
+	}
 	var rows = $('.queryandpivot-datagrid-two').datagrid('getRows');
 	var row = rows[index];
 	console.log(row)

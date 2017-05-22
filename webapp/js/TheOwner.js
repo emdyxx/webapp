@@ -614,6 +614,10 @@ function  startusings(){
 //审核操作按钮
 var deviceidchezhu;  //车主的真实id
 function ReviewOperation(index){
+	if(TheOwnerIp!=23){
+		$.messager.alert('系统提示','你没有审核权限','warning');
+		return;
+	}
 	var rows = $("#TheOwner-datagrid-bottom").datagrid('getRows');
 	var row = rows[index]
     deviceidchezhu = row.id;
@@ -661,10 +665,6 @@ function ReviewOperation(index){
 }
 //审核按钮
 $('.Nextstep7').click(function(){
-	if(TheOwnerIp!=23){
-		$.messager.alert('系统提示','你没有此权限','warning');
-		return;
-	}
 	console.log(123)
 	var states=$(this).attr('name')
 	$.ajax({

@@ -116,6 +116,11 @@
 					}else{
 						$('.Motorcyspanimg>img').eq(10).attr('src','img/MotorcycleType/weixuanzhong.png')
 					}
+					if(data.POWER==1){
+						$('.Motorcyspanimg>img').eq(11).attr('src','img/MotorcycleType/xuanzhong.png')
+					}else{
+						$('.Motorcyspanimg>img').eq(11).attr('src','img/MotorcycleType/weixuanzhong.png')
+					}
 				}
 			})
         }else{
@@ -141,12 +146,14 @@
 	 		AC_PM:$('.Motorcyspanimg>img').eq(3).attr('name'),
 	 		AC_SEAT:$('.Motorcyspanimg>img').eq(4).attr('name'),
 	 		WINDOW_UP:$('.Motorcyspanimg>img').eq(5).attr('name'),
-	 		WINDOW_DOWN:$('.Motorcyspanimg>img').eq(6).attr('name'),
-	 		TRACKING:$('.Motorcyspanimg>img').eq(7).attr('name'),
-	 		TRUNK_OPEN:$('.Motorcyspanimg>img').eq(8).attr('name'),
-	 		TRUNK_CLOSE:$('.Motorcyspanimg>img').eq(9).attr('name'),
-	 		SUNROOF:$('.Motorcyspanimg>img').eq(10).attr('name')
+	 		SUNROOF:$('.Motorcyspanimg>img').eq(6).attr('name'),
+	 		WINDOW_DOWN:$('.Motorcyspanimg>img').eq(7).attr('name'),
+	 		TRACKING:$('.Motorcyspanimg>img').eq(8).attr('name'),
+	 		TRUNK_OPEN:$('.Motorcyspanimg>img').eq(9).attr('name'),
+	 		TRUNK_CLOSE:$('.Motorcyspanimg>img').eq(10).attr('name'),
+	 		POWER:$('.Motorcyspanimg>img').eq(11).attr('name')
 	 	}
+	 	
 	 	$.ajax({
 	 		type:"post",
 	 		url:server_context+"/updateRemoteFeature",
@@ -281,128 +288,3 @@
 			}
 		}
 	}
-
-// function conver(data) {
-// 	function exists(data, parentId) {
-// 		for(var i = 0; i < data.length; i++) {
-// 			if(data[i].id == parentId) return true;
-// 		}
-// 		return false;
-// 	}
-// 	var nodes = [];
-// 	// get the top level nodes
-// 	for(var i = 0; i < data.length; i++) {
-// 		var row = data[i];
-// 		if(row.level==1){
-//             if(!exists(data, row.parentId)) {
-// 				nodes.push({
-// 					id: row.id,
-// 					text: row.name,
-// 					parendId: row.parendId,
-// 					type:row.type,
-// 					actualId:row.actualId,
-// 					checked:row.checked,
-// 					iconCls:'icon-chexingone'
-// 				});
-// 			}
-// 		}else if(row.level==2){
-//             if(!exists(data, row.parentId)) {
-// 				nodes.push({
-// 					id: row.id,
-// 					text: row.name,
-// 					parendId: row.parendId,
-// 					type:row.type,
-// 					actualId:row.actualId,
-// 					checked:row.checked,
-// 					iconCls:'icon-chexingtwo'
-// 				});
-// 			}
-// 		}else if(row.level==3){
-//             if(!exists(data, row.parentId)) {
-// 				nodes.push({
-// 					id: row.id,
-// 					text: row.name,
-// 					parendId: row.parendId,
-// 					type:row.type,
-// 					actualId:row.actualId,
-// 					checked:row.checked,
-// 					iconCls:'icon-chexingthree'
-// 				});
-// 			}
-// 		}else if(row.level==4){
-//             if(!exists(data, row.parentId)) {
-// 				nodes.push({
-// 					id: row.id,
-// 					text: row.name,
-// 					parendId: row.parendId,
-// 					type:row.type,
-// 					actualId:row.actualId,
-// 					checked:row.checked,
-// 					iconCls:'icon-chexingfour'
-// 				});
-// 			}
-// 		}
-// 	}
-// 	var toDo = [];
-// 	for(var i = 0; i < nodes.length; i++) {
-// 		toDo.push(nodes[i]);
-// 	}
-// 	while(toDo.length) {
-// 		var node = toDo.shift(); // the parent node
-// 		// get the children nodes
-// 		for(var i = 0; i < data.length; i++) {
-// 			var row = data[i];
-// 			if(row.parentId == node.id) {
-// 				if(row.level==1){
-// 					var child = {
-// 						id: row.id,
-// 						text: row.name,
-// 						parendId: row.parendId,
-// 						type:row.type,
-// 						actualId:row.actualId,
-// 						checked:row.checked,
-// 						iconCls:'icon-chexingone'
-// 					};
-// 				}else if(row.level==2){
-//                     var child = {
-// 						id: row.id,
-// 						text: row.name,
-// 						parendId: row.parendId,
-// 						type:row.type,
-// 						actualId:row.actualId,
-// 						checked:row.checked,
-// 						iconCls:'icon-chexingtwo'
-// 					}
-// 				}
-// 				else if(row.level==3){
-//                     var child = {
-// 						id: row.id,
-// 						text: row.name,
-// 						parendId: row.parendId,
-// 						type:row.type,
-// 						actualId:row.actualId,
-// 						checked:row.checked,
-// 						iconCls:'icon-chexingthree'
-// 					}
-// 				}else if(row.level==4){
-//                     var child = {
-// 						id: row.id,
-// 						text: row.name,
-// 						parendId: row.parendId,
-// 						type:row.type,
-// 						actualId:row.actualId,
-// 						checked:row.checked,
-// 						iconCls:'icon-chexingfour'
-// 					}
-// 				}
-// 				if(node.children) {
-// 					node.children.push(child);
-// 				} else {
-// 					node.children = [child];
-// 				}
-// 				toDo.push(child);
-// 			}
-// 		}
-// 	}
-// 	return nodes;
-// }

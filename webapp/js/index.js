@@ -1,4 +1,4 @@
-
+﻿
 var localObj = window.location;
 
 var contextPath = localObj.pathname.split("/")[1];
@@ -78,7 +78,7 @@ function Statuscodeprompt(code,msg,img){
 }
 function inputteshu(obj){
 	obj.value = obj.value.replace(/\s+/g,'');   //空格验证替换
-	obj.value = obj.value.replace(/[^\u4e00-\u9fa5\w]/g,'')  //特殊字符正则替换
+	obj.value = obj.value.replace(/[^\u4e00-\u9fa5\w\.\*\-]/g,'')  //特殊字符正则替换
 }
 /************************1.1进入主页*******************************/
 var account = $.cookie('account');
@@ -575,6 +575,7 @@ var idlever;
 var url;
 var rowid;
 var file;//图片上传权限判断
+var operateUserStatus = 0;//用户启用与禁用按钮的状态
 $('.box').linkbutton({
 	text: '添加组',
 	iconCls: 'icon-tianjiaa'
@@ -586,6 +587,7 @@ $('.sox').linkbutton({
 
 //点击车厂管理触发的事件
 $('#managementli1').click(function() {
+	operateUserStatus=0
 	clearInterval(seti);
 	clearInterval(Realtimeconditionset);							   
 	id=''
@@ -622,6 +624,9 @@ $('#managementli1').click(function() {
 			}
 			if(data.data[i]==8){
 				$('.isrevise3').css('display','')
+			}
+			if(data.data[i]==39){
+				operateUserStatus=39;
 			}
 			
 		}
@@ -699,6 +704,32 @@ function tre(node) {
 		queryParams: {
 			id: tr
 		},
+		columns:[[
+				    { field:"cb",checkbox:"true",align:"center"},
+					{ field:"userName",title:'用户名',align:"center",width: '14.8%'},
+					{ field:"fullName",title:'姓名',align:"center",width: '14%'},
+					{ field:"groupName",title:'用户组',align:"center",width: '14%'},
+					{ field:"roleName",title:'角色',align:"center",width: '13%'},
+					{ field:"mobile",title:'联系方式',align:"center",width: '16%'},
+					{ field:"status",title:'操作',align:"center",width: '10%',
+					   formatter: function (value, row, index) {
+	  					  var value=row['status'];
+	  					  if(value==0){
+	  					  	return '<a style="background:#7DAE16;color:white;display:inline-block;width:60px" href=\javaScript:userStatus('+ index +')>'+"启用"+'</a>';
+	  					  }else{
+	  					  	return '<a style="background:#666666;color:white;display:inline-block;width:60px" href=\javaScript:userStatus('+ index +')>'+"禁用"+'</a>';
+	  					  }
+	    				}
+					},
+					{ field:"ts",title:'创建时间',align:"center",width: '15%'}
+				]],
+		/*	<th field="cb" checkbox="true" align="center"></th>
+			<th field="userName" align="center" style="width: 16.8%">用户名</th>
+			<th field="fullName" align="center" style="width: 16%">姓名</th>
+			<th field="groupName" align="center" style="width: 16%">用户组</th>
+			<th field="roleName" align="center" style="width: 15%">角色</th>
+			<th field="mobile" align="center" style="width: 18%">联系方式</th>
+			<th field="ts" align="center" style="width: 17%">创建时间</th>*/
 		onLoadSuccess:function(data){
 			if(data.error_code!=0){
 				Statuscodeprompt(data.error_code)
@@ -706,6 +737,35 @@ function tre(node) {
 		}
 	})
 }
+//启动禁用用户
+function userStatus(index){
+	  var rows = $("#dgl").datagrid('getRows');
+	  var row = rows[index]
+	  if(operateUserStatus!=39){
+		  $.messager.alert('系统提示','你不具备此操作权限','warning');
+		  return;
+	  }
+	  $.messager.confirm('系统提示','确认进行此操作..',function(r){
+		  if(r){
+            $.ajax({
+				type:"post",
+				url:server_context+"/updateUserStatus",
+				async:true,
+				data:{
+					id:row.id,
+					status:row.status
+				},
+				success:function(data){
+					if(data.error_code==0){
+						$("#dgl").datagrid('reload')
+					}
+				}
+			}); 
+		  }
+	  })
+		
+}
+
 //tree树点击添加的函数
 function treeadd() {
 	if(!id) {
@@ -728,6 +788,10 @@ function treeadd() {
 			level:1,
 		},
 		success:function(data){
+			if(data.error_code!=0){
+				Statuscodeprompt(data.error_code);
+				return;
+			}
 			$("#province").find("option").remove();
 			for(var i=0;i<data.data.length;i++){
 				$('<option value='+data.data[i].id+'>'+data.data[i].name+'</option>').appendTo('#province')
@@ -858,7 +922,7 @@ function iscompilebj(){
 }
         
 function baocun() {
-	var phone = /^((0\d{2,3}-\d{7,8})|(1[3584]\d{9}))$/;
+	var phone = /^1[34578]\d{9}$/;
 	var email = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
     if($('#treename').val()==''||$('#treefzr').val()==''||$('#treephone').val()==''||$('#treeemail').val()==''||$('#county').val()==''||$('#inaddress').val()==''){
         $.messager.alert('系统提示','必填字段不能为空','warning');
@@ -1665,7 +1729,7 @@ $('#managementli2').click(function() {
 					$('.removerole').css('display', '')
 				}
 				if(data.data[i]==12){
-					jurisdictionlist=data.data[i]
+					jurisdictionlist=12
 				}
 				if(data.data[i]==13){
 					$('.rule').css('display', '')
@@ -1950,8 +2014,9 @@ function ruleadd(){
 	if(id1==1){
        return;
 	}
-	if(jurisdictionlist!=12){
-       $.messager.alert('系统提示','你没有此权限','warning')
+	if(roleId==1){
+		$.messager.alert('系统提示','系统管理员角色规则无法修改','warning')
+	    return;
 	}
 	$.ajax({
 		type: "post",
@@ -1974,6 +2039,10 @@ function ruleadd(){
 
 //添加权限的保存
 function roleadd() {
+	if(jurisdictionlist!=12){
+	       $.messager.alert('系统提示','你没有修改权限','warning')
+	       return;
+	}
 	if(roleId==1){
 	   $.messager.alert('系统提示','超级管理员权限不能修改','warning')
        return;
@@ -2051,7 +2120,7 @@ function addrole() {
 //删除角色
 function treeremove() {
 	if(id1!=0){
-		$.messager.alert("系统提示", "请选择角色进行删除");
+		$.messager.alert("系统提示", "请选择角色进行删除",'warning');
 		return;
 	}
 	if(id1==0) {
@@ -2146,9 +2215,9 @@ $('#managementli3').click(function() {
 				   formatter: function (value, row, index) {
   					  var value=row['status'];
   					  if(value==1){
-  					  	return '<a style="background:#7DAE16;color:white;display:inline-block;width:60px" href=\javaScript:ownerVerify()>'+"已启用"+'</a>';
+  					  	return '<a style="background:#7DAE16;color:white;display:inline-block;width:60px" href=\javaScript:ownerVerify('+ index +')>'+"已启用"+'</a>';
   					  }else{
-  					  	return '<a style="background:#666666;color:white;display:inline-block;width:60px" href=\javaScript:ownerVerify()>'+"未启用"+'</a>';
+  					  	return '<a style="background:#666666;color:white;display:inline-block;width:60px" href=\javaScript:ownerVerify('+ index +')>'+"未启用"+'</a>';
   					  }
     				}
 				},
@@ -2162,8 +2231,9 @@ $('#managementli3').click(function() {
 		})
 	})
 	 //启动禁用ip
-   function ownerVerify(){
-   	  var row = $("#dgip").datagrid('getSelected');
+   function ownerVerify(index){
+	  var rows = $("#dgip").datagrid('getRows');
+	  var row = rows[index]
 	  if(operateIp!=17){
 		  $.messager.alert('系统提示','你不具备操作ip的权限','warning');
 		  return;
@@ -2494,7 +2564,22 @@ function canidSetree(node){
             { field: "cb", checkbox: "true", align: "center" },
             { field: "canId", title: 'CANID', align: "center", width: '30%',},
             { field: "canName", title: 'CAN名称', align: "center", width: '30%' },
-            { field: "filter", title: '掩码', align: "center"},
+            { field: "filter", title: '掩码', align: "center",
+            	formatter:function(value, rows, index){
+            		// 掩码显示每2个字符之间加上空格
+		        	var value = rows['filter']
+		        	if(value.length=16){
+		        		var showValue="";
+		        		for(var i=0;i<8;i++){
+		        			showValue += value.substring(i*2,i*2+2)+" ";
+		        		}
+
+		        		return showValue;
+		        	}else{
+		        		return value;
+		        	}
+		        }
+            },
 		]]
 	})
 }
@@ -2716,8 +2801,6 @@ function Realtimeconditionqinquire(){
 }
 
 function relatimels(){
-    // $('.Realtimecondition-xiabottom>div').find('span').find('img').attr('src','img/relatime/guanbi.png');
-	// $('.Realtimecondition-xiabottom').eq(4).find('div').find('span').find('img').attr('src','img/relatime/dakai.png');
 	$.ajax({
 		type:"get",
 		url:server_context+"/getRealtimeData",
@@ -2804,7 +2887,7 @@ function relatimels(){
 			$('#vehiclestate18').text(data.insidetemperature)
 			$('#vehiclestate19').text(data.outsidetemperature)
 			$('#vehiclestate20').text(data.keyposition)
-			if(data.engine==0){
+			if(data.engine==1){
                $('#vehiclestate21').text('开启')
 			}else{
 				$('#vehiclestate21').text('关闭')
@@ -2929,12 +3012,12 @@ function relatimels(){
 				$('.trunk>img').eq(0).attr('src','img/relatime/guanbi.png')
 			}
 			//车门车窗
-			if(data.driverdoor==1){       
+			if(data.fldoor==1){       
 				$('.driverdoor>img').eq(0).attr('src','img/relatime/dakai.png')
 			}else{
 				$('.driverdoor>img').eq(0).attr('src','img/relatime/guanbi.png')
 			}
-			if(data.passengerdoor==1){
+			if(data.frdoor==1){
 				$('.driverdoor>img').eq(1).attr('src','img/relatime/dakai.png')
 			}else{
 				$('.driverdoor>img').eq(1).attr('src','img/relatime/guanbi.png')
@@ -3111,6 +3194,27 @@ $('#managementli26').click(function(){
 	$('main>div').css('display','none');
   	$('.UpdateLog').css('display','');
   	$('.UpdateLogtails input').val('');
+  	
+  	//权限请求
+  	var data={
+  		id:$('#managementli26').attr('name')
+  	}
+  	$.post(server_context+'/setMenuId',data,function(data){
+  		if(data.error_code!=0){
+  			Statuscodeprompt(data.error_code)
+  		}
+  		for(var i=0;i<data.data.length;i++){
+  			if(data.data[i]=='115'){
+  				//列表查看权限
+  			}
+  			if(data.data[i]=='116'){
+  				// 升级日志详情查看
+  				$('.UpdateLog-div').css('display','');
+  				
+  			}
+  		}
+  	})
+  	
 	$('.UpdateLog-datagrid').datagrid({
 		url: server_context+'/listUpdateLog',
 		method: 'post',
@@ -3126,9 +3230,15 @@ $('#managementli26').click(function(){
 					return "<span title='" + value + "'>" + value + "</span>";
 				}
 	        },
-			{ field:"iccid",title:'ICCID',align:"center",width:'15%',
+			/*{ field:"iccid",title:'ICCID',align:"center",width:'15%',
 		        formatter: function (value, row, index) {
 					var value = row.iccid
+					return "<span title='" + value + "'>" + value + "</span>";
+				}
+	        },*/
+	        { field:"softVer",title:'软件版本号',align:"center",width:'10%',
+		        formatter: function (value, row, index) {
+					var value = row.softVer
 					return "<span title='" + value + "'>" + value + "</span>";
 				}
 	        },
@@ -3162,7 +3272,7 @@ $('#managementli26').click(function(){
 					return "<span title='" + value + "'>" + value + "</span>";
 				}
 	        },
-			{ field:"fileName",title:'文件名',align:"center",width:'19%',
+			{ field:"fileName",title:'文件名',align:"center",width:'24%',
 		        formatter: function (value, row, index) {
 					var value = row.fileName
 					return "<span title='" + value + "'>" + value + "</span>";
@@ -3205,15 +3315,21 @@ $('.UpdateLog-div').click(function(){
 				release:row.tsr
 			},
 			columns:[[
-			    { field:"deviceId",title:'设备编号',align:"center",width:'8%',
+			    { field:"deviceId",title:'设备编号',align:"center",width:'10%',
 			        formatter: function (value, row, index) {
 						var value = row.deviceId
 						return "<span title='" + value + "'>" + value + "</span>";
 					}
 		        },
-				{ field:"iccid",title:'ICCID',align:"center",width:'16%',
+				/*{ field:"iccid",title:'ICCID',align:"center",width:'16%',
 			         formatter: function (value, row, index) {
 						var value = row.iccid
+						return "<span title='" + value + "'>" + value + "</span>";
+					}
+		        },*/
+		        { field:"softVer",title:'软件版本号',align:"center",width:'10%',
+			         formatter: function (value, row, index) {
+						var value = row.softVer
 						return "<span title='" + value + "'>" + value + "</span>";
 					}
 		        },
@@ -3241,7 +3357,7 @@ $('.UpdateLog-div').click(function(){
 						return "<span title='" + value + "'>" + value + "</span>";
 					}
 		        },
-				{ field:"fileName",title:'文件名',align:"center",width:'15%',
+				{ field:"fileName",title:'文件名',align:"center",width:'22%',
 			         formatter: function (value, row, index) {
 						var value = row.fileName
 						return "<span title='" + value + "'>" + value + "</span>";
@@ -3263,7 +3379,7 @@ function UpdateLogchaxun(){
 		deviceId:$('#UpdateLog-bianhao').val(),
 		hardVer:$('#UpdateLog-yingjian').val(),
 		release:$('#UpdateLog-tsr').val(),
-		iccid:$('#UpdateLog-iccid').val()
+		//iccid:$('#UpdateLog-iccid').val()
 	})
 }
 
@@ -4287,7 +4403,13 @@ $('#managementli34').click(function(){
 		    },
 			{ field:"provider",title:'设备供应商',align:"center",width:'12%'},
 			{ field:"ts",title:'最后请求时间戳',align:"center",width:'16%'},
-			{ field:"uuid",title:'UUID',align:"center"}
+			{ field:"uuid",title:'UUID',align:"center",width:'26%'},
+			{ field:"summary",title:'操作',align:"center",width:'6%',
+		        formatter:function(value, row, index){
+					return '<a style="display:inline-block;line-height:20px;width:60px;height:20px;background:#00AAFF;color:white" href=\javaScript:appliedmanagementModify2('+ index +')>'+"详情"+'</a>';
+
+				}
+		    }
 		]],
 		onLoadSuccess:function(data){
 			if(data.error_code!=0){
@@ -4301,9 +4423,11 @@ function appliedmanagementadd(){
 	$('#appliedmanagementModal').modal('show')
 	$('#appliedmanagement-ID').val('');
 	$('#appliedmanagement-supplier').val('')
+	$('#appliedmanagement-summary').val('')
 	$('#appliedmanagement-state').find('option').remove()
 	$('<option value="0" selected>禁用</option>').appendTo($('#appliedmanagement-state'))
 	$('<option value="1">启用</option>').appendTo($('#appliedmanagement-state'))
+	$('#addopenappspan').html('添加应用');
 	appliedmanagementurl=server_context+"/saveOpenApp"
 }
 //保存
@@ -4328,7 +4452,8 @@ $('#appliedmanagement-save').click(function(){
 			uuid:uuid,
 			active:$('#appliedmanagement-state').val(),
 			appId:$('#appliedmanagement-ID').val(),
-			provider:$('#appliedmanagement-supplier').val()
+			provider:$('#appliedmanagement-supplier').val(),
+			summary:$('#appliedmanagement-summary').val()
 		},
 		success:function(data){
 			if(data.error_code==0){
@@ -4359,6 +4484,8 @@ function appliedmanagementModify(){
 	}
 	$('#appliedmanagement-ID').val(row.appId);
 	$('#appliedmanagement-supplier').val(row.provider)
+	$('#appliedmanagement-summary').val(row.summary)
+	$('#addopenappspan').html('编辑应用');
 	appliedmanagementurl=server_context+"/updateOpenApp"
 }
 //删除应用
@@ -4389,4 +4516,22 @@ function appliedmanagementremove(){
 			});
 		}
 	})
+}
+//查看应用
+function appliedmanagementModify2(index){
+	
+	var rows = $(".appliedmanagement-datagrid").datagrid('getRows');
+	var row = rows[index]
+	$('#appliedmanagementModal2').modal('show')
+	if(row.active==0){
+		$('#appliedmanagement-state2').text('禁用');
+	}else if(row.active==1){
+		$('#appliedmanagement-state2').text('启用');
+	}else{
+		$('#appliedmanagement-state2').text('--');
+	}
+	$('#appliedmanagement-ID2').text(row.appId);
+	$('#appliedmanagement-supplier2').text(row.provider)
+	$('#appliedmanagement-summary2').text(row.summary)
+	
 }

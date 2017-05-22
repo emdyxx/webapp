@@ -108,7 +108,6 @@
    })
    //保存设备/修改设备更换记录
    function saveequipmentreplacement(){
-	    console.log(replaceurl)
 	    $.ajax({
 			url:replaceurl,
 			type:'post',

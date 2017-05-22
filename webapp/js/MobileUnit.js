@@ -1150,15 +1150,20 @@ function reulatwo() {
 //设备激活确定按钮
 $('.ensureone').click(function () {
 	if (onlin == false) {
-        return;
+		 return;
     }
+	var activationExpireOn = $('#activationDateSpan').datetimebox('getValue');
+	if(activationExpireOn == null||activationExpireOn ==""){
+		$.messager.alert("系统提示", "请选择激活截止时间",'warning');
+		 return;
+	}
     $.ajax({
         type: "post",
         url: server_context+"/sendActivationSettings",
         async: true,
         data: {
             deviceId: device,
-            activationExpireOn: $('#activationDateSpan').datetimebox('getValue'),
+            activationExpireOn: activationExpireOn,
             activated: $('#activationone').val()
         },
         success: function (data) {

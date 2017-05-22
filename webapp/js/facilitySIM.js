@@ -143,6 +143,11 @@
     				}
 				}
 			]],
+			onLoadSuccess:function(data){
+				if(data.error_code!=0){
+					Statuscodeprompt(data.error_code)
+				}
+			}
 	    })
     }
     //sim明细
@@ -173,6 +178,11 @@
        			{ field: 'billable', title: '是否计费',align: 'center',width:'18%'},
        			{ field: 'serviceType', title: '服务类型',align: 'center'}
 			]],
+			onLoadSuccess:function(data){
+				if(data.error_code!=0){
+					Statuscodeprompt(data.error_code)
+				}
+			}
 	    })
     }
 	//返回按钮

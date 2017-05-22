@@ -1,5 +1,19 @@
 /********************5.1升级管理---设备升级**********************/
     var dev; //分组升级 指定升级
+    var operationPrivilege101=0; // 查看设备升级包详情操作权限 
+    var operationPrivilege102=0; // 下载设备升级包	
+    var operationPrivilege103=0; // 修改设备升级目标
+    var operationPrivilege104=0; // 启用/禁用设备升级包	 
+    var operationPrivilege105=0; // 删除设备升级包	
+    /*
+    100	查看设备升级包
+	101	查看设备升级包详情
+	102	下载设备升级包	
+	103	修改设备升级目标	
+	104	启用/禁用设备升级包	
+	105	删除设备升级包	
+	106	上传设备升级包	
+     */
     $('.upgrademanage').css('display','none')
 	$('#managementli23').click(function(){
 		clearInterval(seti);
@@ -7,6 +21,54 @@
 		$('main>div').css('display', 'none');
     	$('.upgrademanage').css('display','')
 		$('.upgradetop input').val('')
+		$('.uploadPackage').css('display','none');
+		operationPrivilege101=0; // 查看设备升级包详情操作权限 
+    	operationPrivilege102=0; // 下载设备升级包	
+    	operationPrivilege103=0; // 修改设备升级目标
+    	operationPrivilege104=0; // 启用/禁用设备升级包	 
+    	operationPrivilege105=0; // 删除设备升级包
+		
+		//权限请求
+		var data={
+			id:$('#managementli23').attr('name')
+		}
+		$.post(server_context+'/setMenuId',data,function(data){
+			if(data.error_code!=0){
+				Statuscodeprompt(data.error_code)
+			}
+			for(var i=0;i<data.data.length;i++){
+				if(data.data[i]=='100'){
+					//列表查看权限
+				}
+				if(data.data[i]=='101'){
+					// 查看设备升级详情
+					operationPrivilege101=101;
+				}
+				if(data.data[i]=='102'){
+					// 下载设备升级包
+					operationPrivilege102=102;
+				}
+				if(data.data[i]=='103'){
+					// 修改设备升级目标
+					operationPrivilege103=103;
+				}
+				if(data.data[i]=='104'){
+					// 启用/禁用设备升级包
+					operationPrivilege104=104;
+				}
+				if(data.data[i]=='105'){
+					// 删除设备升级包
+					operationPrivilege105=105;
+				}
+				if(data.data[i]=='106'){
+					// 上传设备升级包
+					$('.uploadPackage').css('display','');
+					
+				}
+			}
+		})
+		
+		
     	$('.upgradebottomdata').datagrid({
 			url: server_context+'/listUpdatePackage',
 			method: 'get',
@@ -20,7 +82,9 @@
 				model:$('#upgradetopcxs1').val(),
 				softVer:$('#upgradetopcxs2').val(),
 				hardVer:$('#upgradetopcxs3').val(),
-				pacVer:$('#upgradetopcxs4').val()
+				pacVer:$('#upgradetopcxs4').val(),
+				release:$('#upgradetopcxs5').val(),
+				fileName:$('#upgradetopcxs6').val()
 			},
 			columns:[[
 				{ field:"softVer",title:'软件版本',align:"center",width:'7%',
@@ -35,19 +99,25 @@
 						return "<span title='" + value + "'>" + value + "</span>";
 					}
 		        },
-				{ field:"model",title:'适用型号',align:"center",width:'7%',
+				{ field:"model",title:'适用型号',align:"center",width:'6%',
 			        formatter: function (value, row, index) {
 						var value = row.model
 						return "<span title='" + value + "'>" + value + "</span>";
 					}
 			    },
-				{ field:"pacVer",title:'PAC版本',align:"center",width:'9%',
+				{ field:"pacVer",title:'PAC版本',align:"center",width:'10%',
 			        formatter: function (value, row, index) {
 						var value = row.pacVer
 						return "<span title='" + value + "'>" + value + "</span>";
 					}
 		        },
-				{ field:"updateType",title:'升级包类型',align:"center",width:'8%',
+		        { field:"release",title:'TSR',align:"center",width:'8%',
+			        formatter: function (value, row, index) {
+						var value = row.release
+						return "<span title='" + value + "'>" + value + "</span>";
+					}
+		        },
+				{ field:"updateType",title:'升级包类型',align:"center",width:'7%',
 				    formatter: function (value, row, index) {
   					  var value=row['updateType'];
   					  if(value==0){
@@ -59,7 +129,7 @@
   					  }
     				}
 				},
-				{ field:"fileName",title:'文件名称',align:"center",width:'36%',
+				{ field:"fileName",title:'文件名称',align:"center",width:'35%',
 			        formatter: function (value, row, index) {
 						var value = row.fileName
 						return "<span title='" + value + "'>" + value + "</span>";
@@ -74,7 +144,7 @@
   					  return "<a style='color:#0000EE;' href=\"javaScript:downloadFile('"+value+"')\">下载</a>";
     				}
 				},
-				{ field:"targetType",title:'升级目标',align:"center",width:'10%',
+				{ field:"targetType",title:'升级目标',align:"center",width:'5%',
 			       formatter: function (value, row, index) {
   					  var value=row['targetType'];
   					  if(value==0){
@@ -96,7 +166,7 @@
   					  }
     				}
 				},
-				{ field:"ac",title:'操作',align:"center",width:'10%',
+				{ field:"ac",title:'操作',align:"center",width:'8%',
 				    formatter: function (value, row, index) {
   					  var value=row['active'];
   					  var str = '';
@@ -120,13 +190,20 @@
 	})
 	//下载文件
 	function downloadFile(value){
-		console.log(value)
+		if(operationPrivilege102==0){
+			$.messager.alert('系统提示','你没有下载权限','warning');
+			return;
+		}
 		if(value!=''||value!=null||value!=undefined){
            window.location.href = value;
 		}
 	}
 	//修改升级包启用状态
 	function editActive(id,active){
+		if(operationPrivilege104==0){
+			$.messager.alert('系统提示','你没有启用与禁用权限','warning');
+			return;
+		}
 		var operation;
 		if(active=='0'){
 			operation='你确定要启用升级包吗?';
@@ -162,6 +239,10 @@
 	//删除文件
 	function deleteFile(id){
 		// var row = $('.upgradebottomdata').datagrid('getData');
+		if(operationPrivilege105==0){
+			$.messager.alert('系统提示','你没有删除权限','warning');
+			return;
+		}
 		$.messager.confirm("删除提示","你确定要删除吗?", function (data) {  
 	        if (data) {
 	        	$.ajax({
@@ -187,6 +268,10 @@
 	}
 	//详情
 	function upgradedetails(index){
+		if(operationPrivilege101==0){
+			$.messager.alert('系统提示','你没有查看详情权限','warning');
+			return;
+		}
 		var row = $('.upgradebottomdata').datagrid('getData').rows[index];
 		$('#upgradedetailsModal').modal('show');
 		if(row.updataType==0){
@@ -269,7 +354,9 @@
 			model:$('#upgradetopcxs1').val(),
 			softVer:$('#upgradetopcxs2').val(),
 			hardVer:$('#upgradetopcxs3').val(),
-			pacVer:$('#upgradetopcxs4').val()
+			pacVer:$('#upgradetopcxs4').val(),
+			release:$('#upgradetopcxs5').val(),
+			fileName:$('#upgradetopcxs6').val()
 		});
 	}
 	//上传升级包
@@ -564,7 +651,11 @@
 	var addList = [];// 设备组添加的设备
 	var upgradepatchId;//升级包ID
     function UpgradeGroup(r){
-		upgradepatchId = r;
+    	if(operationPrivilege103==0){
+			$.messager.alert('系统提示','你没有此权限','warning');
+			return;
+		}
+    	upgradepatchId = r;
     	$('#UpgradeGroupModal').modal('show')
     	unupgradeGroup();
     	upgradeGroup(upgradepatchId);
@@ -815,6 +906,10 @@
 /****指定升级****/
     var upgradepatchId;
 	function UpgradeDevice(r){
+		if(operationPrivilege103==0){
+			$.messager.alert('系统提示','你没有此权限','warning');
+			return;
+		}
 		upgradepatchId = r
 		$('#assignModal').modal('show');
 		//指定升级设备

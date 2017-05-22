@@ -1809,3 +1809,13 @@ main {
 	display: flex;
 	z-index: 1999;
 }
+@media(min-width:800px) and (max-width:1503px){
+    .upgradebottom{
+		top:55px !important;
+	}
+}
+@media (min-width:1504px){
+    .upgradebottom{
+		top:37px !important;
+	}
+}
