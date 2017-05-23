@@ -854,14 +854,14 @@ function shi(value){
 	});
 }
 function ajaxFileUpload(){
-	var phone = /^1[34578]\d{9}$/;
+	var phone = /^((0[0-9]{1,3}-\d{5,8})|(1[3584]\d{9}))$/;
 	var email = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
 	if($('#iscompilename').val()==''||$('#iscompilefzr').val()==''||$('#iscompileprincipal').val()==''||$('#iscompileemail').val()==''||$('#iscompilephone').val()==''){
 		$.messager.alert('系统提示','必填字段不能为空','warning');
 		return;
 	}
 	if(!phone.test($('#iscompilefzr').val())){
-        $.messager.alert('系统提示','手机号不符合格式','warning');
+        $.messager.alert('系统提示','联系电话不符合格式','warning');
 		return;
 	}
 	if(!email.test($('#iscompileemail').val())){
@@ -922,14 +922,14 @@ function iscompilebj(){
 }
         
 function baocun() {
-	var phone = /^1[34578]\d{9}$/;
+	var phone = /^((0[0-9]{1,3}-\d{5,8})|(1[3584]\d{9}))$/;
 	var email = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
     if($('#treename').val()==''||$('#treefzr').val()==''||$('#treephone').val()==''||$('#treeemail').val()==''||$('#county').val()==''||$('#inaddress').val()==''){
         $.messager.alert('系统提示','必填字段不能为空','warning');
 		return;
 	}
 	if(!phone.test($('#treephone').val())){
-        $.messager.alert('系统提示','电话号码不符合格式','warning');
+        $.messager.alert('系统提示','联系电话不符合格式','warning');
 		return;
 	}
 	if(!email.test($('#treeemail').val())){
@@ -1004,7 +1004,7 @@ $('#ResetPassword').click(function(){
 })
 //bottom的弹出框保存按钮
 function save() {
-	var phone = /^((0\d{2,3}-\d{7,8})|(1[3584]\d{9}))$/;
+	var phone = /^((0[0-9]{1,3}-\d{5,8})|(1[3584]\d{9}))$/;
 	var email = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
 	var pattern = /^[\u4E00-\u9FA5]{1,10}$/;// 验证中文名称
 	var ids=0;
@@ -1022,7 +1022,7 @@ function save() {
 		return;
 	}
 	if(!phone.test($('#addressss').val())) {
-		   $.messager.alert('系统提示','手机号不符合格式','warning')
+		   $.messager.alert('系统提示','联系电话不符合格式','warning')
 		   $('#addressss').focus();
 		   return;
 	}
@@ -1068,14 +1068,14 @@ function save() {
 }
 //top弹出框保存按钮
 function saveUser() {
-	var phone = /^((0\d{2,3}-\d{7,8})|(1[3584]\d{9}))$/;
+	var phone = /^((0[0-9]{1,3}-\d{5,8})|(1[3584]\d{9}))$/;
 	var selected = $("#dg").datagrid('getSelected');
 	if($("#id").val()==''||$("#name").val()==''||$("#phone").val()==''||$("#email").val()==''||$("#countyn").val()==''||$("#parlingaddress").val()==''){
          $.messager.alert('系统提示','必填字段不能为空','warning');
 		 return;
 	}
 	if(!phone.test($('#phone').val())) {
-		   $.messager.alert('系统提示','手机号不符合格式','warning');
+		   $.messager.alert('系统提示','联系电话不符合格式','warning');
 		   $('#phone').focus();
 		   return;
 	}

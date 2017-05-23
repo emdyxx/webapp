@@ -228,6 +228,7 @@
 									ajaxTimeout.abort(); //取消请求
 									$('.out').css('display','none');
 									$('.outTest').css('display','none')
+									listCnId()
 								}
 							}
 						})

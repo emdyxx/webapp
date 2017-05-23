@@ -1597,10 +1597,12 @@ function reulaseven() {
             if (config.online == false) {
                 $('.EquipmentStatus').text('未在线').css('color', 'gray')
                 $('.compilesev').css('background', 'url(img/Theowner/bacunanniuhui.png) no-repeat')
+                // $('.compileseve').css('background','url(img/Theowner/duquanniuhui.png)')
                 $('.seventbody input').attr('disabled', 'disabled')
             } else {
                 $('.EquipmentStatus').text('在线').css('color', '#00bd28')
                 $('.compilesev').css('background', 'url(img/Theowner/bacunanniuhui.png) no-repeat')
+                // $('.compileseve').css('background','url(img/Theowner/duquanniuhui.png)')
                 $('.seventbody input').attr('disabled', 'disabled')
             }
 			if (config.setupDirection == "" || config.setupDirection == null) {
@@ -1805,7 +1807,7 @@ function reulaeleven(){
         success: function (data) {
             var config = data.data[0];
             $('.equipmentnumber').text(config.deviceId);
-            onlin = data.online
+            onlin = config.online
             if (config.online == false) {
                 $('.EquipmentStatus').text('未在线').css('color', 'gray')
                 $('.compileeleve').css('background', 'url(img/Theowner/bacunanniuhui.png) no-repeat')

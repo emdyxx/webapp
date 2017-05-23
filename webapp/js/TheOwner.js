@@ -511,7 +511,7 @@ $('#Nextstep').click(function(){
 //服务信息提交按钮
 $('#Nextstep1').click(function(){
     var str = '';
-    var phone = /^((0\d{2,3}-\d{7,8})|(1[3584]\d{9}))$/; // 验证手机号
+    var phone = /^((0[0-9]{1,3}-\d{5,8})|(1[3584]\d{9}))$/; // 验证手机号
     if(!phone.test($('#business').val())&&!phone.test($('#malfunction').val())&&!phone.test($('#Accident').val())) {
 		   str += '号码不符合格式';
 	}

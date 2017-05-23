@@ -94,7 +94,6 @@ nav {
 	height: 80px;
 	width: 150px;
 	text-align: center;
-	/*line-height: 80px;*/
 	font-size: 15px;
 	cursor: pointer;
 }
@@ -144,10 +143,6 @@ main {
 	background: #f3f3f3;
 	color: #00AAFF;
 }
-
-/*.form {
-	margin-top: 40px;
-}*/
 
 #form>button {
 	background: #00abfe;

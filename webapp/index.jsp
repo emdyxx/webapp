@@ -168,7 +168,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													<label for=""><i>*</i>负责人:</label>
 													<input type="text" id="treefzr" maxlength="10" onkeyup="inputteshu(this)" required/>
 													<hr />
-													<label for=""><i>*</i>手机号:</label>
+													<label for=""><i>*</i>联系电话:</label>
 													<input type="text" id="treephone" maxlength="20" onkeyup="" required/>
 													<hr />
 													<label for=""><i>*</i>邮箱:</label>
@@ -253,7 +253,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																		<label><i>*</i>负责人:</label>
 																		<input type="text" id="name" onkeyup="inputteshu(this)" required/>
 																		<hr />
-																		<label><i>*</i>电话:</label>
+																		<label><i>*</i>联系电话:</label>
 																		<input type="text" id="phone" onkeyup="inputteshu(this)" required/>
 																		<hr />
 																		<label><i>*</i>邮箱:</label>
@@ -326,7 +326,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																			<label for=""><i>*</i>名称:</label>
 																			<input type="text" id="iscompilename" maxlength="15" onkeyup="inputteshu(this)" name="groupName" required/>
 																			<hr />
-																			<label for=""><i>*</i>手机号:</label>
+																			<label for=""><i>*</i>联系电话:</label>
 																			<input type="text" id="iscompilefzr" name="phone" onkeyup="inputteshu(this)" required/>
 																			<hr />
 																			<label for=""><i>*</i>总部地址:</label>
@@ -356,7 +356,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																	<span class="Antaurinformation"></span>
 																</div>
 																<div>
-																	<span class="Antaur">手机号:</span>
+																	<span class="Antaur">联系电话:</span>
 																	<span class="Antaurinformation"></span>
 																</div>
 																<div>
@@ -653,7 +653,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 														<div class="modal-body">
 															<form class="form-horizontal" role="form">
 																<div class="form-group">
-																	<label for="firstname" style="width:149px;" class="control-label"><i>*</i>IP地址:</label>
+																	<label for="firstname" style="width:149px;padding-right:14px;" class="control-label"><i>*</i>IP地址:</label>
 																	<input type="text" class="form-control IP" id="firstname" style="width:200px;display: inline-block;" maxlength="20" placeholder="请输入ip地址">
 																</div>
 																<div class="form-group">
