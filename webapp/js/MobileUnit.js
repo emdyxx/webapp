@@ -1538,10 +1538,13 @@ function reulasix() {
         success: function (data) {
             var config = data.data[0].config;
             $('.equipmentnumber').text(config.deviceId);
+            onlin = config.online
             if (config.online == false) {
                 $('.EquipmentStatus').text('未在线').css('color', 'gray')
+                $('.compilesi').css('background', 'url(img/Theowner/bacunanniuhui.png) no-repeat')
             } else {
                 $('.EquipmentStatus').text('在线').css('color', '#00bd28')
+                $('.compilesi').css('background', 'url(img/Theowner/bacunanniu.png) no-repeat')
             }
             //设置设备互联网络以及用户WIFI网络的值
             if (config.interworkingNetwork != "" && config.interworkingNetwork != null) {
@@ -1564,6 +1567,9 @@ function reulasix() {
 }
 // 注册应答信息保存
 function saveDeviceLoginResponse() {
+    if(onlin==false){
+       return;
+    }
     $('.configurationinformationsix').form('submit', {
         url: server_context+"/saveRegistResponse?deviceId="+device,
         onSubmit: function () {
@@ -1593,16 +1599,18 @@ function reulaseven() {
         success: function (data) {
             var config = data.data[0];
             $('.equipmentnumber').text(config.deviceId);
-            onlin = data.online
+            onlin = config.online
             if (config.online == false) {
                 $('.EquipmentStatus').text('未在线').css('color', 'gray')
+                $('.compilese').css('background', 'url(img/Theowner/bianjianniuhui.png) no-repeat')
                 $('.compilesev').css('background', 'url(img/Theowner/bacunanniuhui.png) no-repeat')
-                // $('.compileseve').css('background','url(img/Theowner/duquanniuhui.png)')
+                $('.compileseve').css('background','url(img/Theowner/duquanniuhui.png) no-repeat')
                 $('.seventbody input').attr('disabled', 'disabled')
             } else {
                 $('.EquipmentStatus').text('在线').css('color', '#00bd28')
+                $('.compilese').css('background', 'url(img/Theowner/bianjianniu.png) no-repeat')
                 $('.compilesev').css('background', 'url(img/Theowner/bacunanniuhui.png) no-repeat')
-                // $('.compileseve').css('background','url(img/Theowner/duquanniuhui.png)')
+                $('.compileseve').css('background','url(img/Theowner/duquanniu.png) no-repeat')
                 $('.seventbody input').attr('disabled', 'disabled')
             }
 			if (config.setupDirection == "" || config.setupDirection == null) {
@@ -1811,9 +1819,11 @@ function reulaeleven(){
             if (config.online == false) {
                 $('.EquipmentStatus').text('未在线').css('color', 'gray')
                 $('.compileeleve').css('background', 'url(img/Theowner/bacunanniuhui.png) no-repeat')
+                // $('.compileelevenn').css('background','url(img/Theowner/duquanniuhui.png) no-repeat')
             } else {
                 $('.EquipmentStatus').text('在线').css('color', '#00bd28')
                 $('.compileeleve').css('background', 'url(img/Theowner/baocunanniu.png) no-repeat')
+                // $('.compileelevenn').css('background','url(img/Theowner/duquanniu.png) no-repeat')
             }
         },
         error: function () {

@@ -91,27 +91,27 @@
 					}else{
 						$('.Motorcyspanimg>img').eq(5).attr('src','img/MotorcycleType/weixuanzhong.png')
 					}
-					if(data.WINDOW_DOWN==1){
+					if(data.SUNROOF==1){
 						$('.Motorcyspanimg>img').eq(6).attr('src','img/MotorcycleType/xuanzhong.png')
 					}else{
 						$('.Motorcyspanimg>img').eq(6).attr('src','img/MotorcycleType/weixuanzhong.png')
 					}
-					if(data.TRACKING==1){
+					if(data.WINDOW_DOWN==1){
 						$('.Motorcyspanimg>img').eq(7).attr('src','img/MotorcycleType/xuanzhong.png')
 					}else{
 						$('.Motorcyspanimg>img').eq(7).attr('src','img/MotorcycleType/weixuanzhong.png')
 					}
-					if(data.TRUNK_OPEN==1){
+					if(data.TRACKING==1){
 						$('.Motorcyspanimg>img').eq(8).attr('src','img/MotorcycleType/xuanzhong.png')
 					}else{
 						$('.Motorcyspanimg>img').eq(8).attr('src','img/MotorcycleType/weixuanzhong.png')
 					}
-					if(data.TRUNK_CLOSE==1){
+					if(data.TRUNK_OPEN==1){
 						$('.Motorcyspanimg>img').eq(9).attr('src','img/MotorcycleType/xuanzhong.png')
 					}else{
 						$('.Motorcyspanimg>img').eq(9).attr('src','img/MotorcycleType/weixuanzhong.png')
 					}
-					if(data.SUNROOF==1){
+					if(data.TRUNK_CLOSE==1){
 						$('.Motorcyspanimg>img').eq(10).attr('src','img/MotorcycleType/xuanzhong.png')
 					}else{
 						$('.Motorcyspanimg>img').eq(10).attr('src','img/MotorcycleType/weixuanzhong.png')

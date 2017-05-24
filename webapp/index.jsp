@@ -2326,8 +2326,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 															<tr>
 																<td>维修内容</td>
 																<td colspan="5">
-																	<textarea id="Modalsummary" name="Modalsummary" cols="100" rows="8" style="width:100%;height:150px;">
-																		</textarea>
+																	<textarea class="form-control" id="Modalsummary" name="Modalsummary" rows="3" style="width:100%;height:150px;resize:none;"></textarea>
 																</td>
 															</tr>
 														</table>
@@ -2750,7 +2749,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								</div>
 								<!--查看详情模态框（Modal） -->
 								<div class="modal fade" id="UpdateLogmyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-								    <div class="modal-dialog" style="width: 1050px;">
+								    <div class="modal-dialog" style="width: 1140px;">
 								        <div class="modal-content">
 								            <div class="modal-header" >
 								                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>

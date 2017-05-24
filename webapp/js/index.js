@@ -574,7 +574,7 @@ var idparentid;
 var idlever;
 var url;
 var rowid;
-var file;//图片上传权限判断
+// var file;//图片上传权限判断
 var operateUserStatus = 0;//用户启用与禁用按钮的状态
 $('.box').linkbutton({
 	text: '添加组',
@@ -611,9 +611,7 @@ $('#managementli1').click(function() {
 			}
 			if(data.data[i]==4){
 				$('.iscompile').css('display','')
-			}
-			if(data.data[i]==5){
-				file = 5
+				// file = 5
 				$('.iscom').css('display','')
 			}
 			if(data.data[i]==6){
@@ -855,7 +853,7 @@ function shi(value){
 }
 function ajaxFileUpload(){
 	var phone = /^((0[0-9]{1,3}-\d{5,8})|(1[3584]\d{9}))$/;
-	var email = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+	var email = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
 	if($('#iscompilename').val()==''||$('#iscompilefzr').val()==''||$('#iscompileprincipal').val()==''||$('#iscompileemail').val()==''||$('#iscompilephone').val()==''){
 		$.messager.alert('系统提示','必填字段不能为空','warning');
 		return;
@@ -923,7 +921,7 @@ function iscompilebj(){
         
 function baocun() {
 	var phone = /^((0[0-9]{1,3}-\d{5,8})|(1[3584]\d{9}))$/;
-	var email = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+	var email = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
     if($('#treename').val()==''||$('#treefzr').val()==''||$('#treephone').val()==''||$('#treeemail').val()==''||$('#county').val()==''||$('#inaddress').val()==''){
         $.messager.alert('系统提示','必填字段不能为空','warning');
 		return;
@@ -1005,7 +1003,7 @@ $('#ResetPassword').click(function(){
 //bottom的弹出框保存按钮
 function save() {
 	var phone = /^((0[0-9]{1,3}-\d{5,8})|(1[3584]\d{9}))$/;
-	var email = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+	var email = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
 	var pattern = /^[\u4E00-\u9FA5]{1,10}$/;// 验证中文名称
 	var ids=0;
 	var groupd;
@@ -3315,54 +3313,54 @@ $('.UpdateLog-div').click(function(){
 				release:row.tsr
 			},
 			columns:[[
-			    { field:"deviceId",title:'设备编号',align:"center",width:'10%',
+			    { field:"deviceId",title:'设备编号',align:"center",width:'9%',
 			        formatter: function (value, row, index) {
 						var value = row.deviceId
 						return "<span title='" + value + "'>" + value + "</span>";
 					}
 		        },
-				/*{ field:"iccid",title:'ICCID',align:"center",width:'16%',
-			         formatter: function (value, row, index) {
-						var value = row.iccid
-						return "<span title='" + value + "'>" + value + "</span>";
-					}
-		        },*/
-		        { field:"softVer",title:'软件版本号',align:"center",width:'10%',
+		        { field:"softVer",title:'软件版本号',align:"center",width:'8%',
 			         formatter: function (value, row, index) {
 						var value = row.softVer
 						return "<span title='" + value + "'>" + value + "</span>";
 					}
 		        },
-				{ field:"release",title:'tsr',align:"center",width:'12%',
+				{ field:"release",title:'tsr',align:"center",width:'11%',
 			         formatter: function (value, row, index) {
 						var value = row.release
 						return "<span title='" + value + "'>" + value + "</span>";
 					}
 		        },
-				{ field:"swr",title:'swr',align:"center",width:'12%',
+				{ field:"swr",title:'swr',align:"center",width:'11%',
 			        formatter: function (value, row, index) {
 						var value = row.swr
 						return "<span title='" + value + "'>" + value + "</span>";
 					}
 		        },
-				{ field:"hardVer",title:'硬件版本号',align:"center",width:'9%',
+				{ field:"hardVer",title:'硬件版本号',align:"center",width:'8%',
 			         formatter: function (value, row, index) {
 						var value = row.hardVer
 						return "<span title='" + value + "'>" + value + "</span>";
 					}
 		        },
-				{ field:"remoteAddr",title:'请求IP地址',align:"center",width:'10%',
+				{ field:"remoteAddr",title:'请求IP地址',align:"center",width:'9%',
 			         formatter: function (value, row, index) {
 						var value = row.remoteAddr
 						return "<span title='" + value + "'>" + value + "</span>";
 					}
 		        },
-				{ field:"fileName",title:'文件名',align:"center",width:'22%',
+				{ field:"fileName",title:'文件名',align:"center",width:'20%',
 			         formatter: function (value, row, index) {
 						var value = row.fileName
 						return "<span title='" + value + "'>" + value + "</span>";
 					}
 	         	},
+				 { field:"summary",title:'摘要',align:"center",width:'12%',
+			         formatter: function (value, row, index) {
+						var value = row.summary
+						return "<span title='" + value + "'>" + value + "</span>";
+					}
+		        },
 				{ field:"ts",title:'请求时间',align:"center",
 			         formatter: function (value, row, index) {
 						var value = row.ts

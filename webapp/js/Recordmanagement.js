@@ -432,10 +432,6 @@ $('#Bustorecordsend').on('click',function(){
        $.messager.alert('系统提示','设备不在线不能保存发送...','error');
 	   return;
 	}
-	/*if(candata!=''){
-       $.messager.alert('系统提示','设备正在录制中,请先取消录制再进行发送...','error');
-	   return;
-	}*/
 	var row = $('.Recordmanagement-primarymeter').datagrid('getSelected')
 	var a=[];
 	var dt;
@@ -638,8 +634,8 @@ $('#managementli33').click(function(){
 			{ field:"RxTime",title:'数据接收时间',align:"center",width:'11%'},
 			{ field:"DLC",title:'数据项长度',align:"center",width:'11%'},
 			{ field:"EndTime",title:'节点丢失时间',align:"center",width:'11%'},
-			{ field:"MSec",title:'毫秒级时间',align:"center",width:'11%'},
-			{ field:"Time_t",title:'秒级时间',align:"center"}
+			{ field:"Time_t",title:'秒级时间',align:"center",width:'11%'},
+			{ field:"MSec",title:'毫秒级时间',align:"center"}
 		]]
 	})
 })
@@ -650,7 +646,7 @@ function queryandpivotmanagement(){
 	var time2 = oldsta.substring(5,7);
 	if($('#queryandpivot-number').val()==''||statc==''||oldsta==''){
         $.messager.alert('系统提示','查询字段不能为空(全必填)','error');
-		   return;
+		return;
 	}
 	if(time1!=time2){
           $.messager.alert('系统提示','起止与结束时间必须在同一月','error');
@@ -684,8 +680,8 @@ function candatarid(){
 			{ field:"RxTime",title:'数据接收时间',align:"center",width:'11%'},
 			{ field:"DLC",title:'数据项长度',align:"center",width:'11%'},
 			{ field:"EndTime",title:'节点丢失时间',align:"center",width:'11%'},
-			{ field:"MSec",title:'毫秒级时间',align:"center",width:'11%'},
-			{ field:"Time_t",title:'秒级时间',align:"center"}
+			{ field:"Time_t",title:'秒级时间',align:"center",width:'11%'},
+			{ field:"MSec",title:'毫秒级时间',align:"center"}
 		]]
 	})
 }

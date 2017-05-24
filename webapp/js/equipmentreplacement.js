@@ -1,4 +1,5 @@
 /***************5.3设备管理---设备更换********************/
+
    var replaceurl;
    $('#managementli11').click(function(){
 	   clearInterval(seti);
