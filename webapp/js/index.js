@@ -626,7 +626,6 @@ $('#managementli1').click(function() {
 			if(data.data[i]==39){
 				operateUserStatus=39;
 			}
-			
 		}
 	})
 	//树菜单加载
@@ -691,7 +690,6 @@ function tre(node) {
 	
 	$('#dgl').datagrid({
 		url: server_context+"/listGroupUser",
-		// singleSelect: 'true',
 		singSelect: false,
 		rownumbers: "true",
 		fit: 'true',
@@ -703,31 +701,24 @@ function tre(node) {
 			id: tr
 		},
 		columns:[[
-				    { field:"cb",checkbox:"true",align:"center"},
-					{ field:"userName",title:'用户名',align:"center",width: '14.8%'},
-					{ field:"fullName",title:'姓名',align:"center",width: '14%'},
-					{ field:"groupName",title:'用户组',align:"center",width: '14%'},
-					{ field:"roleName",title:'角色',align:"center",width: '13%'},
-					{ field:"mobile",title:'联系方式',align:"center",width: '16%'},
-					{ field:"status",title:'操作',align:"center",width: '10%',
-					   formatter: function (value, row, index) {
-	  					  var value=row['status'];
-	  					  if(value==0){
-	  					  	return '<a style="background:#7DAE16;color:white;display:inline-block;width:60px" href=\javaScript:userStatus('+ index +')>'+"启用"+'</a>';
-	  					  }else{
-	  					  	return '<a style="background:#666666;color:white;display:inline-block;width:60px" href=\javaScript:userStatus('+ index +')>'+"禁用"+'</a>';
-	  					  }
-	    				}
-					},
-					{ field:"ts",title:'创建时间',align:"center",width: '15%'}
-				]],
-		/*	<th field="cb" checkbox="true" align="center"></th>
-			<th field="userName" align="center" style="width: 16.8%">用户名</th>
-			<th field="fullName" align="center" style="width: 16%">姓名</th>
-			<th field="groupName" align="center" style="width: 16%">用户组</th>
-			<th field="roleName" align="center" style="width: 15%">角色</th>
-			<th field="mobile" align="center" style="width: 18%">联系方式</th>
-			<th field="ts" align="center" style="width: 17%">创建时间</th>*/
+			{ field:"cb",checkbox:"true",align:"center"},
+			{ field:"userName",title:'用户名',align:"center",width: '14.8%'},
+			{ field:"fullName",title:'姓名',align:"center",width: '14%'},
+			{ field:"groupName",title:'用户组',align:"center",width: '14%'},
+			{ field:"roleName",title:'角色',align:"center",width: '13%'},
+			{ field:"mobile",title:'联系方式',align:"center",width: '16%'},
+			{ field:"status",title:'操作',align:"center",width: '10%',
+				formatter: function (value, row, index) {
+					var value=row['status'];
+					if(value==0){
+						return '<a style="background:#7DAE16;color:white;display:inline-block;width:60px" href=\javaScript:userStatus('+ index +')>'+"启用"+'</a>';
+					}else{
+						return '<a style="background:#666666;color:white;display:inline-block;width:60px" href=\javaScript:userStatus('+ index +')>'+"禁用"+'</a>';
+					}
+				}
+			},
+			{ field:"ts",title:'创建时间',align:"center",width: '15%'}
+		]],
 		onLoadSuccess:function(data){
 			if(data.error_code!=0){
 				Statuscodeprompt(data.error_code)
@@ -760,8 +751,7 @@ function userStatus(index){
 				}
 			}); 
 		  }
-	  })
-		
+	  })	
 }
 
 //tree树点击添加的函数
@@ -1595,7 +1585,6 @@ function dispValue(row) {
 	$("#stuname").val(row.fullName);
 	$("#addressss").val(row.mobile);
 	$("#youxiang").val(row.email);
-	// $('#age').combo('setValue', row.groupId).combo('setText', row.groupName);
 	$('.usergroup').combotree({
 		url:server_context+'/listGroupTree',
 		method:'post',
@@ -1867,7 +1856,6 @@ function convsss(rows) {
 				});
 			}
 		}
-		
 	}
 	var toDo = [];
 	for(var i = 0; i < nodes.length; i++) {
@@ -3228,12 +3216,6 @@ $('#managementli26').click(function(){
 					return "<span title='" + value + "'>" + value + "</span>";
 				}
 	        },
-			/*{ field:"iccid",title:'ICCID',align:"center",width:'15%',
-		        formatter: function (value, row, index) {
-					var value = row.iccid
-					return "<span title='" + value + "'>" + value + "</span>";
-				}
-	        },*/
 	        { field:"softVer",title:'软件版本号',align:"center",width:'10%',
 		        formatter: function (value, row, index) {
 					var value = row.softVer
