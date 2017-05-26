@@ -24,7 +24,72 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<script src="js/public/GPS.js"></script>
 		<title>它石车联网数据管理平台</title>
 		<style>
-		
+		    .ThirdpartyEquipment-search{
+				width: 100%;
+				position: absolute;
+				height: 37px;
+				top: 61px;
+			}
+			.ThirdpartyEquipment-search > span {
+				margin-left: 20px;
+			}
+			.ThirdpartyEquipment-search > input {
+				border: 1px solid #6DC8F5;
+				background: none;
+				margin-top:7px;
+			}
+			.ThirdpartyEquipment-search > a {
+				display: inline-block;
+				color: white;
+				width: 80px;
+				margin-left: 20px;
+				background: #00AAFF;
+				border-radius: 3px;
+				text-align: center;
+			}
+			.ThirdpartyEquipment-bottom{
+				width: 100%;
+				height: auto;
+				position: absolute;
+				top: 97px;
+				bottom: 0;
+				background: white;
+			}
+            .ThirdpartyEquipment-bottom-top{
+				position: absolute;
+				top: 0;
+				width: 100%;
+				padding-top: 5px;
+				padding-bottom: 5px;
+				padding-left: 17px;
+			}
+            .ThirdpartyEquipment-bottom-bottom{
+				position: absolute;
+				top: 36px;
+				bottom: 0;
+				width: 100%;
+				height: auto;
+			}
+			.Motorcyclebottom-right-divtwo{
+                width:100%;
+				height:280px;
+				margin-top:30px;
+				overflow: auto;
+			}
+			.trilaterald1{
+				margin-top: 10px;width:100%;height:130px;position: relative;
+			}
+			.trilaterald2{font-size: 16px;position:absolute;width:110px;height:130px;line-height:130px;text-align:center;display:inline-block;position: absolute;}
+			.trilaterald3{display: inline-block;width:23px;}
+            .trilaterald4{display:inline-block;width:100px;height:130px;margin-left:20px;position: relative;}
+			.trilaterald4:nth-of-type(1){
+				margin-left:110px;
+			}
+			.trilaterald5{position: absolute;text-align: center;display: inline-block;width: 100px;margin-top: 8px;}
+		    .trilaterald6{}
+			.trilaterald7{width:100px;height:100px;}
+			.trilaterald8{display: inline-block;width: 100px;text-align: center;position: absolute;bottom: 0;left: 0;}
+			.trilaterald9{width:23px;height:23px;}
 		</style>
 	</head>
 
@@ -1384,17 +1449,51 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					        					<img src="img/MotorcycleType/power.png" alt="" />
 					        					<span class="Motorcyspanimg"><img src="img/MotorcycleType/weixuanzhong.png" alt="" /></span>
 					        				</div>
-					        				<div style="display: block;width: 100%;height: 40px;">
-					        					<p class="Motorcyclebaocun" style="display:none;">保存设置</p>
-					        				</div>
 					        			</div>
-					        		    
+                                        <p style="font-size: 15px;font-weight: 600;margin-bottom: 15px;position: absolute;">
+											第三方设备
+											<button class="ThirdPartyAdd" style="width:50px;height:25px;font-size:14px;margin-left:20px;">增加</button>
+											<button class="ThirdPartyRemove" style="width:50px;height:25px;font-size:14px;margin-left:10px;">删除</button>
+										</p>
+										<div class="Motorcyclebottom-right-divtwo">
+											
+										</div>
+					        		    <div style="display: block;width: 100%;height: 40px;">
+					        				<p class="Motorcyclebaocun" style="display:none;">保存设置</p>
+					        			</div>
 					        		</div>
+
 					        	    <div class="Motorcyclebottom-right2">
                                         <img src="img/imagess/ModelsIntroduction.png" style="width:100%;height:100%;" alt="">
 								    </div>
+									<!-- 增加第三方模态框（Modal） -->
+									<div class="modal fade" id="MotorcyclebottommyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+										<div class="modal-dialog">
+											<div class="modal-content">
+												<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+														&times;
+													</button>
+													<h4 class="modal-title" id="myModalLabel">
+														增加第三方设备
+													</h4>
+												</div>
+												<div class="modal-body" style="width:100%;height:200px;">
+													<div id="ThirdParty">
+                                                        
+													</div>
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+													</button>
+													<button type="button" class="btn btn-primary">
+														保存
+													</button>
+												</div>
+											</div><!-- /.modal-content -->
+										</div>
+									</div><!-- /.modal -->
 								</div>
-								
 					        </div>
 					    </div>
 						<!--4.1设备管理---车载设备-->
@@ -2400,6 +2499,35 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									  </div>
 								  </div>
 							 </div>
+						</div>
+						<!--4.4设备管理---第三方设备-->
+                        <div class="ThirdpartyEquipment">
+                            <!--当前指向-->
+							<div class="oriented" style="position: absolute;">
+								<span><b>设备管理</b></span>
+								<span><b>></b></span>
+								<span><b>第三方设备</b></span>
+							</div>
+							<!--搜索条件-->
+							<div class="ThirdpartyEquipment-search">
+                                <span><img src="img/imagess/sousuotubiaotwo.png" alt="" /></span>
+								<span>第三方名称:</span>
+							    <input type="text" id='ThirdpartyEquipment-deviceName'/>
+							    <span>制造商:</span>
+							    <input type="text" id='ThirdpartyEquipment-model'/>
+							    <a href="javaScript:ThirdpartyEquipmentinquire()">查询</a>
+							</div>
+							<!--下侧表-->
+							<div class="ThirdpartyEquipment-bottom">
+                                 <div class="ThirdpartyEquipment-bottom-top">
+									 <a style="" class="easyui-linkbutton ThirdpartyEquipmentadd" iconCls="icon-xinzengs" plain="true" onclick="ThirdpartyEquipmentadd()">新增第三方设备</a>
+									 <a style="" class="easyui-linkbutton ThirdpartyEquipmentrevamp" iconCls="icon-bianjitwo" plain="true" onclick="ThirdpartyEquipmentrevamp()">修改第三方设备</a>
+									 <a style="" class="easyui-linkbutton ThirdpartyEquipmentremove" iconCls="icon-shanchu2" plain="true" onclick="ThirdpartyEquipmentremove()">删除第三方设备</a>
+								 </div>
+								 <div class="ThirdpartyEquipment-bottom-bottom">
+									 <div id="ThirdpartyEquipment-datagrid"></div>
+								 </div>
+							</div>
 						</div>
 						<!--5.1升级管理---设备升级-->
 					    <div class="upgrademanage">

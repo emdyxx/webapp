@@ -204,7 +204,7 @@
 					   //$('#cancelrecording').removeAttr('disabled','disabled')
 					   $('#canIDduqu').removeAttr('disabled','disabled')
 						var ajaxTimeout = $.ajax({
-							timeout:10000, //超时时间设置，单位毫秒
+							timeout:20000, //超时时间设置，单位毫秒
 							type:'post',
 							async:'true',
 							url:server_context+'/readCanRecord',
@@ -251,15 +251,6 @@
         	},
         	success:function(data){
                 candata = data.data;
-				/*if(canonline==true){
-                    if(candata!=''){
-                     	 $('#Bustorecordsend').attr('disabled','disabled')
-						 $('#cancelrecording').removeAttr('disabled','disabled')
-					}else{
-						$('#Bustorecordsend').removeAttr('disabled','disabled')
-						$('#cancelrecording').attr('disabled','disabled')
-					}
-				}*/
 				var inputeight1 = [];
 				var inputeight2 = [];
 				$('#CANstoptime').datetimebox('setValue', data.data.endTime);
@@ -535,7 +526,7 @@ $('#Bustorecordsend').on('click',function(){
 $('#canIDduqu').click(function(){
 	$('.out').css('display','')
 	var ajaxTimeout1 = $.ajax({
-		timeout:10000, //超时时间设置，单位毫秒
+		timeout:20000, //超时时间设置，单位毫秒
 		type:'post',
     	async:'true',
     	url:server_context+'/readCanRecord',

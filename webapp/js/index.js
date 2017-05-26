@@ -500,39 +500,42 @@ for(var i = 0; i < $('.management>li').length; i++) {
 	if($('.management>li').eq(i).text() == '设备更换') {
 		$('.management>li').eq(i).attr('id', 'managementli11')
 	}
-	if($('.management>li').eq(i).text() == '轨迹查询') {
+	if($('.management>li').eq(i).text() == '第三方设备') {
 		$('.management>li').eq(i).attr('id', 'managementli12')
 	}
-	if($('.management>li').eq(i).text() == '发动机转速') {
-		$('.management>li').eq(i).attr('id', 'managementli13')
-	}
-	if($('.management>li').eq(i).text() == '行驶速度') {
-		$('.management>li').eq(i).attr('id', 'managementli14')
-	}
-	if($('.management>li').eq(i).text() == '行驶里程') {
-		$('.management>li').eq(i).attr('id', 'managementli15')
-	}
-	if($('.management>li').eq(i).text() == '剩余燃油') {
-		$('.management>li').eq(i).attr('id', 'managementli16')
-	}
-	if($('.management>li').eq(i).text() == '车灯状态') {
-		$('.management>li').eq(i).attr('id', 'managementli17')
-	}
-	if($('.management>li').eq(i).text() == '实时仪表') {
-		$('.management>li').eq(i).attr('id', 'managementli18')
-	}
+	// if($('.management>li').eq(i).text() == '轨迹查询') {
+	// 	$('.management>li').eq(i).attr('id', 'managementli12')
+	// }
+	// if($('.management>li').eq(i).text() == '发动机转速') {
+	// 	$('.management>li').eq(i).attr('id', 'managementli13')
+	// }
+	// if($('.management>li').eq(i).text() == '行驶速度') {
+	// 	$('.management>li').eq(i).attr('id', 'managementli14')
+	// }
+	// if($('.management>li').eq(i).text() == '行驶里程') {
+	// 	$('.management>li').eq(i).attr('id', 'managementli15')
+	// }
+	// if($('.management>li').eq(i).text() == '剩余燃油') {
+	// 	$('.management>li').eq(i).attr('id', 'managementli16')
+	// }
+	// if($('.management>li').eq(i).text() == '车灯状态') {
+	// 	$('.management>li').eq(i).attr('id', 'managementli17')
+	// }
+	// if($('.management>li').eq(i).text() == '实时仪表') {
+	// 	$('.management>li').eq(i).attr('id', 'managementli18')
+	// }
 	if($('.management>li').eq(i).text() == '实时车况') {
 		$('.management>li').eq(i).attr('id', 'managementli19')
 	}
-	if($('.management>li').eq(i).text() == '姿态角度') {
-		$('.management>li').eq(i).attr('id', 'managementli20')
-	}
-	if($('.management>li').eq(i).text() == '加速度') {
-		$('.management>li').eq(i).attr('id', 'managementli21')
-	}
-	if($('.management>li').eq(i).text() == '查询日志') {
-		$('.management>li').eq(i).attr('id', 'managementli22')
-	}
+	// if($('.management>li').eq(i).text() == '姿态角度') {
+	// 	$('.management>li').eq(i).attr('id', 'managementli20')
+	// }
+	// if($('.management>li').eq(i).text() == '加速度') {
+	// 	$('.management>li').eq(i).attr('id', 'managementli21')
+	// }
+	// if($('.management>li').eq(i).text() == '查询日志') {
+	// 	$('.management>li').eq(i).attr('id', 'managementli22')
+	// }
 	if($('.management>li').eq(i).text() == '设备升级') {
 		$('.management>li').eq(i).attr('id', 'managementli23')
 	}
@@ -542,9 +545,9 @@ for(var i = 0; i < $('.management>li').length; i++) {
 	if($('.management>li').eq(i).text() == '升级日志') {
 		$('.management>li').eq(i).attr('id', 'managementli26')
 	}
-	if($('.management>li').eq(i).text() == '回拨设置') {
-		$('.management>li').eq(i).attr('id', 'managementli28')
-	}
+	// if($('.management>li').eq(i).text() == '回拨设置') {
+	// 	$('.management>li').eq(i).attr('id', 'managementli28')
+	// }
 	if($('.management>li').eq(i).text() == '信息推送') {
 		$('.management>li').eq(i).attr('id', 'managementli29')
 	}
@@ -4515,3 +4518,4 @@ function appliedmanagementModify2(index){
 	$('#appliedmanagement-summary2').text(row.summary)
 	
 }
+
