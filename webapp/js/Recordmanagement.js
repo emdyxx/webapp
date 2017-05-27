@@ -307,7 +307,7 @@
 				if(candata!=''){
 					for(var i=0;i<candata.filter.length;i++){
                          for(var j=0;j<$('#cantable tr').length;j++){
-                             if(candata.filter[i].canId.toUpperCase()==$('#cantable tr').eq(j).find('td').eq(1).text()){
+                             if(candata.filter[i].canId==$('#cantable tr').eq(j).find('td').eq(1).text()){
                                  $("#cantable tr").eq(j).addClass('success');
 								 $('#cantable tr').eq(j).find('td').eq(0).find('input').attr('checked',true);
 							 }
@@ -492,39 +492,10 @@ $('#Bustorecordsend').on('click',function(){
     	}
 	})
 })
-//can取消录制按钮
-/*$('#cancelrecording').click(function(){
-    if(canonline!=true){
-       $.messager.alert('系统提示','设备不在线不能取消录制...','error');
-	   return;
-	}
-	if(candata==''){
-       $.messager.alert('系统提示','该设备暂无录制信息...','error');
-	   return;
-	}
-	if(candata.id==''){
-        return;
-	}
-	$.ajax({
-		type:'post',
-    	async:'true',
-    	url:server_context+'/overCanRecord',
-        data:{
-            id:candata.id
-		},
-		success:function(data){
-			if(data.error_code==0){
-				$.messager.alert('系统提示','设备取消录制成功','info');
-				$('#RecordingoptionsModal').modal('hide');
-			}else{
-                Statuscodeprompt(data.error_code)
-			}
-		}
-	})
-})*/
+
 //can读取按钮
 $('#canIDduqu').click(function(){
-	$('.out').css('display','')
+	$('.out').css('display','');
 	var ajaxTimeout1 = $.ajax({
 		timeout:20000, //超时时间设置，单位毫秒
 		type:'post',
@@ -535,11 +506,6 @@ $('#canIDduqu').click(function(){
 		},
 		success:function(data){
            if(data.error_code==0){
-			  /* setTimeout(function() {
-				   listCnId()
-				   $.messager.alert('系统提示','读取成功','info');
-				   $('.out').css('display','none')
-			   }, 2000);*/
 			   listCnId()
 			   $.messager.alert('系统提示','读取成功','info');
 			   $('.out').css('display','none')

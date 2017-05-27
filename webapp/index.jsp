@@ -1386,7 +1386,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					        		</div>
 					        	</div>
 					        	<div class="Motorcyclebottom-right">
-					        		<div class="Motorcyclebottom-right-div">
+					        		<div class="Motorcyclebottom-right-div" style="overflow: auto;position: relative;">
 					        			<p style="font-size: 15px;font-weight: 600;margin-bottom: 15px;">远程控制权限</p>
 					        			<div class="Motorcyclebottom-right-div-div">
 					        				<div>
@@ -1486,7 +1486,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 												<div class="modal-footer">
 													<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 													</button>
-													<button type="button" class="btn btn-primary">
+													<button type="button" class="btn btn-primary Motorcyclebottommybc">
 														保存
 													</button>
 												</div>
@@ -2524,6 +2524,32 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									 <a style="" class="easyui-linkbutton ThirdpartyEquipmentrevamp" iconCls="icon-bianjitwo" plain="true" onclick="ThirdpartyEquipmentrevamp()">修改第三方设备</a>
 									 <a style="" class="easyui-linkbutton ThirdpartyEquipmentremove" iconCls="icon-shanchu2" plain="true" onclick="ThirdpartyEquipmentremove()">删除第三方设备</a>
 								 </div>
+								 <!--新增模态框-->
+								 <!-- 模态框（Modal） -->
+								<div class="modal fade" id="ThirdpartyEquipmentaddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+													&times;
+												</button>
+												<h4 class="modal-title" id="myModalLabel" class="ThirdpartyEquipmentaddTitle">
+													新增第三方设备
+												</h4>
+											</div>
+											<div class="modal-body">
+												在这里添加一些文本
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+												</button>
+												<button type="button" class="btn btn-primary">
+													提交
+												</button>
+											</div>
+										</div><!-- /.modal-content -->
+									</div>
+								</div><!-- /.modal -->
 								 <div class="ThirdpartyEquipment-bottom-bottom">
 									 <div id="ThirdpartyEquipment-datagrid"></div>
 								 </div>
