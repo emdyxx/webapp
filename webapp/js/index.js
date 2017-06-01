@@ -80,6 +80,12 @@ function inputteshu(obj){
 	obj.value = obj.value.replace(/\s+/g,'');   //空格验证替换
 	obj.value = obj.value.replace(/[^\u4e00-\u9fa5\w\.\*\-]/g,'')  //特殊字符正则替换
 }
+function dataProcessing(value){
+	if(value ==null || value =="" || value =="undefined"){
+			return "--"
+	}
+	return value;
+}
 /************************1.1进入主页*******************************/
 var account = $.cookie('account');
 $('.accounts').html(account);
@@ -705,11 +711,11 @@ function tre(node) {
 		},
 		columns:[[
 			{ field:"cb",checkbox:"true",align:"center"},
-			{ field:"userName",title:'用户名',align:"center",width: '14.8%'},
-			{ field:"fullName",title:'姓名',align:"center",width: '14%'},
-			{ field:"groupName",title:'用户组',align:"center",width: '14%'},
-			{ field:"roleName",title:'角色',align:"center",width: '13%'},
-			{ field:"mobile",title:'联系方式',align:"center",width: '16%'},
+			{ field:"userName",title:'用户名',align:"center",width: '14.8%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"fullName",title:'姓名',align:"center",width: '14%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"groupName",title:'用户组',align:"center",width: '14%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"roleName",title:'角色',align:"center",width: '13%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"mobile",title:'联系方式',align:"center",width: '16%',formatter: function (value) {return dataProcessing(value);}},
 			{ field:"status",title:'操作',align:"center",width: '10%',
 				formatter: function (value, row, index) {
 					var value=row['status'];
@@ -720,7 +726,7 @@ function tre(node) {
 					}
 				}
 			},
-			{ field:"ts",title:'创建时间',align:"center",width: '15%'}
+			{ field:"ts",title:'创建时间',align:"center",width: '15%',formatter: function (value) {return dataProcessing(value);}}
 		]],
 		onLoadSuccess:function(data){
 			if(data.error_code!=0){
@@ -2198,8 +2204,8 @@ $('#managementli3').click(function() {
 			},
 			columns:[[
 			    { field:"cb",checkbox:"true",align:"center"},
-				{ field:"ipAddress",title:'IP地址',align:"center",width: '25%'},
-				{ field:"topGroupName",title:'归属车场',align:"center",width: '25%'},
+				{ field:"ipAddress",title:'IP地址',align:"center",width: '25%',formatter: function (value) {return dataProcessing(value);}},
+				{ field:"topGroupName",title:'归属车场',align:"center",width: '25%',formatter: function (value) {return dataProcessing(value);}},
 				{ field:"status",title:'操作',align:"center",width: '24%',
 				   formatter: function (value, row, index) {
   					  var value=row['status'];
@@ -2210,7 +2216,7 @@ $('#managementli3').click(function() {
   					  }
     				}
 				},
-				{ field:"ts",title:'创建时间',align:"center",width: '25%'}
+				{ field:"ts",title:'创建时间',align:"center",width: '25%',formatter: function (value) {return dataProcessing(value);}}
 			]],
 			onLoadSuccess:function(data){
 				if(data.error_code!=0){
@@ -2249,7 +2255,7 @@ $('#managementli3').click(function() {
    }
 //新增ip保存按钮
 function saveip() {
-	var ips = /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$/;
+	var ips = /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5]|[*])$/;
 	if($('#firstname').val()==''||$('#ddlRegType').val()==''){
         $.messager.alert('系统提示','必填字段不能为空','warning')
 		return;
@@ -2350,9 +2356,9 @@ $('#managementli4').click(function(){
 			ipAddress:''
 		},
 		columns:[[
-		    {field:"userName",title:'用户名',align:"center",width: '20%'},
-		    {field:"ipAddress",title:'ip地址',align:"center",width: '20%'},
-		    {field:"content",title:'内容',align:"center",width: '20%'},
+		    {field:"userName",title:'用户名',align:"center",width: '20%',formatter: function (value) {return dataProcessing(value);}},
+		    {field:"ipAddress",title:'ip地址',align:"center",width: '20%',formatter: function (value) {return dataProcessing(value);}},
+		    {field:"content",title:'内容',align:"center",width: '20%',formatter: function (value) {return dataProcessing(value);}},
 		    {field:"status",title:'状态',align:"center",width: '20%',
 		        formatter:function(value, rows, index){
 		        	var value = rows['status']
@@ -2363,7 +2369,7 @@ $('#managementli4').click(function(){
 		        	}
 		        }
 		    },
-		    { field:"ts",title:'时间',align:"center",width: '20%'}
+		    { field:"ts",title:'时间',align:"center",width: '20%',formatter: function (value) {return dataProcessing(value);}}
 		]],
 		onLoadSuccess:function(data){
 			if(data.error_code!=0){
@@ -2405,9 +2411,9 @@ $('#operates').click(function(){
 		pageSize:50,
 		pagination: "true",
 		columns:[[
-		    {field:"userName",title:'用户名',align:"center",width: '20%'},
-		    {field:"menuName",title:'菜单名',align:"center",width: '20%'},
-		    {field:"content",title:'内容',align:"center",width: '20%'},
+		    {field:"userName",title:'用户名',align:"center",width: '20%',formatter: function (value) {return dataProcessing(value);}},
+		    {field:"menuName",title:'菜单名',align:"center",width: '20%',formatter: function (value) {return dataProcessing(value);}},
+		    {field:"content",title:'内容',align:"center",width: '20%',formatter: function (value) {return dataProcessing(value);}},
 		    {field:"operationType",title:'类型',align:"center",width: '20%',
 		        formatter:function(value, rows, index){
 		        	var value = rows['operationType']
@@ -2420,7 +2426,7 @@ $('#operates').click(function(){
 		        	}
 		        }
 		    },
-		    { field:"ts",title:'时间',align:"center",width: '20%'}
+		    { field:"ts",title:'时间',align:"center",width: '20%',formatter: function (value) {return dataProcessing(value);}}
 		]]
 	})	
 })
@@ -2455,9 +2461,9 @@ $('.Loginquiretwo').click(function(){
 			ipAddress:''
 		},
 		columns:[[
-		    {field:"userName",title:'用户名',align:"center",width: '20%'},
-		    {field:"ipAddress",title:'ip地址',align:"center",width: '20%'},
-		    {field:"content",title:'内容',align:"center",width: '20%'},
+		    {field:"userName",title:'用户名',align:"center",width: '20%',formatter: function (value) {return dataProcessing(value);}},
+		    {field:"ipAddress",title:'ip地址',align:"center",width: '20%',formatter: function (value) {return dataProcessing(value);}},
+		    {field:"content",title:'内容',align:"center",width: '20%',formatter: function (value) {return dataProcessing(value);}},
 		    {field:"status",title:'状态',align:"center",width: '20%',
 		        formatter:function(value, rows, index){
 		        	var value = rows['status']
@@ -2468,7 +2474,7 @@ $('.Loginquiretwo').click(function(){
 		        	}
 		        }
 		    },
-		    { field:"ts",title:'时间',align:"center",width: '20%'}
+		    { field:"ts",title:'时间',align:"center",width: '20%',formatter: function (value) {return dataProcessing(value);}}
 		]]
 	})
 })
@@ -2551,8 +2557,8 @@ function canidSetree(node){
     	},
         columns:[[
             { field: "cb", checkbox: "true", align: "center" },
-            { field: "canId", title: 'CANID', align: "center", width: '30%',},
-            { field: "canName", title: 'CAN名称', align: "center", width: '30%' },
+            { field: "canId", title: 'CANID', align: "center", width: '30%',formatter: function (value) {return dataProcessing(value);}},
+            { field: "canName", title: 'CAN名称', align: "center", width: '30%',formatter: function (value) {return dataProcessing(value);}},
             { field: "filter", title: '掩码', align: "center",
             	formatter:function(value, rows, index){
             		// 掩码显示每2个字符之间加上空格
@@ -2646,6 +2652,7 @@ function removecanidSet(){
 	
 }
 $('#canidSetSubmit').click(function(){
+	var input = /^[A-Fa-f0-9]+$/
 	if($('#canidSet-myid').val()==''||$('#canidSet-myname').val()==''){
 		$.messager.alert('系统提示','必填字段不能为空','error');
 		return;
@@ -2661,6 +2668,10 @@ $('#canidSetSubmit').click(function(){
 	if(ym.join('').length!=16){
         $.messager.alert('系统提示','掩码应为16位','error');
 		return;
+	}
+    if(!input.test(ym.join(''))) {
+		   $.messager.alert('系统提示','字符错误,请输入0-9,a-f的字符','error')
+		   return;
 	}
 	console.log(ym)
 	var data;
@@ -3097,24 +3108,6 @@ function relatimels(){
 			});
 			carMk = new BMap.Marker(pt,{icon:myIcon});
 			map.addOverlay(carMk);
-			//添加坐标点信息
-			// var myIcon2 = new BMap.Icon('img/relatime/yuandian.png',new BMap.Size(16,16));
-			// var marker2 = new BMap.Marker(pt,{icon:myIcon2});  // 创建标注
-			// map.addOverlay(marker2);              // 将标注添加到地图中
-			// var opts = {
-			// 	width : 200,     // 信息窗口宽度
-			// 	height: 100,     // 信息窗口高度
-			// 	message:"亲耐滴，晚上一起吃个饭吧？戳下面的链接看下地址喔~"
-			// }
-			// var geoc = new BMap.Geocoder();
-			// geoc.getLocation(pt,function(rs){
-			// 	var addComp = rs.addressComponents;
-			// 	address = addComp.province+addComp.city+addComp.district+addComp.street+addComp.streetNumber;
-			// 	var infoWindow = new BMap.InfoWindow("<div style='width:100%;height:100%;'>"+"<p>速度:"+data.speed+"km/h</p>"+"<p>时间:"+data.gpsTime+"</p>"+"<p>地址:"+address+"</p>"+"</div>", opts);
-			// 	marker2.addEventListener("click", function(e){        
-			// 		// map.openInfoWindow(infoWindow,e); //开启信息窗口
-			// 	});	
-			// })
 		}
 	});		
 }
@@ -3182,8 +3175,7 @@ $('#managementli26').click(function(){
 	clearInterval(Realtimeconditionset);
 	$('main>div').css('display','none');
   	$('.UpdateLog').css('display','');
-  	$('.UpdateLogtails input').val('');
-  	
+  	$('.UpdateLogtails input').val('');	
   	//权限请求
   	var data={
   		id:$('#managementli26').attr('name')
@@ -3198,8 +3190,7 @@ $('#managementli26').click(function(){
   			}
   			if(data.data[i]=='116'){
   				// 升级日志详情查看
-  				$('.UpdateLog-div').css('display','');
-  				
+  				$('.UpdateLog-div').css('display','');	
   			}
   		}
   	})
@@ -3216,54 +3207,81 @@ $('#managementli26').click(function(){
 		    { field:"deviceId",title:'设备编号',align:"center",width:'8%',
 		        formatter: function (value, row, index) {
 					var value = row.deviceId
+					if(value ==null || value =="" || value =="undefined"){
+							return "--"
+					}
 					return "<span title='" + value + "'>" + value + "</span>";
 				}
 	        },
 	        { field:"softVer",title:'软件版本号',align:"center",width:'10%',
 		        formatter: function (value, row, index) {
 					var value = row.softVer
+					if(value ==null || value =="" || value =="undefined"){
+							return "--"
+					}
 					return "<span title='" + value + "'>" + value + "</span>";
 				}
 	        },
 			{ field:"release",title:'tsr',align:"center",width:'12%',
 		        formatter: function (value, row, index) {
 					var value = row.release
+					if(value ==null || value =="" || value =="undefined"){
+							return "--"
+					}
 					return "<span title='" + value + "'>" + value + "</span>";
 				}
 	        },
 			{ field:"swr",title:'swr',align:"center",width:'12%',
 		        formatter: function (value, row, index) {
 					var value = row.swr
+					if(value ==null || value =="" || value =="undefined"){
+							return "--"
+					}
 					return "<span title='" + value + "'>" + value + "</span>";
 				}
 	        },
 			{ field:"requestsNumber",title:'请求次数',align:"center",width:'6%',
 		        formatter: function (value, row, index) {
 					var value = row.requestsNumber
+					if(value ==null || value =="" || value =="undefined"){
+							return "--"
+					}
 					return "<span title='" + value + "'>" + value + "</span>";
 				}
 		    },
 			{ field:"hardVer",title:'硬件版本号',align:"center",width:'10%',
 		         formatter: function (value, row, index) {
 					var value = row.hardVer
+					if(value ==null || value =="" || value =="undefined"){
+							return "--"
+					}
 					return "<span title='" + value + "'>" + value + "</span>";
 				}
 		    },
 			{ field:"remoteAddr",title:'请求IP地址',align:"center",width:'10%',
 		         formatter: function (value, row, index) {
 					var value = row.remoteAddr
+					if(value ==null || value =="" || value =="undefined"){
+							return "--"
+					}
 					return "<span title='" + value + "'>" + value + "</span>";
 				}
 	        },
 			{ field:"fileName",title:'文件名',align:"center",width:'24%',
 		        formatter: function (value, row, index) {
 					var value = row.fileName
+					if(value ==null || value =="" || value =="undefined"){
+							return "--"
+					}
 					return "<span title='" + value + "'>" + value + "</span>";
 				}
 	        },
 			{ field:"ts",title:'最近请求时间',align:"center",width:'10%',
 		        formatter: function (value, row, index) {
 					var value = row.ts
+					if(value ==null || value =="" || value =="undefined"){
+							return "--"
+					}
 					return "<span title='" + value + "'>" + value + "</span>";
 				}
 	        }
@@ -3301,54 +3319,81 @@ $('.UpdateLog-div').click(function(){
 			    { field:"deviceId",title:'设备编号',align:"center",width:'9%',
 			        formatter: function (value, row, index) {
 						var value = row.deviceId
+						if(value ==null || value =="" || value =="undefined"){
+								return "--"
+						}
 						return "<span title='" + value + "'>" + value + "</span>";
 					}
 		        },
 		        { field:"softVer",title:'软件版本号',align:"center",width:'8%',
 			         formatter: function (value, row, index) {
 						var value = row.softVer
+						if(value ==null || value =="" || value =="undefined"){
+								return "--"
+						}
 						return "<span title='" + value + "'>" + value + "</span>";
 					}
 		        },
 				{ field:"release",title:'tsr',align:"center",width:'11%',
 			         formatter: function (value, row, index) {
 						var value = row.release
+						if(value ==null || value =="" || value =="undefined"){
+								return "--"
+						}
 						return "<span title='" + value + "'>" + value + "</span>";
 					}
 		        },
 				{ field:"swr",title:'swr',align:"center",width:'11%',
 			        formatter: function (value, row, index) {
 						var value = row.swr
+						if(value ==null || value =="" || value =="undefined"){
+								return "--"
+						}
 						return "<span title='" + value + "'>" + value + "</span>";
 					}
 		        },
 				{ field:"hardVer",title:'硬件版本号',align:"center",width:'8%',
 			         formatter: function (value, row, index) {
 						var value = row.hardVer
+						if(value ==null || value =="" || value =="undefined"){
+								return "--"
+						}
 						return "<span title='" + value + "'>" + value + "</span>";
 					}
 		        },
 				{ field:"remoteAddr",title:'请求IP地址',align:"center",width:'9%',
 			         formatter: function (value, row, index) {
 						var value = row.remoteAddr
+						if(value ==null || value =="" || value =="undefined"){
+								return "--"
+						}
 						return "<span title='" + value + "'>" + value + "</span>";
 					}
 		        },
 				{ field:"fileName",title:'文件名',align:"center",width:'20%',
 			         formatter: function (value, row, index) {
 						var value = row.fileName
+						if(value ==null || value =="" || value =="undefined"){
+								return "--"
+						}
 						return "<span title='" + value + "'>" + value + "</span>";
 					}
 	         	},
 				 { field:"summary",title:'摘要',align:"center",width:'12%',
 			         formatter: function (value, row, index) {
 						var value = row.summary
+						if(value ==null || value =="" || value =="undefined"){
+								return "--"
+						}
 						return "<span title='" + value + "'>" + value + "</span>";
 					}
 		        },
 				{ field:"ts",title:'请求时间',align:"center",
 			         formatter: function (value, row, index) {
 						var value = row.ts
+						if(value ==null || value =="" || value =="undefined"){
+								return "--"
+						}
 						return "<span title='" + value + "'>" + value + "</span>";
 					}
 		        }
@@ -3448,9 +3493,9 @@ $('#managementli29').click(function(){
 					}
 				}
 			},
-			{ field:"title",title:'标题',align:"center",width:'10%'},
-			{ field:"createUserName",title:'创建人',align:"center",width:'10%'},
-			{ field:"ts",title:'创建时间',align:"center",width:'14%'},
+			{ field:"title",title:'标题',align:"center",width:'10%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"createUserName",title:'创建人',align:"center",width:'10%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"ts",title:'创建时间',align:"center",width:'14%',formatter: function (value) {return dataProcessing(value);}},
 			{ field:"verifyState",title:'审核状态',align:"center",width:'10%',
 				formatter: function (value, row, index) {
 					var value=row['verifyState'];
@@ -3463,15 +3508,15 @@ $('#managementli29').click(function(){
 					}
 				}
 			},
-			{ field:"verifyUserName",title:'审核人员',align:"center",width:'10%'},
-			{ field:"verifyDate",title:'审核时间',align:"center",width:'14%'},
+			{ field:"verifyUserName",title:'审核人员',align:"center",width:'10%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"verifyDate",title:'审核时间',align:"center",width:'14%',formatter: function (value) {return dataProcessing(value);}},
 			{ field:"pushState",title:'推送状态',align:"center",
 				formatter: function (value, row, index) {
 					var value=row['pushState'];
 					if(value==0){
-					return '<a href="javaScript:queryPushStatus('+index+')" id="checkpending" style="background:#EE575A;color:white;display: inline-block;width: 60px;">'+"未发送"+'</a>';
+					return '<a href="javaScript:queryPushStatus('+index+')" id="checkpending" style="background:#EE575A;color:white;display: inline-block;width: 60px;">'+"未推送"+'</a>';
 					}else if(value==1){
-					return '<a href="javaScript:queryPushStatus('+index+')" id="checkpending" style="background: #7DAE16;color:white;display: inline-block;width: 60px;">'+"已发送"+'</a>';
+					return '<a href="javaScript:queryPushStatus('+index+')" id="checkpending" style="background: #7DAE16;color:white;display: inline-block;width: 60px;">'+"已推送"+'</a>';
 					}
 				}
 			},
@@ -3605,11 +3650,11 @@ function groupingtuisong(){
 		pagination: "true",
 		columns:[[
 			{ field:"cb",checkbox:"true",align:"center"},
-			{ field:"groupName",title:'用户组名称',align:"center",width:'20%'},
-			{ field:"phone",title:'联系电话',align:"center",width:'20%'},
-			{ field:"principal",title:'负责人',align:"center",width:'15%'},
-			{ field:"email",title:'邮箱',align:"center",width:'20%'},
-			{ field:"address",title:'地址',align:"center"}
+			{ field:"groupName",title:'用户组名称',align:"center",width:'20%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"phone",title:'联系电话',align:"center",width:'20%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"principal",title:'负责人',align:"center",width:'15%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"email",title:'邮箱',align:"center",width:'20%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"address",title:'地址',align:"center",formatter: function (value) {return dataProcessing(value);}}
 		]]
 	})	
 }
@@ -3624,9 +3669,9 @@ function monocasetuisong(){
 		pagination: true,
 		columns:[[
 			{ field:"cb",checkbox:"true",align:"center"},
-			{ field:"ownerName",title:'车主姓名',align:"center",width:"25%"},
-			{ field:"mobile",title:'联系电话',align:"center",width:"25%"},
-			{ field:"deviceId",title:'设备ID',align:"center"}
+			{ field:"ownerName",title:'车主姓名',align:"center",width:"25%",formatter: function (value) {return dataProcessing(value);}},
+			{ field:"mobile",title:'联系电话',align:"center",width:"25%",formatter: function (value) {return dataProcessing(value);}},
+			{ field:"deviceId",title:'设备ID',align:"center",formatter: function (value) {return dataProcessing(value);}}
 		]]
 	})
 	$('.monocasedatagrid-bottom-datagrid2').datagrid({
@@ -3640,9 +3685,9 @@ function monocasetuisong(){
 		pagination: "true",
 		columns:[[
 			{ field:"cb",checkbox:"true",align:"center"},
-			{ field:"ownerName",title:'车主姓名',align:"center",width:"25%"},
-			{ field:"mobile",title:'联系电话',align:"center",width:"25%"},
-			{ field:"deviceId",title:'设备ID',align:"center"}
+			{ field:"ownerName",title:'车主姓名',align:"center",width:"25%",formatter: function (value) {return dataProcessing(value);}},
+			{ field:"mobile",title:'联系电话',align:"center",width:"25%",formatter: function (value) {return dataProcessing(value);}},
+			{ field:"deviceId",title:'设备ID',align:"center",formatter: function (value) {return dataProcessing(value);}}
 		]]
 	})
 }
@@ -3769,9 +3814,9 @@ function editorPushMessage(){
 				},
 				columns:[[
 					{ field:"cb",checkbox:"true",align:"center"},
-					{ field:"ownerName",title:'车主姓名',align:"center",width:"25%"},
-					{ field:"mobile",title:'联系电话',align:"center",width:"25%"},
-					{ field:"deviceId",title:'设备ID',align:"center"}
+					{ field:"ownerName",title:'车主姓名',align:"center",width:"25%",formatter: function (value) {return dataProcessing(value);}},
+					{ field:"mobile",title:'联系电话',align:"center",width:"25%",formatter: function (value) {return dataProcessing(value);}},
+					{ field:"deviceId",title:'设备ID',align:"center",formatter: function (value) {return dataProcessing(value);}}
 				]]
 			})
 		}else if(row.pushType==1){
@@ -3792,11 +3837,11 @@ function editorPushMessage(){
 				},
 				columns:[[
 					{ field:"cb",checkbox:"true",align:"center"},
-					{ field:"groupName",title:'用户组名称',align:"center",width:'20%'},
-					{ field:"phone",title:'联系电话',align:"center",width:'20%'},
-					{ field:"principal",title:'负责人',align:"center",width:'15%'},
-					{ field:"email",title:'邮箱',align:"center",width:'20%'},
-					{ field:"address",title:'地址',align:"center"}
+					{ field:"groupName",title:'用户组名称',align:"center",width:'20%',formatter: function (value) {return dataProcessing(value);}},
+					{ field:"phone",title:'联系电话',align:"center",width:'20%',formatter: function (value) {return dataProcessing(value);}},
+					{ field:"principal",title:'负责人',align:"center",width:'15%',formatter: function (value) {return dataProcessing(value);}},
+					{ field:"email",title:'邮箱',align:"center",width:'20%',formatter: function (value) {return dataProcessing(value);}},
+					{ field:"address",title:'地址',align:"center",formatter: function (value) {return dataProcessing(value);}}
 				]]
 			})
 		}
@@ -3918,9 +3963,9 @@ function Lookshquire(row){
 			},
 			columns:[[
 				{ field:"cb",checkbox:"true",align:"center"},
-				{ field:"ownerName",title:'车主姓名',align:"center",width:"25%"},
-				{ field:"mobile",title:'联系电话',align:"center",width:"25%"},
-				{ field:"deviceId",title:'设备ID',align:"center"}
+				{ field:"ownerName",title:'车主姓名',align:"center",width:"25%",formatter: function (value) {return dataProcessing(value);}},
+				{ field:"mobile",title:'联系电话',align:"center",width:"25%",formatter: function (value) {return dataProcessing(value);}},
+				{ field:"deviceId",title:'设备ID',align:"center",formatter: function (value) {return dataProcessing(value);}}
 			]]
 		})
 	},300)
@@ -3951,11 +3996,11 @@ function Lookshquiretwo(row){
 			},
 			columns:[[
 				{ field:"cb",checkbox:"true",align:"center"},
-				{ field:"groupName",title:'用户组名称',align:"center",width:'20%'},
-				{ field:"phone",title:'联系电话',align:"center",width:'20%'},
-				{ field:"principal",title:'负责人',align:"center",width:'15%'},
-				{ field:"email",title:'邮箱',align:"center",width:'20%'},
-				{ field:"address",title:'地址',align:"center"}
+				{ field:"groupName",title:'用户组名称',align:"center",width:'20%',formatter: function (value) {return dataProcessing(value);}},
+				{ field:"phone",title:'联系电话',align:"center",width:'20%',formatter: function (value) {return dataProcessing(value);}},
+				{ field:"principal",title:'负责人',align:"center",width:'15%',formatter: function (value) {return dataProcessing(value);}},
+				{ field:"email",title:'邮箱',align:"center",width:'20%',formatter: function (value) {return dataProcessing(value);}},
+				{ field:"address",title:'地址',align:"center",formatter: function (value) {return dataProcessing(value);}}
 			]]
 		})
 	},300)
@@ -4067,10 +4112,10 @@ function queryPushStatus(index){
 				},
 				columns:[[
 					{ field:"cb",checkbox:"true",align:"center"},
-					{ field:"ownerName",title:'车主姓名',align:"center",width:"15%"},
-					{ field:"mobile",title:'联系电话',align:"center",width:"19%"},
-					{ field:"deviceId",title:'设备ID',align:"center",width:"16%"},
-					{ field:"ts",title:'推送时间',align:"center",width: '26%'},
+					{ field:"ownerName",title:'车主姓名',align:"center",width:"15%",formatter: function (value) {return dataProcessing(value);}},
+					{ field:"mobile",title:'联系电话',align:"center",width:"19%",formatter: function (value) {return dataProcessing(value);}},
+					{ field:"deviceId",title:'设备ID',align:"center",width:"16%",formatter: function (value) {return dataProcessing(value);}},
+					{ field:"ts",title:'推送时间',align:"center",width: '26%',formatter: function (value) {return dataProcessing(value);}},
 					{ field:"Status",title:'推送状态',align:"center",
 						formatter: function (value, row, index) {
 							var value=row['Status'];
@@ -4372,8 +4417,8 @@ $('#managementli34').click(function(){
 		pagination: "true",
 		columns:[[
 			{ field:"cb",checkbox:"true",align:"center"},
-			{ field:"appId",title:'应用ID',align:"center",width:'12%'},
-			{ field:"secret",title:'唯一标示密钥',align:"center",width:'16%'},
+			{ field:"appId",title:'应用ID',align:"center",width:'12%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"secret",title:'唯一标示密钥',align:"center",width:'16%',formatter: function (value) {return dataProcessing(value);}},
 			{ field:"active",title:'状态',align:"center",width:'12%',
 		        formatter:function(value, rows, index){
                     var active = rows.active;
@@ -4384,9 +4429,9 @@ $('#managementli34').click(function(){
 					}
 				}
 		    },
-			{ field:"provider",title:'设备供应商',align:"center",width:'12%'},
-			{ field:"ts",title:'最后请求时间戳',align:"center",width:'16%'},
-			{ field:"uuid",title:'UUID',align:"center",width:'26%'},
+			{ field:"provider",title:'设备供应商',align:"center",width:'12%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"ts",title:'最后请求时间戳',align:"center",width:'16%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"uuid",title:'UUID',align:"center",width:'26%',formatter: function (value) {return dataProcessing(value);}},
 			{ field:"summary",title:'操作',align:"center",width:'6%',
 		        formatter:function(value, row, index){
 					return '<a style="display:inline-block;line-height:20px;width:60px;height:20px;background:#00AAFF;color:white" href=\javaScript:appliedmanagementModify2('+ index +')>'+"详情"+'</a>';

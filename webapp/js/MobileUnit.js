@@ -152,42 +152,72 @@ function MobDatagrid(){
             { field: "deviceId", title: '设备编号', align: "center", width: '8%',
                 formatter: function (value, row, index) {
                       var value = row.deviceId
+                      if(value ==null || value =="" || value =="undefined"){
+                          return "--"
+                      }
                       return "<span title='" + value + "'>" + value + "</span>";
                 }
             },
-            { field: "ecuSerialNum", title: '电控单元序列号', align: "center", width: '15%',
+            { field: "ecuSerialNum", title: '电控单元序列号', align: "center", width: '13%',
                 formatter: function (value, row, index) {
                       var value = row.ecuSerialNum
+                      if(value ==null || value =="" || value =="undefined"){
+                          return "--"
+                      }
                       return "<span title='" + value + "'>" + value + "</span>";
                 } 
             },
             { field: "vin", title: '车架号', align: "center", width: '12%',
                 formatter: function (value, row, index) {
                       var value = row.vin
+                      if(value ==null || value =="" || value =="undefined"){
+                          return "--"
+                      }
                       return "<span title='" + value + "'>" + value + "</span>";
                 }
             },
             { field: "iccid", title: 'ICCID', align: "center", width: '14%',
                 formatter: function (value, row, index) {
                       var value = row.iccid
+                      if(value ==null || value =="" || value =="undefined"){
+                          return "--"
+                      }
                       return "<span title='" + value + "'>" + value + "</span>";
                 }
             },
             { field: "groupName", title: '归属分组', align: "center", width: '10%',
                 formatter: function (value, row, index) {
                       var value = row.groupName
+                      if(value ==null || value =="" || value =="undefined"){
+                          return "--"
+                      }
                       return "<span title='" + value + "'>" + value + "</span>";
                 }
             },
             { field: "onlineTime", title: '最后上线时间', align: "center", width: '13%',
                 formatter: function (value, row, index) {
                       var value = row.onlineTime
+                      if(value ==null || value =="" || value =="undefined"){
+                          return "--"
+                      }
                       return "<span title='" + value + "'>" + value + "</span>";
                 }
             },
-            { field: "deviceGroupName", title: '升级分组', align: "center", width: '11%',
+            { field: "remoteAddr", title: '远端地址', align: "center", width: '10%',
+                formatter: function (value, row, index) {
+                      var value = row.remoteAddr
+                      if(value ==null || value =="" || value =="undefined"){
+                          return "--"
+                      }
+                      return "<span title='" + value + "'>" + value + "</span>";
+                }
+            },
+            { field: "deviceGroupName", title: '升级分组', align: "center", width: '8%',
                 formatter: function (value, row, index) {
                       var value = row.deviceGroupName
+                      if(value ==null || value =="" || value =="undefined"){
+                          return "--"
+                      }
                       return "<span title='" + value + "'>" + value + "</span>";
                 }
             },
@@ -200,11 +230,6 @@ function MobDatagrid(){
                     } else {
                         str += '<a style="background:#989898;color:white;display:inline-block;width:19%;margin-left:5%;height:18px">' + "在线" + '</a>';
                     }
-                    // if (value == false) {
-                    //     str += '<a style="background:#989898;color:white;display:inline-block;width:19%;margin-left:5%;height:18px">' + "设备重启" + '</a>';
-                    // } else {
-                    //     str += '<a href=\javaScript:restart(' + index + ') style="background:#00AAFF;color:white;display:inline-block;width:19%;margin-left:5%;height:18px">' + "设备重启" + '</a>';
-                    // }
                     str += '<a href=\javaScript:longdistance(' + index + ') style="background:#00AAFF;color:white;display:inline-block;width:19%;margin-left:5%;height:18px">' + "操作" + '</a>';
                     str += '<a href=\javaScript:particulars(' + index + ') style="background:#00AAFF;color:white;display:inline-block;width:19%;margin-left:5%;height:18px">' + "详情" + '</a>';
                     return str;
@@ -238,13 +263,13 @@ function MobDatagrid(){
             }
         },
         onCheckAll:function(i){
-            var as = $('.MobileData').datagrid('getRows')[i];
+            var as = $('.MobileData').datagrid('getRows');
             if(as==''||as==undefined||as==null){
                 return;
             }
             is.splice(0,is.length);
             for(var s = 0;s<as.length;s++){
-                is.push(as.deviceId)
+                is.push(as[s].deviceId)
             }
         },
         onUncheckAll:function(i){
@@ -435,8 +460,8 @@ function compilefacili(row) {
 //归属分组
 var grounpId;//选择归属分组以及升级分组时tree树的真实id
 var grounp;//添加分组的父级id
-var grounpss;//添加分组的id
 function groupOwnershipgroup() {
+    grounpId = '';
     var row = $('.MobileData').datagrid('getChecked');
     if (row.length == 0) {
         $.messager.alert('系统提示', '请选择设备进行归属分组操作','warning');
@@ -488,6 +513,8 @@ $('.Mobileyhtwo').click(function () {
     });
 })
 //升级分组
+var grounpss;//添加分组的id
+var groupIdTop;//升级分组选中的id
 function UpgradeGroupss() {
     var row = $('.MobileData').datagrid('getChecked');
     if (row.length == 0) {
@@ -520,8 +547,8 @@ function UpgradeGroupss() {
             return convsssss(rows);
         },
         onSelect: function (node) {
-            grounpId = node.id
-            grounpss = node.actualId
+            groupIdTop = node.actualId
+            grounpss = node.id
             grounp = $('.Mobileyhthreeformtree').tree('getParent', node.target);
         }
     })
@@ -608,11 +635,11 @@ function convsssss(rows) {
 }
 //升级分组提交按钮
 $('.Mobileyhthree').click(function () {
-    if (grounpId == ''||grounpId=='undefined'||grounpId==null) {
+    if (grounpss == ''||grounpss=='undefined'||grounpss==null) {
         $.messager.alert('系统提示', '请选择设备组','warning');
         return;
     }
-    if(grounpss!=0){
+    if(groupIdTop!=0){
         $.messager.alert('系统提示', '请选择设备组','warning');
         return;
     }
@@ -622,14 +649,14 @@ $('.Mobileyhthree').click(function () {
         arr.push(row[i].id)
     }
     var deviceIds = arr.join(',')
-    var data = { deviceIds: deviceIds, groupId: grounpId }
+    var data = { deviceIds: deviceIds, groupId: groupIdTop }
     $.ajax({
         type: "post",
         url: server_context+"/changeDeviceGroup",
         async: true,
         data: {
             ids: deviceIds,
-            deviceGroupId: grounpId
+            deviceGroupId: grounpss
         },
         success: function (data) {
             if (data.error_code == 0) {
@@ -656,7 +683,7 @@ $('#Mobileyhthreformdiv-btone').click(function () {
         $.messager.alert('系统提示', '不能为空','warning');
         return;
     }
-    if(grounpss==0){
+    if(groupIdTop==0||groupIdTop==''||groupIdTop==undefined){
         $.messager.alert('系统提示', '请选择一个车场','warning');
         return;
     }
@@ -666,7 +693,7 @@ $('#Mobileyhthreformdiv-btone').click(function () {
         async: true,
         data: {
             deviceGroupName: $('#Mobileyhthreformdiv-input').val(),
-            groupId: grounpId
+            topGroupId: grounpss
         },
         success: function (data) {
             if (data.error_code == 0) {
@@ -1772,11 +1799,11 @@ function reulanine() {
         url: server_context+'/listUpgradePatch',
         columns: [[
             { field: 'ck', checkbox: true, width: 20 },
-            { field: 'id', title: 'ID', align: 'center', hidden: true, },
-            { field: 'softVer', title: '软件版本', align: 'center', width: 70 },
-            { field: 'hardVer', title: '硬件版本', align: 'center', width: 70 },
-            { field: 'model', title: '适应车型', align: 'center', width: 70 },
-            { field: 'fileName', title: '文件名', align: 'center', width: 370 },
+            { field: 'id', title: 'ID', align: 'center', hidden: true,formatter: function (value) {return dataProcessing(value);}},
+            { field: 'softVer', title: '软件版本', align: 'center', width: 70 ,formatter: function (value) {return dataProcessing(value);}},
+            { field: 'hardVer', title: '硬件版本', align: 'center', width: 70,formatter: function (value) {return dataProcessing(value);} },
+            { field: 'model', title: '适应车型', align: 'center', width: 70 ,formatter: function (value) {return dataProcessing(value);}},
+            { field: 'fileName', title: '文件名', align: 'center', width: 370 ,formatter: function (value) {return dataProcessing(value);}},
         ]],
         fitColumns: true
     });

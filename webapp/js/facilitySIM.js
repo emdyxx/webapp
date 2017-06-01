@@ -152,25 +152,32 @@
 	    })
     }
     //sim明细
+	var pageNumbers;
+	var SIMRows;
     function simdetails(index){
+		pageNumbers = 1;
     	var rows = $('.SIMhistorysdetailsone-data').datagrid('getRows');
 	    var row = rows[index];
+		SIMRows = row;
 	    $('.SIMhistorysdetailsone').css('display','none');
 	    $('.SIMhistorysdetailsonetwo').css('display','');
 	    $('.SIMhistorysdetailsonetwo-data').datagrid({
 			url: server_context+'/listSimDetails',
 			method: 'get',
-			singleSelect: 'true',
-			fit: 'true',
-			fitColumns: 'true',
-			rownumbers: 'true',
-			pageSize:50,
-			pageList: [50],
-			pagination: "true",
-			remoteSort:false,
+			pagination: true,
+	        fit:true,
+		    fitColumns:true,
+		    autoRowHeight:true,
+		    rownumbers:true,
+		    singleSelect:true,
+		    scrollbarSize:0,
+	        pageSize: 50,
+			pageNumber:pageNumbers,
+	        remoteSort:false,
 			queryParams: {
 				iccid:row.iccid,
-                startTime:row.billingCycle
+                startTime:row.billingCycle,
+				page:pageNumbers
 			},
 			columns:[[
 			    { field: 'iccid', title: 'ICCID',align: 'center',width:'25%'},
@@ -183,9 +190,103 @@
 				if(data.error_code!=0){
 					Statuscodeprompt(data.error_code)
 				}
+				// $('.SIMhistorysdetailsonetwo-data').datagrid('doCellTip',{'max-width':'400px','delay':500});
+				$('.SIMhistorysdetailsonetwo-data').datagrid('getPager').pagination({
+					 layout:[],
+					 buttons:buttons,
+				 });
 			}
 	    })
     }
+	var buttons = [{
+		text:'上一页',
+		//iconCls:'icon-add',
+		handler:function(){
+			if(pageNumbers>1){
+				pageNumbers--;
+				$('.SIMhistorysdetailsonetwo-data').datagrid({
+					url: server_context+'/listSimDetails',
+					method: 'get',
+					pagination: true,
+					fit:true,
+					fitColumns:true,
+					autoRowHeight:true,
+					rownumbers:true,
+					singleSelect:true,
+					scrollbarSize:0,
+					pageSize: 50,
+					pageNumber:pageNumbers,
+					remoteSort:false,
+					queryParams: {
+						iccid:SIMRows.iccid,
+						startTime:SIMRows.billingCycle,
+						page:pageNumbers
+					},
+					columns:[[
+						{ field: 'iccid', title: 'ICCID',align: 'center',width:'25%'},
+						{ field: 'sessionStartTime', title: '时间',align: 'center',width:'20%'},
+						{ field: 'dataVolume', title: '数据(KB)',align: 'center',width:'10%'},
+						{ field: 'billable', title: '是否计费',align: 'center',width:'18%'},
+						{ field: 'serviceType', title: '服务类型',align: 'center'}
+					]],
+					onLoadSuccess:function(data){
+						if(data.error_code!=0){
+							Statuscodeprompt(data.error_code)
+						}
+						// $('.SIMhistorysdetailsonetwo-data').datagrid('doCellTip',{'max-width':'400px','delay':500});
+						$('.SIMhistorysdetailsonetwo-data').datagrid('getPager').pagination({
+							layout:[],
+							buttons:buttons,
+						});
+					}
+				})
+			}
+		}
+	},{
+		text:'下一页',
+		//iconCls:'icon-cut',
+		handler:function(){
+			if(pageNumbers>=1){
+				pageNumbers++;
+				$('.SIMhistorysdetailsonetwo-data').datagrid({
+					url: server_context+'/listSimDetails',
+					method: 'get',
+					pagination: true,
+					fit:true,
+					fitColumns:true,
+					autoRowHeight:true,
+					rownumbers:true,
+					singleSelect:true,
+					scrollbarSize:0,
+					pageSize: 50,
+					pageNumber:pageNumbers,
+					remoteSort:false,
+					queryParams: {
+						iccid:SIMRows.iccid,
+						startTime:SIMRows.billingCycle,
+						page:pageNumbers
+					},
+					columns:[[
+						{ field: 'iccid', title: 'ICCID',align: 'center',width:'25%'},
+						{ field: 'sessionStartTime', title: '时间',align: 'center',width:'20%'},
+						{ field: 'dataVolume', title: '数据(KB)',align: 'center',width:'10%'},
+						{ field: 'billable', title: '是否计费',align: 'center',width:'18%'},
+						{ field: 'serviceType', title: '服务类型',align: 'center'}
+					]],
+					onLoadSuccess:function(data){
+						if(data.error_code!=0){
+							Statuscodeprompt(data.error_code)
+						}
+						// $('.SIMhistorysdetailsonetwo-data').datagrid('doCellTip',{'max-width':'400px','delay':500});
+						$('.SIMhistorysdetailsonetwo-data').datagrid('getPager').pagination({
+							layout:[],
+							buttons:buttons,
+						});
+					}
+				})
+			}
+		}
+	}];
 	//返回按钮
 	function SIMhistorysdetailsonetwofh(){
 	   seeSimInvoice();

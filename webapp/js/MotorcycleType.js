@@ -334,8 +334,8 @@
 				},
 				columns:[[
 					{ field:"cb",checkbox:"true",align:"center"},
-					{ field:"extendPartsName",title:'第三方名称',align:"center",width:'48%'},
-					{ field:"maker",title:'制造商',align:"center"}
+					{ field:"extendPartsName",title:'第三方名称',align:"center",width:'48%',formatter: function (value) {return dataProcessing(value);}},
+					{ field:"maker",title:'制造商',align:"center",formatter: function (value) {return dataProcessing(value);}}
 				]],
 				onLoadSuccess:function(data){
 					if(data.error_code!=0){
@@ -496,13 +496,13 @@
 				pagination: "true",
 				columns:[[
 					{ field:"cb",checkbox:"true",align:"center"},
-					{ field:"deviceName",title:'第三方设备名称',align:"center",width:'24%'},
-					{ field:"sn",title:'设备序列号',align:"center",width:'24%'},
-					{ field:"mac",title:'设备MAC地址',align:"center",width:'24%'},
-					{ field:"status",title:'设备状态',align:"center",width:'24%'},
-					{ field:"bindTime",title:'绑定时间',align:"center",width:'24%'},
-					{ field:"deviceId",title:'绑定设备编号',align:"center",width:'24%'},
-					{ field:"ts",title:'创建时间',align:"center",width:'24%'},
+					{ field:"deviceName",title:'第三方设备名称',align:"center",width:'24%',formatter: function (value) {return dataProcessing(value);}},
+					{ field:"sn",title:'设备序列号',align:"center",width:'24%',formatter: function (value) {return dataProcessing(value);}},
+					{ field:"mac",title:'设备MAC地址',align:"center",width:'24%',formatter: function (value) {return dataProcessing(value);}},
+					{ field:"status",title:'设备状态',align:"center",width:'24%',formatter: function (value) {return dataProcessing(value);}},
+					{ field:"bindTime",title:'绑定时间',align:"center",width:'24%',formatter: function (value) {return dataProcessing(value);}},
+					{ field:"deviceId",title:'绑定设备编号',align:"center",width:'24%',formatter: function (value) {return dataProcessing(value);}},
+					{ field:"ts",title:'创建时间',align:"center",width:'24%',formatter: function (value) {return dataProcessing(value);}},
 				]],
 				onLoadSuccess:function(data){
 					if(data.error_code!=0){

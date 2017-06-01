@@ -1,5 +1,4 @@
 /***************5.3设备管理---设备更换********************/
-
    var replaceurl;
    $('#managementli11').click(function(){
 	   clearInterval(seti);
@@ -47,14 +46,14 @@
 				userName:$('#changepersonnel').val()
 			},
 			columns:[[
-				{ field:"originalDeviceId",title:'初始设备编号',align:"center",width: '8%'},
-				{ field:"oldDeviceId",title:'原设备编号',align:"center",width: '8%'},
-				{ field:"newDeviceId",title:'新设备编号',align:"center",width: '8%'},
-				{ field:"oldEcuSerialNum",title:'原电控单元序列号',align:"center",width: '21%'},
-				{ field:"newEcuSerialNum",title:'新电控单元序列号',align:"center",width: '21%'},
-				{ field:"userName",title:'更换人员',align:"center",width: '8%'},
-				{ field:"dateTime",title:'更换日期',align:"center",width: '14%'},
-				{ field:"ts",title:'登记日期',align:"center"}
+				{ field:"originalDeviceId",title:'初始设备编号',align:"center",width: '8%',formatter: function (value) {return dataProcessing(value);}},
+				{ field:"oldDeviceId",title:'原设备编号',align:"center",width: '8%',formatter: function (value) {return dataProcessing(value);}},
+				{ field:"newDeviceId",title:'新设备编号',align:"center",width: '8%',formatter: function (value) {return dataProcessing(value);}},
+				{ field:"oldEcuSerialNum",title:'原电控单元序列号',align:"center",width: '21%',formatter: function (value) {return dataProcessing(value);}},
+				{ field:"newEcuSerialNum",title:'新电控单元序列号',align:"center",width: '21%',formatter: function (value) {return dataProcessing(value);}},
+				{ field:"userName",title:'更换人员',align:"center",width: '8%',formatter: function (value) {return dataProcessing(value);}},
+				{ field:"dateTime",title:'更换日期',align:"center",width: '14%',formatter: function (value) {return dataProcessing(value);}},
+				{ field:"ts",title:'登记日期',align:"center",formatter: function (value) {return dataProcessing(value);}}
 			]],
 			onLoadSuccess:function(data){
 				if(data.error_code!=0){

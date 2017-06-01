@@ -84,12 +84,12 @@ function TheOwner(node){
 			id:id3
 		},
 		columns:[[
-			{ field:"groupName",title:'编组名称',align:"center",width: '16%'},
-			{ field:"principal",title:'负责人',align:"center",width: '15%'},
-			{ field:"address",title:'地址',align:"center",width: '22%'},
-			{ field:"phone",title:'电话',align:"center",width: '16%'},
-			{ field:"email",title:'邮箱',align:"center",width: '16%'},
-			{ field:"ts",title:'创建时间',align:"center"}
+			{ field:"groupName",title:'编组名称',align:"center",width: '16%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"principal",title:'负责人',align:"center",width: '15%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"address",title:'地址',align:"center",width: '22%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"phone",title:'电话',align:"center",width: '16%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"email",title:'邮箱',align:"center",width: '16%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"ts",title:'创建时间',align:"center",formatter: function (value) {return dataProcessing(value);}}
 		]]
 	})
 	//下侧表
@@ -112,10 +112,10 @@ function TheOwner(node){
 		},
 		columns:[[
 		    { field:"cb",checkbox:"true",align:"center"},
-			{ field:"ownerName",title:'车主名称',align:"center",width: '12%'},
-			{ field:"deviceId",title:'设备编号',align:"center",width: '13%'},
-			{ field:"vin",title:'车架号',align:"center",width: '13%'},
-			{ field:"groupName",title:'归属分组',align:"center",width: '12%'},
+			{ field:"ownerName",title:'车主名称',align:"center",width: '12%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"deviceId",title:'设备编号',align:"center",width: '13%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"vin",title:'车架号',align:"center",width: '13%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"groupName",title:'归属分组',align:"center",width: '12%',formatter: function (value) {return dataProcessing(value);}},
 			{ field:"bindStatus",title:'注册状态',align:"center",width: '13%',
 			    formatter: function (value, row, index) {
 				  var value=row['bindStatus'];
@@ -184,6 +184,7 @@ function TheOwneradd(){
 	$('.tablefuwu tr input').removeAttr('disabled','disabled');
 	$('.spanerror').html('')
 	$('.TheOwnertitle').html('添加车主')
+	$('.TheOwner-topButton').css('display','none')
 	$('.TheOwnerModal-body>form').css('display','none');
 	$('.TheOwnerForm').css('display','');
 	$('.Nextstepbutton>button').css('display','none')
@@ -427,7 +428,6 @@ function jbxh(judeg,url){
     	vin:$('#vin').val().trim(),
     	engineCode:$('#engineCode').val(),
     	vehicleModelId:$('#vehicleConfig').val(),
-    	// serviceEndTime:$('#serviceEndTime').val(),
     	contactsName:$('#contactsName').val(),
     	contactsMobile:$('#contactsMobile').val(),
     	relation:$('#relation').val()
@@ -438,10 +438,6 @@ function jbxh(judeg,url){
 		async:true,
 		data:data,
 		success:function(data){
-			console.log(data)
-			// if(!data.data[0].ownerId){
-            //    ownerIds=data.data[0].ownerId
-			// }
 			if(data.error_code==0){
 				$("#TheOwner-datagrid-bottom").datagrid("reload");
 				if(judeg.id=='Nextstep'){
@@ -481,7 +477,6 @@ $('#Nextstep').click(function(){
 		if(!pattern.test($('.NoName').eq(i).val())) {
 		   str = ''
 		   str += '姓名(关系)不符合格式';
-		   $('.NoName').focus();
 		}
 	}
 	if(!isNumber.test($('#idNumber').val())){
@@ -493,13 +488,8 @@ $('#Nextstep').click(function(){
 		if(!phone.test($('.NoPhone').eq(i).val())) {
 		   str = ''
 		   str += '手机号不符合格式';
-		   $('.NoPhone').focus();
 		}
 	}
-	// if(!address.test($('.Noaddress').val())){
-	// 	str += '详细地址不符合格式';
-	// 	$('.Noaddress').focus();
-	// }
     if(str!=''){
     	$('.spanerror').html(str)
     	return false;
@@ -592,6 +582,7 @@ function TheOwnerbj(t){
 		$('#Nextstep6').css('display','');
 		$('#Nextstep2').val('基本');
 		$('.TheOwnertitle').html('修改车主信息');
+		$('.TheOwner-topButton').css('display','')
 		$('.tablefuwu tr input').removeAttr('disabled','disabled');
 		TheOwnerValue(row);
 }
@@ -626,6 +617,7 @@ function ReviewOperation(index){
 	$('#TheOwnerModal').modal('show');
 	$('.spanerror').html('')
 	$('.TheOwnertitle').html('审核状态');
+	$('.TheOwner-topButton').css('display','none')
 	$('.TheOwnerModal-body>form').css('display','none');
 	$('.TheOwnerForm2').css('display','');
 	$('.Nextstepbutton>button').css('display','none');
@@ -699,6 +691,7 @@ function LookUp(index){
 	$('#TheOwnerModal').modal('show');
 	$('.spanerror').html('')
 	$('.TheOwnertitle').html('查看详情');
+	$('.TheOwner-topButton').css('display','')
 	$('.TheOwnerModal-body>form').css('display','none');
 	$('.tablefuwu tr input').attr('disabled','disabled');
 	$('.TheOwnerForm2').css('display','');
@@ -1045,6 +1038,7 @@ $('#Nextstep3').click(function(){
 	$('.TheOwnerModal-body>form').css('display','none');
 	if(owner0==0){
       $('.TheOwnerForm').css('display','');
+	  $('#Nextstep2').css('display','')
 	  $('#Nextstep2').val('基本')
 	}else{
 		$('.TheOwnerForm2').css('display','');
@@ -1058,6 +1052,7 @@ $('#Nextstep5').click(function(){
 	var row;
 	$('.TheOwnerModal-body>form').css('display','none');
 	$('.TheOwnerFormthree').css('display','');
+	$('#Nextstep2').css('display','none')
 	$('#Nextstep2').val('联系人')
 	if(LookUpindexThe==-1){
 		row = $("#TheOwner-datagrid-bottom").datagrid('getSelected');
@@ -1143,6 +1138,7 @@ $('#Nextstep6').click(function(){
 	}
 	$('.TheOwnerModal-body>form').css('display','none');
 	$('.TheOwnerFormfour').css('display','');
+	$('#Nextstep2').css('display','')
 	$('#Nextstep2').val('服务信息')
 	$.ajax({
 		url:server_context+'/getOwnerService',
@@ -1174,24 +1170,14 @@ $('#Nextstep2').click(function(){
 				return
 			}
 		}
-		// for(var i=0;i<$('.NoName').length;i++){
-			if(!pattern.test($('.NoName').eq(0).val())) {
-			   str = ''
-			   str += '姓名(关系)不符合格式';
-			   $('.NoName').focus();
-			}
-		// }
-		// for(var i=0;i<$('.NoPhone').length;i++){
-			if(!phone.test($('.NoPhone').eq(0).val())) {
-			   str = ''
-			   str += '手机号不符合格式';
-			   $('.NoPhone').focus();
-			}
-		// }
-		// if(!address.test($('.Noaddress').val())){
-		// 	str += '详细地址不符合格式';
-		// 	$('.Noaddress').focus();
-		// }
+		if(!pattern.test($('.NoName').eq(0).val())) {
+			str = ''
+			str += '姓名(关系)不符合格式';
+		}
+		if(!phone.test($('.NoPhone').eq(0).val())) {
+			str = ''
+			str += '手机号不符合格式';
+		}
 		
 	    if(str!=''){
 	    	$('.spanerror').html(str)
@@ -1291,136 +1277,3 @@ function Theownermigrationsave(){
         }
     });
 }
-//保险信息点击事件
-/*$('#Nextstep4').click(function(){
-	$('.TheOwnerModal-body>form').css('display','none');
-	$('.TheOwnerFormtwo').css('display','');
-	var row = $("#TheOwner-datagrid-bottom").datagrid('getSelected');
-	$('#agent').val(row.agent),
-	$('#applicant').val(row.applicant),
-	$('#insured').val(row.insured),
-	$('#insurerId').val(row.insurerId),
-	$('#commercialInsuranceNo').val(row.commercialInsuranceNo),
-	$('#compulsoryInsuranceNo').val(row.compulsoryInsuranceNo),
-	$('#insureDate').val(row.insureDate),
-	$('#expireDate').val(row.expireDate),
-	$('#commercialPremium').val(row.commercialPremium),
-	$('#commercialIncome').val(row.commercialIncome),
-	$('#commercialDiscount').val(row.commercialDiscount),
-	$('#compulsoryPremium').val(row.compulsoryPremium),
-	$('#compulsoryIncome').val(row.compulsoryIncome),
-	$('#compulsoryDiscount').val(row.compulsoryDiscount),
-	$('#premium').val(row.premium),
-	$('#remarks').val(row.remarks),
-	$('#premium').val(row.premium),
-	$('#income').val(row.income),
-	$('#damageAmount').val(row.damageAmount),
-	$('#damageReceivable').val(row.damageReceivable),
-	$('#damageIncome').val(row.damageIncome),
-	$('#tplAmount ').val(row.tplAmount),
-	$('#tplReceivable').val(row.tplReceivable),
-	$('#tplIncome').val(row.tplIncome),
-	$('#passengerAmount').val(row.passengerAmount),
-	$('#passengerReceivable').val(row.passengerReceivable),
-	$('#passengerIncome').val(row.passengerIncome),
-	$('#theftAmount').val(row.theftAmount),
-	$('#theftReceivable').val(row.theftReceivable),
-	$('#theftIncome').val(row.theftIncome),
-	$('#glassBreakageAmount').val(row.glassBreakageAmount),
-	$('#glassBreakageReceivable').val(row.glassBreakageReceivable),
-	$('#glassBreakageIncome').val(row.glassBreakageIncome),
-	$('#combustionAmount').val(row.combustionAmount),
-	$('#combustionReceivable').val(row.combustionReceivable),
-	$('#combustionIncome').val(row.combustionIncome),
-	$('#wadeAmount').val(row.wadeAmount),
-	$('#wadeReceivable').val(row.wadeReceivable),
-	$('#wadeIncome').val(row.wadeIncome),
-	$('#scratchAmount').val(row.scratchAmount),
-	$('#scratchReceivable').val(row.scratchReceivable),
-	$('#scratchIncome').val(row.scratchIncome),
-	$('#waiverAmount').val(row.waiverAmount),
-    $('#waiverReceivable').val(row.waiverReceivable),
-	$('#waiverIncome').val(row.waiverIncome),
-	$('#compelsoryAmount').val(row.compelsoryAmount),
-	$('#compelsoryReceivable').val(row.compelsoryReceivable),
-	$('#compelsoryIncome').val(row.compelsoryIncome),
-	$('#vehicleTax').val(row.vehicleTax),
-	$('#other').val(row.other),
-	$('#remark').val(row.remark)
-	$('#Nextstep2').val('保险')
-})*/
-
-//保险信息提交按钮
-//function bxxh(judeg){
-//	console.log(judeg)
-//	for(var i=0;i<$('.undefined').length;i++){
-//		if(!$('.undefined').eq(i).val()){
-//			$('.undefined').eq(i).val('0')
-//		}
-//	}
-//	var data = {
-//		agent:$('#agent').val(),
-//		applicant:$('#applicant').val(),
-//		insured:$('#insured').val(),
-//		insurerId:$('#insurerId').val(),
-//		commercialInsuranceNo:$('#commercialInsuranceNo').val(),
-//		compulsoryInsuranceNo:$('#compulsoryInsuranceNo').val(),
-//		insureDate:$('#insureDate').val(),
-//		expireDate:$('#expireDate').val(),
-//		commercialPremium:$('#commercialPremium').val(),
-//		commercialIncome:$('#commercialIncome').val(),
-//		commercialDiscount:$('#commercialDiscount').val(),
-//		compulsoryPremium:$('#compulsoryPremium').val(),
-//		compulsoryIncome:$('#compulsoryIncome').val(),
-//		compulsoryDiscount:$('#compulsoryDiscount').val(),
-//		premium:$('#premium').val(),
-//		remarks:$('#remarks').val(),
-//		premium:$('#premium').val(),
-//		income:$('#income').val(),
-//		damageAmount:$('#damageAmount').val(),
-//		damageReceivable:$('#damageReceivable').val(),
-//		damageIncome:$('#damageIncome').val(),
-//		tplAmount :$('#tplAmount ').val(),
-//		tplReceivable:$('#tplReceivable').val(),
-//		tplIncome:$('#tplIncome').val(),
-//		passengerAmount:$('#passengerAmount').val(),
-//		passengerReceivable:$('#passengerReceivable').val(),
-//		passengerIncome:$('#passengerIncome').val(),
-//		theftAmount:$('#theftAmount').val(),
-//		theftReceivable:$('#theftReceivable').val(),
-//		theftIncome:$('#theftIncome').val(),
-//		glassBreakageAmount:$('#glassBreakageAmount').val(),
-//		glassBreakageReceivable:$('#glassBreakageReceivable').val(),
-//		glassBreakageIncome:$('#glassBreakageIncome').val(),
-//		combustionAmount:$('#combustionAmount').val(),
-//		combustionReceivable:$('#combustionReceivable').val(),
-//		combustionIncome:$('#combustionIncome').val(),
-//		wadeAmount:$('#wadeAmount').val(),
-//		wadeReceivable:$('#wadeReceivable').val(),
-//		wadeIncome:$('#wadeIncome').val(),
-//		scratchAmount:$('#scratchAmount').val(),
-//		scratchReceivable:$('#scratchReceivable').val(),
-//		scratchIncome:$('#scratchIncome').val(),
-//		waiverAmount:$('#waiverAmount').val(),
-//		waiverReceivable:$('#waiverReceivable').val(),
-//		waiverIncome:$('#waiverIncome').val(),
-//		compelsoryAmount:$('#compelsoryAmount').val(),
-//		compelsoryReceivable:$('#compelsoryReceivable').val(),
-//		compelsoryIncome:$('#compelsoryIncome').val(),
-//		vehicleTax:$('#vehicleTax').val(),
-//		other:$('#other').val(),
-//		remark:$('#remark').val()
-//	}
-//  $.ajax({
-//  	type:"post",
-//		url:"/asdf",
-//		async:true,
-//		data:data,
-//		success:function(data){
-//			console.log(data);
-//			if(judeg.id=='Nextstep1'){
-//				$('#TheOwnerModal').modal('hide');
-//			}
-//		}
-//  })
-//}

@@ -90,30 +90,45 @@
 				{ field:"softVer",title:'软件版本',align:"center",width:'7%',
 			        formatter: function (value, row, index) {
 						var value = row.softVer
+						if(value ==null || value =="" || value =="undefined"){
+                            return "--"
+                        }
 						return "<span title='" + value + "'>" + value + "</span>";
 					}
 		        },
 				{ field:"hardVer",title:'硬件版本',align:"center",width:'7%',
 			        formatter: function (value, row, index) {
 						var value = row.hardVer
+						if(value ==null || value =="" || value =="undefined"){
+                            return "--"
+                        }
 						return "<span title='" + value + "'>" + value + "</span>";
 					}
 		        },
 				{ field:"model",title:'适用型号',align:"center",width:'6%',
 			        formatter: function (value, row, index) {
 						var value = row.model
+						if(value ==null || value =="" || value =="undefined"){
+                            return "--"
+                        }
 						return "<span title='" + value + "'>" + value + "</span>";
 					}
 			    },
 				{ field:"pacVer",title:'PAC版本',align:"center",width:'10%',
 			        formatter: function (value, row, index) {
 						var value = row.pacVer
+						if(value ==null || value =="" || value =="undefined"){
+                            return "--"
+                        }
 						return "<span title='" + value + "'>" + value + "</span>";
 					}
 		        },
 		        { field:"release",title:'TSR',align:"center",width:'8%',
 			        formatter: function (value, row, index) {
 						var value = row.release
+						if(value ==null || value =="" || value =="undefined"){
+                            return "--"
+                        }
 						return "<span title='" + value + "'>" + value + "</span>";
 					}
 		        },
@@ -132,6 +147,9 @@
 				{ field:"fileName",title:'文件名称',align:"center",width:'35%',
 			        formatter: function (value, row, index) {
 						var value = row.fileName
+						if(value ==null || value =="" || value =="undefined"){
+                            return "--"
+                        }
 						return "<span title='" + value + "'>" + value + "</span>";
 					}
 		        },
@@ -338,11 +356,11 @@
 					},
 					columns:[[
 						{ field:"cb",checkbox:"true",align:"center",width:"20%"},
-						{ field:"deviceId",title:'设备编号',align:"center",width:"20%"},
-						{ field:"vin",title:'车架号',align:"center",width:"20%"},
-						{ field:"iccid",title:'iccid',align:"center",width:"20%"},
-						{ field:"hardVer",title:'硬件版本号',align:"center",width:"20%"},
-						{ field:"model",title:'适用型号',align:"center"}
+						{ field:"deviceId",title:'设备编号',align:"center",width:"20%",formatter: function (value) {return dataProcessing(value);}},
+						{ field:"vin",title:'车架号',align:"center",width:"20%",formatter: function (value) {return dataProcessing(value);}},
+						{ field:"iccid",title:'iccid',align:"center",width:"20%",formatter: function (value) {return dataProcessing(value);}},
+						{ field:"hardVer",title:'硬件版本号',align:"center",width:"20%",formatter: function (value) {return dataProcessing(value);}},
+						{ field:"model",title:'适用型号',align:"center",formatter: function (value) {return dataProcessing(value);}}
 					]]
 				})
 			}

@@ -51,11 +51,11 @@
 		},
 		columns:[[
 		    { field:"cb",checkbox:"true",align:"center"},
-			{ field:"deviceId",title:'设备编号',align:"center",width:'10%'},
-			{ field:"vin",title:'车架号',align:"center",width:'12%'},
-			{ field:"ecuSerialNum",title:'电控单元号',align:"center",width:'18%'},
-			{ field:"iccid",title:'iccid',align:"center",width:'15%'},
-			{ field:"modelAlias",title:'车系代码',align:"center",width:'10%'},
+			{ field:"deviceId",title:'设备编号',align:"center",width:'10%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"vin",title:'车架号',align:"center",width:'12%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"ecuSerialNum",title:'电控单元号',align:"center",width:'18%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"iccid",title:'iccid',align:"center",width:'15%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"modelAlias",title:'车系代码',align:"center",width:'10%',formatter: function (value) {return dataProcessing(value);}},
 			{ field:"one6",title:'录制状态',align:"center",width:'10%',
 		        formatter:function(value, rows, index){
 					var status = rows.status;
@@ -120,9 +120,9 @@
 					deviceId:row.deviceId
 				},
 				columns:[[
-					{ field:"startTime",title:'录制起始时间',align:"center",width:'25%'},
-					{ field:"endTime",title:'录制结束时间',align:"center",width:'25%'},
-					{ field:"userName",title:'操作用户',align:"center",width:'25%'},
+					{ field:"startTime",title:'录制起始时间',align:"center",width:'25%',formatter: function (value) {return dataProcessing(value);}},
+					{ field:"endTime",title:'录制结束时间',align:"center",width:'25%',formatter: function (value) {return dataProcessing(value);}},
+					{ field:"userName",title:'操作用户',align:"center",width:'25%',formatter: function (value) {return dataProcessing(value);}},
 					{ field:"one5",title:'操作',align:"center",
 					    formatter:function(value, rows, index){
 				        	return '<a href="javaScript:Recordingoptionsdata('+index+')" style="display:inline-block;line-height:20px;width:60px;height:20px;background:#00AAFF;color:white">'+"查询数据"+'</a>';
@@ -584,15 +584,15 @@ $('#managementli33').click(function(){
 		},
 		columns:[[
 		    // { field:"cb",checkbox:"true",align:"center"},
-			{ field:"DeviceId",title:'设备编号',align:"center",width:'11%'},
-			{ field:"CanId",title:'CANID',align:"center",width:'11%'},
-			{ field:"Model",title:'车型',align:"center",width:'11%'},
-			{ field:"DATA",title:'数据项',align:"center",width:'11%'},
-			{ field:"RxTime",title:'数据接收时间',align:"center",width:'11%'},
-			{ field:"DLC",title:'数据项长度',align:"center",width:'11%'},
-			{ field:"EndTime",title:'节点丢失时间',align:"center",width:'11%'},
-			{ field:"Time_t",title:'秒级时间',align:"center",width:'11%'},
-			{ field:"MSec",title:'毫秒级时间',align:"center"}
+			{ field:"DeviceId",title:'设备编号',align:"center",width:'11%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"CanId",title:'CANID',align:"center",width:'11%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"Model",title:'车型',align:"center",width:'11%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"DATA",title:'数据项',align:"center",width:'11%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"RxTime",title:'数据接收时间',align:"center",width:'11%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"DLC",title:'数据项长度',align:"center",width:'11%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"EndTime",title:'节点丢失时间',align:"center",width:'11%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"Time_t",title:'秒级时间',align:"center",width:'11%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"MSec",title:'毫秒级时间',align:"center",formatter: function (value) {return dataProcessing(value);}}
 		]]
 	})
 })
@@ -630,15 +630,15 @@ function candatarid(){
 		},
 		columns:[[
 		    // { field:"cb",checkbox:"true",align:"center"},
-			{ field:"DeviceId",title:'设备编号',align:"center",width:'11%'},
-			{ field:"CanId",title:'CANID',align:"center",width:'11%'},
-			{ field:"Model",title:'车型',align:"center",width:'11%'},
-			{ field:"DATA",title:'数据项',align:"center",width:'11%'},
-			{ field:"RxTime",title:'数据接收时间',align:"center",width:'11%'},
-			{ field:"DLC",title:'数据项长度',align:"center",width:'11%'},
-			{ field:"EndTime",title:'节点丢失时间',align:"center",width:'11%'},
-			{ field:"Time_t",title:'秒级时间',align:"center",width:'11%'},
-			{ field:"MSec",title:'毫秒级时间',align:"center"}
+			{ field:"DeviceId",title:'设备编号',align:"center",width:'11%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"CanId",title:'CANID',align:"center",width:'11%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"Model",title:'车型',align:"center",width:'11%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"DATA",title:'数据项',align:"center",width:'11%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"RxTime",title:'数据接收时间',align:"center",width:'11%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"DLC",title:'数据项长度',align:"center",width:'11%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"EndTime",title:'节点丢失时间',align:"center",width:'11%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"Time_t",title:'秒级时间',align:"center",width:'11%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"MSec",title:'毫秒级时间',align:"center",formatter: function (value) {return dataProcessing(value);}}
 		]]
 	})
 }
@@ -694,15 +694,15 @@ $('#queryandpivotLogs').click(function(){
 		},
 		columns:[[
 		    { field:"cb",checkbox:"true",align:"center"},
-			{ field:"DeviceId",title:'设备编号',align:"center",width:'11%'},
-			{ field:"CanId",title:'CANID',align:"center",width:'11%'},
-			{ field:"Model",title:'车型',align:"center",width:'11%'},
-			{ field:"DATA",title:'数据项',align:"center",width:'11%'},
-			{ field:"RxTime",title:'数据接收时间',align:"center",width:'11%'},
-			{ field:"DLC",title:'数据项长度',align:"center",width:'11%'},
-			{ field:"EndTime",title:'节点丢失时间',align:"center",width:'11%'},
-			{ field:"MSec",title:'毫秒级时间',align:"center",width:'11%'},
-			{ field:"Time_t",title:'秒级时间',align:"center"}
+			{ field:"DeviceId",title:'设备编号',align:"center",width:'11%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"CanId",title:'CANID',align:"center",width:'11%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"Model",title:'车型',align:"center",width:'11%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"DATA",title:'数据项',align:"center",width:'11%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"RxTime",title:'数据接收时间',align:"center",width:'11%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"DLC",title:'数据项长度',align:"center",width:'11%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"EndTime",title:'节点丢失时间',align:"center",width:'11%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"MSec",title:'毫秒级时间',align:"center",width:'11%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"Time_t",title:'秒级时间',align:"center",formatter: function (value) {return dataProcessing(value);}}
 		]]
 	})
 })
@@ -731,8 +731,8 @@ $('#queryandpivotoperates').click(function(){
 		},
 		columns:[[
 		    { field:"cb",checkbox:"true",align:"center"},
-			{ field:"fileName",title:'文件名称',align:"center",width:'17%'},
-			{ field:"deviceId",title:'设备编号',align:"center",width:'11%'},
+			{ field:"fileName",title:'文件名称',align:"center",width:'17%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"deviceId",title:'设备编号',align:"center",width:'11%',formatter: function (value) {return dataProcessing(value);}},
 			{ field:"status",title:'导出状态',align:"center",width:'8%',
 		          formatter: function (value, row, index) {
 					  var status = row['status']
@@ -745,11 +745,11 @@ $('#queryandpivotoperates').click(function(){
 					  }
 				  }
 	        },
-			{ field:"fileCount",title:'文件数量',align:"center",width:'8%'},
-			{ field:"startTime",title:'起始时间',align:"center",width:'13%'},
-			{ field:"endTime",title:'结束时间',align:"center",width:'13%'},
-			{ field:"ts",title:'创建时间',align:"center",width:'13%'},
-			{ field:"duration",title:'文件导出毫秒时间',align:"center",width:'8%'},
+			{ field:"fileCount",title:'文件数量',align:"center",width:'8%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"startTime",title:'起始时间',align:"center",width:'13%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"endTime",title:'结束时间',align:"center",width:'13%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"ts",title:'创建时间',align:"center",width:'13%',formatter: function (value) {return dataProcessing(value);}},
+			{ field:"duration",title:'文件导出毫秒时间',align:"center",width:'8%',formatter: function (value) {return dataProcessing(value);}},
 			{ field:"duraton",title:'详情',align:"center",
 		          formatter: function (value, row, index) {
                       return '<a href="javaScript:queryandpivotoperatesxq('+index+')" style="display:inline-block;background: #00AAFF;color: white;width:50px;height:20px;line-height:20px;">详情</a>'
@@ -782,13 +782,13 @@ function queryandpivotoperatesxq(index){
 			},
 			columns:[[
 				{ field:"cb",checkbox:"true",align:"center"},
-				{ field:"fileName",title:'文件名称',align:"center",width:'45%'},
+				{ field:"fileName",title:'文件名称',align:"center",width:'45%',formatter: function (value) {return dataProcessing(value);}},
 				{ field:"fileUrl",title:'下载',align:"center",width:'18%',
 			        formatter: function (value, row, index) {
 						return '<a href="javaScript:systemLogmyModalurl('+index+')">下载</a>'
 					}
 		        },
-				{ field:"ts",title:'创建时间',align:"center"}
+				{ field:"ts",title:'创建时间',align:"center",formatter: function (value) {return dataProcessing(value);}}
 			]]
 		})
 	},600)

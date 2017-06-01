@@ -86,7 +86,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				margin-left:110px;
 			}
 			.trilaterald5{position: absolute;text-align: center;display: inline-block;width: 100px;margin-top: 8px;}
-		    .trilaterald6{}
 			.trilaterald7{width:100px;height:100px;}
 			.trilaterald8{display: inline-block;width: 100px;text-align: center;position: absolute;bottom: 0;left: 0;}
 			.trilaterald9{width:23px;height:23px;}
@@ -694,7 +693,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						        		    </select>
 						        		    <button onClick="inquire()">查询</button>
 					        		</span>
-
 								</div>
 								<div class="accessmanagement-bottom" style="position: absolute;top: 37px;bottom: 0;height: auto;">
 									<div style="padding-bottom: 50px;">
@@ -731,7 +729,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 														</div>
 														<div class="modal-footer">
 															<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-															<button type="button" onClick="saveip()" class="btn btn-primary">提交更改</button>
+															<button type="button" onClick="saveip()" class="btn btn-primary">提交</button>
 														</div>
 													</div>
 													<!-- /.modal-content -->
@@ -914,8 +912,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 															<h4 class="modal-title TheOwnertitle" id="myModalLabel">
 																新增用户
 															</h4>
+															
 														</div>
 														<div class="modal-body TheOwnerModal-body" style="height:280px;overflow: auto;">
+															<div class="TheOwner-topButton" style="position: absolute;width:300px;top:10px;left:150px;">
+                                                                <button type="button" id="Nextstep3" class="btn btn-primary">
+																	基本信息
+																</button>
+																<button type="button" id="Nextstep5" class="btn btn-primary">
+																	联系人信息
+																</button>
+																<button type="button" id="Nextstep6" class="btn btn-primary">
+																	服务信息
+																</button>
+															</div>
 															<!--基本信息-->
 															<form class="TheOwnerForm">
 																<p style="font-size: 18px;">车主基本信息:</p>
@@ -1134,139 +1144,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 																	</tbody>
 																</table>
 															</form>
-														    <!--保险信息-->
-                                                           <!-- <form class="TheOwnerFormtwo" style="display:none">
-														    	<p style="font-size: 18px;">车主保险基本信息:</p>
-														    	<label for="agent">经办人:</label>
-																<input type="text" id="agent" class="NoNam noneNul"/>
-																<label for="applicant">投保人:</label>
-																<input type="text" id="applicant" class="NoNam noneNul"/>
-																<hr />
-																<label for="insured">被保险人:</label>
-																<input type="text" id="insured" class="NoNam noneNul"/>
-																<label for="insurerId">保险公司:</label>
-																<select id="insurerId"></select>
-																<hr />	
-																<label for="commercialInsuranceNo">商业险保单号:</label>
-																<input type="text" id="commercialInsuranceNo" class="undefined"/>
-																<label for="compulsoryInsuranceNo">交强险保单号:</label>
-																<input type="text" id="compulsoryInsuranceNo" class="undefined"/>
-														        <hr />
-														        <label for="insureDate">投保日期:</label>
-																<input class="easyui-datebox noneNul" id="insureDate" data-options="sharedCalendar:'#cc'">
-																<label for="expireDate">保险到期日期:</label>
-																<input class="easyui-datebox noneNul" id="expireDate" data-options="sharedCalendar:'#cc'">
-																<hr />
-																<label for="commercialPremium">商业险保费:</label>
-																<input type="text" id="commercialPremium" class="undefined"/>
-																<label for="commercialIncome">商业险实收保费:</label>
-																<input type="text" id="commercialIncome" class="undefined"/>
-														        <hr />
-														        <label for="commercialDiscount">商业险优惠比:</label>
-																<input type="text" id="commercialDiscount" class="undefined"/>
-																<label for="compulsoryPremium">交强险保费:</label>
-																<input type="text" id="compulsoryPremium" class="undefined"/>
-																<hr />
-																<label for="compulsoryIncome">交强险实收保费:</label>
-																<input type="text" id="compulsoryIncome" class="undefined"/>
-																<label for="compulsoryDiscount">交强险优惠比:</label>
-																<input type="text" id="compulsoryDiscount" class="undefined"/>
-																<hr />
-																<label for="premium">总保费:</label>
-																<input type="text" id="premium" class="undefined"/>
-																<label for="remarks">备注:</label>
-																<input type="text" id="remarks" class="undefined"/>
-																<p style="font-size: 18px;">车主保险费用明细:</p>
-																<label for="premiums">应收:</label>
-																<input type="text" id="premiums" class="undefined"/>
-																<label for="income">实收:</label>
-																<input type="text" id="income" class="undefined"/>
-																<hr />
-																<label for="damageAmount">车辆损失险（保额）:</label>
-																<input type="text" id="damageAmount" class="undefined"/>
-																<label for="damageReceivable">车辆损失险（应收）:</label>
-																<input type="text" id="damageReceivable" class="undefined"/>
-																<hr />
-																<label for="damageIncome">车辆损失险（实收）:</label>
-																<input type="text" id="damageIncome" class="undefined"/>
-																<label for="tplAmount">第三方责任险（保额）:</label>
-																<input type="text" id="tplAmount" class="undefined"/>
-																<hr />
-																<label for="tplReceivable">第三方责任险（应收）:</label>
-																<input type="text" id="tplReceivable" class="undefined"/>
-																<label for="tplIncome">第三方责任险（实收）:</label>
-																<input type="text" id="tplIncome" class="undefined"/>
-																<hr />
-																<label for="passengerAmount">车上人员座位险（保额）:</label>
-																<input type="text" id="passengerAmount" class="undefined"/>
-																<label for="passengerReceivable">车上人员座位险（应收）:</label>
-																<input type="text" id="passengerReceivable" class="undefined"/>
-																<hr />
-																<label for="passengerIncome">车上人员座位险（实收）:</label>
-																<input type="text" id="passengerIncome" class="undefined"/>
-																<label for="theftAmount">盗抢险（保额）:</label>
-																<input type="text" id="theftAmount" class="undefined"/>
-																<hr />
-																<label for="theftReceivable">盗抢险（应收）:</label>
-																<input type="text" id="theftReceivable" class="undefined"/>
-																<label for="theftIncome">盗抢险（实收）:</label>
-																<input type="text" id="theftIncome" class="undefined"/>
-																<hr />
-																<label for="glassBreakageAmount">玻璃单独破碎险（保额）:</label>
-																<input type="text" id="glassBreakageAmount" class="undefined"/>
-																<label for="glassBreakageReceivable">玻璃单独破碎险（应收）:</label>
-																<input type="text" id="glassBreakageReceivable" class="undefined"/>
-																<hr />
-																<label for="glassBreakageIncome">玻璃单独破碎险（实收）:</label>
-																<input type="text" id="glassBreakageIncome" class="undefined"/>
-																<label for="combustionAmount">自燃损失险（保额）:</label>
-																<input type="text" id="combustionAmount" class="undefined"/>
-																<hr />
-																<label for="combustionReceivable">自燃损失险（应收）:</label>
-																<input type="text" id="combustionReceivable" class="undefined"/>
-																<label for="combustionIncome">自燃损失险（实收）:</label>
-																<input type="text" id="combustionIncome" class="undefined"/>
-																<hr />
-																<label for="wadeAmount">涉水损失险（保额）:</label>
-																<input type="text" id="wadeAmount" class="undefined"/>
-																<label for="wadeReceivable">涉水损失险（应收）:</label>
-																<input type="text" id="wadeReceivable" class="undefined"/>
-																<hr />
-																<label for="wadeIncome">涉水损失险（实收）:</label>
-																<input type="text" id="wadeIncome" class="undefined"/>
-																<label for="scratchAmount">划痕险（保额）:</label>
-																<input type="text" id="scratchAmount" class="undefined"/>
-																<hr />
-																<label for="scratchAmount">划痕险（保额）:</label>
-																<input type="text" id="scratchAmount" class="undefined"/>
-																<label for="scratchReceivable">划痕险（应收）:</label>
-																<input type="text" id="scratchReceivable" class="undefined"/>
-																<hr />
-																<label for="scratchIncome">划痕险（实收）:</label>
-																<input type="text" id="scratchIncome" class="undefined"/>
-																<label for="waiverAmount">不计免赔（保额）:</label>
-																<input type="text" id="waiverAmount" class="undefined"/>
-																<hr />
-																<label for="waiverReceivable">不计免赔（应收）:</label>
-																<input type="text" id="waiverReceivable" class="undefined"/>
-																<label for="waiverIncome">不计免赔（实收）:</label>
-																<input type="text" id="waiverIncome" class="undefined"/>
-																<hr />
-																<label for="compelsoryAmount">交强险（保额）:</label>
-																<input type="text" id="compelsoryAmount" class="undefined"/>
-																<label for="compelsoryReceivable">交强险（应收）:</label>
-																<input type="text" id="compelsoryReceivable" class="undefined"/>
-																<hr />
-																<label for="compelsoryIncome">交强险（实收）:</label>
-																<input type="text" id="compelsoryIncome" class="undefined"/>
-																<label for="vehicleTax">车船税:</label>
-																<input type="text" id="vehicleTax" class="undefined"/>
-																<hr />
-																<label for="other">其它:</label>
-																<input type="text" id="other" class="undefined"/>
-																<label for="remark">备注:</label>                             
-																<input type="text" id="remark"/>
-														    </form>-->
 														</div>
 														<div class="modal-footer Nextstepbutton">
 															<span class="spanerror" style="color: red;position: relative;margin-right: 10px;"></span>
@@ -1279,18 +1156,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 															<button type="button" id="Nextstep2" class="btn btn-primary" value="0">
 																保存
 															</button>
-															<button type="button" id="Nextstep3" class="btn btn-primary">
-																基本信息
-															</button>
-															<!--<button type="button" id="Nextstep4" class="btn btn-primary">
-																 保险信息
-															</button>-->
-															<button type="button" id="Nextstep5" class="btn btn-primary">
-																 联系人信息
-															</button>
-															<button type="button" id="Nextstep6" class="btn btn-primary">
-																 服务信息
-															</button>
+															
 															<button type="button" id="Nextstep7" name='1' class="btn btn-primary Nextstep7">
 																 通过
 															</button>
@@ -1371,7 +1237,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 												<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 												</button>
 												<button type="button" class="btn btn-primary Motorcyclebutton">
-													提交更改
+													提交
 												</button>
 											</div>
 										</div><!-- /.modal-content -->
@@ -1579,7 +1445,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 													</button>
 													<button type="button" name="" class="btn btn-primary Mobileyhone">
-														提交更改
+														提交
 													</button>
 												</div>
 											</div><!-- /.modal-content -->
@@ -1617,7 +1483,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 													</button>
 													<button type="button" name="" class="btn btn-primary Mobileyhtwo">
-														提交更改
+														提交
 													</button>
 												</div>
 											</div><!-- /.modal-content -->
@@ -1662,7 +1528,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													<button type="button" class="btn btn-default" data-dismiss="modal">关闭
 													</button>
 													<button type="button" name="" class="btn btn-primary Mobileyhthree">
-														提交更改
+														提交
 													</button>
 												</div>
 											</div><!-- /.modal-content -->
@@ -3521,7 +3387,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 													</div>
 													<div class="modal-footer">
 														<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-														<button type="button" class="btn btn-primary" id="canidSetSubmit">提交更改</button>
+														<button type="button" class="btn btn-primary" id="canidSetSubmit">提交</button>
 													</div>
 												</div><!-- /.modal-content -->
 											</div>
