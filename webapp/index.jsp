@@ -9,6 +9,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<head>
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE10" /> 
+		<META HTTP-EQUIV="pragma" CONTENT="no-cache"> <!--页面不缓存,影响性能-->
+		<!--<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">-->
+		 <!--<META HTTP-EQUIV="expires" CONTENT="0">-->
 		<link rel="stylesheet" href="css/index.css" />
 		<link rel="stylesheet" href="css/TheOwner.css">
 		<link rel="stylesheet" href="css/three.css" />
@@ -1727,14 +1730,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 															<input type="text" maxlength="20" onkeyup="inputteshu(this)" class="callNum"/>
 															<hr />
 															<label for="">Ecall服务号码</label>
-															<input type="text" maxlength="20" onkeyup="inputteshu(this)" class="ecallNum"/>
+															<input type="text" maxlength="20" onkeyup="inputteshutwo(this)" class="ecallNum"/>
 															<label for="">Bcall服务号码</label>
-															<input type="text" maxlength="20" onkeyup="inputteshu(this)" class="bcallNum"/>
+															<input type="text" maxlength="20" onkeyup="inputteshutwo(this)" class="bcallNum"/>
 															<label for="">Icall服务号码</label>
-															<input type="text" maxlength="20" onkeyup="inputteshu(this)" class="icallNum"/>
+															<input type="text" maxlength="20" onkeyup="inputteshutwo(this)" class="icallNum"/>
 															<hr />
 															<label for="">Ecall短信号码</label>
-															<input type="text" maxlength="20" onkeyup="inputteshu(this)" class="ecall_sms_num"/>
+															<input type="text" maxlength="20" onkeyup="inputteshutwo(this)" class="ecall_sms_num"/>
 															<label for="">apn接入名称</label>
 															<input type="text" maxlength="50" onkeyup="inputteshu(this)" class="apn"/>
 															<label for="">接入服务器ip1</label>

@@ -1158,11 +1158,12 @@ function reulatwo() {
             onlin = data.online
             $('.equipmentnumber').text(data.deviceId);
             $('#activationDateSpan').datetimebox('setValue', data.activationExpireOn);
-            if (data.online == false) {
+            if (onlin == false) {
                 $('.EquipmentStatus').text('未在线').css('color', 'gray')
                 $('.ensureone').css('background', 'url(img/Theowner/bacunanniuhui.png) no-repeat')
             } else {
                 $('.EquipmentStatus').text('在线').css('color', '#00bd28')
+                $('.ensureone').css('background', 'url(img/Theowner/baocunanniu.png) no-repeat')
             }
             if (data.activated == true) {
                 $('#currentone').text('已激活')
@@ -1222,7 +1223,7 @@ function reulathree() {
             var data = data.data[0];
             onlin = data.online
             $('.equipmentnumber').text(data.deviceId);
-            if (data.online == false) {
+            if (onlin == false) {
                 $('.EquipmentStatus').text('未在线').css('color', 'gray')
                 $('.threetbody input').attr('disabled', 'disabled')
                 $('.compilethr').css('background', 'url(img/Theowner/bianjianniuhui.png) no-repeat')
@@ -1231,7 +1232,9 @@ function reulathree() {
             } else {
                 $('.EquipmentStatus').text('在线').css('color', '#00bd28')
                 $('.threetbody input').attr('disabled', 'disabled')
+                $('.compilethr').css('background', 'url(img/Theowner/bianjianniu.png) no-repeat')
                 $('.savethr').css('background', 'url(img/Theowner/bacunanniuhui.png) no-repeat')
+                $('.readthr').css('background', 'url(img/Theowner/duquanniu.png) no-repeat')
             }
             $('.savethr').attr('name','2')
             $('#xdirection').val(data.x);
@@ -1322,7 +1325,7 @@ function reulafour() {
             var data = data.data[0];
             onlin = data.online
             $('.equipmentnumber').text(data.deviceId);
-            if (data.online == false) {
+            if (onlin == false) {
                 $('.EquipmentStatus').text('未在线').css('color', 'gray')
                 $('.fourtbody input').attr('disabled', 'disabled')
                 $('.compilefou').css('background', 'url(img/Theowner/bianjianniuhui.png) no-repeat')
@@ -1331,7 +1334,9 @@ function reulafour() {
             } else {
                 $('.EquipmentStatus').text('在线').css('color', '#00bd28')
                 $('.fourtbody input').attr('disabled', 'disabled')
+                $('.compilefou').css('background', 'url(img/Theowner/bianjianniu.png) no-repeat')
                 $('.savefou').css('background', 'url(img/Theowner/bacunanniuhui.png) no-repeat')
+                $('.readfou').css('background', 'url(img/Theowner/duquanniu.png) no-repeat')
             }
             $('.savefou').attr('name','2')
             $('#cangallery').val(data.channel);
@@ -1566,13 +1571,8 @@ function reulasix() {
             var config = data.data[0].config;
             $('.equipmentnumber').text(config.deviceId);
             onlin = config.online
-            if (config.online == false) {
-                $('.EquipmentStatus').text('未在线').css('color', 'gray')
-                $('.compilesi').css('background', 'url(img/Theowner/bacunanniuhui.png) no-repeat')
-            } else {
-                $('.EquipmentStatus').text('在线').css('color', '#00bd28')
-                $('.compilesi').css('background', 'url(img/Theowner/bacunanniu.png) no-repeat')
-            }
+            $('.EquipmentStatus').text('在线').css('color', '#00bd28')
+            $('.compilesi').css('background', 'url(img/Theowner/baocunanniu.png) no-repeat')
             //设置设备互联网络以及用户WIFI网络的值
             if (config.interworkingNetwork != "" && config.interworkingNetwork != null) {
                 $("#friendly_network").combobox('setValue', config.interworkingNetwork);
@@ -1594,9 +1594,6 @@ function reulasix() {
 }
 // 注册应答信息保存
 function saveDeviceLoginResponse() {
-    if(onlin==false){
-       return;
-    }
     $('.configurationinformationsix').form('submit', {
         url: server_context+"/saveRegistResponse?deviceId="+device,
         onSubmit: function () {
@@ -1604,7 +1601,6 @@ function saveDeviceLoginResponse() {
         },
         success: function(data){
             var dataObj=eval("("+data+")")
-        	console.log(dataObj)
             if (dataObj.error_code == 0) {
                 $.messager.alert("操作提示", "操作成功", "info");
             } else {
