@@ -1319,16 +1319,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					        					<span class="Motorcyspanimg"><img src="img/MotorcycleType/weixuanzhong.png" alt="" /></span>
 					        				</div>
 					        			</div>
-                                        <p style="font-size: 15px;font-weight: 600;margin-bottom: 15px;position: absolute;">
+                                        <!--<p style="font-size: 15px;font-weight: 600;margin-bottom: 15px;position: absolute;">
 											第三方设备
 											<button class="ThirdPartyAdd" style="width:50px;height:25px;font-size:14px;margin-left:20px;">增加</button>
 											<button class="ThirdPartyRemove" style="width:50px;height:25px;font-size:14px;margin-left:10px;">删除</button>
 										</p>
 										<div class="Motorcyclebottom-right-divtwo">
 											
-										</div>
+										</div>-->
 					        		    <div style="display: block;width: 100%;height: 40px;">
-					        				<p class="Motorcyclebaocun" style="display:none;">保存设置</p>
+					        				<p class="Motorcyclebaocun">保存设置</p>
 					        			</div>
 					        		</div>
 
@@ -1336,7 +1336,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                         <img src="img/imagess/ModelsIntroduction.png" style="width:100%;height:100%;" alt="">
 								    </div>
 									<!-- 增加第三方模态框（Modal） -->
-									<div class="modal fade" id="MotorcyclebottommyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+									<!--<div class="modal fade" id="MotorcyclebottommyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 										<div class="modal-dialog">
 											<div class="modal-content">
 												<div class="modal-header">
@@ -1359,9 +1359,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 														保存
 													</button>
 												</div>
-											</div><!-- /.modal-content -->
+											</div>
 										</div>
-									</div><!-- /.modal -->
+									</div>-->
+									<!-- /.modal -->
 								</div>
 					        </div>
 					    </div>
@@ -2772,7 +2773,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								</div>
 								<!--查看详情模态框（Modal） -->
 								<div class="modal fade" id="UpdateLogmyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-								    <div class="modal-dialog" style="width: 1140px;">
+								    <div class="modal-dialog" style="width: 1200px;">
 								        <div class="modal-content">
 								            <div class="modal-header" >
 								                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>

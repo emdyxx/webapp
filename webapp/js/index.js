@@ -3190,7 +3190,13 @@ $('#managementli26').click(function(){
 					return "<span title='" + value + "'>" + value + "</span>";
 				}
 	        },
-	        { field:"softVer",title:'软件版本号',align:"center",width:'10%',
+            {field:"iccid",title:'ICCID',align:"center",width:'10%',
+				formatter: function (value, row, index) {
+					var value = row.iccid
+					return "<span title='" + value + "'>" + value + "</span>";
+				}
+		    },
+	        { field:"softVer",title:'软件版本号',align:"center",width:'5%',
 		        formatter: function (value, row, index) {
 					var value = row.softVer
 					if(value ==null || value =="" || value =="undefined"){
@@ -3199,7 +3205,7 @@ $('#managementli26').click(function(){
 					return "<span title='" + value + "'>" + value + "</span>";
 				}
 	        },
-			{ field:"release",title:'tsr',align:"center",width:'12%',
+			{ field:"release",title:'tsr',align:"center",width:'10%',
 		        formatter: function (value, row, index) {
 					var value = row.release
 					if(value ==null || value =="" || value =="undefined"){
@@ -3208,7 +3214,7 @@ $('#managementli26').click(function(){
 					return "<span title='" + value + "'>" + value + "</span>";
 				}
 	        },
-			{ field:"swr",title:'swr',align:"center",width:'12%',
+			{ field:"swr",title:'swr',align:"center",width:'10%',
 		        formatter: function (value, row, index) {
 					var value = row.swr
 					if(value ==null || value =="" || value =="undefined"){
@@ -3217,7 +3223,7 @@ $('#managementli26').click(function(){
 					return "<span title='" + value + "'>" + value + "</span>";
 				}
 	        },
-			{ field:"requestsNumber",title:'请求次数',align:"center",width:'6%',
+			{ field:"requestsNumber",title:'请求次数',align:"center",width:'5%',
 		        formatter: function (value, row, index) {
 					var value = row.requestsNumber
 					if(value ==null || value =="" || value =="undefined"){
@@ -3226,7 +3232,7 @@ $('#managementli26').click(function(){
 					return "<span title='" + value + "'>" + value + "</span>";
 				}
 		    },
-			{ field:"hardVer",title:'硬件版本号',align:"center",width:'10%',
+			{ field:"hardVer",title:'硬件版本号',align:"center",width:'8%',
 		         formatter: function (value, row, index) {
 					var value = row.hardVer
 					if(value ==null || value =="" || value =="undefined"){
@@ -3235,7 +3241,7 @@ $('#managementli26').click(function(){
 					return "<span title='" + value + "'>" + value + "</span>";
 				}
 		    },
-			{ field:"remoteAddr",title:'请求IP地址',align:"center",width:'10%',
+			{ field:"remoteAddr",title:'请求IP地址',align:"center",width:'9%',
 		         formatter: function (value, row, index) {
 					var value = row.remoteAddr
 					if(value ==null || value =="" || value =="undefined"){
@@ -3293,7 +3299,7 @@ $('.UpdateLog-div').click(function(){
 				release:row.tsr
 			},
 			columns:[[
-			    { field:"deviceId",title:'设备编号',align:"center",width:'9%',
+			    { field:"deviceId",title:'设备编号',align:"center",width:'8%',
 			        formatter: function (value, row, index) {
 						var value = row.deviceId
 						if(value ==null || value =="" || value =="undefined"){
@@ -3302,6 +3308,12 @@ $('.UpdateLog-div').click(function(){
 						return "<span title='" + value + "'>" + value + "</span>";
 					}
 		        },
+				{field:"iccid",title:'ICCID',align:"center",width:'14%',
+					formatter: function (value, row, index) {
+						var value = row.iccid
+						return "<span title='" + value + "'>" + value + "</span>";
+					}
+				},
 		        { field:"softVer",title:'软件版本号',align:"center",width:'8%',
 			         formatter: function (value, row, index) {
 						var value = row.softVer
@@ -3311,7 +3323,7 @@ $('.UpdateLog-div').click(function(){
 						return "<span title='" + value + "'>" + value + "</span>";
 					}
 		        },
-				{ field:"release",title:'tsr',align:"center",width:'11%',
+				{ field:"release",title:'tsr',align:"center",width:'10%',
 			         formatter: function (value, row, index) {
 						var value = row.release
 						if(value ==null || value =="" || value =="undefined"){
@@ -3320,7 +3332,7 @@ $('.UpdateLog-div').click(function(){
 						return "<span title='" + value + "'>" + value + "</span>";
 					}
 		        },
-				{ field:"swr",title:'swr',align:"center",width:'11%',
+				{ field:"swr",title:'swr',align:"center",width:'10%',
 			        formatter: function (value, row, index) {
 						var value = row.swr
 						if(value ==null || value =="" || value =="undefined"){
@@ -3329,7 +3341,7 @@ $('.UpdateLog-div').click(function(){
 						return "<span title='" + value + "'>" + value + "</span>";
 					}
 		        },
-				{ field:"hardVer",title:'硬件版本号',align:"center",width:'8%',
+				{ field:"hardVer",title:'硬件版本号',align:"center",width:'7%',
 			         formatter: function (value, row, index) {
 						var value = row.hardVer
 						if(value ==null || value =="" || value =="undefined"){
@@ -3338,7 +3350,7 @@ $('.UpdateLog-div').click(function(){
 						return "<span title='" + value + "'>" + value + "</span>";
 					}
 		        },
-				{ field:"remoteAddr",title:'请求IP地址',align:"center",width:'9%',
+				{ field:"remoteAddr",title:'请求IP地址',align:"center",width:'8%',
 			         formatter: function (value, row, index) {
 						var value = row.remoteAddr
 						if(value ==null || value =="" || value =="undefined"){
@@ -3347,7 +3359,7 @@ $('.UpdateLog-div').click(function(){
 						return "<span title='" + value + "'>" + value + "</span>";
 					}
 		        },
-				{ field:"fileName",title:'文件名',align:"center",width:'20%',
+				{ field:"fileName",title:'文件名',align:"center",width:'11%',
 			         formatter: function (value, row, index) {
 						var value = row.fileName
 						if(value ==null || value =="" || value =="undefined"){

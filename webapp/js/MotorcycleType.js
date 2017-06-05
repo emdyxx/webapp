@@ -124,7 +124,7 @@
 					}
 				}
 			})
-			ThirdpartyEquipments()
+			// ThirdpartyEquipments()
         }else{
 			$('.Motorcyclebottom-right-div').css('display','none')
             $('.Motorcyclebottom-right2').css('display','')
@@ -132,6 +132,7 @@
 	 }
 	 //远程控制权限保存按钮
 	 $('.Motorcyclebaocun').click(function(){
+		 console.log('123456')
 	 	for(var i=0;i<$('.Motorcyspanimg>img').length;i++){
 	 		var src = $('.Motorcyspanimg>img').eq(i).attr('src');
 	 		if(src=='img/MotorcycleType/xuanzhong.png'){
@@ -140,8 +141,8 @@
 	 			$('.Motorcyspanimg>img').eq(i).attr('name','0')
 	 		}
 	 	}
-		var astrilateraldClick = document.querySelectorAll('.trilaterald9')
-	 	var remoteFeature ={
+		// var astrilateraldClick = document.querySelectorAll('.trilaterald9')
+	 	var remoteFeature = {
             CENTRAL_LOCK:$('.Motorcyspanimg>img').eq(0).attr('name'),
 	 		ENGINE:$('.Motorcyspanimg>img').eq(1).attr('name'),
 	 		AC:$('.Motorcyspanimg>img').eq(2).attr('name'),
@@ -155,39 +156,42 @@
 	 		TRUNK_CLOSE:$('.Motorcyspanimg>img').eq(10).attr('name'),
 	 		POWER:$('.Motorcyspanimg>img').eq(11).attr('name')
 		}
-	 	for(var i = 0;i<astrilateraldClick.length;i++){
-			astrilateraldClick[i].index = i;
-            var src = $('.trilaterald9').eq(i).attr('src')
-			if(src=='img/MotorcycleType/weixuanzhong.png'){
-				$('.trilaterald9').eq(i).attr('id','0')
-			    name = $('.trilaterald9').eq(i).attr('name')
-				statu = $('.trilaterald9').eq(i).attr('id')
-				remoteFeature[name]= statu
-			}else{
-				$('.trilaterald9').eq(i).attr('id','1')
-                name = $('.trilaterald9').eq(i).attr('name')
-				statu = $('.trilaterald9').eq(i).attr('id')
-				remoteFeature[name] = statu
-			}
-		}
-		console.log($('.trilaterald1').length)
-		var extendParts = [];
-		for(var i = 0;i<$('.trilaterald1').length;i++){
-			extendParts.push($('.trilaterald1').eq(i).attr('id'))
-		}
-		var array = [];
-		array.push(remoteFeature)
-		console.log(array)
-		var data = {
-			id:id4,
-			remoteFeature:JSON.stringify(array),
-			extendParts:extendParts.join(',')
-	 	}
+	 	// for(var i = 0;i<astrilateraldClick.length;i++){
+		// 	astrilateraldClick[i].index = i;
+        //     var src = $('.trilaterald9').eq(i).attr('src')
+		// 	if(src=='img/MotorcycleType/weixuanzhong.png'){
+		// 		$('.trilaterald9').eq(i).attr('id','0')
+		// 	    name = $('.trilaterald9').eq(i).attr('name')
+		// 		statu = $('.trilaterald9').eq(i).attr('id')
+		// 		remoteFeature[name]= statu
+		// 	}else{
+		// 		$('.trilaterald9').eq(i).attr('id','1')
+        //         name = $('.trilaterald9').eq(i).attr('name')
+		// 		statu = $('.trilaterald9').eq(i).attr('id')
+		// 		remoteFeature[name] = statu
+		// 	}
+		// }
+		// console.log($('.trilaterald1').length)
+		// var extendParts = [];
+		// for(var i = 0;i<$('.trilaterald1').length;i++){
+		// 	extendParts.push($('.trilaterald1').eq(i).attr('id'))
+		// }
+		// var array = [];
+		// array.push(remoteFeature)
+		// console.log(array)
+		// var data = {
+			// id:id4,
+			// remoteFeature:JSON.stringify(array),
+			// extendParts:extendParts.join(',')
+	 	// }
 	 	$.ajax({
 	 		type:"post",
 	 		url:server_context+"/updateRemoteFeature",
 	 		async:true,
-	 		data:data,
+	 		data:{
+				 id:id4,
+				 remoteFeature:JSON.stringify(remoteFeature)
+			 },
 	 		success:function(data){
 	 			if(data.error_code==0){
 	 				$.messager.alert("系统提示",'远程权限保存成功','info')
@@ -319,243 +323,243 @@
 	}
 	
 	//第三方增加按钮
-	$('.ThirdPartyAdd').click(function(){
-       $('#MotorcyclebottommyModal').modal('show');
-	   setTimeout(function(){
-		   $('#ThirdParty').datagrid({
-			    url: server_context+"/listNotHaveExtendParts",
-				singSelect: false,
-				rownumbers: "true",
-				fit: 'true',
-				fitColumns: 'true',
-				nowrap: 'true',
-				queryParams:{
-                     id:id4
-				},
-				columns:[[
-					{ field:"cb",checkbox:"true",align:"center"},
-					{ field:"extendPartsName",title:'第三方名称',align:"center",width:'48%',formatter: function (value) {return dataProcessing(value);}},
-					{ field:"maker",title:'制造商',align:"center",formatter: function (value) {return dataProcessing(value);}}
-				]],
-				onLoadSuccess:function(data){
-					if(data.error_code!=0){
-						Statuscodeprompt(data.error_code)
-					}
-				}
-		   })
-	   },500)
-	})
+	// $('.ThirdPartyAdd').click(function(){
+    //    $('#MotorcyclebottommyModal').modal('show');
+	//    setTimeout(function(){
+	// 	   $('#ThirdParty').datagrid({
+	// 		    url: server_context+"/listNotHaveExtendParts",
+	// 			singSelect: false,
+	// 			rownumbers: "true",
+	// 			fit: 'true',
+	// 			fitColumns: 'true',
+	// 			nowrap: 'true',
+	// 			queryParams:{
+    //                  id:id4
+	// 			},
+	// 			columns:[[
+	// 				{ field:"cb",checkbox:"true",align:"center"},
+	// 				{ field:"extendPartsName",title:'第三方名称',align:"center",width:'48%',formatter: function (value) {return dataProcessing(value);}},
+	// 				{ field:"maker",title:'制造商',align:"center",formatter: function (value) {return dataProcessing(value);}}
+	// 			]],
+	// 			onLoadSuccess:function(data){
+	// 				if(data.error_code!=0){
+	// 					Statuscodeprompt(data.error_code)
+	// 				}
+	// 			}
+	// 	   })
+	//    },500)
+	// })
     
     //第三方增加保存按钮
-	$('.Motorcyclebottommybc').click(function(){
-		var row = $('#ThirdParty').datagrid('getChecked');
-		var id = [];
-		if(row==null||row==''){
-            $.messager.alert('系统提示','请选择设备进行保存','error');
-			return;
-		}
-        for(var i = 0;i<row.length;i++){
-			id.push(row[i].id)
-		}
-		$.ajax({
-			url: server_context+'/saveVehicleModelExtendParts',
-			async:true,
-			type:'post',
-			data:{
-				extendPartsId:id.join(','),
-				id:id4
-			},
-			success:function(data){
-				if(data.error_code!=0){
-					Statuscodeprompt(data.error_code)
-				}
-				$.messager.alert('系统提示','保存成功','error');
-				$('#MotorcyclebottommyModal').modal('hide');
-				ThirdpartyEquipments()
-			}
-		})
-	})
+	// $('.Motorcyclebottommybc').click(function(){
+	// 	var row = $('#ThirdParty').datagrid('getChecked');
+	// 	var id = [];
+	// 	if(row==null||row==''){
+    //         $.messager.alert('系统提示','请选择设备进行保存','error');
+	// 		return;
+	// 	}
+    //     for(var i = 0;i<row.length;i++){
+	// 		id.push(row[i].id)
+	// 	}
+	// 	$.ajax({
+	// 		url: server_context+'/saveVehicleModelExtendParts',
+	// 		async:true,
+	// 		type:'post',
+	// 		data:{
+	// 			extendPartsId:id.join(','),
+	// 			id:id4
+	// 		},
+	// 		success:function(data){
+	// 			if(data.error_code!=0){
+	// 				Statuscodeprompt(data.error_code)
+	// 			}
+	// 			$.messager.alert('系统提示','保存成功','error');
+	// 			$('#MotorcyclebottommyModal').modal('hide');
+	// 			ThirdpartyEquipments()
+	// 		}
+	// 	})
+	// })
 
     //第三方设备请求接口
-	function ThirdpartyEquipments(){
-		$('.Motorcyclebottom-right-divtwo>div').remove();
-		$('.Motorcyclebottom-right-divtwo').text('');
-		$('.Motorcyclebottom-right-divtwo').css({'font-size':'14px','color':'black'})
-		$.ajax({
-			url: server_context+'/listHaveExtendParts',
-			async:true,
-			type:'post',
-			data:{
-				id:id4
-			},
-			success:function(data){
-			    var list = '';
-				var lis = '';
-				if(data.error_code!=0){
-                   Statuscodeprompt(data.error_code) 
-				   return;
-				}
-				if(data.data==''||data.data.length==0){
-					$('.Motorcyclebottom-right-divtwo').text('暂无第三方设备,请添加');
-					$('.Motorcyclebottom-right-divtwo').css({'font-size':'30px','color':'gray'})
-					return;
-				}
-                for(var i = 0;i<data.data.length;i++){
-				   list = ''
-				   for(var j=0;j<data.data[i].remoteFeature.length;j++){
-					   lis = '';
-					   if(data.data[i].remoteFeature[j].checked==false){
-						   lis = "<span class='trilaterald8'>"+"<img class='trilaterald9' src='img/MotorcycleType/weixuanzhong.png' name="+data.data[i].remoteFeature[j].code+">"+"</span>"
-					   }else{
-						   lis = "<span class='trilaterald8'>"+"<img class='trilaterald9' src='img/MotorcycleType/xuanzhong.png' name="+data.data[i].remoteFeature[j].code+">"+"</span>"
-					   }
-                       list += "<div class='trilaterald4'>"+
-					   "<span class='trilaterald5'>"+data.data[i].remoteFeature[j].name+"</span>"
-					   +"<span class='trilaterald6'>"+"<img class='trilaterald7' src="+data.data[i].remoteFeature[j].img+">"
-					   +"</span>"+lis+"</div>"
-				   }
-                   $('.Motorcyclebottom-right-divtwo').append("<div class='trilaterald1' id="+data.data[i].id+">"
-				    +"<p class='trilaterald2'>"+"<input type='checkbox' class='trilaterald3'>"+data.data[i].extendPartsName+"</input>"+"</p>"
-					+list+"</div>");
-				}
-                var astrilateraldClick = document.querySelectorAll('.trilaterald9')
-				for(var i=0;i<astrilateraldClick.length;i++){
-					astrilateraldClick[i].index = i;
-					astrilateraldClick[i].onclick = function(){
-						var j = this.index;
-						var src = $('.trilaterald9').eq(j).attr('src')
-						if(src=='img/MotorcycleType/weixuanzhong.png'){
-                            $('.trilaterald9').eq(j).attr('src','img/MotorcycleType/xuanzhong.png')
-						}else{
-							$('.trilaterald9').eq(j).attr('src','img/MotorcycleType/weixuanzhong.png')
-						}
-					}
-				}
-			}
-		})
-	}
+	// function ThirdpartyEquipments(){
+	// 	$('.Motorcyclebottom-right-divtwo>div').remove();
+	// 	$('.Motorcyclebottom-right-divtwo').text('');
+	// 	$('.Motorcyclebottom-right-divtwo').css({'font-size':'14px','color':'black'})
+	// 	$.ajax({
+	// 		url: server_context+'/listHaveExtendParts',
+	// 		async:true,
+	// 		type:'post',
+	// 		data:{
+	// 			id:id4
+	// 		},
+	// 		success:function(data){
+	// 		    var list = '';
+	// 			var lis = '';
+	// 			if(data.error_code!=0){
+    //                Statuscodeprompt(data.error_code) 
+	// 			   return;
+	// 			}
+	// 			if(data.data==''||data.data.length==0){
+	// 				$('.Motorcyclebottom-right-divtwo').text('暂无第三方设备,请添加');
+	// 				$('.Motorcyclebottom-right-divtwo').css({'font-size':'30px','color':'gray'})
+	// 				return;
+	// 			}
+    //             for(var i = 0;i<data.data.length;i++){
+	// 			   list = ''
+	// 			   for(var j=0;j<data.data[i].remoteFeature.length;j++){
+	// 				   lis = '';
+	// 				   if(data.data[i].remoteFeature[j].checked==false){
+	// 					   lis = "<span class='trilaterald8'>"+"<img class='trilaterald9' src='img/MotorcycleType/weixuanzhong.png' name="+data.data[i].remoteFeature[j].code+">"+"</span>"
+	// 				   }else{
+	// 					   lis = "<span class='trilaterald8'>"+"<img class='trilaterald9' src='img/MotorcycleType/xuanzhong.png' name="+data.data[i].remoteFeature[j].code+">"+"</span>"
+	// 				   }
+    //                    list += "<div class='trilaterald4'>"+
+	// 				   "<span class='trilaterald5'>"+data.data[i].remoteFeature[j].name+"</span>"
+	// 				   +"<span class='trilaterald6'>"+"<img class='trilaterald7' src="+data.data[i].remoteFeature[j].img+">"
+	// 				   +"</span>"+lis+"</div>"
+	// 			   }
+    //                $('.Motorcyclebottom-right-divtwo').append("<div class='trilaterald1' id="+data.data[i].id+">"
+	// 			    +"<p class='trilaterald2'>"+"<input type='checkbox' class='trilaterald3'>"+data.data[i].extendPartsName+"</input>"+"</p>"
+	// 				+list+"</div>");
+	// 			}
+    //             var astrilateraldClick = document.querySelectorAll('.trilaterald9')
+	// 			for(var i=0;i<astrilateraldClick.length;i++){
+	// 				astrilateraldClick[i].index = i;
+	// 				astrilateraldClick[i].onclick = function(){
+	// 					var j = this.index;
+	// 					var src = $('.trilaterald9').eq(j).attr('src')
+	// 					if(src=='img/MotorcycleType/weixuanzhong.png'){
+    //                         $('.trilaterald9').eq(j).attr('src','img/MotorcycleType/xuanzhong.png')
+	// 					}else{
+	// 						$('.trilaterald9').eq(j).attr('src','img/MotorcycleType/weixuanzhong.png')
+	// 					}
+	// 				}
+	// 			}
+	// 		}
+	// 	})
+	// }
 	//第三方设备删除按钮
-    $('.ThirdPartyRemove').click(function(){
-		idx = [];
-		for(var i = 0;i<$('.trilaterald3').length;i++){
-			if($('.trilaterald3').eq(i).is(':checked')==true){
-				idx.push(i)
-			}
-		}
-		if(idx.length==0){
-			$.messager.alert('系统提示','请选择数据进行删除','error');
-			return false;
-		}
-		if(idx.length>=2){
-			$.messager.alert('系统提示','请选择一条数据进行删除','error');
-			return false;
-		}
-		$.messager.confirm('系统提示','确认删除',function(r){
-			if(r){
-				$('.Motorcyclebottom-right-divtwo>div').eq(idx[0]).remove();
-				idx = [];
-			}
-		})
-	})
+    // $('.ThirdPartyRemove').click(function(){
+	// 	idx = [];
+	// 	for(var i = 0;i<$('.trilaterald3').length;i++){
+	// 		if($('.trilaterald3').eq(i).is(':checked')==true){
+	// 			idx.push(i)
+	// 		}
+	// 	}
+	// 	if(idx.length==0){
+	// 		$.messager.alert('系统提示','请选择数据进行删除','error');
+	// 		return false;
+	// 	}
+	// 	if(idx.length>=2){
+	// 		$.messager.alert('系统提示','请选择一条数据进行删除','error');
+	// 		return false;
+	// 	}
+	// 	$.messager.confirm('系统提示','确认删除',function(r){
+	// 		if(r){
+	// 			$('.Motorcyclebottom-right-divtwo>div').eq(idx[0]).remove();
+	// 			idx = [];
+	// 		}
+	// 	})
+	// })
     /**************************4.4设备管理---第三方设备***************************/
 	//第三方设备
-	$('#managementli12').click(function(){
-		clearInterval(seti);
-		clearInterval(Realtimeconditionset);
-		$('main>div').css('display', 'none');
-		$('.ThirdpartyEquipment').css('display','')
-		//权限判断
-		var data={
-			id:$('#managementli12').attr('name')
-		}	
-		$.post(server_context+'/setMenuId',data,function(data){
-			if(data.error_code!=0){
-				Statuscodeprompt(data.error_code)
-			}
-			for(var i=0;i<data.data.length;i++){
-				if(data.data[i]==31){
-					$('.MotorcycleAdd').css('display','');
-				}
-				if(data.data[i]==32){
-					$('.MotorcycleMove').css('display','');
-				}
-				if(data.data[i]==33){
-					$('.Motorcyclebaocun').css('display','');
-				}
-			}
-		})
-		//表加载
-        $('#ThirdpartyEquipment-datagrid').datagrid({
-            url: server_context+"/",
-				singSelect: false,
-				rownumbers: "true",
-				fit: 'true',
-				fitColumns: 'true',
-				nowrap: 'true',
-				pageSize:50,
-				pagination: "true",
-				columns:[[
-					{ field:"cb",checkbox:"true",align:"center"},
-					{ field:"deviceName",title:'第三方设备名称',align:"center",width:'24%',formatter: function (value) {return dataProcessing(value);}},
-					{ field:"sn",title:'设备序列号',align:"center",width:'24%',formatter: function (value) {return dataProcessing(value);}},
-					{ field:"mac",title:'设备MAC地址',align:"center",width:'24%',formatter: function (value) {return dataProcessing(value);}},
-					{ field:"status",title:'设备状态',align:"center",width:'24%',formatter: function (value) {return dataProcessing(value);}},
-					{ field:"bindTime",title:'绑定时间',align:"center",width:'24%',formatter: function (value) {return dataProcessing(value);}},
-					{ field:"deviceId",title:'绑定设备编号',align:"center",width:'24%',formatter: function (value) {return dataProcessing(value);}},
-					{ field:"ts",title:'创建时间',align:"center",width:'24%',formatter: function (value) {return dataProcessing(value);}},
-				]],
-				onLoadSuccess:function(data){
-					if(data.error_code!=0){
-						Statuscodeprompt(data.error_code)
-					}
-				}
-		})
-	})
+	// $('#managementli12').click(function(){
+	// 	clearInterval(seti);
+	// 	clearInterval(Realtimeconditionset);
+	// 	$('main>div').css('display', 'none');
+	// 	$('.ThirdpartyEquipment').css('display','')
+	// 	//权限判断
+	// 	var data={
+	// 		id:$('#managementli12').attr('name')
+	// 	}	
+	// 	$.post(server_context+'/setMenuId',data,function(data){
+	// 		if(data.error_code!=0){
+	// 			Statuscodeprompt(data.error_code)
+	// 		}
+	// 		for(var i=0;i<data.data.length;i++){
+	// 			if(data.data[i]==31){
+	// 				$('.MotorcycleAdd').css('display','');
+	// 			}
+	// 			if(data.data[i]==32){
+	// 				$('.MotorcycleMove').css('display','');
+	// 			}
+	// 			if(data.data[i]==33){
+	// 				$('.Motorcyclebaocun').css('display','');
+	// 			}
+	// 		}
+	// 	})
+	// 	//表加载
+    //     $('#ThirdpartyEquipment-datagrid').datagrid({
+    //         url: server_context+"/",
+	// 			singSelect: false,
+	// 			rownumbers: "true",
+	// 			fit: 'true',
+	// 			fitColumns: 'true',
+	// 			nowrap: 'true',
+	// 			pageSize:50,
+	// 			pagination: "true",
+	// 			columns:[[
+	// 				{ field:"cb",checkbox:"true",align:"center"},
+	// 				{ field:"deviceName",title:'第三方设备名称',align:"center",width:'24%',formatter: function (value) {return dataProcessing(value);}},
+	// 				{ field:"sn",title:'设备序列号',align:"center",width:'24%',formatter: function (value) {return dataProcessing(value);}},
+	// 				{ field:"mac",title:'设备MAC地址',align:"center",width:'24%',formatter: function (value) {return dataProcessing(value);}},
+	// 				{ field:"status",title:'设备状态',align:"center",width:'24%',formatter: function (value) {return dataProcessing(value);}},
+	// 				{ field:"bindTime",title:'绑定时间',align:"center",width:'24%',formatter: function (value) {return dataProcessing(value);}},
+	// 				{ field:"deviceId",title:'绑定设备编号',align:"center",width:'24%',formatter: function (value) {return dataProcessing(value);}},
+	// 				{ field:"ts",title:'创建时间',align:"center",width:'24%',formatter: function (value) {return dataProcessing(value);}},
+	// 			]],
+	// 			onLoadSuccess:function(data){
+	// 				if(data.error_code!=0){
+	// 					Statuscodeprompt(data.error_code)
+	// 				}
+	// 			}
+	// 	})
+	// })
     
-	//查询第三方设备
-	function ThirdpartyEquipmentinquire(){
-		 $('#ThirdpartyEquipment-datagrid').datagrid('load',{
-			 deviceName:$('#ThirdpartyEquipment-deviceName').val(),
-			 model:$('#ThirdpartyEquipment-model').val()
-		 })
-	}
+	// //查询第三方设备
+	// function ThirdpartyEquipmentinquire(){
+	// 	 $('#ThirdpartyEquipment-datagrid').datagrid('load',{
+	// 		 deviceName:$('#ThirdpartyEquipment-deviceName').val(),
+	// 		 model:$('#ThirdpartyEquipment-model').val()
+	// 	 })
+	// }
 
-    //新增第三方设备
-	function ThirdpartyEquipmentadd(){
-       $('#ThirdpartyEquipmentaddModal').modal('show');
-	   $('.ThirdpartyEquipmentaddTitle').text('新增第三方设备')
+    // //新增第三方设备
+	// function ThirdpartyEquipmentadd(){
+    //    $('#ThirdpartyEquipmentaddModal').modal('show');
+	//    $('.ThirdpartyEquipmentaddTitle').text('新增第三方设备')
        
-	}
+	// }
 
-	//修改第三方设备
-	function ThirdpartyEquipmentrevamp(){
-	   $('#ThirdpartyEquipmentaddModal').modal('show');
-	   $('.ThirdpartyEquipmentaddTitle').text('修改第三方设备')
+	// //修改第三方设备
+	// function ThirdpartyEquipmentrevamp(){
+	//    $('#ThirdpartyEquipmentaddModal').modal('show');
+	//    $('.ThirdpartyEquipmentaddTitle').text('修改第三方设备')
        
-	}
+	// }
 
-	//删除第三方设备
-	function ThirdpartyEquipmentremove(){
-       var row= $('#ThirdpartyEquipment-datagrid').datagrid('getChecked');
-	   if(row.length==0||row==null||row==''){
-            $.messager.alert('系统提示','请选择第三方设备进行删除','error');
-			return;
-	   }
-	   $.messager.confirm('系统提示','确认删除',function(r){
-		   if(r){
-			   $.ajax({
-				   url: +'',
-				   async:true,
-				   type:'post',
-				   data:{},
-				   success:function(data){
-					   if(data.error_code!=0){
-						   Statuscodeprompt(data.error_code);
-					   }
-					   $.messager.alert('系统提示','删除成功','info');
-					   $('#ThirdpartyEquipment-datagrid').datagrid('reload');
-				   }
-			   })
-		   }
-	   })
-	}
+	// //删除第三方设备
+	// function ThirdpartyEquipmentremove(){
+    //    var row= $('#ThirdpartyEquipment-datagrid').datagrid('getChecked');
+	//    if(row.length==0||row==null||row==''){
+    //         $.messager.alert('系统提示','请选择第三方设备进行删除','error');
+	// 		return;
+	//    }
+	//    $.messager.confirm('系统提示','确认删除',function(r){
+	// 	   if(r){
+	// 		   $.ajax({
+	// 			   url: +'',
+	// 			   async:true,
+	// 			   type:'post',
+	// 			   data:{},
+	// 			   success:function(data){
+	// 				   if(data.error_code!=0){
+	// 					   Statuscodeprompt(data.error_code);
+	// 				   }
+	// 				   $.messager.alert('系统提示','删除成功','info');
+	// 				   $('#ThirdpartyEquipment-datagrid').datagrid('reload');
+	// 			   }
+	// 		   })
+	// 	   }
+	//    })
+	// }
