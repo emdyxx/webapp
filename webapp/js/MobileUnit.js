@@ -830,7 +830,7 @@ function uploadaile(evt){
 //设备唤醒
 var n = 1;
 // 关闭窗口，取消操作
-var status = true;
+var status = 'true';
 var set;
 //设备唤醒
 function awaken(index) {
@@ -841,13 +841,13 @@ function awaken(index) {
     var rows = $('.MobileData').datagrid('getRows');
     var row = rows[index];
     var deviceId = row.deviceId;
-    status = true;
+    status = 'true';
     $.messager.confirm("操作提示", "第" + n + "次尝试唤醒设备,请稍候。。。", function (data) {
         if (data) {
 
         } else {
             n = 1;
-            status = false;
+            status = 'false';
             clearTimeout(set);
         }
     });
@@ -858,12 +858,14 @@ function awaken(index) {
         success: function (data) {
             if (data.error_code == 0) {
                 setTimeout(function () {
-                    status = true;
+                    status = 'true';
                     clearTimeout(set);
                     $(".messager-body").window('close');
                     $.messager.alert("操作提示", "唤醒命令发送成功,等待设备上线！", "info");
                     n=1;
-                    $('.MobileData').datagrid('reload');	// reload the user data
+                    setTimeout(function(){
+                        $('.MobileData').datagrid('reload');	// reload the user data
+					},5000)
                 }, 3000);
             } else {
                 if (n < 5) {
@@ -890,7 +892,6 @@ function awaken(index) {
 
 // 设备唤醒重试
 function deviceWakeupRetry(deviceId) {
-    console.log(n)
     if (status == 'true') {
         $.messager.confirm("操作提示", "第" + n + "次尝试唤醒设备,请稍候。。。", function (data) {
             if (data) {
@@ -908,11 +909,13 @@ function deviceWakeupRetry(deviceId) {
             success: function (data) {
                 if (data.error_code == 0) {
                     $(".messager-body").window('close');
-                    status = true;
+                    status = 'true';
                     clearTimeout(set);
                     $.messager.alert("操作提示", "唤醒命令发送成功,等待设备上线！", "info");
                     n=1;
-                    $('.MobileData').datagrid('reload');
+                    setTimeout(function(){
+                        $('.MobileData').datagrid('reload');	// reload the user data
+					},5000)
                 } else {
                     if (n < 5) {
                         n = n + 1;
@@ -923,7 +926,7 @@ function deviceWakeupRetry(deviceId) {
                     } else {
                         setTimeout(function () {
                             n = 1;
-                            status = true;
+                            status = 'true';
                             $(".messager-body").window('close');
                             $.messager.alert("操作提示", "唤醒失败！", "error");
                         }, 4000);

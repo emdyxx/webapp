@@ -1319,14 +1319,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					        					<span class="Motorcyspanimg"><img src="img/MotorcycleType/weixuanzhong.png" alt="" /></span>
 					        				</div>
 					        			</div>
-                                        <!--<p style="font-size: 15px;font-weight: 600;margin-bottom: 15px;position: absolute;">
-											第三方设备
+                                        <p style="font-size: 15px;font-weight: 600;margin-bottom: 15px;position: absolute;">
+											扩展设备
 											<button class="ThirdPartyAdd" style="width:50px;height:25px;font-size:14px;margin-left:20px;">增加</button>
 											<button class="ThirdPartyRemove" style="width:50px;height:25px;font-size:14px;margin-left:10px;">删除</button>
 										</p>
 										<div class="Motorcyclebottom-right-divtwo">
 											
-										</div>-->
+										</div>
 					        		    <div style="display: block;width: 100%;height: 40px;">
 					        				<p class="Motorcyclebaocun">保存设置</p>
 					        			</div>
@@ -1336,7 +1336,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                         <img src="img/imagess/ModelsIntroduction.png" style="width:100%;height:100%;" alt="">
 								    </div>
 									<!-- 增加第三方模态框（Modal） -->
-									<!--<div class="modal fade" id="MotorcyclebottommyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+									<div class="modal fade" id="MotorcyclebottommyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 										<div class="modal-dialog">
 											<div class="modal-content">
 												<div class="modal-header">
@@ -1344,7 +1344,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 														&times;
 													</button>
 													<h4 class="modal-title" id="myModalLabel">
-														增加第三方设备
+														扩展设备
 													</h4>
 												</div>
 												<div class="modal-body" style="width:100%;height:200px;">
@@ -1361,8 +1361,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 												</div>
 											</div>
 										</div>
-									</div>-->
-									<!-- /.modal -->
+									</div>
+									 <!--/.modal -->
 								</div>
 					        </div>
 					    </div>
@@ -2871,7 +2871,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								            			<tr>
 								            				<td><i>*</i>推送类别</td>
 								            				<td>  
-								            					<select id="Pushthecategory">
+								            					<select id="Pushthecategory" onchange="groupingtuisong(value)">
 								            						
 								            					</select>
 								            				</td>

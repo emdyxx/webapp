@@ -349,6 +349,9 @@ function canawakena(index){
                     $(".messager-body").window('close');
                     $.messager.alert("操作提示", "唤醒命令发送成功,等待设备上线！", "info");
 					n=1;
+					setTimeout(function(){
+                        $('.Recordmanagement-primarymeter').datagrid('reload');
+					},5000)
                 }, 3000);
             } else {
                 if (n < 5) {
@@ -357,7 +360,8 @@ function canawakena(index){
                         $(".messager-body").window('close');
                         deviceWeupRetry(deviceId);
                     }, 5000);
-                } else {
+                } 
+				else {
                     setTimeout(function () {
                         n = 1;
                         $(".messager-body").window('close');
@@ -394,6 +398,9 @@ function deviceWeupRetry(deviceId){
                     clearTimeout(set);
 					n=1;
                     $.messager.alert("操作提示", "唤醒命令发送成功,等待设备上线！", "info");
+					setTimeout(function(){
+                        $('.Recordmanagement-primarymeter').datagrid('reload');
+					},5000)
                 } else {
                     if (n < 5) {
                         n = n + 1;

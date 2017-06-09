@@ -3524,8 +3524,8 @@ function addPushMessage(){
 	$('.addmoveMessageModaltitle').attr('name','1')
 	$('#Pushthecategory option').remove();
 	$('<option value="0">--请选择--</option>').appendTo('#Pushthecategory');
-	$('<option value="2" onclick="monocasetuisong()">单体推送</option>').appendTo('#Pushthecategory');
-	$('<option value="1" onclick="groupingtuisong()">分组推送</option>').appendTo('#Pushthecategory');
+	$('<option value="2">单体推送</option>').appendTo('#Pushthecategory');
+	$('<option value="1">分组推送</option>').appendTo('#Pushthecategory');
 	$('#messagetitle').val('')
 	$('#messagecontent').val('')
 	$('.monocasedatagrid').css('display','none')
@@ -3624,61 +3624,64 @@ function addmoveMessagebc(){
 		});
 	}
 }
-//分组推送
-function groupingtuisong(){
-	$('.monocasedatagrid').css('display','none')
-	$('.groupingdatagrid').css('display','')
-	$('.groupingdatagrid-top').datagrid({
-		url:server_context+'/listPushGroup',
-		method: 'get',
-		singSelect: 'false',
-		fit: 'true',
-		fitColumns: 'true',
-		rownumbers: 'true',
-		pageSize:50,
-		pagination: "true",
-		columns:[[
-			{ field:"cb",checkbox:"true",align:"center"},
-			{ field:"groupName",title:'用户组名称',align:"center",width:'20%',formatter: function (value) {return dataProcessing(value);}},
-			{ field:"phone",title:'联系电话',align:"center",width:'20%',formatter: function (value) {return dataProcessing(value);}},
-			{ field:"principal",title:'负责人',align:"center",width:'15%',formatter: function (value) {return dataProcessing(value);}},
-			{ field:"email",title:'邮箱',align:"center",width:'20%',formatter: function (value) {return dataProcessing(value);}},
-			{ field:"address",title:'地址',align:"center",formatter: function (value) {return dataProcessing(value);}}
-		]]
-	})	
-}
-//单体推送
-function monocasetuisong(){
-	$('.groupingdatagrid').css('display','none')
-	$('.monocasedatagrid').css('display','')
-	$('.monocasedatagrid-bottom-datagrid1').datagrid({
-		data: {total: 0, rows:[]},
-		fit: true,
-		pageSize:50,
-		pagination: true,
-		columns:[[
-			{ field:"cb",checkbox:"true",align:"center"},
-			{ field:"ownerName",title:'车主姓名',align:"center",width:"25%",formatter: function (value) {return dataProcessing(value);}},
-			{ field:"mobile",title:'联系电话',align:"center",width:"25%",formatter: function (value) {return dataProcessing(value);}},
-			{ field:"deviceId",title:'设备ID',align:"center",formatter: function (value) {return dataProcessing(value);}}
-		]]
-	})
-	$('.monocasedatagrid-bottom-datagrid2').datagrid({
-		url: server_context+'/listPushOwner',
-		method: 'get',
-		singSelect: 'false',
-		fit: 'true',
-		fitColumns: 'true',
-		rownumbers: 'true',
-		pageSize:50,
-		pagination: "true",
-		columns:[[
-			{ field:"cb",checkbox:"true",align:"center"},
-			{ field:"ownerName",title:'车主姓名',align:"center",width:"25%",formatter: function (value) {return dataProcessing(value);}},
-			{ field:"mobile",title:'联系电话',align:"center",width:"25%",formatter: function (value) {return dataProcessing(value);}},
-			{ field:"deviceId",title:'设备ID',align:"center",formatter: function (value) {return dataProcessing(value);}}
-		]]
-	})
+//分组推送/单体推送
+function groupingtuisong(value){
+	if(value==2){
+        $('.groupingdatagrid').css('display','none')
+		$('.monocasedatagrid').css('display','')
+		$('.monocasedatagrid-bottom-datagrid1').datagrid({
+			data: {total: 0, rows:[]},
+			fit: true,
+			pageSize:50,
+			pagination: true,
+			columns:[[
+				{ field:"cb",checkbox:"true",align:"center"},
+				{ field:"ownerName",title:'车主姓名',align:"center",width:"25%",formatter: function (value) {return dataProcessing(value);}},
+				{ field:"mobile",title:'联系电话',align:"center",width:"25%",formatter: function (value) {return dataProcessing(value);}},
+				{ field:"deviceId",title:'设备ID',align:"center",formatter: function (value) {return dataProcessing(value);}}
+			]]
+		})
+		$('.monocasedatagrid-bottom-datagrid2').datagrid({
+			url: server_context+'/listPushOwner',
+			method: 'get',
+			singSelect: 'false',
+			fit: 'true',
+			fitColumns: 'true',
+			rownumbers: 'true',
+			pageSize:50,
+			pagination: "true",
+			columns:[[
+				{ field:"cb",checkbox:"true",align:"center"},
+				{ field:"ownerName",title:'车主姓名',align:"center",width:"25%",formatter: function (value) {return dataProcessing(value);}},
+				{ field:"mobile",title:'联系电话',align:"center",width:"25%",formatter: function (value) {return dataProcessing(value);}},
+				{ field:"deviceId",title:'设备ID',align:"center",formatter: function (value) {return dataProcessing(value);}}
+			]]
+		})
+	}else if(value==1){
+        $('.monocasedatagrid').css('display','none')
+		$('.groupingdatagrid').css('display','')
+		$('.groupingdatagrid-top').datagrid({
+			url:server_context+'/listPushGroup',
+			method: 'get',
+			singSelect: 'false',
+			fit: 'true',
+			fitColumns: 'true',
+			rownumbers: 'true',
+			pageSize:50,
+			pagination: "true",
+			columns:[[
+				{ field:"cb",checkbox:"true",align:"center"},
+				{ field:"groupName",title:'用户组名称',align:"center",width:'20%',formatter: function (value) {return dataProcessing(value);}},
+				{ field:"phone",title:'联系电话',align:"center",width:'20%',formatter: function (value) {return dataProcessing(value);}},
+				{ field:"principal",title:'负责人',align:"center",width:'15%',formatter: function (value) {return dataProcessing(value);}},
+				{ field:"email",title:'邮箱',align:"center",width:'20%',formatter: function (value) {return dataProcessing(value);}},
+				{ field:"address",title:'地址',align:"center",formatter: function (value) {return dataProcessing(value);}}
+			]]
+		})	
+	}else if(value==0){
+		$('.groupingdatagrid').css('display','none')
+		$('.monocasedatagrid').css('display','none')
+	}
 }
 //左侧添加数据
 function leftdatagrid(){
